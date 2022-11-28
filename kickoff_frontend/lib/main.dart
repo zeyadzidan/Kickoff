@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -70,6 +71,32 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      //Mento part
+      bottomNavigationBar: GNav(
+        gap: 8,
+        activeColor: Color(0XFF4CAF50), //to be changed
+        color: Colors.black, //to be changed
+        tabBackgroundColor: Color(0XFF4CAF50).withAlpha(50),
+        tabs: const [
+          GButton(
+            text: "Profile",
+            icon: Icons.person,
+          ),
+          GButton(
+            text: "Anouncements",
+            icon: Icons.add_circle_outline,
+          ),
+          GButton(
+            text: "Reservitions",
+            icon: Icons.timer,
+          ),
+        ],
+        onTabChange: (index) {
+          print(index); //to be changed
+        },
+      ),
+      /////////////////////////////////
+
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
