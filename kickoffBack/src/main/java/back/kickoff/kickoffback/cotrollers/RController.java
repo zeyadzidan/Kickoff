@@ -14,8 +14,10 @@ public class RController {
     @Autowired
     ReservationService rs ;
 
+    /*
     @Bean
     public void tryy(){
         rs.tryy();
     }
+    */
 }
