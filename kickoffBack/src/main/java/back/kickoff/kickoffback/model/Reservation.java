@@ -5,6 +5,8 @@ import org.hibernate.cfg.annotations.reflection.internal.XMLContext;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Reservation {
@@ -13,11 +15,17 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ElementCollection
-    ArrayList<Long> playersID = new ArrayList<Long>();
 
-    @Column(nullable = false)
-    Long mainPlayerID;
+    @ManyToMany
+    @JoinTable(name = "reservation_player",
+            joinColumns = @JoinColumn(name = "reservation_id"),
+            inverseJoinColumns = @JoinColumn(name = "player_id"))
+    Set<Player> playersID = new HashSet<>();
+
+
+    @OneToOne(fetch = FetchType.LAZY)
+    Player mainPlayerID;
+
     @Column(nullable = false)
     Long courtID;
     @Column(nullable = false)
@@ -31,7 +39,7 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(Long mainPlayerID, Long courtID, Long courtOwnerID) {
+    public Reservation(Player mainPlayerID, Long courtID, Long courtOwnerID) {
         this.mainPlayerID = mainPlayerID;
         this.courtID = courtID;
         this.courtOwnerID = courtOwnerID;
@@ -42,11 +50,11 @@ public class Reservation {
         return id;
     }
 
-    public Long getMainPlayerID() {
+    public Player getMainPlayerID() {
         return mainPlayerID;
     }
 
-    public Reservation setMainPlayerID(Long mainPlayerID) {
+    public Reservation setMainPlayerID(Player mainPlayerID) {
         this.mainPlayerID = mainPlayerID;
         return this;
 
@@ -124,7 +132,7 @@ public class Reservation {
     public String toString() {
         return "Reservation{" +
                 "id=" + id +
-                ", mainPlayerID=" + mainPlayerID +
+                ", mainPlayerID=" + mainPlayerID.Id +
                 ", courtID=" + courtID +
                 ", courtownerID=" + courtOwnerID +
                 ", time=" + time +

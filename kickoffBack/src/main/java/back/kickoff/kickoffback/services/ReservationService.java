@@ -1,6 +1,8 @@
 package back.kickoff.kickoffback.services;
 
+import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.model.Reservation;
+import back.kickoff.kickoffback.repositories.PlayerRepositry;
 import back.kickoff.kickoffback.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,12 +11,24 @@ import org.springframework.stereotype.Service;
 public class ReservationService {
 
     @Autowired
-    ReservationRepository rr ;
+    private final ReservationRepository rr ;
+
+    @Autowired
+    private final PlayerRepositry pr ;
+
+
+
+    public ReservationService(ReservationRepository rr, PlayerRepositry pr) {
+        this.rr = rr;
+        this.pr = pr;
+    }
 
     public void tryy(){
-        Reservation r = new Reservation((long) 123,(long)12467,(long)124);
+        Player p = new Player();
+        pr.save(p) ;
+        Reservation r = new Reservation(p,(long)12467,(long)124);
         rr.save(r) ;
-        System.out.println("HAHAHAHAHAHAHAHAHA");
+        System.out.println(r.toString());
     }
 
 }
