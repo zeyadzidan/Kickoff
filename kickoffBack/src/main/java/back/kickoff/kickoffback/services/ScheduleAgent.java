@@ -63,16 +63,45 @@ public class ScheduleAgent {
         sr.save(schedule) ;
         return true ;
     }
-/*
-    boolean morningEnd(Time morningEnd, Long Id){
+
+    boolean setReservationBooked(Long res, Long Id){
         if(!sr.existsById(Id))
             return false ;
 
         CourtSchedule schedule = sr.getReferenceById(Id);
-        schedule.setEndMorning(morningEnd);
+        schedule.getBookedReservations().add(res) ;
         sr.save(schedule) ;
         return true ;
     }
 
-*/
+    boolean setReservationPending(Long res, Long Id){
+        if(!sr.existsById(Id))
+            return false ;
+
+        CourtSchedule schedule = sr.getReferenceById(Id);
+        schedule.getPendingReservations().add(res) ;
+        sr.save(schedule) ;
+        return true ;
+    }
+
+    boolean deletePending(Long res, Long Id){
+        if(!sr.existsById(Id))
+            return false ;
+
+        CourtSchedule schedule = sr.getReferenceById(Id);
+        schedule.getPendingReservations().remove(res) ;
+        sr.save(schedule) ;
+        return true ;
+    }
+
+    boolean deleteBooked(Long res, Long Id){
+        if(!sr.existsById(Id))
+            return false ;
+
+        CourtSchedule schedule = sr.getReferenceById(Id);
+        schedule.getBookedReservations().remove(res) ;
+        sr.save(schedule) ;
+        return true ;
+    }
+
 }
