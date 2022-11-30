@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/fixtureshome.dart';
-
-List fixturesDetails = ["Ahmed", "521", "200", "Mohammed"];
+import 'package:kickoff_frontend/fixtures/fixtureshome.dart';
+import 'package:kickoff_frontend/themes.dart';
 
 void main() => runApp(const FixturesHome());
 
