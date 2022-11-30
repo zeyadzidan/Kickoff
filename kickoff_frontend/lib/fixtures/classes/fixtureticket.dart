@@ -16,9 +16,6 @@ class FixtureTicket {
   late bool _isValidated;
   late DateTime _date;
 
-
-  String get pname => _pname;
-
   set pname(String value) {
     _pname = value;
   }
@@ -54,6 +51,8 @@ class FixtureTicket {
   set date(DateTime value) {
     _date = value;
   }
+
+  String get pname => _pname;
 
   String get pid => _pid;
 
