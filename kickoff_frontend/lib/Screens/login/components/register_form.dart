@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/components/rounded_button.dart';
 import 'package:kickoff_frontend/components/rounded_input.dart';
 import 'package:kickoff_frontend/components/rounded_password_input.dart';
+import 'package:kickoff_frontend/components/rounded_phone_number.dart';
 
 
 class RegisterForm extends StatelessWidget {
@@ -57,7 +58,7 @@ class RegisterForm extends StatelessWidget {
                   RoundedInput(icon: Icons.face_rounded, hint: 'Username'),
 
                   RoundedPasswordInput(hint: 'Password'),
-
+                  RoundedPhoneNumber(icon: Icons.phone, hint: 'Phone Number'),
                   SizedBox(height: 10),
 
                   RoundedButton(title: 'SIGN UP'),
