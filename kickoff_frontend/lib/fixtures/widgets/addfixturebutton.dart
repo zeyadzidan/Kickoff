@@ -42,10 +42,8 @@ class AddFixtureButtonState extends State<AddFixtureButton> {
                       ),
                       items: const [
                         DropdownMenuItem(
-                            child: Text(
-                            "COURT # 500"
-                            )
-                        )
+                            child: Text("COURT #1")
+                        ),
                       ],
                       onTap: () => 0,
                       onChanged: (Object? value) => 0,
@@ -54,10 +52,14 @@ class AddFixtureButtonState extends State<AddFixtureButton> {
                       height: 3,
                       thickness: 2,
                     ),
-                    InputDatePickerFormField(
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime.now(),
-                    ),
+                    TextFormField(
+                      validator: (input) =>
+                      (input == null) ? 'Time cannot be blank' : null,
+                      decoration: const InputDecoration(
+                        hintText: "Time",
+                        prefixIcon: Icon(Icons.timer),
+                      ),
+                    )
                   ],
                 )
               ),
