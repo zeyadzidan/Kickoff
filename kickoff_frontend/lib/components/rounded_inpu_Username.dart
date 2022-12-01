@@ -17,7 +17,7 @@ class RoundedInputUsername extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: size.width-size.width * 0.5,
+              width: size.width * 0.4,
               child: TextField(
                 cursorColor: kPrimaryColor,
                 decoration: InputDecoration(
