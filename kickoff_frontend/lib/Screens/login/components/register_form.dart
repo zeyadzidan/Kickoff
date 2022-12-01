@@ -56,7 +56,7 @@ class RegisterForm extends StatelessWidget {
 
                   RoundedInput(icon: Icons.mail, hint: 'Email'),
 
-                  RoundedInputUserName(icon: Icons.face_rounded, hint: 'Username'),
+                  RoundedInputUsername(icon: Icons.face_rounded, hint: 'Username'),
 
                   RoundedPasswordInput(hint: 'Password'),
                   RoundedPhoneNumber(icon: Icons.phone, hint: 'Phone Number'),
