@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ScheduleAgent {
@@ -28,10 +29,11 @@ public class ScheduleAgent {
     }
 
     boolean setWorkingHours(Time start, Time end, Long Id){
-        if(!sr.existsById(Id))
+        Optional<CourtSchedule> scheduleO = sr.findById(Id) ;
+        if(scheduleO.isEmpty())
             return false ;
 
-        CourtSchedule schedule = sr.getReferenceById(Id);
+        CourtSchedule schedule =  scheduleO.get() ;
         schedule.setStartWorkingHours(start);
         schedule.setEndWorkingHours(end);
         sr.save(schedule) ;
@@ -39,90 +41,99 @@ public class ScheduleAgent {
     }
 
     boolean setMinTime(Integer minHours, Long Id){
-        if(!sr.existsById(Id))
+        Optional<CourtSchedule> scheduleO = sr.findById(Id) ;
+        if(scheduleO.isEmpty())
             return false ;
 
-        CourtSchedule schedule = sr.getReferenceById(Id);
+        CourtSchedule schedule =  scheduleO.get() ;
         schedule.setMinBookingHours(minHours);
         sr.save(schedule) ;
         return true ;
     }
 
     boolean setCostMorning(Integer cost, Long Id){
-        if(!sr.existsById(Id))
+        Optional<CourtSchedule> scheduleO = sr.findById(Id) ;
+        if(scheduleO.isEmpty())
             return false ;
 
-        CourtSchedule schedule = sr.getReferenceById(Id);
+        CourtSchedule schedule =  scheduleO.get() ;
         schedule.setMorningCost(cost);
         sr.save(schedule) ;
         return true ;
     }
 
     boolean setCostNight(Integer cost, Long Id){
-        if(!sr.existsById(Id))
+        Optional<CourtSchedule> scheduleO = sr.findById(Id) ;
+        if(scheduleO.isEmpty())
             return false ;
 
-        CourtSchedule schedule = sr.getReferenceById(Id);
+        CourtSchedule schedule =  scheduleO.get() ;
         schedule.setNightCost(cost);
         sr.save(schedule) ;
         return true ;
     }
 
     boolean setMorningEnd(Time morningEnd, Long Id){
-        if(!sr.existsById(Id))
+        Optional<CourtSchedule> scheduleO = sr.findById(Id) ;
+        if(scheduleO.isEmpty())
             return false ;
 
-        CourtSchedule schedule = sr.getReferenceById(Id);
+        CourtSchedule schedule =  scheduleO.get() ;
         schedule.setEndMorning(morningEnd);
         sr.save(schedule) ;
         return true ;
     }
 
     boolean setReservationBooked(Reservation res, Long Id){
-        if(!sr.existsById(Id))
+        Optional<CourtSchedule> scheduleO = sr.findById(Id) ;
+        if(scheduleO.isEmpty())
             return false ;
 
-        CourtSchedule schedule = sr.getReferenceById(Id);
+        CourtSchedule schedule =  scheduleO.get() ;
         schedule.getBookedReservations().add(res) ;
         sr.save(schedule) ;
         return true ;
     }
 
     boolean setReservationPending(Reservation res, Long Id){
-        if(!sr.existsById(Id))
+        Optional<CourtSchedule> scheduleO = sr.findById(Id) ;
+        if(scheduleO.isEmpty())
             return false ;
 
-        CourtSchedule schedule = sr.getReferenceById(Id);
+        CourtSchedule schedule =  scheduleO.get() ;
         schedule.getPendingReservations().add(res) ;
         sr.save(schedule) ;
         return true ;
     }
 
     boolean deletePending(Reservation res, Long Id){
-        if(!sr.existsById(Id))
+        Optional<CourtSchedule> scheduleO = sr.findById(Id) ;
+        if(scheduleO.isEmpty())
             return false ;
 
-        CourtSchedule schedule = sr.getReferenceById(Id);
+        CourtSchedule schedule =  scheduleO.get() ;
         schedule.getPendingReservations().remove(res) ;
         sr.save(schedule) ;
         return true ;
     }
 
     boolean deleteBooked(Reservation res, Long Id){
-        if(!sr.existsById(Id))
+        Optional<CourtSchedule> scheduleO = sr.findById(Id) ;
+        if(scheduleO.isEmpty())
             return false ;
 
-        CourtSchedule schedule = sr.getReferenceById(Id);
+        CourtSchedule schedule =  scheduleO.get() ;
         schedule.getBookedReservations().remove(res) ;
         sr.save(schedule) ;
         return true ;
     }
 
     public List<Reservation> getScheduleBetween(Date fromD, Date toD, Time fromT, Time toT, Long CourtId){
-        if(!sr.existsById(CourtId))
-            return null;
+        Optional<CourtSchedule> scheduleO = sr.findById(CourtId) ;
+        if(scheduleO.isEmpty())
+            return null ;
 
-        CourtSchedule schedule = sr.getReferenceById(CourtId);
+        CourtSchedule schedule =  scheduleO.get() ;
         ArrayList<Reservation> res = new ArrayList<Reservation>() ;
         for(Reservation r: schedule.getBookedReservations()){
             if(r.getDate().compareTo(fromD) >= 0 && r.getDate().compareTo(toD) <= 0 && r.getTimeFrom().compareTo(fromT)>=0 && r.getTimeTo().compareTo(toT)>=0){

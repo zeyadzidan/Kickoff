@@ -33,7 +33,12 @@ public class ReservationService {
         Time from = new Time(10,0,0);
         Time to = new Time(12,0,0);
         Reservation r = new Reservation(p,CourtId,courtOwnerId);
-        r.setDate(d).setTimeFrom(from).setTimeTo(to).setState("booked").setMoneyPayed(50).setTotalCost(200) ;
+        r.setDate(d);
+        r.setTimeFrom(from);
+        r.setTimeTo(to);
+        r.setState("booked");
+        r.setMoneyPayed(50);
+        r.setTotalCost(200) ;
 
         rr.save(r) ;
         System.out.println(r.toString());

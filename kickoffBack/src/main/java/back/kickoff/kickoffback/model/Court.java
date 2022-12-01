@@ -1,14 +1,23 @@
 package back.kickoff.kickoffback.model;
 
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.Hibernate;
 
+import java.util.Objects;
+
+@ToString
+@RequiredArgsConstructor
+@Setter
+@Getter
+@Table
 @Entity
 public class Court {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
-    public long Court_Owner_id;
-    public int Court_Number;
+    public Long id;
+    public Long Court_Owner_id;
+    public Integer Court_Number;
     public String Court_Type;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -22,47 +31,19 @@ public class Court {
       this.Court_Type=Court_Type;
     }
 
+
+
+
     @Override
-    public String toString() {
-        return "Court{" +
-                "id=" + id +
-                ", Court_Owner_id=" + Court_Owner_id +
-                ", Court_Number=" + Court_Number +
-                ", Court_Type='" + Court_Type + '\'' +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Court court = (Court) o;
+        return id != null && Objects.equals(id, court.id);
     }
 
-    public Court()
-    {}
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getCourt_Owner_id() {
-        return Court_Owner_id;
-    }
-
-    public void setCourt_Owner_id(long court_Owner_id) {
-        Court_Owner_id = court_Owner_id;
-    }
-
-    public int getCourt_Number() {
-        return Court_Number;
-    }
-
-    public void setCourt_Number(int court_Number) {
-        Court_Number = court_Number;
-    }
-
-    public String getCourt_Type() {
-        return Court_Type;
-    }
-
-    public void setCourt_Type(String court_Type) {
-        Court_Type = court_Type;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

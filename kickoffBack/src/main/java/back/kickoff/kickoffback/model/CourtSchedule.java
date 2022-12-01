@@ -1,16 +1,21 @@
 package back.kickoff.kickoffback.model;
 
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+@ToString
+@RequiredArgsConstructor
+@Setter
+@Getter
+@Table
 @Entity
 public class CourtSchedule {
 
-    public CourtSchedule() {
-    }
 
     public CourtSchedule(Long courtID, Time startWorkingHours, Time endWorkingHours, Time endMorning, Integer morningCost, Integer nightCost) {
         this.courtID = courtID;
@@ -49,97 +54,16 @@ public class CourtSchedule {
 
     Integer nightCost ;
 
-    //@ElementCollection
-    //ArrayList<Long> activeRequest = new ArrayList<Long>() ;
-
-    public List<Reservation> getBookedReservations() {
-        return bookedReservations;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        CourtSchedule schedule = (CourtSchedule) o;
+        return courtID != null && Objects.equals(courtID, schedule.courtID);
     }
 
-    public void setBookedReservations(List<Reservation> bookedReservations) {
-        this.bookedReservations = bookedReservations;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
-
-    public List<Reservation> getPendingReservations() {
-        return pendingReservations;
-    }
-
-    public void setPendingReservations(List<Reservation> pendingReservations) {
-        this.pendingReservations = pendingReservations;
-    }
-
-    public List<Reservation> getHistory() {
-        return history;
-    }
-
-    public void setHistory(List<Reservation> history) {
-        this.history = history;
-    }
-
-    public Long getCourtID() {
-        return courtID;
-    }
-
-    public void setCourtID(Long courtID) {
-        this.courtID = courtID;
-    }
-
-
-
-    public Time getStartWorkingHours() {
-        return startWorkingHours;
-    }
-
-    public void setStartWorkingHours(Time startWorkingHours) {
-        this.startWorkingHours = startWorkingHours;
-    }
-
-    public Time getEndWorkingHours() {
-        return endWorkingHours;
-    }
-
-    public void setEndWorkingHours(Time endWorkingHours) {
-        this.endWorkingHours = endWorkingHours;
-    }
-
-    public Time getEndMorning() {
-        return endMorning;
-    }
-
-    public void setEndMorning(Time endMorning) {
-        this.endMorning = endMorning;
-    }
-
-    public Integer getMinBookingHours() {
-        return minBookingHours;
-    }
-
-    public void setMinBookingHours(Integer minBookingHours) {
-        this.minBookingHours = minBookingHours;
-    }
-
-    public Integer getMorningCost() {
-        return morningCost;
-    }
-
-    public void setMorningCost(Integer morningCost) {
-        this.morningCost = morningCost;
-    }
-
-    public Integer getNightCost() {
-        return nightCost;
-    }
-
-    public void setNightCost(Integer nightCost) {
-        this.nightCost = nightCost;
-    }
-/*
-    public ArrayList<Long> getActiveRequest() {
-        return activeRequest;
-    }
-
-    public void setActiveRequest(ArrayList<Long> activeRequest) {
-        this.activeRequest = activeRequest;
-    }
-    */
 }
