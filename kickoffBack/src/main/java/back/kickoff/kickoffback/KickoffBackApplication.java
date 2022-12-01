@@ -15,6 +15,7 @@ public class KickoffBackApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(KickoffBackApplication.class, args);
 	}
+	/*
 	@Bean
 	CommandLineRunner commandLineRunner(CourtRepository courtRepository)
 	{
@@ -26,5 +27,6 @@ public class KickoffBackApplication {
             System.out.println(court1.toString());
 		};
 	}
+	 */
 
 }

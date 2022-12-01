@@ -3,6 +3,7 @@ package back.kickoff.kickoffback.model;
 import jakarta.persistence.*;
 import org.hibernate.cfg.annotations.reflection.internal.XMLContext;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,18 +24,29 @@ public class Reservation {
     Set<Player> playersID = new HashSet<>();
 
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     Player mainPlayerID;
 
     @Column(nullable = false)
     Long courtID;
     @Column(nullable = false)
     Long courtOwnerID;
-    Time time;
+    Date date ;
+    Time timeFrom;
+    Time timeTo;
     String state;
     int moneyPayed ;
     int totalCost ;
     Long messageID ;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Reservation setDate(Date date) {
+        this.date = date;
+        return this ;
+    }
 
     public Reservation() {
     }
@@ -75,16 +87,6 @@ public class Reservation {
 
     public Reservation setCourtownerID(Long courtownerID) {
         this.courtOwnerID = courtownerID;
-        return this;
-
-    }
-
-    public Time getTime() {
-        return time;
-    }
-
-    public Reservation setTime(Time time) {
-        this.time = time;
         return this;
 
     }
@@ -135,12 +137,31 @@ public class Reservation {
                 ", mainPlayerID=" + mainPlayerID.Id +
                 ", courtID=" + courtID +
                 ", courtownerID=" + courtOwnerID +
-                ", time=" + time +
+                ", timeFrom=" + timeFrom +
+                ", timeTo=" + timeTo +
                 ", state='" + state + '\'' +
                 ", moneyPayed=" + moneyPayed +
                 ", totalCost=" + totalCost +
                 ", messageID=" + messageID +
                 '}';
+    }
+
+    public Time getTimeFrom() {
+        return timeFrom;
+    }
+
+    public Reservation setTimeFrom(Time timeFrom) {
+        this.timeFrom = timeFrom;
+        return this;
+    }
+
+    public Time getTimeTo() {
+        return timeTo;
+    }
+
+    public Reservation setTimeTo(Time timeTo) {
+        this.timeTo = timeTo;
+        return this;
     }
 }
 

@@ -12,9 +12,8 @@ public class Court {
     public long Court_Owner_id;
     public int Court_Number;
     public String Court_Type;
-    public Court(long id ,long Court_Owner_id,int Court_Number,String Court_Type)
+    public Court(long Court_Owner_id,int Court_Number,String Court_Type)
     {
-      this.id=id;
       this.Court_Owner_id=Court_Owner_id;
       this.Court_Number=Court_Number;
       this.Court_Type=Court_Type;
