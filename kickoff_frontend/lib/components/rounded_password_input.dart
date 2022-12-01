@@ -2,26 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/components/input_container.dart';
 import 'package:kickoff_frontend/constants.dart';
 
-class RoundedPasswordInput extends StatelessWidget {
-  const RoundedPasswordInput({
-    Key? key,
-    required this.hint
-  }) : super(key: key);
+class PasswordInput extends StatefulWidget
+{
+  @override
+  RoundedPasswordInput createState() => RoundedPasswordInput();
+}
 
-  final String hint;
+class RoundedPasswordInput extends State<PasswordInput> {
+
   static TextEditingController Password =TextEditingController();
+  var obsecuretext = true;
   @override
   Widget build(BuildContext context) {
     return InputContainer(
         child: TextField(
           cursorColor: kPrimaryColor,
           controller: Password,
-          obscureText: true,
+
           decoration: InputDecoration(
               icon: Icon(Icons.lock, color: kPrimaryColor),
-              hintText: hint,
+              suffix: GestureDetector(onTap: (){
+                setState(()
+                {
+                  obsecuretext = !obsecuretext;
+                }
+                );
+              },
+                child: Icon(obsecuretext ?Icons.visibility: Icons.visibility_off ),
+              ),
+              hintText: 'Password',
               border: InputBorder.none
           ),
+          obscureText: obsecuretext,
         ));
   }
 }

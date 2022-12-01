@@ -2,26 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/components/input_container.dart';
 import 'package:kickoff_frontend/constants.dart';
 
-class RoundedConfirmPasswordInput extends StatelessWidget {
-  const RoundedConfirmPasswordInput({
-    Key? key,
-    required this.hint
-  }) : super(key: key);
+class ConfirmPasswordInput extends StatefulWidget
+{
+  @override
+  ConfirmPasswordSignup createState() => ConfirmPasswordSignup();
+}
 
-  final String hint;
+class ConfirmPasswordSignup extends State<ConfirmPasswordInput> {
+
   static TextEditingController ConfirmPassword =TextEditingController();
+  var obsecuretext = true;
   @override
   Widget build(BuildContext context) {
     return InputContainer(
         child: TextField(
           cursorColor: kPrimaryColor,
           controller: ConfirmPassword,
-          obscureText: true,
           decoration: InputDecoration(
               icon: Icon(Icons.lock, color: kPrimaryColor),
-              hintText: hint,
+              suffix: GestureDetector(onTap: (){
+                setState(()
+                {
+                  obsecuretext = !obsecuretext;
+                }
+                );
+              },
+                child: Icon(obsecuretext ?Icons.visibility: Icons.visibility_off ),
+              ),
+              hintText: 'Confirm Password',
               border: InputBorder.none
           ),
+          obscureText: obsecuretext,
         ));
   }
 }

@@ -50,16 +50,12 @@ class RegisterForm extends StatelessWidget {
                   ),
 
                   SizedBox(height: 40),
-
                   Container(height:175 ,width:175,child: Image(image: AssetImage('assets/images/pic4.PNG'))),
-
                   SizedBox(height: 40),
-
                   RoundedInput(icon: Icons.mail, hint: 'Email'),
-
                   RoundedInputUsername(icon: Icons.face_rounded, hint: 'Username'),
-                  RoundedPasswordSignup(hint: 'Password'),
-                  RoundedConfirmPasswordInput(hint: 'Confirm Password'),
+                  PasswordInputSignup(),
+                  ConfirmPasswordInput(),
                   RoundedPhoneNumber(icon: Icons.phone, hint: 'Phone Number'),
                   Container(
 

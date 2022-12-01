@@ -28,7 +28,7 @@ class RoundedButton extends StatelessWidget {
             var Email = RoundedInput.EmailSignUp.text;
             var username = RoundedInputUsername.username.text;
             var Password = RoundedPasswordSignup.Password.text;
-            var confirmPassword = RoundedConfirmPasswordInput.ConfirmPassword.text;
+            var confirmPassword = ConfirmPasswordSignup.ConfirmPassword.text;
             var phoneNumber =RoundedPhoneNumber.PhoneNumber.text;
             var Locationaddress = FindLocation.Locationaddress;
             var x_axis = FindLocation.X_axis.toString();
