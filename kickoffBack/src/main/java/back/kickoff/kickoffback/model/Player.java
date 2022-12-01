@@ -12,7 +12,7 @@ import java.util.Set;
 @Setter
 @Getter
 @Table
-@NoArgsConstructor
+//@NoArgsConstructor
 @Entity
 public class Player {
 

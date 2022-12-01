@@ -17,9 +17,7 @@ public class Court {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
-    public Long Court_Owner_id;
     public String Court_Number;
-    public String Court_Type;
         @ManyToOne
     private CourtOwner courtOwner;
     private State state;
@@ -32,12 +30,11 @@ public class Court {
 
     public Court(String name, CourtOwner courtOwner, State state, String discription)
     {
-      this.Court_Owner_id=Court_Owner_id;
       this.Court_Number=name;
-      this.Court_Type=Court_Type;
 
       this.courtOwner = courtOwner;
        this.state = state;
+       this.discription=discription;
     }
 
 
