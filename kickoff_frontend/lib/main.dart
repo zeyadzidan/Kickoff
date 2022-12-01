@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/Screens/login/login.dart';
 import 'package:kickoff_frontend/components/Sign_up_location.dart';
 import 'package:kickoff_frontend/constants.dart';
+import 'NavBar.dart';
 
 
 void main() {
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
 
       ),
+      // bottomNavigationBar: NavBar.navBar(),
       home: LoginScreen(),
     );
   }
