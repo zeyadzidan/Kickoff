@@ -53,10 +53,10 @@ class AddFixtureButtonState extends State<AddFixtureButton> {
                       height: 3,
                       thickness: 2,
                     ),
-                    // InputDatePickerFormField(
-                    //   firstDate: DateTime.now(),
-                    //   lastDate: DateTime.now() + ,
-                    // ),
+                    InputDatePickerFormField(
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime.now(),
+                    ),
                   ],
                 )
               ),
