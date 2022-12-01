@@ -16,9 +16,10 @@ class RoundedButton extends StatelessWidget {
     required this.title,
   }) : super(key: key);
   final String title;
-  String url = "http://localhost8080/signup/courtOwner";
+  String url = "http://localhost:8080/signup/courtOwner";
   Future save() async{
-   var res= await http.post(Uri.parse(url),headers: {'Context-Type': 'application/json'},body: json.encode(
+    print(RoundedInput.EmailSignUp.text);
+   var res= await http.post(Uri.parse(url),headers: {"Access-Control-Allow-Origin": "*","Access-Control-Allow-Credentials":"true", "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",  "Access-Control-Allow-Methods": "POST, OPTIONS" },body: json.encode(
        {
          "email": RoundedInput.EmailSignUp.text,
          "password": RoundedPasswordSignup.Password.text,
