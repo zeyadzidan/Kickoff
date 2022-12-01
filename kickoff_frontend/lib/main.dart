@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/Screens/login/login.dart';
+import 'package:kickoff_frontend/components/Sign_up_location.dart';
 import 'package:kickoff_frontend/constants.dart';
 
 

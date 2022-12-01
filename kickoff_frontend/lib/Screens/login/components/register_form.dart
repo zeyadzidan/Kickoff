@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kickoff_frontend/components/Sign_up_location.dart';
 import 'package:kickoff_frontend/components/rounded_button.dart';
 import 'package:kickoff_frontend/components/rounded_input.dart';
 import 'package:kickoff_frontend/components/rounded_password_input.dart';
 import 'package:kickoff_frontend/components/rounded_phone_number.dart';
-
-
 class RegisterForm extends StatelessWidget {
   const RegisterForm({
     Key? key,
@@ -21,6 +20,7 @@ class RegisterForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return AnimatedOpacity(
       opacity: isLogin ? 0.0 : 1.0,
       duration: animationDuration * 5,
@@ -59,8 +59,17 @@ class RegisterForm extends StatelessWidget {
 
                   RoundedPasswordInput(hint: 'Password'),
                   RoundedPhoneNumber(icon: Icons.phone, hint: 'Phone Number'),
-                  SizedBox(height: 10),
+                 // FindLocation(title: 'Location',),
 
+                  Container(
+
+                      height:450 ,
+                    width:size.width * 0.8,
+                    child:
+                      FindLocation(title: 'Location'),
+
+                  ),
+                  SizedBox(height: 30),
                   RoundedButton(title: 'SIGN UP'),
 
                   SizedBox(height: 10),
