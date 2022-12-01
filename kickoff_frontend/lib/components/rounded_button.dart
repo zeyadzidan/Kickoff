@@ -15,9 +15,10 @@ class RoundedButton extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-
+        showAlertDialog(context);
       },
       borderRadius: BorderRadius.circular(30),
+
       child: Container(
         width: size.width * 0.8,
         decoration: BoxDecoration(
@@ -27,6 +28,7 @@ class RoundedButton extends StatelessWidget {
 
         padding: EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
+
         child: Text(
           title,
           style: TextStyle(
@@ -37,4 +39,28 @@ class RoundedButton extends StatelessWidget {
       ),
     );
   }
+}
+showAlertDialog(BuildContext context) {
+  // Create button
+  Widget okButton = TextButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // Create AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Simple Alert"),
+    content: Text("Enter Valid Input."),
+    actions: [
+      okButton,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
