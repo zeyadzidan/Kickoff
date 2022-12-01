@@ -2,6 +2,7 @@ package back.kickoff.kickoffback.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
@@ -17,18 +18,26 @@ public class Court {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
     public Long Court_Owner_id;
-    public Integer Court_Number;
+    public String Court_Number;
     public String Court_Type;
+        @ManyToOne
+    private CourtOwner courtOwner;
+    private State state;
+
+    private String discription;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_court_schedule")
     public CourtSchedule courtSchedule;
 
-    public Court(long Court_Owner_id,int Court_Number,String Court_Type)
+    public Court(String name, CourtOwner courtOwner, State state, String discription)
     {
       this.Court_Owner_id=Court_Owner_id;
-      this.Court_Number=Court_Number;
+      this.Court_Number=name;
       this.Court_Type=Court_Type;
+
+      this.courtOwner = courtOwner;
+       this.state = state;
     }
 
 
