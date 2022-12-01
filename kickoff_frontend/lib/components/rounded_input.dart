@@ -3,11 +3,8 @@ import 'package:kickoff_frontend/components/input_container.dart';
 import 'package:kickoff_frontend/constants.dart';
 
 class RoundedInput extends StatelessWidget {
-  const RoundedInput({
-    Key? key,
-    required this.icon,
-    required this.hint
-  }) : super(key: key);
+  const RoundedInput({Key? key, required this.icon, required this.hint})
+      : super(key: key);
 
   final IconData icon;
   final String hint;
@@ -15,13 +12,20 @@ class RoundedInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InputContainer(
-        child: TextField(
-          cursorColor: kPrimaryColor,
-          decoration: InputDecoration(
-              icon: Icon(icon, color: kPrimaryColor),
-              hintText: hint,
-              border: InputBorder.none
+        child: Row(
+      children: [
+        SizedBox(
+          width: 150,
+          child: TextField(
+            cursorColor: kPrimaryColor,
+            decoration: InputDecoration(
+                icon: Icon(icon, color: kPrimaryColor),
+                hintText: hint,
+                border: InputBorder.none),
           ),
-        ));
+        ),
+        Text("@Kickoff.com")
+      ],
+    ));
   }
 }
