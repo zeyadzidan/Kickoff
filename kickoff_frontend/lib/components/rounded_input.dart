@@ -8,12 +8,13 @@ class RoundedInput extends StatelessWidget {
 
   final IconData icon;
   final String hint;
-
+  static TextEditingController EmailSignUp =TextEditingController();
   @override
   Widget build(BuildContext context) {
     return InputContainer(
       child: TextField(
         cursorColor: kPrimaryColor,
+          controller: EmailSignUp,
         decoration: InputDecoration(
             icon: Icon(icon, color: kPrimaryColor),
             hintText: hint,
