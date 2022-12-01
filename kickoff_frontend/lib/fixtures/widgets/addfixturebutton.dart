@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kickoff_frontend/fixtures/classes/datepicker.dart';
 
 class AddFixtureButton extends StatefulWidget {
   const AddFixtureButton({super.key});
@@ -53,9 +54,18 @@ class AddFixtureButtonState extends State<AddFixtureButton> {
                       height: 3,
                       thickness: 2,
                     ),
-                    InputDatePickerFormField(
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime.now(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InputDatePickerFormField(
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime.now(),
+                          ),
+                        IconButton(
+                            onPressed: () => DatePicker.pickDate(context),
+                            icon: const Icon(Icons.calendar_month),
+                          ),
+                      ],
                     ),
                   ],
                 )

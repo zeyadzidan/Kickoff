@@ -1,11 +1,7 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kickoff_frontend/fixtures/builders/fpbuilder.dart';
-
-import 'addfixturebutton.dart';
-
-// TODO: ADD A WEEK-DAY NAVIGATOR
+import 'package:kickoff_frontend/fixtures/classes/datepicker.dart';
 
 class ReservationsHome extends StatefulWidget {
   const ReservationsHome(this.info, {super.key});
@@ -47,6 +43,17 @@ class _ReservationsHomeState extends State<ReservationsHome> {
                         icon: Icons.stadium,
                         text: "   COURT ${index + 1}",
                       )),
+                ),
+              ),
+              MaterialButton(
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                onPressed: () => DatePicker.pickDate(context),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text("Pick a date "),
+                    Icon(Icons.calendar_month),
+                  ],
                 ),
               ),
               SingleChildScrollView(
