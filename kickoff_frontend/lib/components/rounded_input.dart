@@ -13,6 +13,7 @@ class RoundedInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return InputContainer(
         child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
           width: 150,
