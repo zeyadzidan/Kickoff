@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kickoff_frontend/fixtures/widgets/addfixturebutton.dart';
-import 'package:kickoff_frontend/fixtures/widgets/themes.dart';
-
-// TODO: ADD A WEEK-DAY NAVIGATOR
+import 'package:kickoff_frontend/themes.dart';
 
 class KickoffApplication extends StatefulWidget {
   const KickoffApplication(this._pages, {super.key});
@@ -44,9 +42,9 @@ class KickoffApplicationState extends State<KickoffApplication> {
             backgroundColor: Theme.of(context).backgroundColor,
           ),
           body: Center(
-            child: _pages[_selectedIndex]
+            child: _pages[_selectedIndex],
           ),
-          floatingActionButton: const AddFixtureButton(),
+          floatingActionButton: (_selectedIndex == 2) ? const AddFixtureButton() : null,
           bottomNavigationBar: GNav(
               gap: 8,
               activeColor: const Color(0XFF4CAF50),

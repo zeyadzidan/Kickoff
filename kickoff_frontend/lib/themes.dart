@@ -19,9 +19,9 @@ class AppThemes {
     brightness: Brightness.light,
     highlightColor: Colors.white,
     floatingActionButtonTheme: const FloatingActionButtonThemeData (
+        foregroundColor: Colors.white,
         backgroundColor: Colors.green,
-        focusColor: Colors.greenAccent,
-        splashColor: Colors.lightGreen
+        splashColor: Colors.lightGreen,
     ),
     colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
   );

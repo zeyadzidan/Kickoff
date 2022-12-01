@@ -67,12 +67,8 @@ class AddFixtureButtonState extends State<AddFixtureButton> {
     ),
     foregroundColor: Theme.of(context).floatingActionButtonTheme.foregroundColor,
     backgroundColor: Theme.of(context).floatingActionButtonTheme.backgroundColor,
-    child: const Text(
-      '+',
-      style: TextStyle(
-          fontSize: 50,
-          fontWeight: FontWeight.bold
-      ),
-    ),
+    hoverColor: Colors.green.shade800,
+    hoverElevation: 4,
+    child: const Icon(Icons.add, size: 35,)
   );
 }

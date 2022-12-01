@@ -1,42 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kickoff_frontend/fixtures/widgets/addfixturebutton.dart';
 import 'package:kickoff_frontend/fixtures/widgets/application.dart';
 import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
 
-void main() => runApp(const KickoffApplication([ReservationsHome(info), ReservationsHome(info), ReservationsHome(info)]));
-
-// Dummy values.
-const List info = [
-  [
-    3,
-    ["FIXTURE #1", "FIXTURE #2", "FIXTURE #3"],
-    [
-      "This is a description of panel 1",
-      "This is a description of panel 2",
-      "This is a description of panel 3"
-    ],
-    [false, false, false]
-  ],
-  [
-    3,
-    ["FIXTURE #4", "FIXTURE #5", "FIXTURE #6"],
-    [
-      "This is a description of panel 1",
-      "This is a description of panel 2",
-      "This is a description of panel 3"
-    ],
-    [false, false, false]
-  ],
-  [
-    3,
-    ["FIXTURE #7", "FIXTURE #8", "FIXTURE #9"],
-    [
-      "This is a description of panel 1",
-      "This is a description of panel 2",
-      "This is a description of panel 3"
-    ],
-    [false, false, false]
-  ]
-];
+void main() => runApp(KickoffApplication([const AddFixtureButton(), const AddFixtureButton(), ReservationsHome(MyInfo.info)]));
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
