@@ -4,7 +4,6 @@ import 'package:kickoff_frontend/components/rounded_button.dart';
 import 'package:kickoff_frontend/components/rounded_inpu_Username.dart';
 import 'package:kickoff_frontend/components/rounded_input.dart';
 import 'package:kickoff_frontend/components/rounded_phone_number.dart';
-import '../../../components/rounded_Confirmpassword_Signup.dart';
 import '../../../components/rounded_password_Signup.dart';
 class RegisterForm extends StatelessWidget {
   const RegisterForm({
@@ -14,12 +13,10 @@ class RegisterForm extends StatelessWidget {
     required this.size,
     required this.defaultLoginSize,
   }) : super(key: key);
-
   final bool isLogin;
   final Duration animationDuration;
   final Size size;
   final double defaultLoginSize;
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -37,7 +34,6 @@ class RegisterForm extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
-
                 children: [
                   SizedBox(height: 10),
 
@@ -48,22 +44,18 @@ class RegisterForm extends StatelessWidget {
                         fontSize: 24
                     ),
                   ),
-
                   SizedBox(height: 40),
                   Container(height:175 ,width:175,child: Image(image: AssetImage('assets/images/pic4.PNG'))),
                   SizedBox(height: 40),
                   RoundedInput(icon: Icons.mail, hint: 'Email'),
                   RoundedInputUsername(icon: Icons.face_rounded, hint: 'Username'),
                   PasswordInputSignup(),
-                  ConfirmPasswordInput(),
                   RoundedPhoneNumber(icon: Icons.phone, hint: 'Phone Number'),
                   Container(
-
                       height:450 ,
                     width:size.width * 0.8,
                     child:
                       FindLocation(title: 'Location'),
-
                   ),
                   SizedBox(height: 30),
                   RoundedButton(title: 'SIGN UP'),

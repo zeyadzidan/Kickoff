@@ -1,25 +1,38 @@
+import 'dart:convert';
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/components/rounded_input.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/components/rounded_inpu_Username.dart';
-import '../../../components/rounded_Confirmpassword_Signup.dart';
 import '../../../components/rounded_password_Signup.dart';
 import 'package:kickoff_frontend/components/rounded_input_login.dart';
 import 'package:kickoff_frontend/components/rounded_password_input.dart';
 import 'package:kickoff_frontend/components/rounded_phone_number.dart';
 import 'package:kickoff_frontend/components/Sign_up_location.dart';
+import 'package:http/http.dart' as http;
 class RoundedButton extends StatelessWidget {
-  const RoundedButton({
+   RoundedButton({
     Key? key,
     required this.title,
   }) : super(key: key);
-
   final String title;
-
+  String url = "http://localhost8080/signup/courtOwner";
+  Future save() async{
+   var res= await http.post(Uri.parse(url),headers: {'Context-Type': 'application/json'},body: json.encode(
+       {
+         "email": RoundedInput.EmailSignUp.text,
+         "password": RoundedPasswordSignup.Password.text,
+         "username": RoundedInputUsername.username.text,
+         "phoneNumber": RoundedPhoneNumber.PhoneNumber.text,
+         "location": FindLocation.Locationaddress,
+         "xAxis": FindLocation.X_axis,
+         "yAxis": FindLocation.Y_axis,
+       }));
+   print(res.body);
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return InkWell(
       onTap: () {
         showAlertDialog(context);
@@ -28,20 +41,18 @@ class RoundedButton extends StatelessWidget {
             var Email = RoundedInput.EmailSignUp.text;
             var username = RoundedInputUsername.username.text;
             var Password = RoundedPasswordSignup.Password.text;
-            var confirmPassword = ConfirmPasswordSignup.ConfirmPassword.text;
             var phoneNumber =RoundedPhoneNumber.PhoneNumber.text;
             var Locationaddress = FindLocation.Locationaddress;
-            var x_axis = FindLocation.X_axis.toString();
-            var y_axis = FindLocation.Y_axis.toString();
+            var x_axis = FindLocation.X_axis;
+            var y_axis = FindLocation.Y_axis;
             print(Email);
             print(username);
             print(Password);
-            print(confirmPassword);
             print(phoneNumber);
             print(Locationaddress);
             print(x_axis);
             print(y_axis);
-
+             save();
           }
         else
           {
@@ -63,7 +74,6 @@ class RoundedButton extends StatelessWidget {
 
         padding: EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
-
         child: Text(
           title,
           style: TextStyle(
@@ -83,7 +93,6 @@ showAlertDialog(BuildContext context) {
       Navigator.of(context).pop();
     },
   );
-
   // Create AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("Simple Alert"),
