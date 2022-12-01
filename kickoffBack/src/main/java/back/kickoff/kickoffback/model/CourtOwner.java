@@ -1,10 +1,7 @@
 package back.kickoff.kickoffback.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +10,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Table
+@NoArgsConstructor
 public class CourtOwner
 {
     @Id
@@ -22,18 +21,26 @@ public class CourtOwner
     private String email;
     private String password;
     private String location;
+    private float rating;
     @Lob
     private Byte[] image;
+
+    private String phoneNumber;
+    private Double xAxis;
+    private Double yAxis;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courtOwner")
     private Set<Court> courts = new HashSet<>();
 
-    public CourtOwner() {}
 
-    public CourtOwner(String userName, String email, String password)
+    public CourtOwner(String userName, String email, String password, String phoneNumber,
+                      Double xAxis, Double yAxis)
     {
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.xAxis = xAxis;
+        this.yAxis = yAxis;
     }
 
     public CourtOwner addCourt(Court court)

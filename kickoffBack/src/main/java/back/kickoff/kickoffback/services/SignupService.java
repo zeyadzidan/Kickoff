@@ -23,10 +23,16 @@ public class SignupService
         String email  =  jsonObject.getString("email");
         String password  =  jsonObject.getString("password");
         String username = jsonObject.getString("username");
+        String location = jsonObject.getString("location");
+        String phoneNumber = jsonObject.getString("phoneNumber");
+        Double xAxis = jsonObject.getDouble("xAxis");
+        Double yAxis = jsonObject.getDouble("yAxis");
         Optional<CourtOwner> courtOwner = courtOwnerRepository.findByEmail(email);
-        if(!courtOwner.isEmpty())
+        if(courtOwner.isPresent())
             return false;
-        CourtOwner newCourtOwner = new CourtOwner(username, email, password);
+        CourtOwner newCourtOwner = new CourtOwner(username, email, password, phoneNumber, xAxis, yAxis);
+        newCourtOwner.setRating(0);
+        newCourtOwner.setLocation(location);
         courtOwnerRepository.save(newCourtOwner);
         return true;
     }
