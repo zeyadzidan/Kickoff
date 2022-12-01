@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/components/Sign_up_location.dart';
 import 'package:kickoff_frontend/components/rounded_button.dart';
+import 'package:kickoff_frontend/components/rounded_inpu_Username.dart';
 import 'package:kickoff_frontend/components/rounded_input.dart';
 import 'package:kickoff_frontend/components/rounded_password_input.dart';
 import 'package:kickoff_frontend/components/rounded_phone_number.dart';
@@ -55,11 +56,11 @@ class RegisterForm extends StatelessWidget {
 
                   RoundedInput(icon: Icons.mail, hint: 'Email'),
 
-                  RoundedInput(icon: Icons.face_rounded, hint: 'Username'),
+                  RoundedInputUserName(icon: Icons.face_rounded, hint: 'Username'),
 
                   RoundedPasswordInput(hint: 'Password'),
                   RoundedPhoneNumber(icon: Icons.phone, hint: 'Phone Number'),
-                 // FindLocation(title: 'Location',),
+
 
                   Container(
 
