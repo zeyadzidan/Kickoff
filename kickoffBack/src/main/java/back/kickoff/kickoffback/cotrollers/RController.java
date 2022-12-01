@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -52,8 +53,8 @@ public class RController {
 
             ReservationService rs = new ReservationService(rr, pr);
             Long id = rs.tryy(c.id, c.Court_Owner_id);
-            Reservation reservation = rr.getReferenceById(id) ;
-            System.out.println(reservation.toString());
+            Optional<Reservation> reservation = rr.findById(id);
+            System.out.println(reservation.get().toString());
 
             Time startWorkingHours = new Time(10, 0, 0);
             Time endWorkingHours = new Time(23, 0, 0);
