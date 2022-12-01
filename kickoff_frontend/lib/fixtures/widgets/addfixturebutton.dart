@@ -54,18 +54,9 @@ class AddFixtureButtonState extends State<AddFixtureButton> {
                       height: 3,
                       thickness: 2,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InputDatePickerFormField(
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime.now(),
-                          ),
-                        IconButton(
-                            onPressed: () => DatePicker.pickDate(context),
-                            icon: const Icon(Icons.calendar_month),
-                          ),
-                      ],
+                    InputDatePickerFormField(
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime.now(),
                     ),
                   ],
                 )
