@@ -26,7 +26,7 @@ public class ReservationService {
         this.pr = pr;
     }
 
-    public void tryy(Long CourtId, Long courtOwnerId){
+    public Long tryy(Long CourtId, Long courtOwnerId){
         Player p = new Player();
         pr.save(p) ;
         Date d = new Date(2022,12,1) ;
@@ -37,6 +37,7 @@ public class ReservationService {
 
         rr.save(r) ;
         System.out.println(r.toString());
+        return r.getId();
     }
 
 }

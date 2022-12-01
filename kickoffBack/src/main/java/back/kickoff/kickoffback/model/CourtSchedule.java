@@ -1,12 +1,10 @@
 package back.kickoff.kickoffback.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class CourtSchedule {
@@ -26,14 +24,17 @@ public class CourtSchedule {
     @Id
     Long courtID;
 
-    @ElementCollection
-    ArrayList<Long> bookedReservations = new ArrayList<Long>() ;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name= "fk_booked", referencedColumnName = "courtID")
+    List<Reservation> bookedReservations ;
 
-    @ElementCollection
-    ArrayList<Long> pendingReservations = new ArrayList<Long>() ;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name= "fk_pending", referencedColumnName = "courtID")
+    List<Reservation> pendingReservations ;
 
-    @ElementCollection
-    ArrayList<Long> history = new ArrayList<Long>() ;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name= "fk_his", referencedColumnName = "courtID")
+    List<Reservation> history ;
 
     @Column(nullable = false)
     Time startWorkingHours ;
@@ -48,9 +49,32 @@ public class CourtSchedule {
 
     Integer nightCost ;
 
-    @ElementCollection
-    ArrayList<Long> activeRequest = new ArrayList<Long>() ;
+    //@ElementCollection
+    //ArrayList<Long> activeRequest = new ArrayList<Long>() ;
 
+    public List<Reservation> getBookedReservations() {
+        return bookedReservations;
+    }
+
+    public void setBookedReservations(List<Reservation> bookedReservations) {
+        this.bookedReservations = bookedReservations;
+    }
+
+    public List<Reservation> getPendingReservations() {
+        return pendingReservations;
+    }
+
+    public void setPendingReservations(List<Reservation> pendingReservations) {
+        this.pendingReservations = pendingReservations;
+    }
+
+    public List<Reservation> getHistory() {
+        return history;
+    }
+
+    public void setHistory(List<Reservation> history) {
+        this.history = history;
+    }
 
     public Long getCourtID() {
         return courtID;
@@ -60,29 +84,7 @@ public class CourtSchedule {
         this.courtID = courtID;
     }
 
-    public ArrayList<Long> getBookedReservations() {
-        return bookedReservations;
-    }
 
-    public void setBookedReservations(ArrayList<Long> bookedReservations) {
-        this.bookedReservations = bookedReservations;
-    }
-
-    public ArrayList<Long> getPendingReservations() {
-        return pendingReservations;
-    }
-
-    public void setPendingReservations(ArrayList<Long> pendingReservations) {
-        this.pendingReservations = pendingReservations;
-    }
-
-    public ArrayList<Long> getHistory() {
-        return history;
-    }
-
-    public void setHistory(ArrayList<Long> history) {
-        this.history = history;
-    }
 
     public Time getStartWorkingHours() {
         return startWorkingHours;
@@ -131,7 +133,7 @@ public class CourtSchedule {
     public void setNightCost(Integer nightCost) {
         this.nightCost = nightCost;
     }
-
+/*
     public ArrayList<Long> getActiveRequest() {
         return activeRequest;
     }
@@ -139,4 +141,5 @@ public class CourtSchedule {
     public void setActiveRequest(ArrayList<Long> activeRequest) {
         this.activeRequest = activeRequest;
     }
+    */
 }

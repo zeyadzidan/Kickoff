@@ -42,26 +42,37 @@ public class RController {
 
     @Bean
     public void tryy(){
-        Court c = new Court((long) 1243,1,"5") ;
-        cr.save(c) ;
 
-        ReservationService rs = new ReservationService(rr,pr) ;
-        rs.tryy(c.id, c.Court_Owner_id);
 
-        Time startWorkingHours = new Time(10,0,0) ;
-        Time endWorkingHours = new Time(23,0,0) ;
-        Time endMorning = new Time(16,0,0) ;
-        CourtSchedule courtSchedule = new CourtSchedule(c.id, startWorkingHours, endWorkingHours, endMorning, 200, 200);
-        sr.save(courtSchedule) ;
+        //try {
 
-        ScheduleAgent scheduleAgent = new ScheduleAgent(sr, rr) ;
-        Date df = new Date(2022,12,1) ;
-        Date dt = new Date(2022,12,2) ;
 
-        List<Reservation> res = scheduleAgent.getScheduleBetween(df,dt,startWorkingHours,endWorkingHours,c.id) ;
-        for (Reservation r: res){
-            System.out.println(r.toString() );
-        }
+            Court c = new Court((long) 1243, 1, "5");
+            cr.save(c);
+
+            ReservationService rs = new ReservationService(rr, pr);
+            Long id = rs.tryy(c.id, c.Court_Owner_id);
+            Reservation reservation = rr.getReferenceById(id) ;
+            System.out.println(reservation.toString());
+
+            Time startWorkingHours = new Time(10, 0, 0);
+            Time endWorkingHours = new Time(23, 0, 0);
+            Time endMorning = new Time(16, 0, 0);
+            CourtSchedule courtSchedule = new CourtSchedule(c.id, startWorkingHours, endWorkingHours, endMorning, 200, 200);
+            sr.save(courtSchedule);
+
+            ScheduleAgent scheduleAgent = new ScheduleAgent(sr, rr);
+            Date df = new Date(2022, 12, 1);
+            Date dt = new Date(2022, 12, 2);
+
+            List<Reservation> res = scheduleAgent.getScheduleBetween(df, dt, startWorkingHours, endWorkingHours, c.id);
+            for (Reservation r : res) {
+                System.out.println(r.toString());
+            }
+        //}catch (Exception e){
+          //  System.out.println(e);
+        //}
+
 
 
     }

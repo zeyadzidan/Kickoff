@@ -1,9 +1,7 @@
 package back.kickoff.kickoffback.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 @Entity
 public class Court {
     @Id
@@ -12,6 +10,11 @@ public class Court {
     public long Court_Owner_id;
     public int Court_Number;
     public String Court_Type;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_court_schedule")
+    public CourtSchedule courtSchedule;
+
     public Court(long Court_Owner_id,int Court_Number,String Court_Type)
     {
       this.Court_Owner_id=Court_Owner_id;

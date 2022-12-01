@@ -16,8 +16,8 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-
-    @ManyToMany
+/*
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "reservation_player",
             joinColumns = @JoinColumn(name = "reservation_id"),
             inverseJoinColumns = @JoinColumn(name = "player_id"))
@@ -26,10 +26,10 @@ public class Reservation {
 
     @OneToOne(fetch = FetchType.EAGER)
     Player mainPlayerID;
-
-    @Column(nullable = false)
+*/
+    //@Column(nullable = false)
     Long courtID;
-    @Column(nullable = false)
+    //@Column(nullable = false)
     Long courtOwnerID;
     Date date ;
     Time timeFrom;
@@ -52,7 +52,7 @@ public class Reservation {
     }
 
     public Reservation(Player mainPlayerID, Long courtID, Long courtOwnerID) {
-        this.mainPlayerID = mainPlayerID;
+        //this.mainPlayerID = mainPlayerID;
         this.courtID = courtID;
         this.courtOwnerID = courtOwnerID;
     }
@@ -61,7 +61,7 @@ public class Reservation {
     public Long getId() {
         return id;
     }
-
+/*
     public Player getMainPlayerID() {
         return mainPlayerID;
     }
@@ -71,7 +71,7 @@ public class Reservation {
         return this;
 
     }
-
+*/
     public Long getCourtID() {
         return courtID;
     }
@@ -134,7 +134,7 @@ public class Reservation {
     public String toString() {
         return "Reservation{" +
                 "id=" + id +
-                ", mainPlayerID=" + mainPlayerID.Id +
+                //", mainPlayerID=" + mainPlayerID.Id +
                 ", courtID=" + courtID +
                 ", courtownerID=" + courtOwnerID +
                 ", timeFrom=" + timeFrom +

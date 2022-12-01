@@ -11,9 +11,9 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long Id ;
-
+/*
     @ManyToMany(mappedBy = "playersID")
     Set<Reservation> reservations ;
-
+*/
 
 }

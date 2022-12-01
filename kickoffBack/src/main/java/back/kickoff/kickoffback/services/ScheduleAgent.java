@@ -78,7 +78,7 @@ public class ScheduleAgent {
         return true ;
     }
 
-    boolean setReservationBooked(Long res, Long Id){
+    boolean setReservationBooked(Reservation res, Long Id){
         if(!sr.existsById(Id))
             return false ;
 
@@ -88,7 +88,7 @@ public class ScheduleAgent {
         return true ;
     }
 
-    boolean setReservationPending(Long res, Long Id){
+    boolean setReservationPending(Reservation res, Long Id){
         if(!sr.existsById(Id))
             return false ;
 
@@ -98,7 +98,7 @@ public class ScheduleAgent {
         return true ;
     }
 
-    boolean deletePending(Long res, Long Id){
+    boolean deletePending(Reservation res, Long Id){
         if(!sr.existsById(Id))
             return false ;
 
@@ -108,7 +108,7 @@ public class ScheduleAgent {
         return true ;
     }
 
-    boolean deleteBooked(Long res, Long Id){
+    boolean deleteBooked(Reservation res, Long Id){
         if(!sr.existsById(Id))
             return false ;
 
@@ -124,14 +124,12 @@ public class ScheduleAgent {
 
         CourtSchedule schedule = sr.getReferenceById(CourtId);
         ArrayList<Reservation> res = new ArrayList<Reservation>() ;
-        for(Long resId: schedule.getBookedReservations()){
-            Reservation r =rr.getReferenceById(resId) ;
+        for(Reservation r: schedule.getBookedReservations()){
             if(r.getDate().compareTo(fromD) >= 0 && r.getDate().compareTo(toD) <= 0 && r.getTimeFrom().compareTo(fromT)>=0 && r.getTimeTo().compareTo(toT)>=0){
                 res.add(r) ;
             }
         }
-        for(Long resId: schedule.getPendingReservations()){
-            Reservation r =rr.getReferenceById(resId) ;
+        for(Reservation r: schedule.getPendingReservations()){
             if(r.getDate().compareTo(fromD) >= 0 && r.getDate().compareTo(toD) <= 0 && r.getTimeFrom().compareTo(fromT)>=0 && r.getTimeTo().compareTo(toT)>=0){
                 res.add(r) ;
             }
