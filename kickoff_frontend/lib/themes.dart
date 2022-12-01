@@ -5,9 +5,10 @@ enum Themes {light, dark}
 class AppThemes {
 
   static final ThemeData lightTheme = ThemeData(
+    primarySwatch: Colors.green,
     primaryColor: Colors.green,
     appBarTheme: const AppBarTheme(
-        color: Colors.green
+      backgroundColor: Colors.green,
     ),
     textSelectionTheme: const TextSelectionThemeData(
       selectionColor: Colors.grey,

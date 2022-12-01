@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/fixtures/widgets/addfixturebutton.dart';
 import 'package:kickoff_frontend/fixtures/widgets/application.dart';
-import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
 
-void main() => runApp(KickoffApplication([const AddFixtureButton(), const AddFixtureButton(), ReservationsHome(MyInfo.info)]));
+void main() => runApp(const KickoffApplication());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
