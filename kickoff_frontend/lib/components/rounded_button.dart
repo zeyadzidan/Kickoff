@@ -100,7 +100,7 @@ class RoundedButton extends State<SignUpButton> {
                     KickoffApplication.profileData=Profile_data;
                     Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (context) => KickoffApplication()
+                            builder: (context) => KickoffApplication(Data:Profile_data,)
                         )
                     );
                   }
