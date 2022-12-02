@@ -2,7 +2,7 @@ package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.Court;
 import back.kickoff.kickoffback.model.CourtOwner;
-import back.kickoff.kickoffback.model.State;
+import back.kickoff.kickoffback.model.CourtState;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.CourtRepository;
 import com.google.gson.Gson;
@@ -56,7 +56,7 @@ public class CourtOwnerAgent {
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(ownerId);
         if(courtOwnerOptional.isEmpty())
             return false;
-        Court newCourt = new Court(courtName, courtOwnerOptional.get(), State.Active, discription);
+        Court newCourt = new Court(courtName, courtOwnerOptional.get(), CourtState.Active, discription);
         courtRepository.save(newCourt);
         courtOwnerOptional.get().addCourt(newCourt);
         return true;

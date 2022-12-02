@@ -20,7 +20,7 @@ public class Court {
     public String Court_Number;
         @ManyToOne
     private CourtOwner courtOwner;
-    private State state;
+    private CourtState state;
 
     private String discription;
 
@@ -28,7 +28,7 @@ public class Court {
     @JoinColumn(name = "fk_court_schedule")
     public CourtSchedule courtSchedule;
 
-    public Court(String name, CourtOwner courtOwner, State state, String discription)
+    public Court(String name, CourtOwner courtOwner, CourtState state, String discription)
     {
       this.Court_Number=name;
 
