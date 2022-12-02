@@ -6,7 +6,10 @@ import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
 import 'package:kickoff_frontend/themes.dart';
 
 class KickoffApplication extends StatefulWidget {
-  const KickoffApplication({super.key});
+  static late Map<String,dynamic>profileData;
+  KickoffApplication({super.key}){
+    print(profileData);
+  }
 
   static bool loggedIn = false;
 

@@ -67,6 +67,7 @@ class RoundedLogin extends State<LogiButton> {
               else
                 {
                   print(Profile_data);
+                  KickoffApplication.profileData=Profile_data;
                   Navigator.of(context).push(
                       MaterialPageRoute(
                           builder: (context) => KickoffApplication()

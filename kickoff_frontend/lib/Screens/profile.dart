@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:kickoff_frontend/application.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ProfileBaseScreen extends StatefulWidget {
@@ -11,16 +12,16 @@ class ProfileBaseScreen extends StatefulWidget {
 }
 
 class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
-  int rating = 0;
+  int rating = KickoffApplication.profileData["rating"];
   int subscribers = 0;
-  String name = "Barcelona Stadiums";
-  String phone = "01234567897";
-  String address =
-      "https://www.google.com/maps/d/viewer?mid=1KiMxuAuJbF_CXsxYDub13OpSZUk";
+  String name = KickoffApplication.profileData["userName"];
+  String phone = KickoffApplication.profileData["phoneNumber"];
+  String address =KickoffApplication.profileData["location"];
   bool emptyphoto = false;
-  double xaxis = 31.2160786;
-  double yaxis = 29.9469253;
+  double xaxis = KickoffApplication.profileData["xAxis"];
+  double yaxis = KickoffApplication.profileData["yAxis"];
   String? path;
+
   @override
   Widget build(BuildContext context) {
         return Container(
@@ -152,7 +153,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                             name,
                             style: TextStyle(
                               letterSpacing: 0.4,
-                              fontSize: 15,
+                              fontSize: 20,
                               color: Colors.black,
                             ),
                           ),
@@ -165,7 +166,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                               " \u{1F4DE} ${phone} ",
                               style: TextStyle(
                                 letterSpacing: 0.4,
-                                fontSize: 10,
+                                fontSize: 15,
                                 // color: ,
                               ),
                             ),
@@ -178,8 +179,9 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                                 " \u{1F5FA} ${address}",
                                 style: TextStyle(
                                   letterSpacing: 0.4,
-                                  fontSize: 10,
-                                  // color: ,
+                                  fontSize: 15,
+                                  color: Colors.blue ,
+                                  decoration: TextDecoration.underline,
                                 ),
                               ),
                               onTap: () => launchUrlString(
