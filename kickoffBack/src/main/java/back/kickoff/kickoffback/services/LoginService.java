@@ -26,9 +26,9 @@ public class LoginService {
         if(courtOwner.isEmpty())
             return "Not found";
        String password2 =courtOwner.get().getPassword();
-       if(password!= password2)
+       if(!password.equals(password2))
        {
-           return "Not found";
+           return "Not found Password";
        }
         return new Gson().toJson(courtOwner.get());
     }

@@ -4,19 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/application.dart';
 import 'package:kickoff_frontend/components/rounded_input.dart';
 import 'package:kickoff_frontend/constants.dart';
-import 'package:kickoff_frontend/components/rounded_inpu_Username.dart';
-import '../../../components/rounded_password_Signup.dart';
 import 'package:kickoff_frontend/components/rounded_input_login.dart';
 import 'package:kickoff_frontend/components/rounded_password_input.dart';
-import 'package:kickoff_frontend/components/rounded_phone_number.dart';
-import 'package:kickoff_frontend/components/Sign_up_location.dart';
 import 'package:http/http.dart' as http;
 class LogiButton extends StatefulWidget
 {
   @override
   RoundedLogin createState() => RoundedLogin();
 }
-
 class RoundedLogin extends State<LogiButton> {
   String url = "http://localhost:8080/login/courtOwner";
   var resp=52;
@@ -28,10 +23,9 @@ class RoundedLogin extends State<LogiButton> {
           "email": RoundedInputLogin.EmailLogin.text,
           "password": RoundedPasswordInput.Password.text,
         })
-
     );
     setState(() {
-      Profile_data = json.decode(res.body);
+       Profile_data=json.decode(res.body);
     });
     print(res.body);
   }
@@ -58,11 +52,28 @@ class RoundedLogin extends State<LogiButton> {
             {
 
               var res= await save();
-              Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => KickoffApplication( data: Profile_data)
-                  )
-              );
+              print(Profile_data.length);
+              if(Profile_data.length==0)
+                {
+                  showAlertDialog(context,'Enter valid Email');
+                  RoundedInputLogin.EmailLogin.clear();
+
+                }
+              else if(Profile_data.length==4)
+                {
+                  showAlertDialog(context,'Enter valid Password');
+                  RoundedPasswordInput.Password.clear();
+                }
+              else
+                {
+                  print(Profile_data);
+                  Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => KickoffApplication()
+
+                      )
+                  );
+                }
               /*
               if(resp==0)
               {

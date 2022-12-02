@@ -95,7 +95,7 @@ class RoundedButton extends State<SignUpButton> {
                     Map<String,dynamic> lol=["mento",0] as Map<String, dynamic>;
                     Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (context) => KickoffApplication(data:lol)
+                            builder: (context) => KickoffApplication()
                         )
                     );
                   }
