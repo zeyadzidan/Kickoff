@@ -15,11 +15,13 @@ class SignUpButton extends StatefulWidget
   RoundedButton createState() => RoundedButton();
 }
 class RoundedButton extends State<SignUpButton> {
-  String url = "http://localhost:8080/signup/courtOwner";
+ // String url = "http://localhost:8080/signup/courtOwner";
+  String url = "http://192.168.1.2:8080/signup/courtOwner";
   var resp=52;
+  late Map<String, dynamic> Profile_data;
   Future save() async{
     print(RoundedInput.EmailSignUp.text);
-   var res= await http.post(Uri.parse(url),headers: {"Access-Control-Allow-Origin": "*","Access-Control-Allow-Credentials":"true", "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",  "Access-Control-Allow-Methods": "POST, OPTIONS" },body: json.encode(
+   var res= await http.post(Uri.parse(url),headers:{"Content-Type": "application/json"},body: json.encode(
        {
          "email": RoundedInput.EmailSignUp.text,
          "password": RoundedPasswordSignup.Password.text,
@@ -30,9 +32,10 @@ class RoundedButton extends State<SignUpButton> {
          "yAxis": FindLocation.Y_axis,
        }));
    setState(() {
-     resp=json.decode(res.body);
+   //  resp=json.decode(res.body);
+     Profile_data=jsonDecode(res.body);
    });
-   return resp;
+   print(res.body);
   }
   @override
   Widget build(BuildContext context) {
@@ -93,11 +96,13 @@ class RoundedButton extends State<SignUpButton> {
                 else
                   {
                     //Map<String,dynamic> lol=["mento",0] as Map<String, dynamic>;
-                    // Navigator.of(context).push(
-                    //     MaterialPageRoute(
-                    //         builder: (context) => KickoffApplication()
-                    //     )
-                    // );
+
+                    KickoffApplication.profileData=Profile_data;
+                    Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => KickoffApplication()
+                        )
+                    );
                   }
               }
       },

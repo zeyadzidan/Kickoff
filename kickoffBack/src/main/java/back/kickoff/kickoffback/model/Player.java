@@ -20,9 +20,9 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long Id ;
 
-    @ManyToMany(mappedBy = "playersID")
-    @ToString.Exclude
-    Set<Reservation> reservations ;
+//    @ManyToMany(mappedBy = "playersID")
+//    @ToString.Exclude
+//    Set<Reservation> reservations ;
 
     @Override
     public boolean equals(Object o) {
