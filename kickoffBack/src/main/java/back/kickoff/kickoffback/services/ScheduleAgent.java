@@ -128,12 +128,7 @@ public class ScheduleAgent {
         return true ;
     }
 
-    public List<Reservation> getScheduleOverlapped(Date fromD, Date toD, Time fromT, Time toT, Long CourtId){
-        Optional<CourtSchedule> scheduleO = sr.findById(CourtId) ;
-        if(scheduleO.isEmpty())
-            return null ;
-
-        CourtSchedule schedule =  scheduleO.get() ;
+    public List<Reservation> getScheduleOverlapped(Date fromD, Date toD, Time fromT, Time toT, CourtSchedule schedule){
         ArrayList<Reservation> res = new ArrayList<Reservation>() ;
         for(Reservation r: schedule.getBookedReservations()){
             if(r.getStartDate().compareTo(fromD) >= 0 && r.getStartDate().compareTo(toD) <= 0 &&

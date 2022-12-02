@@ -24,21 +24,20 @@ public class LoginController {
 //        Optional<CourtOwner> cc = courtOwnerRepository.findByEmail()
     }
     @PostMapping("/courtOwner")
-    public ResponseEntity<String> courtOwnerSignupRequest(@RequestBody String information) throws JSONException {
+    public ResponseEntity courtOwnerSignupRequest(@RequestBody String information) throws JSONException {
         System.out.println("ban7bk ya youssry");
         String ans = loginService.courtOwnerLogin(information);
         if(ans.equals("Not found"))
         {
             System.out.println(new EmptyJsonResponse());
-
-            return new ResponseEntity(new EmptyJsonResponse(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new EmptyJsonResponse(), HttpStatus.BAD_REQUEST);
         }
         else if(ans.equals("Not found Password"))
         {
             JSONObject jsonObject = new JSONObject();
             System.out.println("not correct");
             jsonObject.put("Password", "not found");
-            return new ResponseEntity(jsonObject, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(jsonObject, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(ans, HttpStatus.OK);
     }
