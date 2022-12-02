@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/fixtures/widgets/application.dart';
 
-void main() => runApp(const KickoffApplication());
+void main() => runApp(
+  Builder(
+    builder: (context) =>
+        const KickoffApplication()
+  )
+);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
