@@ -23,7 +23,7 @@ public class ReservationService {
     private final PlayerRepositry pr ;
 
 
-    public double calcTotalCost(Date stDay,Date endDay, Time stTime, Time endTime, Court court)
+    public int calcTotalCost(Date stDay,Date endDay, Time stTime, Time endTime, Court court)
     {
         CourtSchedule courtSchedule = court.getCourtSchedule();
         int mourningPrice = courtSchedule.getMorningCost();

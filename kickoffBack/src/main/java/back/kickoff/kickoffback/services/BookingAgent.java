@@ -36,19 +36,54 @@ public class BookingAgent {
         if(reservationOptional.isEmpty())
             return "Not found";
         Reservation reservation = reservationOptional.get();
+        if(moneyPaid<=0 || moneyPaid>reservation.getTotalCost())
+            return "invalid amount of money" ;
         reservation.setMoneyPayed(moneyPaid);
         reservation.setState(ReservationState.Booked);
         reservationRepository.save(reservation);
+
+        Optional<CourtSchedule> optionalCourtSchedule = scheduleRepository.findById(reservation.getCourtID());
+        CourtSchedule courtSchedule = optionalCourtSchedule.get() ;
+        courtSchedule.getPendingReservations().remove(reservation) ;
+        courtSchedule.getBookedReservations().add(reservation) ;
         return "Success";
     }
-    public String cancelReservation(Long id)
+    public String cancelBookedReservation(Long id)
     {
         Optional<Reservation> reservationOptional = reservationRepository.findById(id);
         if(reservationOptional.isEmpty())
-            return "Not found";
+            return  "Reservation not found";
+        Reservation reservation = reservationOptional.get();
+        Optional<CourtSchedule> optionalCourtSchedule = scheduleRepository.findById(reservation.getCourtID());
+        if(optionalCourtSchedule.isEmpty())
+            return "Court not found" ;
+        if(!reservation.getState().equals(ReservationState.Booked)){
+            return "Reservation not booked" ;
+        }
+        CourtSchedule courtSchedule = optionalCourtSchedule.get() ;
+        courtSchedule.getBookedReservations().remove(reservation) ;
+        int cost = reservation.getMoneyPayed();
+        reservationRepository.deleteById(id);
+        return Integer.toString(cost);
+    }
+    public String cancelPendingReservation(Long id)
+    {
+        Optional<Reservation> reservationOptional = reservationRepository.findById(id);
+        if(reservationOptional.isEmpty())
+            return  "Reservation not found";
+        Reservation reservation = reservationOptional.get();
+        Optional<CourtSchedule> optionalCourtSchedule = scheduleRepository.findById(reservation.getCourtID());
+        if(optionalCourtSchedule.isEmpty())
+            return "Court not found" ;
+        if(!reservation.getState().equals(ReservationState.Pending)){
+            return "Reservation is not pending" ;
+        }
+        CourtSchedule courtSchedule = optionalCourtSchedule.get() ;
+        courtSchedule.getPendingReservations().remove(reservation) ;
         reservationRepository.deleteById(id);
         return "Success";
     }
+
     public String setPending(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
         Long courtId = jsonObject.getLong("courtId");
@@ -56,7 +91,7 @@ public class BookingAgent {
         String dateStrS = jsonObject.getString("startDate");
         String dateStrF = jsonObject.getString("endDate");
         String[] tempArrS = dateStrS.split("//");
-        String[] tempArrF = dateStrS.split("//");
+        String[] tempArrF = dateStrF.split("//");
         int startHour = jsonObject.getInt("startHour");
         int finishHour = jsonObject.getInt("finishHour");
         int yearS, monthS, dayS, yearF, monthF, dayF;
@@ -89,11 +124,14 @@ public class BookingAgent {
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(courtOwnerId);
         if(courtOptional.isEmpty() || courtOwnerOptional.isEmpty())
             return "Court Not found";
+        Court court = courtOptional.get();
+        if(!court.getCourtOwner().equals(courtOwnerOptional.get())){
+            return "Court does not belong to the courtOwner" ;
+        }
         Reservation reservation = new Reservation(courtId, courtOwnerId, stDate, endDate, timeFrom,
                 timeTo, ReservationState.Pending,0,
-                (int) reservationService.calcTotalCost(stDate, endDate, timeFrom, timeTo, courtOptional.get()));
+                reservationService.calcTotalCost(stDate, endDate, timeFrom, timeTo, courtOptional.get()));
         reservationRepository.save(reservation);
-        Court court = courtOptional.get();
         CourtSchedule courtSchedule = court.getCourtSchedule();
         courtSchedule.getPendingReservations().add(reservation);
         scheduleRepository.save(courtSchedule);
