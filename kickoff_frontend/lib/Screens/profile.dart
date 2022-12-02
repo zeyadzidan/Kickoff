@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:kickoff_frontend/application.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
+import 'package:http/http.dart' as http;
 class ProfileBaseScreen extends StatefulWidget {
   const ProfileBaseScreen({Key? key}) : super(key: key);
 
@@ -11,6 +12,30 @@ class ProfileBaseScreen extends StatefulWidget {
   State<ProfileBaseScreen> createState() => _ProfileBaseScreenState();
 }
 
+Future save(File file) async{
+  String url = "http://localhost:8080/signup/courtOwner";
+  var stream = new http.ByteStream(file!.openRead());
+  stream.cast();
+  var length = await file!.length();
+  print(stream);
+  /*
+  var uri= Uri.parse(url);
+  var request = new http.MultipartRequest('POST', uri);
+  request.fields['title'] = "Static title";
+  var multiport = new http.MultipartFile('image', stream, length);
+  request.files.add(multiport);
+  var reponse = await request.send();
+  if(reponse.statusCode == 200)
+    {
+      print("image uploaded");
+    }
+  else
+    {
+      print("failed");
+    }
+
+   */
+}
 class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   int rating = KickoffApplication.profileData["rating"];
   int subscribers = 0;
@@ -60,6 +85,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                               if (result != null) {
                                 File file = File(result.files.first.path!);
                                 path = result.files.first.path;
+                                save(file);
                               }
                               setState(() {
                                 path = result?.files.first.path;
