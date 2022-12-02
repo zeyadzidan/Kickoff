@@ -3,6 +3,7 @@ import 'package:kickoff_frontend/Screens/login/login.dart';
 import 'package:kickoff_frontend/components/Sign_up_location.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'NavBar.dart';
+import 'Profile.dart';
 
 
 void main() {
@@ -18,7 +19,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: kPrimaryColor,
-
       ),
       // bottomNavigationBar: NavBar.navBar(),
       home: LoginScreen(),
