@@ -19,11 +19,13 @@ public class BookingAgent {
     private final ScheduleRepository scheduleRepository;
     private final CourtOwnerRepository courtOwnerRepository;
     private final ReservationRepository reservationRepository;
-    public BookingAgent(CourtRepository courtRepository, ScheduleRepository scheduleRepository, CourtOwnerRepository courtOwnerRepository, ReservationRepository reservationRepository) {
+    private final ReservationService reservationService;
+    public BookingAgent(CourtRepository courtRepository, ScheduleRepository scheduleRepository, CourtOwnerRepository courtOwnerRepository, ReservationRepository reservationRepository, ReservationService reservationService) {
         this.courtRepository = courtRepository;
         this.scheduleRepository = scheduleRepository;
         this.courtOwnerRepository = courtOwnerRepository;
         this.reservationRepository = reservationRepository;
+        this.reservationService = reservationService;
     }
     public String book(String information)  throws JSONException
     {
@@ -88,7 +90,8 @@ public class BookingAgent {
         if(courtOptional.isEmpty() || courtOwnerOptional.isEmpty())
             return "Court Not found";
         Reservation reservation = new Reservation(courtId, courtOwnerId, stDate, endDate, timeFrom,
-                timeTo, ReservationState.Pending,0, 1000);
+                timeTo, ReservationState.Pending,0,
+                (int) reservationService.calcTotalCost(stDate, endDate, timeFrom, timeTo, courtOptional.get()));
         reservationRepository.save(reservation);
         Court court = courtOptional.get();
         CourtSchedule courtSchedule = court.getCourtSchedule();
