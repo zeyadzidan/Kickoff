@@ -7,4 +7,5 @@ class CourtBuilder {
   Court buildCoid(value) => _court.coid = value;
   Court buildCname(value) => _court.cname = value;
   Court buildCid(value) => _court.cid = value;
+  Court buildDescription(value) => _court.description = value;
 }
