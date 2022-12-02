@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
-import 'package:kickoff_frontend/Screens/Profile.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
 import 'package:kickoff_frontend/themes.dart';
+
+import 'fixtures/widgets/profile.dart';
 
 class KickoffApplication extends StatefulWidget {
   const KickoffApplication({super.key});
@@ -79,7 +80,8 @@ class KickoffApplicationState extends State<KickoffApplication> {
                         margin: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25.0),
                         child: Column(
                           children: [
-                            _buildTextField(key, ticketInfo),
+                            _buildTextField(key, ticketInfo, false),
+                            _buildTextField(key, ticketInfo, true),
                             _buildTimePicker(true, context),
                             const Divider(
                               height: 1,
@@ -109,23 +111,33 @@ class KickoffApplicationState extends State<KickoffApplication> {
       }
   );
 
-  _buildTextField(key, ticketInfo) => TextFormField(
+  _buildTextField(key, ticketInfo, moneyPayment) => TextFormField(
     maxLength: 32,
     autofocus: true,
-    decoration: const InputDecoration(
-      prefixIcon: Icon(Icons.person, color: kPrimaryColor),
-      labelText: "Enter player name",
-      labelStyle: TextStyle(color: kPrimaryColor),
-      hintText: "Example: Mohammed El-Mohammady",
-      focusColor: kPrimaryColor,
-      border: UnderlineInputBorder(),
-    ),
-    keyboardType: TextInputType.name,
+    decoration: (!moneyPayment)
+        ? const InputDecoration(
+          prefixIcon: Icon(Icons.person, color: kPrimaryColor),
+          labelText: "Enter player name",
+          labelStyle: TextStyle(color: kPrimaryColor),
+          hintText: "Example: Mohammed El-Mohammady",
+          focusColor: kPrimaryColor,
+          border: UnderlineInputBorder(),
+        )
+        : const InputDecoration(
+          prefixIcon: Icon(Icons.monetization_on, color: kPrimaryColor),
+          labelText: "Enter amount of money paid",
+          labelStyle: TextStyle(color: kPrimaryColor),
+          hintText: "Example: 200",
+          suffixText: 'EGP',
+          focusColor: kPrimaryColor,
+          border: UnderlineInputBorder(),
+        ),
+    keyboardType: (!moneyPayment) ? TextInputType.name : TextInputType.number,
     validator: (input) {
       if (input!.isEmpty) {
-        return "Name can not be blank";
+        return "This field can't be blank.";
       }
-      key.currentState!.save();
+      if (moneyPayment) {key.currentState!.save();}
       return null;
     },
     onSaved: (value) => ticketInfo.add(value!),
