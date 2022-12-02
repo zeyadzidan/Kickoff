@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class SignupService
@@ -17,7 +18,7 @@ public class SignupService
         this.courtOwnerRepository = courtOwnerRepository;
     }
 
-    public Boolean courtOwnerSignup(String information) throws JSONException
+    public int courtOwnerSignup(String information) throws JSONException
     {
         JSONObject jsonObject = new JSONObject(information);
         String email  =  jsonObject.getString("email");
@@ -28,13 +29,15 @@ public class SignupService
         Double xAxis = jsonObject.getDouble("xAxis");
         Double yAxis = jsonObject.getDouble("yAxis");
         Optional<CourtOwner> courtOwner = courtOwnerRepository.findByEmail(email);
-        if(courtOwner.isPresent())
-            return false;
+        String regex = "^(.+)@(.+)$";
+       Boolean isvalid =Pattern.compile(regex).matcher(email).matches();
+        if(courtOwner.isPresent() || isvalid ==false)
+            return 0;
         CourtOwner newCourtOwner = new CourtOwner(username, email, password, phoneNumber, xAxis, yAxis);
         newCourtOwner.setRating(0);
         newCourtOwner.setLocation(location);
         courtOwnerRepository.save(newCourtOwner);
-        return true;
+        return 1;
     }
     
 }

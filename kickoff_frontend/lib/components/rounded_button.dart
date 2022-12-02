@@ -6,18 +6,17 @@ import 'package:kickoff_frontend/components/rounded_input.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/components/rounded_inpu_Username.dart';
 import '../../../components/rounded_password_Signup.dart';
-import 'package:kickoff_frontend/components/rounded_input_login.dart';
-import 'package:kickoff_frontend/components/rounded_password_input.dart';
 import 'package:kickoff_frontend/components/rounded_phone_number.dart';
 import 'package:kickoff_frontend/components/Sign_up_location.dart';
 import 'package:http/http.dart' as http;
-class RoundedButton extends StatelessWidget {
-   RoundedButton({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
-  final String title;
+class SignUpButton extends StatefulWidget
+{
+  @override
+  RoundedButton createState() => RoundedButton();
+}
+class RoundedButton extends State<SignUpButton> {
   String url = "http://localhost:8080/signup/courtOwner";
+  var resp=52;
   Future save() async{
     print(RoundedInput.EmailSignUp.text);
    var res= await http.post(Uri.parse(url),headers: {"Access-Control-Allow-Origin": "*","Access-Control-Allow-Credentials":"true", "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",  "Access-Control-Allow-Methods": "POST, OPTIONS" },body: json.encode(
@@ -30,16 +29,16 @@ class RoundedButton extends StatelessWidget {
          "xAxis": FindLocation.X_axis,
          "yAxis": FindLocation.Y_axis,
        }));
-   print(res.body);
+   setState(() {
+     resp=json.decode(res.body);
+   });
+   return resp;
   }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return InkWell(
-      onTap: () {
-
-        if(title=='SIGN UP')
-          {
+      onTap: () async {
             var Email = RoundedInput.EmailSignUp.text;
             var username = RoundedInputUsername.username.text;
             var Password = RoundedPasswordSignup.Password.text;
@@ -78,43 +77,41 @@ class RoundedButton extends StatelessWidget {
                   showAlertDialog(context,'Enter Valid Password');
                   RoundedPasswordSignup.Password.clear();
                 }
-              else if(username.length<6 || username.length> 12)
+              else if(username.length<3 || username.length> 12)
                 {
                   showAlertDialog(context,'Enter Valid Username');
                   RoundedInputUsername.username.clear();
                 }
             else
               {
-                save();
+                var res= await save();
+                if(resp==0)
+                  {
+                    showAlertDialog(context,'Enter valid Email');
+                    RoundedInput.EmailSignUp.clear();
+                  }
+                else
+                  {
+                    //Map<String,dynamic> lol=["mento",0] as Map<String, dynamic>;
+                    Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => KickoffApplication()
+                        )
+                    );
+                  }
               }
-          }
-        else
-          {
-            var Email = RoundedInputLogin.EmailLogin.text;
-            var Password=RoundedPasswordInput.Password.text;
-            print(Email);
-            print(Password);
-            RoundedInputLogin.EmailLogin.clear();
-          }
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const KickoffApplication()
-          )
-        );
       },
       borderRadius: BorderRadius.circular(30),
-
       child: Container(
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           color: kPrimaryColor,
         ),
-
         padding: EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
         child: Text(
-          title,
+          'SIGN UP',
           style: TextStyle(
               color: Colors.white,
               fontSize: 18

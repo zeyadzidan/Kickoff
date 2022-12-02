@@ -58,8 +58,7 @@ class RegisterForm extends StatelessWidget {
                       FindLocation(title: 'Location'),
                   ),
                   SizedBox(height: 30),
-                  RoundedButton(title: 'SIGN UP'),
-
+                  SignUpButton(),
                   SizedBox(height: 10),
                 ],
               ),
