@@ -7,6 +7,8 @@ class ReservationsHome extends StatefulWidget {
   const ReservationsHome(this.info, {super.key});
   final List info;
 
+  get selectedCourt => _ReservationsHomeState._selectedCourt;
+  get selectedDate => _ReservationsHomeState._selectedDate;
   @override
   State<ReservationsHome> createState() => _ReservationsHomeState(info);
 }
@@ -15,12 +17,8 @@ class ReservationsHome extends StatefulWidget {
 class _ReservationsHomeState extends State<ReservationsHome> {
   _ReservationsHomeState(this._courtFixtures);
   final List _courtFixtures;
-  late int _selectedCourt = 0;
-  late String _selectedDate = DateFormat.yMMMMEEEEd().format(DateTime.now());
-
-  get selectedCourt => _selectedCourt;
-
-  get selectedDate => _selectedDate;
+  static int _selectedCourt = 0;
+  static String _selectedDate = DateFormat.yMMMMEEEEd().format(DateTime.now());
 
   _onTabSelect(index) {
     _selectedCourt = index;
