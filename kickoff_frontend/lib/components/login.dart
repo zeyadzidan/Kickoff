@@ -8,6 +8,7 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/components/rounded_input_login.dart';
 import 'package:kickoff_frontend/components/rounded_password_input.dart';
 import 'package:http/http.dart' as http;
+import 'package:kickoff_frontend/localFile.dart';
 
 class LogiButton extends StatefulWidget {
   @override
@@ -81,8 +82,10 @@ class RoundedLogin extends State<LogiButton> {
             print(Profile_data);
             // print("\t"+Profile_data);
             KickoffApplication.profileData = Profile_data;
+            localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
+                RoundedPasswordInput.Password.text);
             Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => KickoffApplication()));
+                MaterialPageRoute(builder: (context) => KickoffApplication(Data: Profile_data)));
           }
           /*
 

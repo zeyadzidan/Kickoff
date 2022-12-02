@@ -35,7 +35,9 @@ class localFile {
 
       // Read the file
       final contents = await file.readAsString();
-
+      print("contents");
+      print(contents);
+      print("contents");
       return (contents);
     } catch (e) {
       // If encountering an error, return 0
@@ -45,7 +47,8 @@ class localFile {
 
   static Future<File> writeLoginData(email, pass) async {
     final file = await _localFile;
-
+    print("katbnnnnnaaa");
+    print("${email}:${pass}");
     // Write the file
     return file.writeAsString("${email}:${pass}");
   }
