@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
-import 'package:kickoff_frontend/components/builders/fixtureticketbuilder.dart';
 import 'package:kickoff_frontend/fixtures/classes/fixtureticket.dart';
 
 import '../../components/builders/ticket.dart';
@@ -17,13 +16,11 @@ class ReservationsHome extends StatefulWidget {
   get selectedDate => _ReservationsHomeState._selectedDate;
 
   @override
-  State<ReservationsHome> createState() => _ReservationsHomeState(info);
+  State<ReservationsHome> createState() => _ReservationsHomeState();
 }
 
 
 class _ReservationsHomeState extends State<ReservationsHome> {
-  _ReservationsHomeState(this._courtFixtures);
-  final List _courtFixtures;
   static int _selectedCourt = 0;
   static DateTime _selectedDate = DateTime.now();
 
@@ -46,21 +43,13 @@ class _ReservationsHomeState extends State<ReservationsHome> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        GestureDetector(
-          child: Column(
-            children: [
-              _buildCourts(),
-              _buildDatePicker(),
-              _buildFixtures()
-            ],
-          ),
-        )
-      ],
-    );
-  }
+  Widget build(BuildContext context) => Column(
+    children: [
+      _buildCourts(),
+      _buildDatePicker(),
+      _buildFixtures()
+    ],
+  );
 
   _buildCourts() => Container(
     padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
@@ -111,13 +100,18 @@ class _ReservationsHomeState extends State<ReservationsHome> {
     ticket.startDate = '16:00';
     ticket.endDate = '17:00';
     ticket.paidAmount = '200';
-    ticket.isPending = true;
-    return SingleChildScrollView(
-      child: Column(
-        children: List<Container>.generate(
-              7,
-              (index) => Ticket().build(ticket)
-        )
+    ticket.isPending = false;
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          children: List<Container>.generate(
+                10,
+                (index) {
+                  ticket.isPending = !ticket.isPending;
+                  return Ticket().build(ticket);
+                }
+          )
+        ),
       ),
     );
   }
