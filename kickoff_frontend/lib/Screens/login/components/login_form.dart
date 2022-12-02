@@ -48,7 +48,7 @@ class LoginForm extends StatelessWidget {
 
                 SizedBox(height: 40),
 
-                RoundedInputLogin(icon: Icons.mail, hint: 'Username'),
+                RoundedInputLogin(icon: Icons.mail, hint: 'Email'),
                 PasswordInput(),
                 SizedBox(height: 10),
 

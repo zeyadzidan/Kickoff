@@ -16,7 +16,7 @@ class FindLocation extends StatelessWidget {
          SizedBox(
           child: OpenStreetMapSearchAndPick(
               center: LatLong(31.2160786, 29.9469253),
-              buttonColor: Colors.blue,
+              buttonColor: Color(0XFF4CAF50),
               buttonText: 'Set Current Location',
               onPicked: (pickedData) {
                 print(pickedData.latLong.latitude);

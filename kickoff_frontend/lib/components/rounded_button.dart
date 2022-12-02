@@ -36,7 +36,7 @@ class RoundedButton extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
-        showAlertDialog(context);
+
         if(title=='SIGN UP')
           {
             var Email = RoundedInput.EmailSignUp.text;
@@ -53,7 +53,39 @@ class RoundedButton extends StatelessWidget {
             print(Locationaddress);
             print(x_axis);
             print(y_axis);
-             save();
+            if(Email.isEmpty )
+              {
+                showAlertDialog(context,'Enter valid Email');
+                RoundedInput.EmailSignUp.clear();
+              }
+            else if(username.isEmpty)
+              {
+                showAlertDialog(context,'Enter Valid Username');
+                RoundedInputUsername.username.clear();
+              }
+              else if(phoneNumber.isEmpty)
+              {
+                showAlertDialog(context,'Enter Valid phone Number');
+                RoundedPhoneNumber.PhoneNumber.clear();
+              }
+              else if(Locationaddress.toString()=='null')
+                {
+                  showAlertDialog(context,'Select location from Map');
+                }
+              else if( Password.length<6 || Password.length>15 || Password.isEmpty)
+                {
+                  showAlertDialog(context,'Enter Valid Password');
+                  RoundedPasswordSignup.Password.clear();
+                }
+              else if(username.length<6 || username.length> 12)
+                {
+                  showAlertDialog(context,'Enter Valid Username');
+                  RoundedInputUsername.username.clear();
+                }
+            else
+              {
+                save();
+              }
           }
         else
           {
@@ -86,7 +118,7 @@ class RoundedButton extends StatelessWidget {
     );
   }
 }
-showAlertDialog(BuildContext context) {
+showAlertDialog(BuildContext context,text3) {
   // Create button
   Widget okButton = TextButton(
     child: Text("OK"),
@@ -96,8 +128,8 @@ showAlertDialog(BuildContext context) {
   );
   // Create AlertDialog
   AlertDialog alert = AlertDialog(
-    title: Text("Simple Alert"),
-    content: Text("Enter Valid Input."),
+    title: Text("Warning"),
+    content: Text(text3),
     actions: [
       okButton,
     ],
