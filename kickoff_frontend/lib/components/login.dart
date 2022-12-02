@@ -13,19 +13,21 @@ class LogiButton extends StatefulWidget
   RoundedLogin createState() => RoundedLogin();
 }
 class RoundedLogin extends State<LogiButton> {
-  String url = "http://localhost:8080/login/courtOwner";
+  String url = "http://192.168.1.2:8080/login/courtOwner";
+  //String url= "https://student.valuxapps.com/api/login";
   var resp=52;
   late Map<String, dynamic> Profile_data;
   Future save() async{
     print(RoundedInput.EmailSignUp.text);
-    var res= await http.post(Uri.parse(url),headers: {"Access-Control-Allow-Origin": "*","Access-Control-Allow-Credentials":"true", "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",  "Access-Control-Allow-Methods": "POST, OPTIONS" },body: json.encode(
+    var res= await http.post(Uri.parse(url),headers: {"Content-Type": "application/json"},body:json.encode(
         {
           "email": RoundedInputLogin.EmailLogin.text,
           "password": RoundedPasswordInput.Password.text,
         })
     );
     setState(() {
-       Profile_data=json.decode(res.body);
+       Profile_data=jsonDecode(res.body);
+       // print(Profile_data);
     });
     print(res.body);
   }
@@ -67,11 +69,11 @@ class RoundedLogin extends State<LogiButton> {
               else
                 {
                   print(Profile_data);
+                  // print("\t"+Profile_data);
                   KickoffApplication.profileData=Profile_data;
                   Navigator.of(context).push(
                       MaterialPageRoute(
                           builder: (context) => KickoffApplication()
-
                       )
                   );
                 }

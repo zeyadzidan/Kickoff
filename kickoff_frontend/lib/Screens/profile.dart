@@ -37,7 +37,7 @@ Future save(File file) async{
    */
 }
 class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
-  int rating = KickoffApplication.profileData["rating"];
+  double rating = KickoffApplication.profileData["rating"];
   int subscribers = 0;
   String name = KickoffApplication.profileData["userName"];
   String phone = KickoffApplication.profileData["phoneNumber"];
