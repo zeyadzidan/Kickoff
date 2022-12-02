@@ -52,4 +52,15 @@ public class BookingAgentController {
             return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
+
+    @GetMapping("/reservationsOnDate")
+    public ResponseEntity<String> getReservations(@RequestBody String information) throws JSONException {
+        String responseBody = bookingAgent.getReservations(information);
+        if(responseBody.charAt(0)!='S')
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        responseBody = responseBody.substring(2) ;
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+
 }
