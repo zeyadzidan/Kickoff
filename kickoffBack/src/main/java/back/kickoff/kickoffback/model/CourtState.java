@@ -1,5 +1,5 @@
 package back.kickoff.kickoffback.model;
 
-public enum State {
+public enum CourtState {
     Active, OutOfOrder
 }

@@ -5,6 +5,7 @@ import lombok.*;
 
 import org.hibernate.Hibernate;
 
+import java.sql.Time;
 import java.util.Objects;
 
 @ToString
@@ -20,7 +21,7 @@ public class Court {
     public String Court_Number;
         @ManyToOne
     private CourtOwner courtOwner;
-    private State state;
+    private CourtState state;
 
     private String discription;
 
@@ -28,14 +29,16 @@ public class Court {
     @JoinColumn(name = "fk_court_schedule")
     public CourtSchedule courtSchedule;
 
-    public Court(String name, CourtOwner courtOwner, State state, String discription)
+    public Court(String name, CourtOwner courtOwner, CourtState state, String discription, Time startWorkingHours,
+                 Time endWorkingHours, Time endMorning,Integer morningCost, Integer nightCost, Integer minBookingHours)
     {
       this.Court_Number=name;
-
       this.courtOwner = courtOwner;
-       this.state = state;
-       this.discription=discription;
-    }
+      this.state = state;
+      this.discription=discription;
+      this.courtSchedule = new CourtSchedule( this.id, startWorkingHours, endWorkingHours, endMorning, morningCost, nightCost, minBookingHours) ;
+
+      }
 
 
 

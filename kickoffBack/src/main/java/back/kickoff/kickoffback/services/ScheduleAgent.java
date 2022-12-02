@@ -128,7 +128,7 @@ public class ScheduleAgent {
         return true ;
     }
 
-    public List<Reservation> getScheduleBetween(Date fromD, Date toD, Time fromT, Time toT, Long CourtId){
+    public List<Reservation> getScheduleOverlapped(Date fromD, Date toD, Time fromT, Time toT, Long CourtId){
         Optional<CourtSchedule> scheduleO = sr.findById(CourtId) ;
         if(scheduleO.isEmpty())
             return null ;
@@ -136,12 +136,18 @@ public class ScheduleAgent {
         CourtSchedule schedule =  scheduleO.get() ;
         ArrayList<Reservation> res = new ArrayList<Reservation>() ;
         for(Reservation r: schedule.getBookedReservations()){
-            if(r.getDate().compareTo(fromD) >= 0 && r.getDate().compareTo(toD) <= 0 && r.getTimeFrom().compareTo(fromT)>=0 && r.getTimeTo().compareTo(toT)>=0){
+            if(r.getStartDate().compareTo(fromD) >= 0 && r.getStartDate().compareTo(toD) <= 0 &&
+                    ((r.getTimeFrom().compareTo(fromT)>=0 && r.getTimeTo().compareTo(toT)>=0)
+                            || (r.getTimeFrom().compareTo(toT)>=0 && r.getTimeTo().compareTo(toT)>=0))
+                            || (r.getTimeFrom().compareTo(fromT)>=0 && r.getTimeFrom().compareTo(toT)>=0) ){
                 res.add(r) ;
             }
         }
         for(Reservation r: schedule.getPendingReservations()){
-            if(r.getDate().compareTo(fromD) >= 0 && r.getDate().compareTo(toD) <= 0 && r.getTimeFrom().compareTo(fromT)>=0 && r.getTimeTo().compareTo(toT)>=0){
+            if(r.getStartDate().compareTo(fromD) >= 0 && r.getStartDate().compareTo(toD) <= 0 &&
+                    ((r.getTimeFrom().compareTo(fromT)>=0 && r.getTimeTo().compareTo(toT)>=0)
+                            || (r.getTimeFrom().compareTo(toT)>=0 && r.getTimeTo().compareTo(toT)>=0))
+                    || (r.getTimeFrom().compareTo(fromT)>=0 && r.getTimeFrom().compareTo(toT)>=0) ){
                 res.add(r) ;
             }
         }
