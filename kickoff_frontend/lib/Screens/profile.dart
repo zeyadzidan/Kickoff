@@ -12,31 +12,9 @@ class ProfileBaseScreen extends StatefulWidget {
   State<ProfileBaseScreen> createState() => _ProfileBaseScreenState();
 }
 
-Future save(File file) async{
-  String url = "http://localhost:8080/signup/courtOwner";
-  var stream = new http.ByteStream(file!.openRead());
-  stream.cast();
-  var length = await file!.length();
-  print(stream);
-  /*
-  var uri= Uri.parse(url);
-  var request = new http.MultipartRequest('POST', uri);
-  request.fields['title'] = "Static title";
-  var multiport = new http.MultipartFile('image', stream, length);
-  request.files.add(multiport);
-  var reponse = await request.send();
-  if(reponse.statusCode == 200)
-    {
-      print("image uploaded");
-    }
-  else
-    {
-      print("failed");
-    }
 
-   */
-}
 class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
+
   double rating = KickoffApplication.profileData["rating"];
   int subscribers = 0;
   String name = KickoffApplication.profileData["userName"];
@@ -46,7 +24,18 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   double xaxis = KickoffApplication.profileData["xAxis"];
   double yaxis = KickoffApplication.profileData["yAxis"];
   String? path;
-
+  int id = KickoffApplication.profileData["id"];
+  Future save(String file) async{
+    String url = "http://192.168.1.2:8080/courtOwnerAgent/CourtOwner/addImage";
+    print(file);
+    var res = await http.post(Uri.parse(url),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "ownerID": id,
+          "imageURL": file,
+        }));
+     print(res.body);
+  }
   @override
   Widget build(BuildContext context) {
         return Container(
@@ -85,7 +74,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                               if (result != null) {
                                 File file = File(result.files.first.path!);
                                 path = result.files.first.path;
-                                save(file);
+                                save(path!);
                               }
                               setState(() {
                                 path = result?.files.first.path;
