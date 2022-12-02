@@ -72,7 +72,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
                 elevation: 4,
                 context: context,
                 builder: (context) => SizedBox(
-                  height: 250,
+                  height: 350,
                   child: SingleChildScrollView(
                     child: Form(
                       key: key,
