@@ -11,7 +11,7 @@ String loginData = "";
 bool loading = true;
 bool firstTime = true;
 late Map<String,dynamic> profileData;
-
+bool finsh=false;
 void main() async {
   runApp(const MyApp());
   loginData = await localFile.readLoginData();
@@ -19,6 +19,7 @@ void main() async {
   loading = false;
   print(loginData);
   if (!firstTime) {
+    print("yakaaaata");
     int idx = loginData.indexOf(":");
     String email = loginData.substring(0, idx).trim();
     String pass = loginData.substring(idx + 1).trim();
@@ -27,7 +28,8 @@ void main() async {
     print("pass");
     print(pass);
     profileData = await RoundedLogin.save2(email, pass);
-
+    print("lol");
+    finsh=true;
   }
 }
 class MyApp extends StatefulWidget {
@@ -46,7 +48,7 @@ class _MyAppState extends State<MyApp> {
       counter++;
       // You can also call here any function.
       setState(() {
-        if(loginData!=""){
+        if(loginData!=""&&finsh){
           firstTime = (loginData == "0");
           loading = false;
           _timer.cancel();
