@@ -51,8 +51,36 @@ public class CourtOwnerAgent {
         hmAns.put("courts", hmCourt);
         return new Gson().toJson(hmAns);
     }
+
+    public String addImage(String information) throws JSONException{
+        JSONObject jsonObject = new JSONObject(information);
+        Long ownerId ;
+        try {
+            ownerId  =  jsonObject.getLong("ownerID");
+        }catch (Exception e){
+            return "ownerID is required";
+        }
+        Optional<CourtOwner> optionalCourtOwner = courtOwnerRepository.findById(ownerId) ;
+        if(optionalCourtOwner.isEmpty()){
+            return "CourtOwner does not exist";
+        }
+        CourtOwner courtOwner = optionalCourtOwner.get() ;
+
+        String imageURL ;
+        try {
+            imageURL  =  jsonObject.getString("imageURL");
+            if(imageURL == null){
+                throw new NullPointerException() ;
+            }
+        }catch (Exception e){
+            return "imageURL is required";
+        }
+        courtOwner.setImage(imageURL);
+        courtOwnerRepository.save(courtOwner) ;
+        return "Success" ;
+    }
+
     public String createCourt(String information) throws JSONException {
-        //schedule missing
         JSONObject jsonObject = new JSONObject(information);
         Long ownerId ;
         try {
@@ -70,7 +98,12 @@ public class CourtOwnerAgent {
         }catch (Exception e){
             return "courtName is required";
         }
-        String description = jsonObject.getString("description");
+        String description ;
+        try {
+            description = jsonObject.getString("description");
+        }catch (Exception e){
+            description = "";
+        }
 
         Integer morningCost ;
         try {
