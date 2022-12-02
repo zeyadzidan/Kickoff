@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/Screens/login/login.dart';
+import 'package:kickoff_frontend/fixtures/widgets/login.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/application.dart';
 
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Animated Login',
+      title: 'KICKOFF',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.

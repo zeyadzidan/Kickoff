@@ -15,7 +15,8 @@ class FixtureTicket {
   late String _paidAmount;
   late bool _isValidated;
   late bool _isPending;
-  late DateTime _date;
+  late String _startDate;
+  late String _endDate;
 
   set pname(String value) {
     _pname = value;
@@ -53,8 +54,12 @@ class FixtureTicket {
     _isPending = value;
   }
 
-  set date(DateTime value) {
-    _date = value;
+  set startDate(String value) {
+    _startDate = value;
+  }
+
+  set endDate(String value) {
+    _endDate = value;
   }
 
   String get pname => _pname;
@@ -75,5 +80,7 @@ class FixtureTicket {
 
   bool get isPending => _isPending;
 
-  DateTime get date => _date;
+  String get startDate => _startDate;
+
+  String get endDate => _endDate;
 }

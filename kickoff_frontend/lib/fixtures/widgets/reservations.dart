@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
-import 'package:kickoff_frontend/fixtures/builders/fpbuilder.dart';
+import 'package:kickoff_frontend/components/builders/fixtureticketbuilder.dart';
+import 'package:kickoff_frontend/fixtures/classes/fixtureticket.dart';
+
+import '../../components/builders/ticket.dart';
+import '../../constants.dart';
+
 
 class ReservationsHome extends StatefulWidget {
   const ReservationsHome(this.info, {super.key});
   final List info;
 
   get selectedCourt => _ReservationsHomeState._selectedCourt;
+
   get selectedDate => _ReservationsHomeState._selectedDate;
+
   @override
   State<ReservationsHome> createState() => _ReservationsHomeState(info);
 }
@@ -18,7 +25,7 @@ class _ReservationsHomeState extends State<ReservationsHome> {
   _ReservationsHomeState(this._courtFixtures);
   final List _courtFixtures;
   static int _selectedCourt = 0;
-  static String _selectedDate = DateFormat.yMMMMEEEEd().format(DateTime.now());
+  static DateTime _selectedDate = DateTime.now();
 
   _onTabSelect(index) {
     _selectedCourt = index;
@@ -34,7 +41,7 @@ class _ReservationsHomeState extends State<ReservationsHome> {
     );
 
     if (dateTime != null) {
-      setState(() => _selectedDate = DateFormat.yMMMMEEEEd().format(dateTime));
+      setState(() => _selectedDate = dateTime);
     }
   }
 
@@ -55,19 +62,35 @@ class _ReservationsHomeState extends State<ReservationsHome> {
     );
   }
 
-  _buildCourts() => SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: GNav(
-      gap: 3,
-      selectedIndex: _selectedCourt,
-      onTabChange: _onTabSelect,
-      duration: const Duration(milliseconds: 300),
-      tabs: List<GButton>.generate(9, (index) =>
-          GButton(
-            icon: Icons.stadium,
-            text: "   COURT ${index + 1}",
-          )),
-    )
+  _buildCourts() => Container(
+    padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
+    decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.circular(100),
+        color: kPrimaryColor.withOpacity(0.3)
+    ),
+    margin: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+    child: SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
+        child: GNav(
+          selectedIndex: _selectedCourt,
+          onTabChange: _onTabSelect,
+          duration: const Duration(milliseconds: 300),
+          activeColor: Colors.white,
+          color: kPrimaryColor,
+          tabBackgroundColor: Colors.black.withAlpha(25),
+          tabs: List<GButton>.generate(9, (index) =>
+              GButton(
+                backgroundColor: kPrimaryColor,
+                icon: Icons.stadium,
+                text: "   COURT ${index + 1}",
+              )
+            ),
+          ),
+      ),
+      )
   );
 
   _buildDatePicker() => MaterialButton(
@@ -77,32 +100,27 @@ class _ReservationsHomeState extends State<ReservationsHome> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Icon(Icons.calendar_month),
-        Text('  $_selectedDate'),
+        Text('  ${DateFormat.yMMMMEEEEd().format(_selectedDate)}'),
       ],
     ),
   );
 
-  _buildFixtures() => SingleChildScrollView(
-      child: ExpansionPanelList(
-        animationDuration: const Duration(milliseconds: 300),
-        expandedHeaderPadding: EdgeInsets.zero,
-        dividerColor: Theme.of(context).dividerColor,
-        elevation: 4,
-        children: List<ExpansionPanel>.generate(
-            _courtFixtures[_selectedCourt][0],
-                (index) => FixturePanelBuilder().build(
-                _courtFixtures[_selectedCourt][1][index],
-                _courtFixtures[_selectedCourt][2][index],
-                _courtFixtures[_selectedCourt][3][index]
-            )
-        ),
-        expansionCallback: (i, isExpanded) =>
-            setState(
-                    () =>
-                _courtFixtures[_selectedCourt][3][i] = !isExpanded
-            ),
-      )
-  );
+  _buildFixtures() {
+    FixtureTicket ticket = FixtureTicket();
+    ticket.pname = 'Ahmed';
+    ticket.startDate = '16:00';
+    ticket.endDate = '17:00';
+    ticket.paidAmount = '200';
+    ticket.isPending = true;
+    return SingleChildScrollView(
+      child: Column(
+        children: List<Container>.generate(
+              7,
+              (index) => Ticket().build(ticket)
+        )
+      ),
+    );
+  }
 }
 
 class MyInfo {

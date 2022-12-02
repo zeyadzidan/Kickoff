@@ -2,15 +2,17 @@ import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/application.dart';
-import 'package:kickoff_frontend/components/rounded_input.dart';
+import 'package:kickoff_frontend/components/login/rounded_inpu_Username.dart';
+import 'package:kickoff_frontend/components/login/rounded_input.dart';
+import 'package:kickoff_frontend/components/login/rounded_input_login.dart';
+import 'package:kickoff_frontend/components/login/rounded_password_Signup.dart';
+import 'package:kickoff_frontend/components/login/rounded_password_input.dart';
+import 'package:kickoff_frontend/components/login/rounded_phone_number.dart';
 import 'package:kickoff_frontend/constants.dart';
-import 'package:kickoff_frontend/components/rounded_inpu_Username.dart';
-import '../../../components/rounded_password_Signup.dart';
-import 'package:kickoff_frontend/components/rounded_input_login.dart';
-import 'package:kickoff_frontend/components/rounded_password_input.dart';
-import 'package:kickoff_frontend/components/rounded_phone_number.dart';
-import 'package:kickoff_frontend/components/Sign_up_location.dart';
 import 'package:http/http.dart' as http;
+
+import 'Sign_up_location.dart';
+
 class RoundedButton extends StatelessWidget {
    RoundedButton({
     Key? key,

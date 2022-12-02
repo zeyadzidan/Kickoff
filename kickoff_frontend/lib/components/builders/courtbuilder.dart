@@ -1,4 +1,4 @@
-import '../classes/court.dart';
+import '../../fixtures/classes/court.dart';
 
 class CourtBuilder {
   late Court _court;
