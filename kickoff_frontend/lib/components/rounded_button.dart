@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:kickoff_frontend/application.dart';
 import 'package:kickoff_frontend/components/rounded_input.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/components/rounded_inpu_Username.dart';
@@ -95,6 +96,11 @@ class RoundedButton extends StatelessWidget {
             print(Password);
             RoundedInputLogin.EmailLogin.clear();
           }
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const KickoffApplication()
+          )
+        );
       },
       borderRadius: BorderRadius.circular(30),
 

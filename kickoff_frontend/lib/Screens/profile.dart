@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ProfileBaseScreen extends StatefulWidget {
@@ -24,8 +23,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   String? path;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
+        return Container(
             // decoration: BoxDecoration(
             //   border: Border(
             //     bottom: BorderSide(
@@ -192,6 +190,6 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                   ),
                 ),
               ],
-            )));
+            ));
   }
 }

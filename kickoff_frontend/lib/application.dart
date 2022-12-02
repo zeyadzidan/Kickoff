@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:kickoff_frontend/Screens/Profile.dart';
+import 'package:kickoff_frontend/Screens/login/login.dart';
 import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
 import 'package:kickoff_frontend/themes.dart';
 
 class KickoffApplication extends StatefulWidget {
   const KickoffApplication({super.key});
 
+  static bool loggedIn = false;
+
   static final List pages = [
-    const Center(child: Text("DUMMY PROFILE PAGE")),
+    const ProfileBaseScreen(),
     const Center(child: Text("ANNOUNCEMENTS FEATURE IS NOT YET IMPLEMENTED")),
-    ReservationsHome(MyInfo.info)
+    ReservationsHome(MyInfo.info),
+    LoginScreen()
   ];
 
   @override
@@ -181,7 +186,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
         GButton(
           padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
           text: "Announcements",
-          icon: Icons.notifications,
+          icon: Icons.add,
         ),
         GButton(
           padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),

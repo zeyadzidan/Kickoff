@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/Screens/login/login.dart';
-import 'package:kickoff_frontend/components/Sign_up_location.dart';
 import 'package:kickoff_frontend/constants.dart';
-import 'package:kickoff_frontend/fixtures/widgets/application.dart';
-import 'NavBar.dart';
-import 'Profile.dart';
+import 'package:kickoff_frontend/application.dart';
 
 
 void main() => runApp(
-  Builder(
-    builder: (context) =>
-        const KickoffApplication()
-  )
+  const MyApp()
 );
 
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
