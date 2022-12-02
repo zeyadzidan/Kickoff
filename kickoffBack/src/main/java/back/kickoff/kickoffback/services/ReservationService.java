@@ -1,5 +1,7 @@
 package back.kickoff.kickoffback.services;
 
+import back.kickoff.kickoffback.model.Court;
+import back.kickoff.kickoffback.model.CourtSchedule;
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.model.Reservation;
 import back.kickoff.kickoffback.repositories.PlayerRepositry;
@@ -19,6 +21,24 @@ public class ReservationService {
     @Autowired
     private final PlayerRepositry pr ;
 
+
+    private double calcTotalCost(Date stDay,Date endDay, Time stTime, Time endTime, Court court)
+    {
+        CourtSchedule courtSchedule = court.getCourtSchedule();
+        int mourningPrice = courtSchedule.getMorningCost();
+        int nightPrice = courtSchedule.getNightCost();
+        int totalCost = 0;
+        Time morning  = courtSchedule.getEndMorning();
+        if(morning.compareTo(stTime) > 0 && morning.compareTo(endTime) >= 0 && stDay.equals(endDay)){ // morning
+            totalCost = mourningPrice * (endTime.getHours()-stTime.getHours()) ;
+        }else if(morning.compareTo(stTime) <= 0 && (morning.compareTo(endTime) < 0 || !endDay.equals(stDay)) ) {//night
+            totalCost = nightPrice* ((endTime.getHours()-stTime.getHours())+24)%24 ;
+        }else{
+            totalCost = mourningPrice * (morning.getHours()-stTime.getHours()) + nightPrice*((endTime.getHours()-morning.getHours())+24)%24 ;
+        }
+
+        return totalCost ;
+    }
 
 
     public ReservationService(ReservationRepository rr, PlayerRepositry pr) {
