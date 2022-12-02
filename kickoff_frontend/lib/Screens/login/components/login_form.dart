@@ -54,7 +54,7 @@ class LoginForm extends StatelessWidget {
                 PasswordInput(),
                 SizedBox(height: 10),
 
-                RoundedLogin(title: 'LOGIN'),
+                LogiButton(),
 
                 SizedBox(height: 10),
 

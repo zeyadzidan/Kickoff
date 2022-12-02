@@ -11,42 +11,72 @@ import 'package:kickoff_frontend/components/rounded_password_input.dart';
 import 'package:kickoff_frontend/components/rounded_phone_number.dart';
 import 'package:kickoff_frontend/components/Sign_up_location.dart';
 import 'package:http/http.dart' as http;
-class RoundedLogin extends StatelessWidget {
-  RoundedLogin({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
-  final String title;
-  String url = "http://localhost:8080/signup/courtOwner";
+class LogiButton extends StatefulWidget
+{
+  @override
+  RoundedLogin createState() => RoundedLogin();
+}
+
+class RoundedLogin extends State<LogiButton> {
+  String url = "http://localhost:8080/login/courtOwner";
+  var resp=52;
+  late Map<String, dynamic> Profile_data;
   Future save() async{
     print(RoundedInput.EmailSignUp.text);
     var res= await http.post(Uri.parse(url),headers: {"Access-Control-Allow-Origin": "*","Access-Control-Allow-Credentials":"true", "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",  "Access-Control-Allow-Methods": "POST, OPTIONS" },body: json.encode(
         {
-          "email": RoundedInput.EmailSignUp.text,
-          "password": RoundedPasswordSignup.Password.text,
-          "username": RoundedInputUsername.username.text,
-          "phoneNumber": RoundedPhoneNumber.PhoneNumber.text,
-          "location": FindLocation.Locationaddress,
-          "xAxis": FindLocation.X_axis,
-          "yAxis": FindLocation.Y_axis,
-        }));
+          "email": RoundedInputLogin.EmailLogin.text,
+          "password": RoundedPasswordInput.Password.text,
+        })
+
+    );
+    setState(() {
+      Profile_data = json.decode(res.body);
+    });
     print(res.body);
   }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return InkWell(
-      onTap: () {
+      onTap: () async {
           var Email = RoundedInputLogin.EmailLogin.text;
           var Password=RoundedPasswordInput.Password.text;
           print(Email);
           print(Password);
-          RoundedInputLogin.EmailLogin.clear();
-        Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (context) => const KickoffApplication()
-            )
-        );
+          if(Email.isEmpty )
+          {
+            showAlertDialog(context,'Enter valid Email');
+            RoundedInputLogin.EmailLogin.clear();
+          }
+          else if( Password.length<6 || Password.length>15 || Password.isEmpty)
+          {
+            showAlertDialog(context,'Enter Valid Password');
+            RoundedPasswordInput.Password.clear();
+          }
+          else
+            {
+
+              var res= await save();
+              Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => KickoffApplication( data: Profile_data)
+                  )
+              );
+              /*
+              if(resp==0)
+              {
+                showAlertDialog(context,'Enter valid Data');
+                RoundedInputLogin.EmailLogin.clear();
+                RoundedPasswordInput.Password.clear();
+              }
+              else
+              {
+
+
+              }
+               */
+            }
       },
       borderRadius: BorderRadius.circular(30),
 
@@ -60,7 +90,7 @@ class RoundedLogin extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
         child: Text(
-          title,
+          'LOGIN',
           style: TextStyle(
               color: Colors.white,
               fontSize: 18

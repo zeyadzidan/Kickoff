@@ -77,7 +77,7 @@ class RoundedButton extends State<SignUpButton> {
                   showAlertDialog(context,'Enter Valid Password');
                   RoundedPasswordSignup.Password.clear();
                 }
-              else if(username.length<6 || username.length> 12)
+              else if(username.length<3 || username.length> 12)
                 {
                   showAlertDialog(context,'Enter Valid Username');
                   RoundedInputUsername.username.clear();
@@ -92,9 +92,10 @@ class RoundedButton extends State<SignUpButton> {
                   }
                 else
                   {
+                    Map<String,dynamic> lol=["mento",0] as Map<String, dynamic>;
                     Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (context) => const KickoffApplication()
+                            builder: (context) => KickoffApplication(data:lol)
                         )
                     );
                   }
