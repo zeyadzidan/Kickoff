@@ -38,9 +38,9 @@ public class BookingAgentController {
         String responseBody = bookingAgent.cancelBookedReservation(reservationId);
         try{
             Integer cost = Integer.parseInt(responseBody);
-            return new ResponseEntity<>(responseBody.toString(), HttpStatus.OK);
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>(responseBody.toString(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
         }
     }
 
