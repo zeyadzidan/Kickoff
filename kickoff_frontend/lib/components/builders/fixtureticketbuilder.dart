@@ -1,4 +1,4 @@
-import '../../fixtures/classes/fixtureticket.dart';
+import '../classes/fixtureticket.dart';
 
 class FixtureTicketBuilder {
   final FixtureTicket _fixtureTicket = FixtureTicket();

@@ -3,6 +3,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
+import 'package:kickoff_frontend/httpshandlers/newticketrequests.dart';
 import 'package:kickoff_frontend/themes.dart';
 
 import 'fixtures/widgets/profile.dart';
@@ -16,7 +17,7 @@ class KickoffApplication extends StatefulWidget {
   static final List pages = [
     const ProfileBaseScreen(),
     const Center(child: Text("ANNOUNCEMENTS FEATURE IS NOT YET IMPLEMENTED")),
-    ReservationsHome(MyInfo.info),
+    ReservationsHome(),
   ];
 
   @override
@@ -225,8 +226,8 @@ class KickoffApplicationState extends State<KickoffApplication> {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15)
       ),
       onPressed: () {
-        // Validate name constraints
-        if (!key.currentState!.validate()) {
+        // Validate name and money constraints
+            if (!key.currentState!.validate()) {
           return;
         }
 
@@ -244,12 +245,15 @@ class KickoffApplicationState extends State<KickoffApplication> {
         DateTime date = KickoffApplication.pages[_selectedPage].selectedDate;
         String formattedDate = DateFormat.yMd().format(date);
 
+        // Player Name + Amount of Money
         ticketInfo.add(court);
         ticketInfo.add(formattedDate);
         ticketInfo.add(initTime);
         ticketInfo.add(finTime);
 
-        print(ticketInfo);  // TODO: Send the creation request to back-end
+        print(ticketInfo);
+        // TODO: Test the creation request in the back-end
+        NewTicket.sendTicket(ticketInfo);
 
         ticketInfo = [];
         Navigator.pop(context);

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
-import 'package:kickoff_frontend/fixtures/classes/fixtureticket.dart';
+import 'package:kickoff_frontend/httpshandlers/courtsrequests.dart';
 
 import '../../components/builders/ticket.dart';
+import '../../components/classes/court.dart';
+import '../../components/classes/fixtureticket.dart';
 import '../../constants.dart';
 
 
 class ReservationsHome extends StatefulWidget {
-  const ReservationsHome(this.info, {super.key});
-  final List info;
+  ReservationsHome({super.key}) {
+    courts = CourtsHTTPsHandler.getCourts() as List<Court>;
+  }
 
-  get selectedCourt => _ReservationsHomeState._selectedCourt;
-
-  get selectedDate => _ReservationsHomeState._selectedDate;
+  static List<Court> courts = [];
 
   @override
   State<ReservationsHome> createState() => _ReservationsHomeState();
@@ -70,12 +71,14 @@ class _ReservationsHomeState extends State<ReservationsHome> {
           activeColor: Colors.white,
           color: kPrimaryColor,
           tabBackgroundColor: Colors.black.withAlpha(25),
-          tabs: List<GButton>.generate(9, (index) =>
-              GButton(
-                backgroundColor: kPrimaryColor,
-                icon: Icons.stadium,
-                text: "   COURT ${index + 1}",
-              )
+          tabs: List<GButton>.generate(
+              ReservationsHome.courts.length,
+              (index) =>
+                GButton(
+                  backgroundColor: kPrimaryColor,
+                  icon: Icons.stadium,
+                  text: "   ${ReservationsHome.courts[index].cname}",
+                )
             ),
           ),
       ),
@@ -101,54 +104,23 @@ class _ReservationsHomeState extends State<ReservationsHome> {
     ticket.endDate = '17:00';
     ticket.paidAmount = '200';
     ticket.isPending = false;
+
+    // TODO: Generate the list of fixtures received from backend.
+    String date = DateFormat.yMd().format(_selectedDate);
+    CourtsHTTPsHandler.sendInfo(ReservationsHome.courts[_selectedCourt].cid, date);
+    List<FixtureTicket> tickets = CourtsHTTPsHandler.getCourtFixtures() as List<FixtureTicket>;
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
           children: List<Container>.generate(
-                10,
+                tickets.length,
                 (index) {
-                  ticket.isPending = !ticket.isPending;
-                  return Ticket().build(ticket);
+                  // ticket.isPending = !ticket.isPending;
+                  return Ticket().build(tickets[index]);
                 }
           )
         ),
       ),
     );
   }
-}
-
-class MyInfo {
-  // Dummy values.
-  static final List info = [
-    [
-      3,
-      ["FIXTURE #1", "FIXTURE #2", "FIXTURE #3"],
-      [
-        "This is a description of panel 1",
-        "This is a description of panel 2",
-        "This is a description of panel 3"
-      ],
-      [false, false, false]
-    ],
-    [
-      3,
-      ["FIXTURE #4", "FIXTURE #5", "FIXTURE #6"],
-      [
-        "This is a description of panel 1",
-        "This is a description of panel 2",
-        "This is a description of panel 3"
-      ],
-      [false, false, false]
-    ],
-    [
-      3,
-      ["FIXTURE #7", "FIXTURE #8", "FIXTURE #9"],
-      [
-        "This is a description of panel 1",
-        "This is a description of panel 2",
-        "This is a description of panel 3"
-      ],
-      [false, false, false]
-    ]
-  ];
 }

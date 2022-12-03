@@ -1,11 +1,10 @@
-import '../../fixtures/classes/court.dart';
+import '../classes/court.dart';
 
 class CourtBuilder {
-  late Court _court;
+  late Court _court = Court();
 
-  Court buildOwner(value) => _court.cOwner = value;
-  Court buildCoid(value) => _court.coid = value;
-  Court buildCname(value) => _court.cname = value;
-  Court buildCid(value) => _court.cid = value;
-  Court buildDescription(value) => _court.description = value;
+  CourtBuilder buildCname(value) => _court.cname = value;
+  CourtBuilder buildCid(value) => _court.cid = value;
+
+  Court buildCourt() => _court = Court();
 }
