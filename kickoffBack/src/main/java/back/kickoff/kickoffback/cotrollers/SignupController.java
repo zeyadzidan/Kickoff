@@ -26,6 +26,7 @@ public class SignupController {
     public ResponseEntity<String> courtOwnerSignupRequest(@RequestBody String information) throws JSONException {
         System.out.println("ban7bk ya youssry");
         String response = signupService.courtOwnerSignup(information) ;
+        System.out.println(response);
         if(response.equals("Email exist") || response.equals("invalid") )
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(response, HttpStatus.CREATED);

@@ -16,8 +16,8 @@ class LogiButton extends StatefulWidget {
 }
 
 class RoundedLogin extends State<LogiButton> {
-  String url = "http://192.168.1.2:8080/login/courtOwner";
-  static String url2 = "http://192.168.1.2:8080/login/courtOwner";
+  String url = "http://192.168.1.7:8080/login/courtOwner";
+  static String url2 = "http://192.168.1.7:8080/login/courtOwner";
   var resp = 52;
   late Map<String, dynamic> Profile_data;
   Future save(email, pass) async {
@@ -84,8 +84,8 @@ class RoundedLogin extends State<LogiButton> {
             KickoffApplication.profileData = Profile_data;
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInput.Password.text);
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => KickoffApplication(Data: Profile_data)));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => KickoffApplication(Data: Profile_data)));
           }
           /*
 

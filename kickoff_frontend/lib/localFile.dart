@@ -38,7 +38,11 @@ class localFile {
       print("contents");
       print(contents);
       print("contents");
-      return (contents);
+      if (contents != "") {
+        return (contents);
+      } else {
+        return "0";
+      }
     } catch (e) {
       // If encountering an error, return 0
       return "0";
@@ -51,5 +55,12 @@ class localFile {
     print("${email}:${pass}");
     // Write the file
     return file.writeAsString("${email}:${pass}");
+  }
+
+  static Future<File> clearLoginData() async {
+    final file = await _localFile;
+    print("Clearna");
+    // Write the file
+    return file.writeAsString("");
   }
 }
