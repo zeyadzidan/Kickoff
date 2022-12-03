@@ -122,25 +122,18 @@ class RoundedButton extends State<SignUpButton> {
 }
 
 showAlertDialog(BuildContext context, text3) {
-  // Create button
-  Widget okButton = TextButton(
-    child: Text("OK"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-  // Create AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Warning"),
-    content: Text(text3),
-    actions: [
-      okButton,
-    ],
-  );
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
+  return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+            title: Text("Warning"),
+            content: Text(text3),
+            actions: [
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              ),
+            ],
+          ));
 }
