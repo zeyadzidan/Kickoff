@@ -46,7 +46,7 @@ public class ReservationService {
         this.rr = rr;
         this.pr = pr;
     }
-
+/*
     public Long tryy(Long CourtId, Long courtOwnerId){
         Player p = new Player();
         pr.save(p) ;
@@ -66,4 +66,6 @@ public class ReservationService {
         return r.getId();
     }
 
+
+ */
 }

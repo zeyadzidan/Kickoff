@@ -9,34 +9,34 @@ import java.sql.Time;
 import java.util.Objects;
 
 @ToString
-@RequiredArgsConstructor
 @Setter
 @Getter
+@NoArgsConstructor
 @Table
 @Entity
 public class Court {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
-    public String Court_Number;
+    public String courtName;
         @ManyToOne
     private CourtOwner courtOwner;
     private CourtState state;
 
-    private String discription;
+    private String description;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_court_schedule")
     public CourtSchedule courtSchedule;
 
-    public Court(String name, CourtOwner courtOwner, CourtState state, String discription, Time startWorkingHours,
-                 Time endWorkingHours, Time endMorning,Integer morningCost, Integer nightCost, Integer minBookingHours)
+    public Court(String name, CourtOwner courtOwner, CourtState state, String description, Time startWorkingHours,
+                 Time endWorkingHours, Time endMorning,Integer morningCost, Integer nightCost, Integer minBookingHours,CourtSchedule courtSchedule)
     {
-      this.Court_Number=name;
+      this.courtName =name;
       this.courtOwner = courtOwner;
       this.state = state;
-      this.discription=discription;
-      this.courtSchedule = new CourtSchedule( this.id, startWorkingHours, endWorkingHours, endMorning, morningCost, nightCost, minBookingHours) ;
+      this.description=description;
+      this.courtSchedule = courtSchedule ;
 
       }
 

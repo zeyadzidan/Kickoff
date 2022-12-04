@@ -88,6 +88,8 @@ public class BookingAgent {
 
     public String setPending(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
+        Long playerID = jsonObject.getLong("playerId");
+        String playerName = jsonObject.getString("playerName");
         Long courtId = jsonObject.getLong("courtId");
         Long courtOwnerId = jsonObject.getLong("courtOwnerId");
         String dateStrS = jsonObject.getString("startDate");
@@ -130,7 +132,7 @@ public class BookingAgent {
         if(!court.getCourtOwner().equals(courtOwnerOptional.get())){
             return "Court does not belong to the courtOwner" ;
         }
-        Reservation reservation = new Reservation(courtId, courtOwnerId, stDate, endDate, timeFrom,
+        Reservation reservation = new Reservation(playerID, playerName,courtId, courtOwnerId, stDate, endDate, timeFrom,
                 timeTo, ReservationState.Pending,0,
                 reservationService.calcTotalCost(stDate, endDate, timeFrom, timeTo, courtOptional.get()));
         reservationRepository.save(reservation);

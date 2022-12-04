@@ -9,16 +9,16 @@ import java.util.List;
 import java.util.Objects;
 
 @ToString
-@RequiredArgsConstructor
 @Setter
 @Getter
 @Table
+@NoArgsConstructor
+@Data
 @Entity
 public class CourtSchedule {
 
 
-    public CourtSchedule(Long courtID, Time startWorkingHours, Time endWorkingHours, Time endMorning, Integer morningCost, Integer nightCost, Integer minBookingHours) {
-        this.courtID = courtID;
+    public CourtSchedule(Time startWorkingHours, Time endWorkingHours, Time endMorning, Integer morningCost, Integer nightCost, Integer minBookingHours) {
         this.startWorkingHours = startWorkingHours;
         this.endWorkingHours = endWorkingHours;
         if(endMorning == null){
@@ -36,6 +36,7 @@ public class CourtSchedule {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long courtID;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -50,29 +51,15 @@ public class CourtSchedule {
     @JoinColumn(name= "fk_his", referencedColumnName = "courtID")
     List<Reservation> history ;
 
-    @Column(nullable = false)
     Time startWorkingHours ;
-    @Column(nullable = false)
     Time endWorkingHours ;
     Time endMorning ;
 
     Integer minBookingHours = 1 ;
 
-    @Column(nullable = false)
     Integer morningCost ;
 
     Integer nightCost ;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        CourtSchedule schedule = (CourtSchedule) o;
-        return courtID != null && Objects.equals(courtID, schedule.courtID);
-    }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

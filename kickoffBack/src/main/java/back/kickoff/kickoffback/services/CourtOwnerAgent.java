@@ -2,22 +2,33 @@ package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.Court;
 import back.kickoff.kickoffback.model.CourtOwner;
+import back.kickoff.kickoffback.model.CourtSchedule;
 import back.kickoff.kickoffback.model.CourtState;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.CourtRepository;
 import back.kickoff.kickoffback.repositories.ScheduleRepository;
 import com.google.gson.Gson;
-import org.hibernate.sql.exec.ExecutionException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CourtOwnerAgent {
+
+    static class FrontEndCourt{
+        Long id;
+        String name;
+        FrontEndCourt(Long id, String name){
+            this.id = id;
+            this.name = name ;
+        }
+    }
+
     private final CourtOwnerRepository courtOwnerRepository;
     private final CourtRepository courtRepository;
     private final ScheduleRepository scheduleRepository ;
@@ -39,6 +50,7 @@ public class CourtOwnerAgent {
         CourtOwner source = findCourtOwner(courtOwnerId);
         if(source == null)
             return "CourtOwner Not Found" ;
+        /*
         int n = source.getCourts().size();
         HashMap<String, Object> hmAns = new HashMap<>();
         hmAns.put("courtNumber", n);
@@ -49,8 +61,18 @@ public class CourtOwnerAgent {
             hmCourt.put(Integer.toString(i), courtsArr[i]);
         }
         hmAns.put("courts", hmCourt);
-        return new Gson().toJson(hmAns);
+
+         */
+        List<Court> courts = source.getCourts() ;
+        List<FrontEndCourt> data = new ArrayList<FrontEndCourt>() ;
+        for (Court c: courts){
+            data.add(new FrontEndCourt(c.id,c.getCourtName()));
+        }
+
+
+        return new Gson().toJson(data);
     }
+
 
     public String addImage(String information) throws JSONException{
         JSONObject jsonObject = new JSONObject(information);
@@ -150,13 +172,15 @@ public class CourtOwnerAgent {
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(ownerId);
         if(courtOwnerOptional.isEmpty())
             return "CourtOwner does not exist";
+
+        CourtSchedule courtSchedule = new CourtSchedule(startWorkingHours, endWorkingHours, endMorning, morningCost, nightCost, minBookingHours) ;
+        scheduleRepository.save(courtSchedule) ;   // heree
         Court newCourt = new Court(courtName, courtOwnerOptional.get(), CourtState.Active, description, startWorkingHours,
-                endWorkingHours, endMorning, morningCost, nightCost, minBookingHours);
+                endWorkingHours, endMorning, morningCost, nightCost, minBookingHours, courtSchedule);
         courtRepository.save(newCourt);
         CourtOwner courtOwner = courtOwnerOptional.get() ;
         courtOwner.addCourt(newCourt);
         courtOwnerRepository.save(courtOwner) ;
-        scheduleRepository.save(newCourt.getCourtSchedule()) ;
         return "Success";
     }
 }
