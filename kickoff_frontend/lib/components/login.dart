@@ -25,7 +25,7 @@ class RoundedLogin extends State<LogiButton> {
     var res = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "email": email,
+          "email": email.toLowerCase(),
           "password": pass,
         }));
     setState(() {
@@ -44,7 +44,7 @@ class RoundedLogin extends State<LogiButton> {
           "Access-Control-Allow-Methods": "POST, OPTIONS"
         },
         body: json.encode({
-          "email": email,
+          "email": email.toLowerCase(),
           "password": pass,
         }));
     print(res.body);

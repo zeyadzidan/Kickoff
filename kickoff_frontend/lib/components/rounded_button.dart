@@ -25,7 +25,7 @@ class RoundedButton extends State<SignUpButton> {
     var res = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "email": RoundedInput.EmailSignUp.text,
+          "email": RoundedInput.EmailSignUp.text.toLowerCase(),
           "password": RoundedPasswordSignup.Password.text,
           "username": RoundedInputUsername.username.text,
           "phoneNumber": RoundedPhoneNumber.PhoneNumber.text,
