@@ -6,13 +6,15 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/application.dart';
 import 'package:kickoff_frontend/localFile.dart';
 import 'package:kickoff_frontend/components/login.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 String loginData = "";
 bool loading = true;
 bool firstTime = true;
 late Map<String, dynamic> profileData;
 bool finsh = false;
-void main() async {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
   loginData = await localFile.readLoginData();
   firstTime = (loginData == "0");
