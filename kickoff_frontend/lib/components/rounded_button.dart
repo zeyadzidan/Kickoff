@@ -17,8 +17,7 @@ class SignUpButton extends StatefulWidget {
 }
 
 class RoundedButton extends State<SignUpButton> {
-  // String url = "http://localhost:8080/signup/courtOwner";
-  String url = "http://192.168.1.2:8080/signup/courtOwner";
+  String url = "http://192.168.1.7:8080/signup/courtOwner";
   var resp = "";
   late Map<String, dynamic> Profile_data;
   Future save() async {

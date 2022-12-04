@@ -7,7 +7,6 @@ import 'package:kickoff_frontend/application.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:http/http.dart' as http;
 
-
 class ProfileBaseScreen extends StatefulWidget {
   const ProfileBaseScreen({Key? key}) : super(key: key);
 
@@ -21,12 +20,17 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   String name = KickoffApplication.profileData["userName"];
   String phone = KickoffApplication.profileData["phoneNumber"];
   String address = KickoffApplication.profileData["location"];
-  bool emptyphoto = true;
   double xaxis = KickoffApplication.profileData["xAxis"];
   double yaxis = KickoffApplication.profileData["yAxis"];
   String? path;
   int id = KickoffApplication.profileData["id"];
-  String utl = KickoffApplication.profileData["image"];
+  bool foundPhoto = KickoffApplication.profileData.containsKey("image");
+  String tempUrl = "";
+  String utl = KickoffApplication.profileData.containsKey("image")
+      ? KickoffApplication.profileData["image"]
+      : "";
+  bool localPhoto = false;
+  late Path localpath;
   Future save(String file) async {
     print("lol");
     // String url = "http://192.168.1.2:8080/courtOwnerAgent/CourtOwner/addImage";
@@ -37,31 +41,32 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
     //       "ownerID": id,
     //       "imageURL": file,
     //     }));
-
   }
-void uploadimage (File file,final path2) async{
-  // FirebaseStorage storage =FirebaseStorage(storageBucket:'gs://kickoff-442cf.appspot.com');
-  // StorageReference ref = storage.ref().child(p.basename(file.path));
-  // StorageUploadTask storageUploadtask =ref.putFile(file);
-  // StorageTaskSnapshot tasksnapshot =await storageUploadtask.onComplete;
-  // String Url =await tasksnapshot.ref.getDownloadURL();
-  // print(Url);
-  UploadTask ? uploadTask;
-  final ref =FirebaseStorage.instance.ref().child(path2);
-  uploadTask = ref.putFile(file);
-  final snapshot = await uploadTask!.whenComplete(() {});
-  final Url = await snapshot.ref.getDownloadURL();
-  print(Url);
-  String url = "http://192.168.1.2:8080/courtOwnerAgent/CourtOwner/addImage";
-  print(Url.toString());
-  var res = await http.post(Uri.parse(url),
-      headers: {"Content-Type": "application/json"},
-      body: json.encode({
-        "ownerID": id,
-        "imageURL": Url.toString(),
-      }));
-  print(res.body);
-}
+
+  void uploadimage(File file, final path) async {
+    // FirebaseStorage storage =FirebaseStorage(storageBucket:'gs://kickoff-442cf.appspot.com');
+    // StorageReference ref = storage.ref().child(p.basename(file.path));
+    // StorageUploadTask storageUploadtask =ref.putFile(file);
+    // StorageTaskSnapshot tasksnapshot =await storageUploadtask.onComplete;
+    // String Url =await tasksnapshot.ref.getDownloadURL();
+    // print(Url);
+    UploadTask? uploadTask;
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTask = ref.putFile(file);
+    final snapshot = await uploadTask!.whenComplete(() {});
+    final Url = await snapshot.ref.getDownloadURL();
+    print(Url);
+    String url = "http://192.168.1.7:8080/courtOwnerAgent/CourtOwner/addImage";
+    print(Url.toString());
+    var res = await http.post(Uri.parse(url),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "ownerID": id,
+          "imageURL": Url.toString(),
+        }));
+    print(res.body);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -80,42 +85,80 @@ void uploadimage (File file,final path2) async{
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (emptyphoto) ...[
+                    if (foundPhoto) ...[
                       CircleAvatar(
+                        radius: 41,
+                        backgroundColor: Colors.black,
+                        child: CircleAvatar(
                           radius: 40,
-                          backgroundColor: Color(0xff74EDED),
-                          backgroundImage: NetworkImage(utl),
-                          )
-                    ] else ...[
-                      MaterialButton(
-                        onPressed: () async {
-                          FilePickerResult? result = await FilePicker.platform
-                              .pickFiles(
-                                  type: FileType.custom,
-                                  allowedExtensions: ['png', 'jpg']);
-
-                          // The result will be null, if the user aborted the dialog
-                          if (result != null) {
-                            File file = File(result.files.first.path!);
-                            path = result.files.first.path;
-                            final path2= 'files/${result.files.first!.name}';
-                            uploadimage(file,path2) ;
-
-                          }
-                          setState(() {
-                            path = result?.files.first.path;
-                            emptyphoto = true;
-                          });
-                        },
-                        color: Colors.blue,
-                        textColor: Colors.white,
-                        child: Icon(
-                          Icons.add,
-                          size: 40,
+                          backgroundColor: Colors.white,
+                          child: ClipOval(
+                            child: Image.network(
+                              utl,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                              frameBuilder: (context, child, frame,
+                                  wasSynchronouslyLoaded) {
+                                return child;
+                              },
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
+                            ),
+                          ),
                         ),
-                        padding: EdgeInsets.all(20),
-                        shape: CircleBorder(),
+                        // child: CircleAvatar(
+                        //   radius: 40,
+                        //   backgroundColor: Colors.white,
+                        //   backgroundImage: NetworkImage(utl),
+                        // ),
                       )
+                    ] else ...[
+                      if (localPhoto) ...[
+                        CircleAvatar(
+                            radius: 40,
+                            backgroundColor: Color(0xff74EDED),
+                            backgroundImage: Image.file(File(path!)).image
+                                as ImageProvider<Object>
+                            //     NetworkImage("https://placeimg.com/640/480/people"),
+                            )
+                      ] else ...[
+                        MaterialButton(
+                          onPressed: () async {
+                            FilePickerResult? result = await FilePicker.platform
+                                .pickFiles(
+                                    type: FileType.custom,
+                                    allowedExtensions: ['png', 'jpg']);
+
+                            // The result will be null, if the user aborted the dialog
+                            if (result != null) {
+                              File file = File(result.files.first.path!);
+                              final path2 = 'files/${result.files.first!.name}';
+                              uploadimage(file, path2);
+                              setState(() {
+                                path = result?.files.first.path;
+                                localPhoto = true;
+                              });
+                            }
+                          },
+                          color: Colors.blue,
+                          textColor: Colors.white,
+                          child: Icon(
+                            Icons.add,
+                            size: 40,
+                          ),
+                          padding: EdgeInsets.all(20),
+                          shape: CircleBorder(),
+                        )
+                      ]
                     ],
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 12, 20, 0),
