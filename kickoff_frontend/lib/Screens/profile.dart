@@ -31,17 +31,6 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
       : "";
   bool localPhoto = false;
   late Path localpath;
-  Future save(String file) async {
-    print("lol");
-    // String url = "http://192.168.1.2:8080/courtOwnerAgent/CourtOwner/addImage";
-    // print(file);
-    // var res = await http.post(Uri.parse(url),
-    //     headers: {"Content-Type": "application/json"},
-    //     body: json.encode({
-    //       "ownerID": id,
-    //       "imageURL": file,
-    //     }));
-  }
 
   void uploadimage(File file, final path) async {
     // FirebaseStorage storage =FirebaseStorage(storageBucket:'gs://kickoff-442cf.appspot.com');
@@ -64,6 +53,9 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
           "ownerID": id,
           "imageURL": Url.toString(),
         }));
+    KickoffApplication.profileData["image"] = Url;
+    print(KickoffApplication.profileData);
+    print(KickoffApplication.profileData["image"]);
     print(res.body);
   }
 

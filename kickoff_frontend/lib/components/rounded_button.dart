@@ -81,7 +81,7 @@ class RoundedButton extends State<SignUpButton> {
             Password.isEmpty) {
           showAlertDialog(context, 'Enter Valid Password');
           RoundedPasswordSignup.Password.clear();
-        } else if (username.length < 3 || username.length > 12) {
+        } else if (username.length < 3) {
           showAlertDialog(context, 'Enter Valid Username');
           RoundedInputUsername.username.clear();
         } else {
