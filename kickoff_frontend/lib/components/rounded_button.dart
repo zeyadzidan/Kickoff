@@ -71,7 +71,7 @@ class RoundedButton extends State<SignUpButton> {
         } else if (username.isEmpty) {
           showAlertDialog(context, 'Enter Valid Username');
           RoundedInputUsername.username.clear();
-        } else if (phoneNumber.isEmpty) {
+        } else if (phoneNumber.isEmpty || phoneNumber.length < 11) {
           showAlertDialog(context, 'Enter Valid phone Number');
           RoundedPhoneNumber.PhoneNumber.clear();
         } else if (Locationaddress.toString() == 'null') {

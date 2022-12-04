@@ -246,14 +246,16 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                       padding: EdgeInsets.symmetric(vertical: 10.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
-                          " \u{1F4DE} ${phone} ",
-                          style: TextStyle(
-                            letterSpacing: 0.4,
-                            fontSize: 15,
-                            // color: ,
-                          ),
-                        ),
+                        child: InkWell(
+                            child: Text(
+                              " \u{1F4DE} ${phone} ",
+                              style: TextStyle(
+                                letterSpacing: 0.4,
+                                fontSize: 15,
+                                // color: ,
+                              ),
+                            ),
+                            onTap: () => launchUrlString("tel://${phone}")),
                       ),
                     ),
                     Align(
@@ -264,8 +266,6 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                             style: TextStyle(
                               letterSpacing: 0.4,
                               fontSize: 15,
-                              color: Colors.blue,
-                              decoration: TextDecoration.underline,
                             ),
                           ),
                           onTap: () => launchUrlString(

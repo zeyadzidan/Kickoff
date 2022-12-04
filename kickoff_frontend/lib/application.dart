@@ -5,6 +5,7 @@ import 'package:kickoff_frontend/Screens/login/login.dart';
 import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
 import 'package:kickoff_frontend/localFile.dart';
 import 'package:kickoff_frontend/themes.dart';
+import 'package:kickoff_frontend/constants.dart';
 
 class KickoffApplication extends StatefulWidget {
   final Map<String, dynamic> Data;
@@ -42,9 +43,59 @@ class KickoffApplicationState extends State<KickoffApplication> {
         home: Builder(
           builder: (context) => Scaffold(
             appBar: _buildAppBar(),
-            body: Center(
-              child: KickoffApplication.pages[_selectedPage],
-            ),
+            body: Stack(children: [
+              Positioned(
+                  top: 100,
+                  right: -50,
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: const <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.black,
+                            blurRadius: 5,
+                          ),
+                        ],
+                        color: kPrimaryColor),
+                  )),
+              Positioned(
+                  top: -50,
+                  left: -50,
+                  child: Container(
+                    width: 190,
+                    height: 190,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(95),
+                        boxShadow: const <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.black,
+                            blurRadius: 5,
+                          ),
+                        ],
+                        color: kPrimaryColor),
+                  )),
+              Positioned(
+                  bottom: -100,
+                  left: -100,
+                  child: Container(
+                    width: 300,
+                    height: 300,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(150),
+                        boxShadow: const <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.black,
+                            blurRadius: 5,
+                          ),
+                        ],
+                        color: kPrimaryColor),
+                  )),
+              Center(
+                child: KickoffApplication.pages[_selectedPage],
+              ),
+            ]),
             floatingActionButton:
                 (_selectedPage == 2) ? _buildAddFixtureButton(context) : null,
             bottomNavigationBar: _buildNavBar(),
@@ -187,29 +238,39 @@ class KickoffApplicationState extends State<KickoffApplication> {
             child: const Icon(Icons.add, size: 35));
       });
 
-  _buildNavBar() => GNav(
-      gap: 7,
-      backgroundColor: Colors.green,
-      activeColor: Colors.black,
-      color: Colors.white,
-      tabBackgroundColor: Colors.black.withAlpha(25),
-      tabs: const <GButton>[
-        GButton(
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
-          text: "Profile",
-          icon: Icons.person,
+  _buildNavBar() => Container(
+        decoration: const BoxDecoration(
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.black,
+              blurRadius: 10,
+            ),
+          ],
         ),
-        GButton(
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
-          text: "Announcements",
-          icon: Icons.add,
-        ),
-        GButton(
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
-          text: "Reservations",
-          icon: Icons.stadium,
-        ),
-      ],
-      selectedIndex: _selectedPage,
-      onTabChange: _onTapSelect);
+        child: GNav(
+            gap: 7,
+            backgroundColor: Colors.green,
+            activeColor: Colors.black,
+            color: Colors.white,
+            tabBackgroundColor: Colors.black.withAlpha(25),
+            tabs: const <GButton>[
+              GButton(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+                text: "Profile",
+                icon: Icons.person,
+              ),
+              GButton(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+                text: "Announcements",
+                icon: Icons.add,
+              ),
+              GButton(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+                text: "Reservations",
+                icon: Icons.stadium,
+              ),
+            ],
+            selectedIndex: _selectedPage,
+            onTabChange: _onTapSelect),
+      );
 }
