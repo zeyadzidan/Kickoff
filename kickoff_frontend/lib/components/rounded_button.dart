@@ -17,11 +17,10 @@ class SignUpButton extends StatefulWidget {
 }
 
 class RoundedButton extends State<SignUpButton> {
-  String url = "http://192.168.1.7:8080/signup/courtOwner";
+  String url = "http://${ip}:8080/signup/courtOwner";
   var resp = "";
   late Map<String, dynamic> Profile_data;
   Future save() async {
-    print(RoundedInput.EmailSignUp.text);
     var res = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
@@ -34,16 +33,12 @@ class RoundedButton extends State<SignUpButton> {
           "yAxis": FindLocation.Y_axis,
         }));
     setState(() {
-      print("yalahwy");
-      print(res.body);
-      print("yalahwy");
       if (res.body == "invalid") {
         resp = "invalid";
       } else {
         Profile_data = jsonDecode(res.body);
       }
     });
-    print(res.body);
   }
 
   @override
@@ -58,13 +53,6 @@ class RoundedButton extends State<SignUpButton> {
         var Locationaddress = FindLocation.Locationaddress;
         var x_axis = FindLocation.X_axis;
         var y_axis = FindLocation.Y_axis;
-        print(Email);
-        print(username);
-        print(Password);
-        print(phoneNumber);
-        print(Locationaddress);
-        print(x_axis);
-        print(y_axis);
         if (Email.isEmpty) {
           showAlertDialog(context, 'Enter valid Email');
           RoundedInput.EmailSignUp.clear();
@@ -90,8 +78,6 @@ class RoundedButton extends State<SignUpButton> {
             showAlertDialog(context, 'Enter valid Email');
             RoundedInput.EmailSignUp.clear();
           } else {
-            //Map<String,dynamic> lol=["mento",0] as Map<String, dynamic>;
-
             KickoffApplication.profileData = Profile_data;
             localFile.writeLoginData(RoundedInput.EmailSignUp.text,
                 RoundedPasswordSignup.Password.text);

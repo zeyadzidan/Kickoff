@@ -10,9 +10,7 @@ import 'package:kickoff_frontend/constants.dart';
 class KickoffApplication extends StatefulWidget {
   final Map<String, dynamic> Data;
   static late Map<String, dynamic> profileData;
-  KickoffApplication({super.key, required this.Data}) {
-    print(profileData = Data);
-  }
+  KickoffApplication({super.key, required this.Data}) {}
 
   static bool loggedIn = false;
 
@@ -217,9 +215,6 @@ class KickoffApplicationState extends State<KickoffApplication> {
                                         .add(_initSelectedTime.format(context));
                                     ticketInfo
                                         .add(_finSelectedTime.format(context));
-
-                                    print(
-                                        ticketInfo); // Send the creation request to back-end
                                   },
                                   child: const Text("SUBMIT"),
                                 ),

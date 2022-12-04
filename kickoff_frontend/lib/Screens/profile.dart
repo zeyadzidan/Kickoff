@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:kickoff_frontend/constants.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:kickoff_frontend/application.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -16,6 +17,7 @@ class ProfileBaseScreen extends StatefulWidget {
 
 class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   double rating = KickoffApplication.profileData["rating"];
+  int rating2 = KickoffApplication.profileData["rating"].toInt();
   int subscribers = 0;
   String name = KickoffApplication.profileData["userName"];
   String phone = KickoffApplication.profileData["phoneNumber"];
@@ -33,20 +35,12 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   late Path localpath;
 
   void uploadimage(File file, final path) async {
-    // FirebaseStorage storage =FirebaseStorage(storageBucket:'gs://kickoff-442cf.appspot.com');
-    // StorageReference ref = storage.ref().child(p.basename(file.path));
-    // StorageUploadTask storageUploadtask =ref.putFile(file);
-    // StorageTaskSnapshot tasksnapshot =await storageUploadtask.onComplete;
-    // String Url =await tasksnapshot.ref.getDownloadURL();
-    // print(Url);
     UploadTask? uploadTask;
     final ref = FirebaseStorage.instance.ref().child(path);
     uploadTask = ref.putFile(file);
     final snapshot = await uploadTask!.whenComplete(() {});
     final Url = await snapshot.ref.getDownloadURL();
-    print(Url);
-    String url = "http://192.168.1.7:8080/courtOwnerAgent/CourtOwner/addImage";
-    print(Url.toString());
+    String url = "http://${ip}:8080/courtOwnerAgent/CourtOwner/addImage";
     var res = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
@@ -54,21 +48,11 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
           "imageURL": Url.toString(),
         }));
     KickoffApplication.profileData["image"] = Url;
-    print(KickoffApplication.profileData);
-    print(KickoffApplication.profileData["image"]);
-    print(res.body);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        // decoration: BoxDecoration(
-        //   border: Border(
-        //     bottom: BorderSide(
-        //       color: Colors.black,
-        //     ),
-        //   ),
-        // ),
         margin: const EdgeInsets.all(20),
         child: Column(
           children: [
@@ -107,21 +91,13 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                             ),
                           ),
                         ),
-                        // child: CircleAvatar(
-                        //   radius: 40,
-                        //   backgroundColor: Colors.white,
-                        //   backgroundImage: NetworkImage(utl),
-                        // ),
                       )
                     ] else ...[
                       if (localPhoto) ...[
                         CircleAvatar(
                             radius: 40,
                             backgroundColor: Color(0xff74EDED),
-                            backgroundImage: Image.file(File(path!)).image
-                                as ImageProvider<Object>
-                            //     NetworkImage("https://placeimg.com/640/480/people"),
-                            )
+                            backgroundImage: Image.file(File(path!)).image)
                       ] else ...[
                         MaterialButton(
                           onPressed: () async {
@@ -130,7 +106,6 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                                     type: FileType.custom,
                                     allowedExtensions: ['png', 'jpg']);
 
-                            // The result will be null, if the user aborted the dialog
                             if (result != null) {
                               File file = File(result.files.first.path!);
                               final path2 = 'files/${result.files.first!.name}';
@@ -164,7 +139,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                             child: Column(
                               children: [
                                 Text(
-                                  "${rating} / 5",
+                                  "${rating2} \u{2B50} ", //rememper to remove the 2 in milestone 2
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -172,10 +147,10 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                                   ),
                                 ),
                                 Text(
-                                  "Rating",
+                                  "Reviews",
                                   style: TextStyle(
                                     fontSize: 15,
-                                    letterSpacing: 0.4,
+                                    letterSpacing: 0.8,
                                     color: Colors.black,
                                   ),
                                 )
@@ -190,12 +165,12 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                           height: 60,
                           child: TextButton(
                             onPressed: () {
-                              print("Show Reviews");
+                              print("Show Subscribers");
                             },
                             child: Column(
                               children: [
                                 Text(
-                                  "${subscribers}",
+                                  "${subscribers} \u{1F464}",
                                   style: TextStyle(
                                       letterSpacing: 0.4,
                                       fontSize: 20,
@@ -244,7 +219,6 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                               style: TextStyle(
                                 letterSpacing: 0.4,
                                 fontSize: 15,
-                                // color: ,
                               ),
                             ),
                             onTap: () => launchUrlString("tel://${phone}")),

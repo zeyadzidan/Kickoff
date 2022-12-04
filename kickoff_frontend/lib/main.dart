@@ -7,6 +7,7 @@ import 'package:kickoff_frontend/application.dart';
 import 'package:kickoff_frontend/localFile.dart';
 import 'package:kickoff_frontend/components/login.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 String loginData = "";
 bool loading = true;
 bool firstTime = true;
@@ -18,21 +19,12 @@ Future main() async {
   runApp(const MyApp());
   loginData = await localFile.readLoginData();
   firstTime = (loginData == "0");
-  print("loginData");
-  print(loginData);
-  print("loginData");
   loading = false;
   if (!firstTime) {
-    print("yakaaaata");
     int idx = loginData.indexOf(":");
     String email = loginData.substring(0, idx).trim();
     String pass = loginData.substring(idx + 1).trim();
-    print("email");
-    print(email);
-    print("pass");
-    print(pass);
     profileData = await RoundedLogin.save2(email, pass);
-    print("lol");
   }
   finsh = true;
 }
@@ -50,7 +42,6 @@ class _MyAppState extends State<MyApp> {
   updateCounter() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       counter++;
-      // You can also call here any function.
       setState(() {
         if (loginData != "" && finsh) {
           firstTime = (loginData == "0");
@@ -66,9 +57,6 @@ class _MyAppState extends State<MyApp> {
     if (loginData == "") {
       updateCounter();
     }
-    print("hello");
-    print(firstTime);
-    print("hello");
     return loading
         ? MaterialApp(
             title: 'Flutter Animated Login',
@@ -86,7 +74,6 @@ class _MyAppState extends State<MyApp> {
               primarySwatch: Colors.green,
               primaryColor: kPrimaryColor,
             ),
-            // bottomNavigationBar: NavBar.navBar(),
             home: Container(
               color: Colors.white,
               child: Center(
@@ -114,7 +101,6 @@ class _MyAppState extends State<MyApp> {
                       primarySwatch: Colors.green,
                       primaryColor: kPrimaryColor,
                     ),
-                    // bottomNavigationBar: NavBar.navBar(),
                     home: LoginScreen(),
                   )
                 : MaterialApp(
@@ -133,7 +119,6 @@ class _MyAppState extends State<MyApp> {
                       primarySwatch: Colors.green,
                       primaryColor: kPrimaryColor,
                     ),
-                    // bottomNavigationBar: NavBar.navBar(),
                     home: KickoffApplication(
                       Data: profileData,
                     ),

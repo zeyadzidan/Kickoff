@@ -19,9 +19,6 @@ class FindLocation extends StatelessWidget {
             buttonColor: Color(0XFF4CAF50),
             buttonText: 'Set Location',
             onPicked: (pickedData) {
-              print(pickedData.latLong.latitude);
-              print(pickedData.latLong.longitude);
-              print(pickedData.address);
               Locationaddress = pickedData.address;
               X_axis = pickedData.latLong.latitude;
               Y_axis = pickedData.latLong.longitude;
