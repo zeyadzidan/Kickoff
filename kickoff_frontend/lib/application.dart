@@ -10,7 +10,9 @@ import 'package:kickoff_frontend/constants.dart';
 class KickoffApplication extends StatefulWidget {
   final Map<String, dynamic> Data;
   static late Map<String, dynamic> profileData;
-  KickoffApplication({super.key, required this.Data}) {}
+  KickoffApplication({super.key, required this.Data}) {
+    profileData = Data;
+  }
 
   static bool loggedIn = false;
 
