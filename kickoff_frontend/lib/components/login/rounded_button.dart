@@ -100,7 +100,7 @@ class RoundedButton extends StatelessWidget {
           }
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const KickoffApplication()
+            builder: (context) => const KickoffApplication()  // todo: apply a real court owner id
           )
         );
       },

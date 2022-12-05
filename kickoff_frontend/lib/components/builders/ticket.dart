@@ -9,9 +9,11 @@ class Ticket {
       decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(25),
-          color: (_buildBody(fixtureTicket)[0])
+          color: (_buildBody(fixtureTicket)[0] == 'Pending')
               ? Colors.yellow.withOpacity(0.3)
-              : kPrimaryColor.withOpacity(0.3)
+              : (_buildBody(fixtureTicket)[0] == 'Active')
+                ? kPrimaryColor.withOpacity(0.3)
+                : Colors.red.withOpacity(0.3) // Expired
       ),
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -30,9 +32,8 @@ class Ticket {
     'Player Name: ${fixtureTicket.pname}',
     'Start Date: ${fixtureTicket.startDate}',
     'End Date: ${fixtureTicket.endDate}',
-    'Pending Status: ${
-      (fixtureTicket.isPending) ? 'Pending' : 'Active'
-    }',
+    'State: ${fixtureTicket.state}',
     'Money Paid: ${fixtureTicket.paidAmount} EGP',
+    'Total Cost: ${fixtureTicket.totalCost} EGP',
   ];
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
+import 'package:kickoff_frontend/application.dart';
 import 'package:kickoff_frontend/httpshandlers/courtsrequests.dart';
 
 import '../../components/builders/ticket.dart';
@@ -11,7 +12,7 @@ import '../../constants.dart';
 
 class ReservationsHome extends StatefulWidget {
   ReservationsHome({super.key}) {
-    courts = CourtsHTTPsHandler.getCourts() as List<Court>;
+    courts = CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID) as List<Court>;
   }
 
   static List<Court> courts = [];
@@ -34,8 +35,12 @@ class _ReservationsHomeState extends State<ReservationsHome> {
     final DateTime? dateTime = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(DateTime.now().year - 5),
-      lastDate: DateTime(DateTime.now().year + 5),
+      firstDate: DateTime(DateTime
+          .now()
+          .year - 5),
+      lastDate: DateTime(DateTime
+          .now()
+          .year + 5),
     );
 
     if (dateTime != null) {
@@ -44,44 +49,46 @@ class _ReservationsHomeState extends State<ReservationsHome> {
   }
 
   @override
-  Widget build(BuildContext context) => Column(
-    children: [
-      _buildCourts(),
-      _buildDatePicker(),
-      _buildFixtures()
-    ],
-  );
+  Widget build(BuildContext context) =>
+      Column(
+        children: [
+          _buildCourts(),
+          _buildDatePicker(),
+          _buildFixtures()
+        ],
+      );
 
   _buildCourts() => Container(
-    padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-    decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(100),
-        color: kPrimaryColor.withOpacity(0.3)
-    ),
-    margin: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-    child: SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
-        child: GNav(
-          selectedIndex: _selectedCourt,
-          onTabChange: _onTabSelect,
-          duration: const Duration(milliseconds: 300),
-          activeColor: Colors.white,
-          color: kPrimaryColor,
-          tabBackgroundColor: Colors.black.withAlpha(25),
-          tabs: List<GButton>.generate(
-              ReservationsHome.courts.length,
-              (index) =>
-                GButton(
-                  backgroundColor: kPrimaryColor,
-                  icon: Icons.stadium,
-                  text: "   ${ReservationsHome.courts[index].cname}",
-                )
+      padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
+      decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(100),
+          color: kPrimaryColor.withOpacity(0.3)
+      ),
+      margin: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          margin: const EdgeInsets.symmetric(
+              horizontal: 0.0, vertical: 10.0),
+          child: GNav(
+            selectedIndex: _selectedCourt,
+            onTabChange: _onTabSelect,
+            duration: const Duration(milliseconds: 300),
+            activeColor: Colors.white,
+            color: kPrimaryColor,
+            tabBackgroundColor: Colors.black.withAlpha(25),
+            tabs: List<GButton>.generate(
+                ReservationsHome.courts.length,
+                    (index) =>
+                    GButton(
+                      backgroundColor: kPrimaryColor,
+                      icon: Icons.stadium,
+                      text: "   ${ReservationsHome.courts[index].cname}",
+                    )
             ),
           ),
-      ),
+        ),
       )
   );
 
@@ -103,12 +110,16 @@ class _ReservationsHomeState extends State<ReservationsHome> {
     ticket.startDate = '16:00';
     ticket.endDate = '17:00';
     ticket.paidAmount = '200';
-    ticket.isPending = false;
+    ticket.totalCost = '200';
+    ticket.state = 'Pending';
 
     // TODO: Generate the list of fixtures received from backend.
     String date = DateFormat.yMd().format(_selectedDate);
-    CourtsHTTPsHandler.sendInfo(ReservationsHome.courts[_selectedCourt].cid, date);
-    List<FixtureTicket> tickets = CourtsHTTPsHandler.getCourtFixtures() as List<FixtureTicket>;
+    List<FixtureTicket> tickets = CourtsHTTPsHandler.getCourtFixtures(
+      ReservationsHome.courts[_selectedCourt].cid,
+      KickoffApplication.OWNER_ID,
+      date
+    ) as List<FixtureTicket>;
     return Expanded(
       child: SingleChildScrollView(
         child: Column(

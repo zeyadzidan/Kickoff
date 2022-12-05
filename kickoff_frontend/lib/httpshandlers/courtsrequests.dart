@@ -3,28 +3,35 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class CourtsHTTPsHandler {
-  static String url = "http://192.168.1.49:8080/{PathOfTicketRequest}";
+  static const String port = "http://192.168.1.49:8080/";
 
-  static Future<List> getCourts() async {
-    http.Response rsp = await http.get(Uri.parse("{Backend URL of Courts}"));
+  static Future<List> getCourts(coid) async {
+    http.Response rsp = await http.get(Uri.parse("${port}courtOwnerAgent/CourtOwner/$coid/Courts"));
     // TODO: Creation of courts list.
-    return [];
+    List<Object> courts = json.decode(rsp.body).map((entry) => (entry['cid'])).toList();
+    print(courts);
+    return courts;
   }
 
-  static Future sendInfo(cid, date) async {
-    var rsp = await http.post(Uri.parse(url),
+  static Future getCourtFixtures(cid, courtOwnerId, date) async {
+    var rsp = await http.post(Uri.parse('${port}BookingAgent/reservationsOnDate'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "Court Owner ID": null // TODO: Consider saving the court owner id
+          "courtId": cid,
+          "courtOwnerId": courtOwnerId // TODO: Consider saving the court owner id
           ,
-          "Court ID": cid,
-          "Date": date
+          "date": date
         }));
+    List<Object> courtFixtures = json.decode(rsp.body).map((entry) => (entry['cid'])).toList();
+    print(courtFixtures);
+    return courtFixtures;
   }
 
-  static Future<List> getCourtFixtures() async {
-    http.Response rsp = await http.get(Uri.parse("{Backend URL of The Court Fixtures}"));
-    // TODO: Creation of tickets list.
-    return [];
-  }
+  // static Future<List> getCourtFixtures() async {
+  //   http.Response rsp = await http.get(Uri.parse('${port}BookingAgent/reservationsOnDate'));
+  //   List<Object> objects = json.decode(rsp.body).map((entry) => (entry['cid'])).toList();
+  //   print(objects);
+  //   print(rsp);
+  //   return [];
+  // }
 }

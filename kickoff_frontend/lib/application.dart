@@ -11,6 +11,7 @@ import 'fixtures/widgets/profile.dart';
 class KickoffApplication extends StatefulWidget {
   const KickoffApplication({super.key});
 
+  static late String OWNER_ID;
   static bool loggedIn = false;
 
   // Application Pages
