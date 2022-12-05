@@ -42,7 +42,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
     uploadTask = ref.putFile(file);
     final snapshot = await uploadTask!.whenComplete(() {});
     final Url = await snapshot.ref.getDownloadURL();
-    String url = "http://${ip}:8080/courtOwnerAgent/CourtOwner/addImage";
+    String url = "http://$ip:8080/courtOwnerAgent/CourtOwner/addImage";
     var res = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
@@ -251,27 +251,29 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   }
 
   _buildCourts() async {
-    await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
+    Map<String, dynamic> courts = await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
     return Expanded(
-        child: SingleChildScrollView(
-      child: Column(
+      child: SingleChildScrollView(
+        child: Column(
           children: List<Container>.generate(10 - 1, (index) {
-        return Container(
-            /*
-            decoration: BoxDecoration(
+            return Container(
+              decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(25),
-                color: kPrimaryColor.withOpacity(0.3)),
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            alignment: Alignment.center,
-            child: Column(
-              children: List<Text>.generate(
+                color: kPrimaryColor.withOpacity(0.3)
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              alignment: Alignment.center,
+              child: Column(
+                children: List<Text>.generate(
                   courts.length, (index) => Text(courts[index].asList())),
-            )
-            */
+              )
             );
-      })),
-    ));
+          }
+        )
+        ),
+      )
+    );
   }
 }

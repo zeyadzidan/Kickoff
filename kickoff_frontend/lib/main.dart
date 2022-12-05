@@ -17,8 +17,8 @@ Map<String, dynamic> data = {};
 // late Map<String, dynamic> profileData;
 //
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   runApp(const MyApp());
   loginData = await localFile.readLoginData();
   firstTime = (loginData == "0");
@@ -138,7 +138,7 @@ class _MyAppState extends State<MyApp> {
                       height: 175,
                       width: 175,
                       child:
-                          Image(image: AssetImage('assets/images/pic4.PNG'))),
+                          const Image(image: AssetImage('assets/images/pic4.PNG'))),
                 )),
               ]),
             ),

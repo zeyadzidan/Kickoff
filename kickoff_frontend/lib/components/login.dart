@@ -17,7 +17,7 @@ class LoginButton extends StatefulWidget {
 }
 
 class RoundedLogin extends State<LoginButton> {
-  static String url = "http://${ip}:8080/login/courtOwner";
+  static String url = "http://$ip:8080/login/courtOwner";
   var resp = 52;
   late Map<String, dynamic> profileData;
 
@@ -72,6 +72,8 @@ class RoundedLogin extends State<LoginButton> {
             RoundedInputLogin.EmailLogin.clear();
           } else if (profileData.length == 4) {
             showAlertDialog(context, 'Enter valid Password');
+            print('DEBUG <-- Line 73');
+            print(profileData);
             RoundedPasswordInput.Password.clear();
           } else {
             KickoffApplication.data = profileData;

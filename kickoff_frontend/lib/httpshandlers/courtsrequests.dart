@@ -6,13 +6,14 @@ import 'package:kickoff_frontend/application.dart';
 import '../constants.dart';
 
 class CourtsHTTPsHandler {
-  static const String port = "http://${ip}:8080/";
+  static const String port = "http://$ip:8080/";
 
-  static Future getCourts(coid) async {
+  static Future<Map <String, dynamic>> getCourts(coid) async {
     http.Response rsp = await http
         .get(Uri.parse("${port}courtOwnerAgent/CourtOwner/$coid/Courts"));
     // TODO: Creation of courts list.
     print(rsp.body);
+    return rsp;
   }
 
   static Future getCourtFixtures(cid, courtOwnerId, date) async {
@@ -30,7 +31,7 @@ class CourtsHTTPsHandler {
   }
 
   static Future sendCourt(courtInfo) async {
-    await http.post(Uri.parse('${port}courtOwnerAgent/CourtOwner/CreateCourt'),
+    var response = await http.post(Uri.parse('${port}courtOwnerAgent/CourtOwner/CreateCourt'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "ownerID": KickoffApplication.OWNER_ID,
@@ -42,5 +43,6 @@ class CourtsHTTPsHandler {
           "startWorkingHours": courtInfo[5],
           "finishWorkingHours": courtInfo[6],
         }));
+    print(response);
   }
 }

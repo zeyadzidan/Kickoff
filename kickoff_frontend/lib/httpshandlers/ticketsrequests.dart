@@ -7,7 +7,7 @@ import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 import '../constants.dart';
 
 class Tickets {
-  static String url = "http://${ip}:8080";
+  static String url = "http://$ip:8080";
   static Future sendTicket(FixtureTicket ticket) async {
     await http.post(Uri.parse('$url/BookingAgent/setPending'),
         headers: {"Content-Type": "application/json"},
@@ -19,7 +19,9 @@ class Tickets {
           "endDate": ticket.endDate,
           "startHour": ticket.startTime,
           "finishHour": ticket.endTime,
-    }));
+        }
+      )
+    );
   }
 
   static Future bookTicket(FixtureTicket ticket) async {
