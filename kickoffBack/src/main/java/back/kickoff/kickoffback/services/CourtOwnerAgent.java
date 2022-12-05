@@ -175,8 +175,7 @@ public class CourtOwnerAgent {
 
         CourtSchedule courtSchedule = new CourtSchedule(startWorkingHours, endWorkingHours, endMorning, morningCost, nightCost, minBookingHours);
         scheduleRepository.save(courtSchedule) ;   // heree
-        Court newCourt = new Court(courtName, courtOwnerOptional.get(), CourtState.Active, description, startWorkingHours,
-                endWorkingHours, endMorning, morningCost, nightCost, minBookingHours, courtSchedule);
+        Court newCourt = new Court(courtName, courtOwnerOptional.get(), CourtState.Active, description, courtSchedule);
         courtRepository.save(newCourt);
         CourtOwner courtOwner = courtOwnerOptional.get() ;
         courtOwner.addCourt(newCourt);

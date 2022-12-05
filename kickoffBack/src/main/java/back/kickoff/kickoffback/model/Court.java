@@ -29,8 +29,7 @@ public class Court {
     @JoinColumn(name = "fk_court_schedule")
     public CourtSchedule courtSchedule;
 
-    public Court(String name, CourtOwner courtOwner, CourtState state, String description, Time startWorkingHours,
-                 Time endWorkingHours, Time endMorning,Integer morningCost, Integer nightCost, Integer minBookingHours,CourtSchedule courtSchedule)
+    public Court(String name, CourtOwner courtOwner, CourtState state, String description,CourtSchedule courtSchedule)
     {
       this.courtName =name;
       this.courtOwner = courtOwner;
@@ -40,19 +39,4 @@ public class Court {
 
       }
 
-
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Court court = (Court) o;
-        return id != null && Objects.equals(id, court.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }
