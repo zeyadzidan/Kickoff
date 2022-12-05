@@ -125,6 +125,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
             onPressed: () async {
               localFile.clearLoginData();
               KickoffApplication.data.clear();
+              ProfileBaseScreen.path = "";
               var appDir = (await getTemporaryDirectory()).path;
               Directory(appDir).delete(recursive: true);
               Navigator.of(context)
