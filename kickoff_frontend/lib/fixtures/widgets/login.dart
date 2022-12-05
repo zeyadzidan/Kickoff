@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:kickoff_frontend/Screens/login/components/cancel_button.dart';
-import 'package:kickoff_frontend/Screens/login/components/login_form.dart';
-import 'package:kickoff_frontend/Screens/login/components/register_form.dart';
+import 'package:kickoff_frontend/components/login/cancel_button.dart';
+import 'package:kickoff_frontend/components/login/login_form.dart';
 import 'package:kickoff_frontend/constants.dart';
+
+import '../../components/login/register_form.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

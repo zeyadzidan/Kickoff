@@ -1,25 +1,27 @@
 import 'dart:convert';
 import 'dart:core';
+
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/application.dart';
-import 'package:kickoff_frontend/components/rounded_button.dart';
-import 'package:kickoff_frontend/components/rounded_input.dart';
-import 'package:kickoff_frontend/constants.dart';
-import 'package:kickoff_frontend/components/rounded_input_login.dart';
-import 'package:kickoff_frontend/components/rounded_password_input.dart';
 import 'package:http/http.dart' as http;
+import 'package:kickoff_frontend/application.dart';
+import 'package:kickoff_frontend/components/login/rounded_input_login.dart';
+import 'package:kickoff_frontend/components/login/rounded_password_input.dart';
+import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
 class LoginButton extends StatefulWidget {
+
+  const LoginButton({super.key});
+
   @override
   RoundedLogin createState() => RoundedLogin();
 }
 
 class RoundedLogin extends State<LoginButton> {
-  String url = "http://${ip}:8080/login/courtOwner";
-  static String url2 = "http://${ip}:8080/login/courtOwner";
+  static String url = "http://${ip}:8080/login/courtOwner";
   var resp = 52;
-  late Map<String, dynamic> Profile_data;
+  late Map<String, dynamic> profileData;
+
   Future save(email, pass) async {
     var res = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
@@ -27,13 +29,13 @@ class RoundedLogin extends State<LoginButton> {
           "email": email.toLowerCase(),
           "password": pass,
         }));
-    setState(() {
-      Profile_data = json.decode(res.body);
-    });
+
+    setState(() => profileData = json.decode(res.body));
+
   }
 
   static Future save2(email, pass) async {
-    var res = await http.post(Uri.parse(url2),
+    var res = await http.post(Uri.parse(url),
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Credentials": "true",
@@ -64,20 +66,24 @@ class RoundedLogin extends State<LoginButton> {
           showAlertDialog(context, 'Enter Valid Password');
           RoundedPasswordInput.Password.clear();
         } else {
-          var res = await save(RoundedInputLogin.EmailLogin.text,
+
+          await save(RoundedInputLogin.EmailLogin.text,
               RoundedPasswordInput.Password.text);
-          if (Profile_data.length == 0) {
+
+          if (profileData.isEmpty) {
             showAlertDialog(context, 'Enter valid Email');
             RoundedInputLogin.EmailLogin.clear();
-          } else if (Profile_data.length == 4) {
+          } else if (profileData.length == 4) {
             showAlertDialog(context, 'Enter valid Password');
             RoundedPasswordInput.Password.clear();
           } else {
-            KickoffApplication.profileData = Profile_data;
+            KickoffApplication.data = profileData;
+            KickoffApplication.OWNER_ID = profileData["id"].toString();
+
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInput.Password.text);
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => KickoffApplication(Data: Profile_data)));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => KickoffApplication()));
           }
         }
       },
@@ -88,9 +94,9 @@ class RoundedLogin extends State<LoginButton> {
           borderRadius: BorderRadius.circular(30),
           color: kPrimaryColor,
         ),
-        padding: EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
-        child: Text(
+        child: const Text(
           'LOGIN',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
@@ -114,4 +120,5 @@ showAlertDialog(BuildContext context, text3) {
               ),
             ],
           ));
+
 }

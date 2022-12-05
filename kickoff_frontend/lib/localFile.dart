@@ -29,6 +29,7 @@ class localFile {
       } else {
         return "0";
       }
+
     } catch (e) {
       // If encountering an error, return 0
       return "0";
@@ -38,7 +39,7 @@ class localFile {
   static Future<File> writeLoginData(email, pass) async {
     final file = await _localFile;
     // Write the file
-    return file.writeAsString("${email}:${pass}");
+    return file.writeAsString("$email:$pass");
   }
 
   static Future<File> clearLoginData() async {
