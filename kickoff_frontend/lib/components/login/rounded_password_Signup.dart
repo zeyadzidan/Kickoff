@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/input_container.dart';
+import 'package:kickoff_frontend/components/login/input_container.dart';
 import 'package:kickoff_frontend/constants.dart';
 
-class PasswordInput extends StatefulWidget
+class PasswordInputSignup extends StatefulWidget
 {
   @override
-  RoundedPasswordInput createState() => RoundedPasswordInput();
+  RoundedPasswordSignup createState() => RoundedPasswordSignup();
 }
 
-class RoundedPasswordInput extends State<PasswordInput> {
+class RoundedPasswordSignup extends State<PasswordInputSignup> {
 
   static TextEditingController Password =TextEditingController();
   var obsecuretext = true;

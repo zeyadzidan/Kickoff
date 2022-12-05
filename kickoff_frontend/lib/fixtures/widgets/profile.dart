@@ -1,10 +1,10 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/material.dart';
+
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:http/http.dart' as http;
 class ProfileBaseScreen extends StatefulWidget {
   const ProfileBaseScreen({Key? key}) : super(key: key);
 
@@ -14,9 +14,9 @@ class ProfileBaseScreen extends StatefulWidget {
 
 Future save(File file) async{
   String url = "http://localhost:8080/signup/courtOwner";
-  var stream = new http.ByteStream(file!.openRead());
+  var stream = http.ByteStream(file.openRead());
   stream.cast();
-  var length = await file!.length();
+  var length = await file.length();
   print(stream);
   /*
   var uri= Uri.parse(url);
@@ -37,14 +37,14 @@ Future save(File file) async{
    */
 }
 class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
-  double rating = KickoffApplication.profileData["rating"];
+  double rating = KickoffApplication.data["rating"];
   int subscribers = 0;
-  String name = KickoffApplication.profileData["userName"];
-  String phone = KickoffApplication.profileData["phoneNumber"];
-  String address =KickoffApplication.profileData["location"];
+  String name = KickoffApplication.data["userName"];
+  String phone = KickoffApplication.data["phoneNumber"];
+  String address =KickoffApplication.data["location"];
   bool emptyphoto = false;
-  double xaxis = KickoffApplication.profileData["xAxis"];
-  double yaxis = KickoffApplication.profileData["yAxis"];
+  double xaxis = KickoffApplication.data["xAxis"];
+  double yaxis = KickoffApplication.data["yAxis"];
   String? path;
 
   @override
@@ -70,7 +70,6 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                               radius: 40,
                               backgroundColor: Color(0xff74EDED),
                               backgroundImage: Image.file(File(path!)).image
-                                  as ImageProvider<Object>
                               //     NetworkImage("https://placeimg.com/640/480/people"),
                               )
                         ] else ...[

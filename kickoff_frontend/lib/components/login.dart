@@ -1,41 +1,39 @@
 import 'dart:convert';
 import 'dart:core';
+
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/application.dart';
-import 'package:kickoff_frontend/components/rounded_button.dart';
-import 'package:kickoff_frontend/components/rounded_input.dart';
-import 'package:kickoff_frontend/constants.dart';
-import 'package:kickoff_frontend/components/rounded_input_login.dart';
-import 'package:kickoff_frontend/components/rounded_password_input.dart';
 import 'package:http/http.dart' as http;
+import 'package:kickoff_frontend/application.dart';
+import 'package:kickoff_frontend/components/login/rounded_input_login.dart';
+import 'package:kickoff_frontend/components/login/rounded_password_input.dart';
+import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
-class LogiButton extends StatefulWidget {
+class LoginButton extends StatefulWidget {
+  const LoginButton({super.key});
+
   @override
   RoundedLogin createState() => RoundedLogin();
 }
 
-class RoundedLogin extends State<LogiButton> {
-  String url = "http://192.168.1.2:8080/login/courtOwner";
-  static String url2 = "http://192.168.1.2:8080/login/courtOwner";
+class RoundedLogin extends State<LoginButton> {
+  static String url = "http://192.168.1.2:8080/login/courtOwner";
   var resp = 52;
-  late Map<String, dynamic> Profile_data;
+  late Map<String, dynamic> profileData;
+
   Future save(email, pass) async {
-    print(RoundedInput.EmailSignUp.text);
     var res = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "email": email,
           "password": pass,
         }));
-    setState(() {
-      Profile_data = json.decode(res.body);
-    });
+    setState(() => profileData = json.decode(res.body));
     print(res.body);
   }
 
   static Future save2(email, pass) async {
-    var res = await http.post(Uri.parse(url2),
+    var res = await http.post(Uri.parse(url),
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Credentials": "true",
@@ -58,8 +56,6 @@ class RoundedLogin extends State<LogiButton> {
       onTap: () async {
         var Email = RoundedInputLogin.EmailLogin.text;
         var Password = RoundedPasswordInput.Password.text;
-        print(Email);
-        print(Password);
         if (Email.isEmpty) {
           showAlertDialog(context, 'Enter valid Email');
           RoundedInputLogin.EmailLogin.clear();
@@ -69,38 +65,23 @@ class RoundedLogin extends State<LogiButton> {
           showAlertDialog(context, 'Enter Valid Password');
           RoundedPasswordInput.Password.clear();
         } else {
-          var res = await save(RoundedInputLogin.EmailLogin.text,
+
+          await save(RoundedInputLogin.EmailLogin.text,
               RoundedPasswordInput.Password.text);
-          print(Profile_data.length);
-          if (Profile_data.length == 0) {
+          print(profileData.length);
+          if (profileData.isEmpty) {
             showAlertDialog(context, 'Enter valid Email');
             RoundedInputLogin.EmailLogin.clear();
-          } else if (Profile_data.length == 4) {
+          } else if (profileData.length == 4) {
             showAlertDialog(context, 'Enter valid Password');
             RoundedPasswordInput.Password.clear();
           } else {
-            print(Profile_data);
-            // print("\t"+Profile_data);
-            KickoffApplication.profileData = Profile_data;
+            KickoffApplication.data = profileData;
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInput.Password.text);
             Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => KickoffApplication(Data: Profile_data)));
+                MaterialPageRoute(builder: (context) => KickoffApplication()));
           }
-          /*
-
-              if(resp==0)
-              {
-                showAlertDialog(context,'Enter valid Data');
-                RoundedInputLogin.EmailLogin.clear();
-                RoundedPasswordInput.Password.clear();
-              }
-              else
-              {
-
-
-              }
-               */
         }
       },
       borderRadius: BorderRadius.circular(30),
@@ -110,9 +91,9 @@ class RoundedLogin extends State<LogiButton> {
           borderRadius: BorderRadius.circular(30),
           color: kPrimaryColor,
         ),
-        padding: EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
-        child: Text(
+        child: const Text(
           'LOGIN',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
@@ -124,14 +105,14 @@ class RoundedLogin extends State<LogiButton> {
 showAlertDialog(BuildContext context, text3) {
   // Create button
   Widget okButton = TextButton(
-    child: Text("OK"),
+    child: const Text("OK"),
     onPressed: () {
       Navigator.of(context).pop();
     },
   );
   // Create AlertDialog
   AlertDialog alert = AlertDialog(
-    title: Text("Warning"),
+    title: const Text("Warning"),
     content: Text(text3),
     actions: [
       okButton,

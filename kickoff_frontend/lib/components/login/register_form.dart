@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/Sign_up_location.dart';
-import 'package:kickoff_frontend/components/rounded_button.dart';
-import 'package:kickoff_frontend/components/rounded_inpu_Username.dart';
-import 'package:kickoff_frontend/components/rounded_input.dart';
-import 'package:kickoff_frontend/components/rounded_phone_number.dart';
-import '../../../components/rounded_password_Signup.dart';
+
+import 'Sign_up_location.dart';
+import 'rounded_button.dart';
+import 'rounded_input_Username.dart';
+import 'rounded_input.dart';
+import 'rounded_password_Signup.dart';
+import 'rounded_phone_number.dart';
+
 class RegisterForm extends StatelessWidget {
   const RegisterForm({
     Key? key,

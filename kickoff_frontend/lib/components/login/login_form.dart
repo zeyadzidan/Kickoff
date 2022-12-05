@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/rounded_button.dart';
-import 'package:kickoff_frontend/components/rounded_input_login.dart';
-import 'package:kickoff_frontend/components/rounded_password_input.dart';
+
+import 'rounded_button.dart';
+import 'rounded_input_login.dart';
+import 'rounded_password_input.dart';
 
 import '../../../components/login.dart';
 
@@ -54,7 +55,7 @@ class LoginForm extends StatelessWidget {
                 PasswordInput(),
                 SizedBox(height: 10),
 
-                LogiButton(),
+                LoginButton(),
 
                 SizedBox(height: 10),
 
