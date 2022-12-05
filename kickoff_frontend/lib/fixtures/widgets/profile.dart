@@ -17,12 +17,10 @@ import '../../httpshandlers/courtsrequests.dart';
 
 class ProfileBaseScreen extends StatefulWidget {
   const ProfileBaseScreen({Key? key}) : super(key: key);
-
+  static String? path = "";
   @override
   State<ProfileBaseScreen> createState() => _ProfileBaseScreenState();
 }
-
-String? path = "";
 
 class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   double rating = KickoffApplication.data["rating"];
@@ -39,7 +37,8 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   String utl = KickoffApplication.data.containsKey("image")
       ? KickoffApplication.data["image"]
       : "";
-  bool localPhoto = path == "" ? false : true;
+
+  bool localPhoto = ProfileBaseScreen.path == "" ? false : true;
   void uploadimage(File file, final path) async {
     UploadTask? uploadTask;
     final ref = FirebaseStorage.instance.ref().child(path);
@@ -100,7 +99,8 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                         CircleAvatar(
                             radius: 40,
                             backgroundColor: Colors.green,
-                            backgroundImage: Image.file(File(path!)).image)
+                            backgroundImage:
+                                Image.file(File(ProfileBaseScreen.path!)).image)
                       ] else ...[
                         MaterialButton(
                           onPressed: () async {
@@ -117,7 +117,8 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                               print(result?.files.last.path);
                               uploadimage(file, path2);
                               setState(() {
-                                path = result?.files.last.path;
+                                ProfileBaseScreen.path =
+                                    result?.files.last.path;
                                 localPhoto = true;
                               });
                             }
