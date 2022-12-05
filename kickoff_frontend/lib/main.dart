@@ -9,33 +9,29 @@ import 'package:kickoff_frontend/components/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 String loginData = "";
-bool loading = false;
+bool loading = true;
 bool firstTime = true;
 bool finish = false;
-
+Map<String, dynamic> data = {};
+//
+// late Map<String, dynamic> profileData;
+//
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
-  _readData();
-  _checkLogin(loginData, firstTime);
-}
-
-_readData() async {
   loginData = await localFile.readLoginData();
   firstTime = (loginData == "0");
   loading = false;
-}
-
-_checkLogin(loginData, firstTime) async {
   if (!firstTime) {
     int idx = loginData.indexOf(":");
     String email = loginData.substring(0, idx).trim();
     String pass = loginData.substring(idx + 1).trim();
-    KickoffApplication.data = await RoundedLogin.save2(email, pass);
+    data = await RoundedLogin.save2(email, pass);
+    finish = true;
+  } else {
     finish = true;
   }
-  finish = true;
 }
 
 class MyApp extends StatefulWidget {
@@ -68,7 +64,7 @@ class _MyAppState extends State<MyApp> {
     }
     return loading
         ? MaterialApp(
-            title: 'Flutter Animated Login',
+            title: 'KickOff',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               // This is the theme of your application.
@@ -147,6 +143,9 @@ class _MyAppState extends State<MyApp> {
               ]),
             ),
           )
-        : MaterialApp(home: firstTime ? LoginScreen() : KickoffApplication());
+        : MaterialApp(
+            home: firstTime
+                ? LoginScreen()
+                : KickoffApplication(profileData: data));
   }
 }
