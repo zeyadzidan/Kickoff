@@ -1,6 +1,7 @@
 package back.kickoff.kickoffback.cotrollers;
 
 import back.kickoff.kickoffback.model.Court;
+import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.services.CourtOwnerAgent;
 import back.kickoff.kickoffback.services.SignupService;
 import com.google.gson.Gson;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,6 +55,15 @@ class CourtOwnerAgentControllerTest {
     }
 
     @Test
-    void addImage() {
+    void addImage() throws JSONException {
+        HashMap<String, Object> hm = new HashMap<>();
+        hm.put("ownerID", 1L) ;
+        hm.put("imageURL", "thisIsAnImage.com") ;
+        String information = new Gson().toJson(hm);
+        Mockito.when(courtOwnerAgent.addImage(information)).thenReturn("Success");
+
+        ResponseEntity<String> res = courtOwnerAgentController.addImage(information);
+
+        assertEquals(res, new ResponseEntity<>("Success", HttpStatus.OK));
     }
 }

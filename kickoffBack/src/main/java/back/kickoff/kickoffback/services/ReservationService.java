@@ -16,36 +16,26 @@ import java.sql.Time;
 @Service
 public class ReservationService {
 
-    @Autowired
-    private final ReservationRepository rr ;
-
-    @Autowired
-    private final PlayerRepositry pr ;
-
 
     public int calcTotalCost(Date stDay,Date endDay, Time stTime, Time endTime, Court court)
     {
         CourtSchedule courtSchedule = court.getCourtSchedule();
         int mourningPrice = courtSchedule.getMorningCost();
         int nightPrice = courtSchedule.getNightCost();
-        int totalCost = 0;
+        int totalCost ;
         Time morning  = courtSchedule.getEndMorning();
         if(morning.compareTo(stTime) > 0 && morning.compareTo(endTime) >= 0 && stDay.equals(endDay)){ // morning
             totalCost = mourningPrice * (endTime.getHours()-stTime.getHours()) ;
         }else if(morning.compareTo(stTime) <= 0 && (morning.compareTo(endTime) < 0 || !endDay.equals(stDay)) ) {//night
             totalCost = nightPrice* ((endTime.getHours()-stTime.getHours())+24)%24 ;
         }else{
-            totalCost = mourningPrice * (morning.getHours()-stTime.getHours()) + nightPrice*((endTime.getHours()-morning.getHours())+24)%24 ;
+            totalCost = mourningPrice * (morning.getHours()-stTime.getHours()) + nightPrice*(((endTime.getHours()-morning.getHours())+24)%24) ;
         }
 
         return totalCost ;
     }
 
 
-    public ReservationService(ReservationRepository rr, PlayerRepositry pr) {
-        this.rr = rr;
-        this.pr = pr;
-    }
 /*
     public Long tryy(Long CourtId, Long courtOwnerId){
         Player p = new Player();

@@ -48,7 +48,19 @@ class CourtOwnerAgentTest {
     }
 
     @Test
-    void addImage() {
+    void addImage() throws JSONException {
+        HashMap<String, Object> hm = new HashMap<>();
+        hm.put("ownerID", 1L) ;
+        hm.put("imageURL", "thisIsAnImage.com") ;
+        String information = new Gson().toJson(hm);
+        CourtOwner courtOwner = new CourtOwner() ;
+        Mockito.when(courtOwnerRepository.findById(1L)).thenReturn(Optional.of(courtOwner));
+        Mockito.when(courtOwnerRepository.save(courtOwner)).thenReturn(courtOwner);
+
+        String res = courtOwnerAgent.addImage(information);
+
+        assertEquals(res, "Success");
+
     }
 
     @Test
