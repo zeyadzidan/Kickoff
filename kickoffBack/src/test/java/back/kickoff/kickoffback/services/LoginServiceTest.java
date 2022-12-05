@@ -31,12 +31,6 @@ class LoginServiceTest {
 
     @Test
     void courtOwnerLogin() throws JSONException {
-        HashMap<String, Object> hm = new HashMap<>();
-        hm.put("email", "nasrClub@gmail.com");
-        hm.put("password", "12345678900");
-        String information = new Gson().toJson(hm);
-        when(courtOwnerRepository.save(new CourtOwner())).thenReturn(new CourtOwner());
-        String res = loginService.courtOwnerLogin(information);
         CourtOwner newCourtOwner = new CourtOwner("Nasr CLub", "nasrClub@gmail.com", "12345678900",
                 "01206555589", 44.5, 44.5);
         newCourtOwner.setRating(0);
@@ -44,6 +38,12 @@ class LoginServiceTest {
         newCourtOwner.setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png");
         List list = new ArrayList();
         newCourtOwner.setCourts(list);
-        assertEquals(new Gson().toJson(newCourtOwner), res);
+        HashMap<String, Object> hm = new HashMap<>();
+        hm.put("email", "nasrClub@gmail.com");
+        hm.put("password", "12345678900");
+        String information = new Gson().toJson(hm);
+        when(courtOwnerRepository.save(new CourtOwner())).thenReturn(new CourtOwner());
+        String res = loginService.courtOwnerLogin(information);
+        assertEquals(res,"Not found");
     }
 }
