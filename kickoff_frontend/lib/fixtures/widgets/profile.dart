@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -9,32 +10,31 @@ import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:http/http.dart' as http;
+
 class ProfileBaseScreen extends StatefulWidget {
   const ProfileBaseScreen({Key? key}) : super(key: key);
-
+  static String? path = "";
   @override
   State<ProfileBaseScreen> createState() => _ProfileBaseScreenState();
 }
 
-String? path = "";
-
-
 class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
-  double rating = KickoffApplication.profileData["rating"];
-  int rating2 = KickoffApplication.profileData["rating"].toInt();
+  double rating = KickoffApplication.data["rating"];
+  int rating2 = KickoffApplication.data["rating"].toInt();
   int subscribers = 0;
-  String name = KickoffApplication.profileData["userName"];
-  String phone = KickoffApplication.profileData["phoneNumber"];
-  String address = KickoffApplication.profileData["location"];
-  double xaxis = KickoffApplication.profileData["xAxis"];
-  double yaxis = KickoffApplication.profileData["yAxis"];
-  int id = KickoffApplication.profileData["id"];
-  bool foundPhoto = KickoffApplication.profileData.containsKey("image");
+  String name = KickoffApplication.data["userName"];
+  String phone = KickoffApplication.data["phoneNumber"];
+  String address = KickoffApplication.data["location"];
+  double xaxis = KickoffApplication.data["xAxis"];
+  double yaxis = KickoffApplication.data["yAxis"];
+  int id = KickoffApplication.data["id"];
+  bool foundPhoto = KickoffApplication.data.containsKey("image");
   String tempUrl = "";
-  String utl = KickoffApplication.profileData.containsKey("image")
-      ? KickoffApplication.profileData["image"]
+  String utl = KickoffApplication.data.containsKey("image")
+      ? KickoffApplication.data["image"]
       : "";
-  bool localPhoto = path == "" ? false : true;
+
+  bool localPhoto = ProfileBaseScreen.path == "" ? false : true;
   void uploadimage(File file, final path) async {
     UploadTask? uploadTask;
     final ref = FirebaseStorage.instance.ref().child(path);
@@ -48,7 +48,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
           "ownerID": id,
           "imageURL": Url.toString(),
         }));
-    KickoffApplication.profileData["image"] = Url;
+    KickoffApplication.data["image"] = Url;
   }
 
   @override
@@ -95,7 +95,8 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                         CircleAvatar(
                             radius: 40,
                             backgroundColor: Colors.green,
-                            backgroundImage: Image.file(File(path!)).image)
+                            backgroundImage:
+                                Image.file(File(ProfileBaseScreen.path!)).image)
                       ] else ...[
                         MaterialButton(
                           onPressed: () async {
@@ -107,12 +108,13 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                             if (result != null) {
                               File file = File(result.files.last.path!);
                               final path2 =
-                                  'files/${KickoffApplication.profileData["id"].toString()}.${result?.files.last.extension}';
+                                  'files/${KickoffApplication.data["id"].toString()}.${result?.files.last.extension}';
                               print(result);
                               print(result?.files.last.path);
                               uploadimage(file, path2);
                               setState(() {
-                                path = result?.files.last.path;
+                                ProfileBaseScreen.path =
+                                    result?.files.last.path;
                                 localPhoto = true;
                               });
                             }

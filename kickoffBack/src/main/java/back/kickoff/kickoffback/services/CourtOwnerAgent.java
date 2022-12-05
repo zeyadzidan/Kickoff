@@ -68,7 +68,7 @@ public class CourtOwnerAgent {
         for (Court c: courts){
             data.add(new FrontEndCourt(c.id,c.getCourtName()));
         }
-
+        System.out.println(data);
 
         return new Gson().toJson(data);
     }

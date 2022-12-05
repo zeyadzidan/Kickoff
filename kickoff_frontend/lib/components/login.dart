@@ -10,7 +10,6 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
 class LoginButton extends StatefulWidget {
-
   const LoginButton({super.key});
 
   @override
@@ -31,7 +30,6 @@ class RoundedLogin extends State<LoginButton> {
         }));
 
     setState(() => profileData = json.decode(res.body));
-
   }
 
   static Future save2(email, pass) async {
@@ -66,7 +64,6 @@ class RoundedLogin extends State<LoginButton> {
           showAlertDialog(context, 'Enter Valid Password');
           RoundedPasswordInput.Password.clear();
         } else {
-
           await save(RoundedInputLogin.EmailLogin.text,
               RoundedPasswordInput.Password.text);
 
@@ -82,8 +79,9 @@ class RoundedLogin extends State<LoginButton> {
 
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInput.Password.text);
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => KickoffApplication()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    KickoffApplication(profileData: profileData)));
           }
         }
       },
@@ -120,5 +118,4 @@ showAlertDialog(BuildContext context, text3) {
               ),
             ],
           ));
-
 }

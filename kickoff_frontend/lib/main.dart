@@ -9,39 +9,31 @@ import 'package:kickoff_frontend/components/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 String loginData = "";
-bool loading = false;
+bool loading = true;
 bool firstTime = true;
 bool finish = false;
+Map<String, dynamic> data = {};
+//
+// late Map<String, dynamic> profileData;
+//
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
-  _readData();
-  _checkLogin(loginData, firstTime);
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-_readData () async {
   loginData = await localFile.readLoginData();
   firstTime = (loginData == "0");
   loading = false;
-}
-
-_checkLogin(loginData, firstTime) async {
   if (!firstTime) {
     int idx = loginData.indexOf(":");
     String email = loginData.substring(0, idx).trim();
     String pass = loginData.substring(idx + 1).trim();
-    KickoffApplication.data = await RoundedLogin.save2(email, pass);
+    data = await RoundedLogin.save2(email, pass);
+    finish = true;
+  } else {
     finish = true;
   }
-  finsh = true;
 }
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -56,7 +48,7 @@ class _MyAppState extends State<MyApp> {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       counter++;
       setState(() {
-        if(loginData != "" && finish){
+        if (loginData != "" && finish) {
           firstTime = (loginData == "0");
           loading = false;
           _timer.cancel();
@@ -66,14 +58,13 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-
-  Widget build(BuildContext context)  {
-    if(loginData == "") {
+  Widget build(BuildContext context) {
+    if (loginData == "") {
       updateCounter();
     }
     return loading
         ? MaterialApp(
-            title: 'Flutter Animated Login',
+            title: 'KickOff',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               // This is the theme of your application.
@@ -155,9 +146,6 @@ class _MyAppState extends State<MyApp> {
         : MaterialApp(
             home: firstTime
                 ? LoginScreen()
-                : KickoffApplication(
-                    Data: profileData,
-                  ));
+                : KickoffApplication(profileData: data));
   }
 }
-
