@@ -15,6 +15,8 @@ class ProfileBaseScreen extends StatefulWidget {
   State<ProfileBaseScreen> createState() => _ProfileBaseScreenState();
 }
 
+String? path = "";
+
 class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   double rating = KickoffApplication.profileData["rating"];
   int rating2 = KickoffApplication.profileData["rating"].toInt();
@@ -24,16 +26,13 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   String address = KickoffApplication.profileData["location"];
   double xaxis = KickoffApplication.profileData["xAxis"];
   double yaxis = KickoffApplication.profileData["yAxis"];
-  String? path;
   int id = KickoffApplication.profileData["id"];
   bool foundPhoto = KickoffApplication.profileData.containsKey("image");
   String tempUrl = "";
   String utl = KickoffApplication.profileData.containsKey("image")
       ? KickoffApplication.profileData["image"]
       : "";
-  bool localPhoto = false;
-  late Path localpath;
-
+  bool localPhoto = path == "" ? false : true;
   void uploadimage(File file, final path) async {
     UploadTask? uploadTask;
     final ref = FirebaseStorage.instance.ref().child(path);
@@ -63,32 +62,29 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                   children: [
                     if (foundPhoto) ...[
                       CircleAvatar(
-                        radius: 41,
-                        backgroundColor: Colors.black,
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundColor: Colors.white,
-                          child: ClipOval(
-                            child: Image.network(
-                              utl,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                              frameBuilder: (context, child, frame,
-                                  wasSynchronouslyLoaded) {
+                        radius: 40,
+                        backgroundColor: Colors.green,
+                        child: ClipOval(
+                          child: Image.network(
+                            utl,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                            frameBuilder: (context, child, frame,
+                                wasSynchronouslyLoaded) {
+                              return child;
+                            },
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
                                 return child;
-                              },
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child;
-                                } else {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-                              },
-                            ),
+                              } else {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                );
+                              }
+                            },
                           ),
                         ),
                       )
@@ -96,7 +92,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                       if (localPhoto) ...[
                         CircleAvatar(
                             radius: 40,
-                            backgroundColor: Color(0xff74EDED),
+                            backgroundColor: Colors.green,
                             backgroundImage: Image.file(File(path!)).image)
                       ] else ...[
                         MaterialButton(
@@ -107,11 +103,14 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                                     allowedExtensions: ['png', 'jpg']);
 
                             if (result != null) {
-                              File file = File(result.files.first.path!);
-                              final path2 = 'files/${result.files.first!.name}';
+                              File file = File(result.files.last.path!);
+                              final path2 =
+                                  'files/${KickoffApplication.profileData["id"].toString()}.${result?.files.last.extension}';
+                              print(result);
+                              print(result?.files.last.path);
                               uploadimage(file, path2);
                               setState(() {
-                                path = result?.files.first.path;
+                                path = result?.files.last.path;
                                 localPhoto = true;
                               });
                             }

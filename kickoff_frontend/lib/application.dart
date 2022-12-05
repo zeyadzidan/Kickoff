@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kickoff_frontend/Screens/Profile.dart';
@@ -6,14 +8,16 @@ import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
 import 'package:kickoff_frontend/localFile.dart';
 import 'package:kickoff_frontend/themes.dart';
 import 'package:kickoff_frontend/constants.dart';
+import 'package:path_provider/path_provider.dart';
 
 class KickoffApplication extends StatefulWidget {
   final Map<String, dynamic> Data;
   static late Map<String, dynamic> profileData;
   KickoffApplication({super.key, required this.Data}) {
     profileData = Data;
+    OWNER_ID = profileData["id"].toString();
   }
-
+  late String OWNER_ID;
   static bool loggedIn = false;
 
   static final List pages = [
@@ -114,8 +118,10 @@ class KickoffApplicationState extends State<KickoffApplication> {
           IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'Show Snackbar',
-            onPressed: () {
+            onPressed: () async {
               localFile.clearLoginData();
+              var appDir = (await getTemporaryDirectory()).path;
+              new Directory(appDir).delete(recursive: true);
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => LoginScreen()));
             },

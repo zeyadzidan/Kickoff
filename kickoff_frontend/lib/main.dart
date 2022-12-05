@@ -76,53 +76,73 @@ class _MyAppState extends State<MyApp> {
             ),
             home: Container(
               color: Colors.white,
-              child: Center(
-                  child: SizedBox(
-                      width: 200,
-                      height: 200,
-                      child: CircularProgressIndicator())),
+              child: Stack(children: [
+                Positioned(
+                    top: 100,
+                    right: -50,
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          boxShadow: const <BoxShadow>[
+                            BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 5,
+                            ),
+                          ],
+                          color: kPrimaryColor),
+                    )),
+                Positioned(
+                    top: -50,
+                    left: -50,
+                    child: Container(
+                      width: 190,
+                      height: 190,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(95),
+                          boxShadow: const <BoxShadow>[
+                            BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 5,
+                            ),
+                          ],
+                          color: kPrimaryColor),
+                    )),
+                Positioned(
+                    bottom: -100,
+                    left: -100,
+                    child: Container(
+                      width: 300,
+                      height: 300,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(150),
+                          boxShadow: const <BoxShadow>[
+                            BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 5,
+                            ),
+                          ],
+                          color: kPrimaryColor),
+                    )),
+                Center(
+                    child: SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: Container(
+                      height: 175,
+                      width: 175,
+                      child:
+                          Image(image: AssetImage('assets/images/pic4.PNG'))),
+                )),
+              ]),
             ),
           )
         : MaterialApp(
             home: firstTime
-                ? MaterialApp(
-                    title: 'Flutter Animated Login',
-                    debugShowCheckedModeBanner: false,
-                    theme: ThemeData(
-                      // This is the theme of your application.
-                      //
-                      // Try running your application with "flutter run". You'll see the
-                      // application has a blue toolbar. Then, without quitting the app, try
-                      // changing the primarySwatch below to Colors.green and then invoke
-                      // "hot reload" (press "r" in the console where you ran "flutter run",
-                      // or simply save your changes to "hot reload" in a Flutter IDE).
-                      // Notice that the counter didn't reset back to zero; the application
-                      // is not restarted.
-                      primarySwatch: Colors.green,
-                      primaryColor: kPrimaryColor,
-                    ),
-                    home: LoginScreen(),
-                  )
-                : MaterialApp(
-                    title: 'Flutter Animated Login',
-                    debugShowCheckedModeBanner: false,
-                    theme: ThemeData(
-                      // This is the theme of your application.
-                      //
-                      // Try running your application with "flutter run". You'll see the
-                      // application has a blue toolbar. Then, without quitting the app, try
-                      // changing the primarySwatch below to Colors.green and then invoke
-                      // "hot reload" (press "r" in the console where you ran "flutter run",
-                      // or simply save your changes to "hot reload" in a Flutter IDE).
-                      // Notice that the counter didn't reset back to zero; the application
-                      // is not restarted.
-                      primarySwatch: Colors.green,
-                      primaryColor: kPrimaryColor,
-                    ),
-                    home: KickoffApplication(
-                      Data: profileData,
-                    ),
-                  ),
-          );
+                ? LoginScreen()
+                : KickoffApplication(
+                    Data: profileData,
+                  ));
   }
 }

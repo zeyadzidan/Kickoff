@@ -35,7 +35,10 @@ class RoundedButton extends State<SignUpButton> {
     setState(() {
       if (res.body == "invalid") {
         resp = "invalid";
+      } else if (res.body == "Email exist") {
+        resp = "Email exist";
       } else {
+        resp = "";
         Profile_data = jsonDecode(res.body);
       }
     });
@@ -76,6 +79,9 @@ class RoundedButton extends State<SignUpButton> {
           var res = await save();
           if (resp == "invalid") {
             showAlertDialog(context, 'Enter valid Email');
+            RoundedInput.EmailSignUp.clear();
+          } else if (resp == "Email exist") {
+            showAlertDialog(context, 'Email already Exist');
             RoundedInput.EmailSignUp.clear();
           } else {
             KickoffApplication.profileData = Profile_data;
