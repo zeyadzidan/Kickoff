@@ -43,7 +43,8 @@ class LoginServiceTest {
         hm.put("password", "12345678900");
         String information = new Gson().toJson(hm);
         when(courtOwnerRepository.save(new CourtOwner())).thenReturn(new CourtOwner());
+        when(courtOwnerRepository.findByEmail("nasrClub@gmail.com")).thenReturn(java.util.Optional.of(newCourtOwner));
         String res = loginService.courtOwnerLogin(information);
-        assertEquals(res,"Not found");
+        assertEquals(res,new Gson().toJson(newCourtOwner));
     }
 }
