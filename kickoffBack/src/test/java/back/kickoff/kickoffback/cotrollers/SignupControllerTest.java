@@ -36,12 +36,13 @@ class SignupControllerTest {
         hm.put("email", "nasrClub@gmail.com");
         hm.put("password", "12345678900");
         hm.put("username", "Nasr CLub");
-        hm.put("location", "Nasr CLub");
+        hm.put("location", "Nasr CLub green plaza");
         hm.put("phoneNumber", "01206555589");
         hm.put("xAxis", 44.5);
         hm.put("yAxis", 44.5);
         String information = new Gson().toJson(hm);
-        when(signupService.courtOwnerSignup(information)).thenReturn(1);
+        //abdelaziz
+        when(signupService.courtOwnerSignup(information)).thenReturn("Success");
         ResponseEntity<String> res =controller.courtOwnerSignupRequest(information);
         assertEquals(res, new ResponseEntity<>("1", HttpStatus.CREATED));
     }

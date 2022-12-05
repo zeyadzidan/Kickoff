@@ -39,7 +39,8 @@ class SignupServiceTest {
         hm.put("yAxis", 44.5);
         String information = new Gson().toJson(hm);
         when(courtOwnerRepository.save(new CourtOwner())).thenReturn(new CourtOwner());
-        int res = signupService.courtOwnerSignup(information);
-        assertEquals(res, 1);
+        //abdelaziz
+        String res = signupService.courtOwnerSignup(information);
+        assertEquals(res, "Succes");
     }
 }

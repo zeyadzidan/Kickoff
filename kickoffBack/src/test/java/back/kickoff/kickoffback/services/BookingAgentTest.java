@@ -99,6 +99,8 @@ class BookingAgentTest {
         hm.put("endDate", "2022//12//16");
         hm.put("startHour", 2);
         hm.put("finishHour", 4);
+        hm.put("playerId", 44L);
+        hm.put("playerName", "Abdelrahman Gad");
         Court court = new Court();
         CourtSchedule schedule = new CourtSchedule();
         schedule.setPendingReservations(new ArrayList<Reservation>());
