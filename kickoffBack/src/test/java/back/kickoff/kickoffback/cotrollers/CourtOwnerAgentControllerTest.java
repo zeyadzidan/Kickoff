@@ -30,8 +30,8 @@ class CourtOwnerAgentControllerTest {
 
     @Test
     void listCourts() {
-        Mockito.when(courtOwnerAgent.findCourtOwnerCourts(22L)).thenReturn(String.valueOf(new ArrayList<Court>()));
-        ResponseEntity<String> res = courtOwnerAgentController.listCourts("22");
+        Mockito.when(courtOwnerAgent.findCourtOwnerCourts(1L)).thenReturn(String.valueOf(new ArrayList<Court>()));
+        ResponseEntity<String> res = courtOwnerAgentController.listCourts("1");
         assertEquals(res, new ResponseEntity<>("[]", HttpStatus.OK));
     }
 
