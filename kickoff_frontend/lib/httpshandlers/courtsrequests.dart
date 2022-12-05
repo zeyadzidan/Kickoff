@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../constants.dart';
+
 class CourtsHTTPsHandler {
-  static const String port = "http://192.168.1.49:8080/";
+  static const String port = "http://$ip:8080/";
 
   static Future<List> getCourts(coid) async {
     http.Response rsp = await http.get(Uri.parse("${port}courtOwnerAgent/CourtOwner/$coid/Courts"));
@@ -27,11 +29,20 @@ class CourtsHTTPsHandler {
     return courtFixtures;
   }
 
-  // static Future<List> getCourtFixtures() async {
-  //   http.Response rsp = await http.get(Uri.parse('${port}BookingAgent/reservationsOnDate'));
-  //   List<Object> objects = json.decode(rsp.body).map((entry) => (entry['cid'])).toList();
-  //   print(objects);
-  //   print(rsp);
-  //   return [];
-  // }
+  static Future sendCourt(courtInfo) async {
+    await http.post(Uri.parse('${port}courtOwnerAgent/CourtOwner/CreateCourt'),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(
+            {
+              "courtName": courtInfo[0],
+              "description": courtInfo[1],
+              "morningCost": courtInfo[2],
+              "nightCost": courtInfo[3],
+              "minBookingHours": courtInfo[4],
+              "startWorkingHours": courtInfo[5],
+              "finishWorkingHours": courtInfo[6],
+            }
+        )
+    );
+  }
 }

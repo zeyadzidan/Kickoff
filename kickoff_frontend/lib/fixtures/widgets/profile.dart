@@ -2,14 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:kickoff_frontend/components/classes/court.dart';
 import 'package:kickoff_frontend/constants.dart';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application.dart';
+import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:http/http.dart' as http;
+
+import '../../httpshandlers/courtsrequests.dart';
 
 class ProfileBaseScreen extends StatefulWidget {
   const ProfileBaseScreen({Key? key}) : super(key: key);
@@ -243,7 +247,39 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                 ),
               ),
             ),
+            _buildCourts()
           ],
         ));
   }
+
+  _buildCourts() {
+    Court court = Court();
+    List<dynamic> courts = CourtsHTTPsHandler.getCourts(
+        KickoffApplication.OWNER_ID) as List<dynamic>;
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+            children: List<Container>.generate(courts.length - 1, (index) {
+              return Container(
+                decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(25),
+                    color: kPrimaryColor.withOpacity(0.3)
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                alignment: Alignment.center,
+                child: Column(
+                  children: List<Text>.generate(courts.length, (index) =>
+                      Text(courts[index].asList())
+                  ),
+                )
+              );
+            }
+          )
+        ),
+      )
+    );
+  }
+
 }

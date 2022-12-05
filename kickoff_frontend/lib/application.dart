@@ -5,6 +5,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
+import 'package:kickoff_frontend/httpshandlers/courtsrequests.dart';
 import 'package:kickoff_frontend/localFile.dart';
 import 'package:kickoff_frontend/httpshandlers/newticketrequests.dart';
 import 'package:kickoff_frontend/themes.dart';
@@ -18,6 +19,7 @@ class KickoffApplication extends StatefulWidget {
   final Map<String, dynamic> profileData;
   KickoffApplication({super.key, required this.profileData}) {
     data = profileData;
+    OWNER_ID = profileData["id"].toString();
   }
 
   static late String OWNER_ID = "";
@@ -105,7 +107,11 @@ class KickoffApplicationState extends State<KickoffApplication> {
               ),
             ]),
             floatingActionButton:
-                (_selectedPage == 2) ? _buildAddFixtureButton(context) : null,
+                (_selectedPage == 0)
+                    ? _buildAddCourtButton(context)
+                    : (_selectedPage == 2)
+                        ? _buildAddFixtureButton(context)
+                        : null,
             bottomNavigationBar: _buildNavBar(),
           ),
         ));
@@ -135,6 +141,201 @@ class KickoffApplicationState extends State<KickoffApplication> {
         centerTitle: true,
         backgroundColor: Colors.green,
       );
+
+  _buildAddCourtButton(context) => Builder(builder: (context) {
+    GlobalKey<FormState> key = GlobalKey();
+    List<String> courtInfo = <String>[];
+    return FloatingActionButton(
+      onPressed: () => showModalBottomSheet(
+        elevation: 4,
+        context: context,
+          builder: (context) => SizedBox(
+          height: 350,
+          child: SingleChildScrollView(
+              child: Form(
+                key: key,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(
+                  vertical: 25.0, horizontal: 25.0),
+                  child: Column(
+                  children: [
+                        TextFormField(
+                          maxLength: 32,
+                          autofocus: true,
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.stadium, color: kPrimaryColor),
+                            labelText: "Enter court name",
+                            labelStyle: TextStyle(color: kPrimaryColor),
+                            focusColor: kPrimaryColor,
+                            border: UnderlineInputBorder(),
+                          ),
+                          validator: (input) {
+                            if (input!.isEmpty) {
+                              return "This field can't be blank.";
+                            }
+                            key.currentState!.save();
+                          },
+                          onSaved: (value) => courtInfo.add(value!),
+                        ),
+                        TextFormField(
+                          maxLength: 32,
+                          autofocus: true,
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.description, color: kPrimaryColor),
+                            labelText: "Enter court description",
+                            labelStyle: TextStyle(color: kPrimaryColor),
+                            focusColor: kPrimaryColor,
+                            border: UnderlineInputBorder(),
+                          ),
+                          validator: (input) {
+                            if (input!.isEmpty) {
+                              return "This field can't be blank.";
+                            }
+                            key.currentState!.save();
+                          },
+                          onSaved: (value) => courtInfo.add(value!),
+                        ),
+                        TextFormField(
+                          maxLength: 32,
+                          autofocus: true,
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.monetization_on, color: kPrimaryColor),
+                            labelText: "Enter morning hour cost",
+                            labelStyle: TextStyle(color: kPrimaryColor),
+                            focusColor: kPrimaryColor,
+                            border: UnderlineInputBorder(),
+                          ),
+                          validator: (input) {
+                            if (input!.isEmpty) {
+                              return "This field can't be blank.";
+                            }
+                            key.currentState!.save();
+                          },
+                          onSaved: (value) => courtInfo.add(value!),
+                        ),
+                      TextFormField(
+                          maxLength: 32,
+                          autofocus: true,
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.monetization_on, color: kPrimaryColor),
+                            labelText: "Enter evening hour cost",
+                            labelStyle: TextStyle(color: kPrimaryColor),
+                            focusColor: kPrimaryColor,
+                            border: UnderlineInputBorder(),
+                          ),
+                          validator: (input) {
+                            if (input!.isEmpty) {
+                              return "This field can't be blank.";
+                            }
+                            key.currentState!.save();
+                          },
+                          onSaved: (value) => courtInfo.add(value!),
+                      ),
+                      TextFormField(
+                        maxLength: 32,
+                        autofocus: true,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.timer, color: kPrimaryColor),
+                          labelText: "Minimum booking hours",
+                          labelStyle: TextStyle(color: kPrimaryColor),
+                          focusColor: kPrimaryColor,
+                          border: UnderlineInputBorder(),
+                        ),
+                        validator: (input) {
+                          if (input!.isEmpty) {
+                            return "This field can't be blank.";
+                          }
+                          key.currentState!.save();
+                        },
+                        onSaved: (value) => courtInfo.add(value!),
+                      ),
+                      TextFormField(
+                        maxLength: 32,
+                        autofocus: true,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.work, color: kPrimaryColor),
+                          labelText: "Starting working hours",
+                          labelStyle: TextStyle(color: kPrimaryColor),
+                          focusColor: kPrimaryColor,
+                          border: UnderlineInputBorder(),
+                        ),
+                        validator: (input) {
+                          if (input!.isEmpty) {
+                            return "This field can't be blank.";
+                          }
+                          key.currentState!.save();
+                        },
+                        onSaved: (value) => courtInfo.add(value!),
+                      ),
+                      TextFormField(
+                        maxLength: 32,
+                        autofocus: true,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.work_off, color: kPrimaryColor),
+                          labelText: "Finishing working hours",
+                          labelStyle: TextStyle(color: kPrimaryColor),
+                          focusColor: kPrimaryColor,
+                          border: UnderlineInputBorder(),
+                        ),
+                        validator: (input) {
+                          if (input!.isEmpty) {
+                            return "This field can't be blank.";
+                          }
+                          key.currentState!.save();
+                        },
+                        onSaved: (value) => courtInfo.add(value!),
+                      ),
+                      Container(
+                        alignment: Alignment.bottomCenter,
+                        margin: const EdgeInsets.only(top: 15),
+                        child: ElevatedButton.icon(
+                          label: const Text('SUBMIT'),
+                          icon: const Icon(Icons.schedule_send),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: kPrimaryColor,
+                              padding:
+                              const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
+                          onPressed: () {
+                            // Validate name and money constraints
+                            if (!key.currentState!.validate()) {
+                              return;
+                            }
+
+                            String initTime = DateFormat("HH:mm").format(
+                                DateFormat.jm().parse(_initSelectedTime.format(context)));
+                            String finTime = DateFormat("HH:mm").format(
+                                DateFormat.jm().parse(_finSelectedTime.format(context)));
+
+                            // Validate time constraints
+                            if (initTime.compareTo(finTime) > 0) {
+                              return;
+                            }
+
+                            print(courtInfo);
+                            // TODO: Test the creation request in the back-end
+                            CourtsHTTPsHandler.sendCourt(courtInfo);
+
+                            courtInfo = [];
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            )
+          ),
+        ),
+      elevation: 4,
+      foregroundColor:
+      Theme.of(context).floatingActionButtonTheme.foregroundColor,
+      backgroundColor:
+      Theme.of(context).floatingActionButtonTheme.backgroundColor,
+      hoverColor: Colors.green.shade800,
+      child: const Icon(Icons.add, size: 35)
+  );
+});
 
   _buildAddFixtureButton(context) => Builder(builder: (context) {
         GlobalKey<FormState> key = GlobalKey();

@@ -18,4 +18,8 @@ class FixtureTicket {
   late String state;
   late String startDate;
   late String endDate;
+
+  asList() => [
+    pname, paidAmount, totalCost, state, startDate, endDate, ticketId
+  ];
 }
