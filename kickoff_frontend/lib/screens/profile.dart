@@ -20,8 +20,8 @@ class ProfileBaseScreen extends StatefulWidget {
 }
 
 class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
-  double rating = KickoffApplication.data["rating"];
-  int rating2 = KickoffApplication.data["rating"].toInt();
+  double rating = double.parse("${KickoffApplication.data["rating"]}");
+  int rating2 = double.parse("${KickoffApplication.data["rating"]}").toInt();
   int subscribers = 0;
   String name = KickoffApplication.data["userName"];
   String phone = KickoffApplication.data["phoneNumber"];
@@ -251,29 +251,25 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   }
 
   _buildCourts() async {
-    Map<String, dynamic> courts = await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
+    Map<String, dynamic> courts =
+        await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
     return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
+        child: SingleChildScrollView(
+      child: Column(
           children: List<Container>.generate(10 - 1, (index) {
-            return Container(
-              decoration: BoxDecoration(
+        return Container(
+            decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(25),
-                color: kPrimaryColor.withOpacity(0.3)
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              alignment: Alignment.center,
-              child: Column(
-                children: List<Text>.generate(
+                color: kPrimaryColor.withOpacity(0.3)),
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            alignment: Alignment.center,
+            child: Column(
+              children: List<Text>.generate(
                   courts.length, (index) => Text(courts[index].asList())),
-              )
-            );
-          }
-        )
-        ),
-      )
-    );
+            ));
+      })),
+    ));
   }
 }
