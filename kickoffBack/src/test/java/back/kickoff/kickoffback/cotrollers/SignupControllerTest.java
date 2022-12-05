@@ -1,5 +1,6 @@
 package back.kickoff.kickoffback.cotrollers;
 
+import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.services.SignupService;
 import com.google.gson.Gson;
 import org.json.JSONException;
@@ -42,8 +43,12 @@ class SignupControllerTest {
         hm.put("yAxis", 44.5);
         String information = new Gson().toJson(hm);
         //abdelaziz
-        when(signupService.courtOwnerSignup(information)).thenReturn("Success");
+        CourtOwner newCourtOwner = new CourtOwner("Nasr CLub", "nasrClub@gmail.com", "12345678900",
+                "01206555589", 44.5, 44.5);
+        newCourtOwner.setRating(0);
+        newCourtOwner.setLocation("Nasr CLub");
+        when(signupService.courtOwnerSignup(information)).thenReturn(new Gson().toJson(newCourtOwner));
         ResponseEntity<String> res =controller.courtOwnerSignupRequest(information);
-        assertEquals(res, new ResponseEntity<>("1", HttpStatus.CREATED));
+        assertEquals(res, new ResponseEntity<>(new Gson().toJson(newCourtOwner), HttpStatus.CREATED));
     }
 }

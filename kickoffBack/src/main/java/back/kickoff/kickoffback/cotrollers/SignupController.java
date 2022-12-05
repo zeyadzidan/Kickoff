@@ -24,7 +24,6 @@ public class SignupController {
     }
     @PostMapping("/courtOwner")
     public ResponseEntity<String> courtOwnerSignupRequest(@RequestBody String information) throws JSONException {
-        System.out.println("ban7bk ya youssry");
         String response = signupService.courtOwnerSignup(information) ;
         System.out.println(response);
         if(response.equals("Email exist") || response.equals("invalid") )

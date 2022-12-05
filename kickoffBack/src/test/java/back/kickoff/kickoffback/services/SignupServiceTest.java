@@ -41,6 +41,10 @@ class SignupServiceTest {
         when(courtOwnerRepository.save(new CourtOwner())).thenReturn(new CourtOwner());
         //abdelaziz
         String res = signupService.courtOwnerSignup(information);
-        assertEquals(res, "Succes");
+        CourtOwner newCourtOwner = new CourtOwner("Nasr CLub", "nasrClub@gmail.com", "12345678900",
+                "01206555589", 44.5, 44.5);
+        newCourtOwner.setRating(0);
+        newCourtOwner.setLocation("Nasr CLub");
+        assertEquals(new Gson().toJson(newCourtOwner), res);
     }
 }
