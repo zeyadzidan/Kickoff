@@ -21,7 +21,6 @@ class InputContainer extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
             color: kPrimaryColor.withAlpha(50)
         ),
-
         child: child
     );
   }

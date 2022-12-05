@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -28,7 +29,7 @@ public class CourtOwner
     private Double xAxis;
     private Double yAxis;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courtOwner")
-    private Set<Court> courts = new HashSet<>();
+    private List<Court> courts ;
 
 
     public CourtOwner(String userName, String email, String password, String phoneNumber,

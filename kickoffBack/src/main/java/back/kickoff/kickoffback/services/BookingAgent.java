@@ -5,12 +5,15 @@ import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.CourtRepository;
 import back.kickoff.kickoffback.repositories.ReservationRepository;
 import back.kickoff.kickoffback.repositories.ScheduleRepository;
+import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +23,7 @@ public class BookingAgent {
     private final CourtOwnerRepository courtOwnerRepository;
     private final ReservationRepository reservationRepository;
     private final ReservationService reservationService;
+
     public BookingAgent(CourtRepository courtRepository, ScheduleRepository scheduleRepository, CourtOwnerRepository courtOwnerRepository, ReservationRepository reservationRepository, ReservationService reservationService) {
         this.courtRepository = courtRepository;
         this.scheduleRepository = scheduleRepository;
@@ -86,6 +90,8 @@ public class BookingAgent {
 
     public String setPending(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
+        Long playerID = jsonObject.getLong("playerId");
+        String playerName = jsonObject.getString("playerName");
         Long courtId = jsonObject.getLong("courtId");
         Long courtOwnerId = jsonObject.getLong("courtOwnerId");
         String dateStrS = jsonObject.getString("startDate");
@@ -99,9 +105,9 @@ public class BookingAgent {
         Time timeFrom, timeTo;
         if(tempArrS.length != 3 || tempArrF.length != 3)
             return "In valid date";
-        yearS = Integer.parseInt(tempArrS[0]); yearF = Integer.parseInt(tempArrF[0]);
-        monthS = Integer.parseInt(tempArrS[1]); monthF = Integer.parseInt(tempArrF[1]);
-        dayS = Integer.parseInt(tempArrS[2]); dayF = Integer.parseInt(tempArrF[2]);
+        yearS = Integer.parseInt(tempArrS[2]); yearF = Integer.parseInt(tempArrF[2]);
+        monthS = Integer.parseInt(tempArrS[0]); monthF = Integer.parseInt(tempArrF[0]);
+        dayS = Integer.parseInt(tempArrS[1]); dayF = Integer.parseInt(tempArrF[1]);
         try
         {
             stDate = new Date(yearS, monthS, dayS);
@@ -128,7 +134,7 @@ public class BookingAgent {
         if(!court.getCourtOwner().equals(courtOwnerOptional.get())){
             return "Court does not belong to the courtOwner" ;
         }
-        Reservation reservation = new Reservation(courtId, courtOwnerId, stDate, endDate, timeFrom,
+        Reservation reservation = new Reservation(playerID, playerName,courtId, courtOwnerId, stDate, endDate, timeFrom,
                 timeTo, ReservationState.Pending,0,
                 reservationService.calcTotalCost(stDate, endDate, timeFrom, timeTo, courtOptional.get()));
         reservationRepository.save(reservation);
@@ -138,4 +144,53 @@ public class BookingAgent {
         courtRepository.save(court);
         return "Success";
     }
+
+    public static class ReservationComparitor implements Comparator<Reservation>{
+
+        @Override
+        public int compare(Reservation o1, Reservation o2) {
+            if(o1.getId()<o2.getId())
+                return -1;
+            else if(o1.getId()>o2.getId())
+                return 1 ;
+            return 0 ;
+        }
+    }
+
+    public String getReservations(String information) throws JSONException {
+        JSONObject jsonObject = new JSONObject(information);
+        Long courtId = jsonObject.getLong("courtId");
+        Long courtOwnerId = jsonObject.getLong("courtOwnerId");
+        String strDate = jsonObject.getString("date");
+        String[] tempArrS = strDate.split("//");
+        if(tempArrS.length != 3)
+            return "In valid date";
+
+        int yearS = Integer.parseInt(tempArrS[2]);
+        int monthS = Integer.parseInt(tempArrS[0]);
+        int dayS = Integer.parseInt(tempArrS[1]);
+        Date date ;
+        try
+        {
+            date = new Date(yearS, monthS, dayS);
+        }
+        catch (Exception e)
+        {
+            return "In valid date";
+        }
+        Optional<Court> courtOptional = courtRepository.findById(courtId);
+        Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(courtOwnerId);
+        if(courtOptional.isEmpty() || courtOwnerOptional.isEmpty())
+            return "Court Not found";
+        Court court = courtOptional.get();
+        if(!court.getCourtOwner().equals(courtOwnerOptional.get())){
+            return "Court does not belong to the courtOwner" ;
+        }
+        ScheduleAgent scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository) ;
+        List<Reservation> reservations = scheduleAgent.getScheduleOverlapped(date, date, new Time(0) , new Time(23,59,0), court.getCourtSchedule());
+        reservations.sort(new ReservationComparitor()) ;
+        return "S "+  new  Gson().toJson(reservations);
+    }
+
+
 }

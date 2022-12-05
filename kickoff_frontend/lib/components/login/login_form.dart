@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/rounded_button.dart';
-import 'package:kickoff_frontend/components/rounded_input_login.dart';
-import 'package:kickoff_frontend/components/rounded_password_input.dart';
+
+import 'rounded_button.dart';
+import 'rounded_input_login.dart';
+import 'rounded_password_input.dart';
 
 import '../../../components/login.dart';
-
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -34,30 +34,22 @@ class LoginForm extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-
               children: [
                 Text(
                   'Kickoff',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
-
                 SizedBox(height: 40),
-
-                Container(height:175 ,width:175,child: Image(image: AssetImage('assets/images/pic3.PNG'))),
-
+                Container(
+                    height: 175,
+                    width: 175,
+                    child: Image(image: AssetImage('assets/images/pic3.PNG'))),
                 SizedBox(height: 40),
-
                 RoundedInputLogin(icon: Icons.mail, hint: 'Email'),
                 PasswordInput(),
                 SizedBox(height: 10),
-
-                LogiButton(),
-
+                LoginButton(),
                 SizedBox(height: 10),
-
               ],
             ),
           ),
