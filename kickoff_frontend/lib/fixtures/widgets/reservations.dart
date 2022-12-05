@@ -15,10 +15,11 @@ class ReservationsHome extends StatefulWidget {
   }
 
   _getCourts() async {
-    courts = await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
+    print("llll");
+    // courts = await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
   }
 
-  static List<dynamic> courts = [];
+  static Map<String, dynamic> courts = {};
 
   @override
   State<ReservationsHome> createState() => _ReservationsHomeState();

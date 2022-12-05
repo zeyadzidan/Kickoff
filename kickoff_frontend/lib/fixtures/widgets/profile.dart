@@ -248,39 +248,34 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                 ),
               ),
             ),
-            _buildCourts()
+            // _buildCourts()
           ],
         ));
   }
 
-  _buildCourts() {
+  _buildCourts() async {
     Court court = Court();
-    List<dynamic> courts = CourtsHTTPsHandler.getCourts(
-        KickoffApplication.OWNER_ID) as List<dynamic>;
+    await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
     return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-            children: List<Container>.generate(courts.length - 1, (index) {
-              return Container(
-                decoration: BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(25),
-                    color: kPrimaryColor.withOpacity(0.3)
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                alignment: Alignment.center,
-                child: Column(
-                  children: List<Text>.generate(courts.length, (index) =>
-                      Text(courts[index].asList())
-                  ),
-                )
-              );
-            }
-          )
-        ),
-      )
-    );
+        child: SingleChildScrollView(
+      child: Column(
+          children: List<Container>.generate(10 - 1, (index) {
+        return Container(
+            /*
+            decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(25),
+                color: kPrimaryColor.withOpacity(0.3)),
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            alignment: Alignment.center,
+            child: Column(
+              children: List<Text>.generate(
+                  courts.length, (index) => Text(courts[index].asList())),
+            )
+            */
+            );
+      })),
+    ));
   }
-
 }
