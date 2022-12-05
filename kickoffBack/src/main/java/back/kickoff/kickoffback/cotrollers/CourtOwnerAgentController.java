@@ -30,7 +30,7 @@ public class CourtOwnerAgentController {
 
         String response = courtOwnerAgent.createCourt(information) ;
         if(response.equals("Success"))
-            return new ResponseEntity<>("Court added", HttpStatus.CREATED);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
