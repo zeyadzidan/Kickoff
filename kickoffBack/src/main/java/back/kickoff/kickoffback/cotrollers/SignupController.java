@@ -25,8 +25,9 @@ public class SignupController {
     @PostMapping("/courtOwner")
     public ResponseEntity<String> courtOwnerSignupRequest(@RequestBody String information) throws JSONException {
         System.out.println("ban7bk ya youssry");
-        if(signupService.courtOwnerSignup(information))
-            return new ResponseEntity<>("New CourtOwner created successfully", HttpStatus.CREATED);
-        return new ResponseEntity<>("New CourtOwner not created", HttpStatus.BAD_REQUEST);
+        String response = signupService.courtOwnerSignup(information) ;
+        if(response.equals("Email exist") || response.equals("invalid") )
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

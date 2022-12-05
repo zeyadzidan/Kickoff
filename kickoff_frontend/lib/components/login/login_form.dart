@@ -4,6 +4,8 @@ import 'rounded_button.dart';
 import 'rounded_input_login.dart';
 import 'rounded_password_input.dart';
 
+import '../../../components/login.dart';
+
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -53,7 +55,7 @@ class LoginForm extends StatelessWidget {
                 PasswordInput(),
                 SizedBox(height: 10),
 
-                RoundedButton(title: 'LOGIN'),
+                LoginButton(),
 
                 SizedBox(height: 10),
 

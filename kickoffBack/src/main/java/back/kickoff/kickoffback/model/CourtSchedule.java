@@ -17,13 +17,22 @@ import java.util.Objects;
 public class CourtSchedule {
 
 
-    public CourtSchedule(Long courtID, Time startWorkingHours, Time endWorkingHours, Time endMorning, Integer morningCost, Integer nightCost) {
+    public CourtSchedule(Long courtID, Time startWorkingHours, Time endWorkingHours, Time endMorning, Integer morningCost, Integer nightCost, Integer minBookingHours) {
         this.courtID = courtID;
         this.startWorkingHours = startWorkingHours;
         this.endWorkingHours = endWorkingHours;
+        if(endMorning == null){
+            endMorning = endWorkingHours ;
+        }
         this.endMorning = endMorning;
         this.morningCost = morningCost;
-        this.nightCost = nightCost;
+        if(nightCost == null)
+            this.nightCost = morningCost ;
+        else
+            this.nightCost = nightCost ;
+        if(minBookingHours != null)
+            this.minBookingHours = minBookingHours ;
+
     }
 
     @Id

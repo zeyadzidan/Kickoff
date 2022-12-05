@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'Sign_up_location.dart';
 import 'rounded_button.dart';
-import 'rounded_inpu_Username.dart';
+import 'rounded_input_Username.dart';
 import 'rounded_input.dart';
 import 'rounded_password_Signup.dart';
 import 'rounded_phone_number.dart';
@@ -60,8 +60,7 @@ class RegisterForm extends StatelessWidget {
                       FindLocation(title: 'Location'),
                   ),
                   SizedBox(height: 30),
-                  RoundedButton(title: 'SIGN UP'),
-
+                  SignUpButton(),
                   SizedBox(height: 10),
                 ],
               ),

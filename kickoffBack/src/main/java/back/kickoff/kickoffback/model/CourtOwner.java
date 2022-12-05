@@ -22,8 +22,7 @@ public class CourtOwner
     private String password;
     private String location;
     private float rating;
-    @Lob
-    private Byte[] image;
+    private String image;
 
     private String phoneNumber;
     private Double xAxis;

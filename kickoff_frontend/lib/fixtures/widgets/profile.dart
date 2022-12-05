@@ -1,8 +1,10 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:kickoff_frontend/application.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 class ProfileBaseScreen extends StatefulWidget {
   const ProfileBaseScreen({Key? key}) : super(key: key);
 
@@ -10,17 +12,41 @@ class ProfileBaseScreen extends StatefulWidget {
   State<ProfileBaseScreen> createState() => _ProfileBaseScreenState();
 }
 
+Future save(File file) async{
+  String url = "http://localhost:8080/signup/courtOwner";
+  var stream = http.ByteStream(file.openRead());
+  stream.cast();
+  var length = await file.length();
+  print(stream);
+  /*
+  var uri= Uri.parse(url);
+  var request = new http.MultipartRequest('POST', uri);
+  request.fields['title'] = "Static title";
+  var multiport = new http.MultipartFile('image', stream, length);
+  request.files.add(multiport);
+  var reponse = await request.send();
+  if(reponse.statusCode == 200)
+    {
+      print("image uploaded");
+    }
+  else
+    {
+      print("failed");
+    }
+
+   */
+}
 class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
-  int rating = 0;
+  double rating = KickoffApplication.data["rating"];
   int subscribers = 0;
-  String name = "Barcelona Stadiums";
-  String phone = "01234567897";
-  String address =
-      "https://www.google.com/maps/d/viewer?mid=1KiMxuAuJbF_CXsxYDub13OpSZUk";
+  String name = KickoffApplication.data["userName"];
+  String phone = KickoffApplication.data["phoneNumber"];
+  String address =KickoffApplication.data["location"];
   bool emptyphoto = false;
-  double xaxis = 31.2160786;
-  double yaxis = 29.9469253;
+  double xaxis = KickoffApplication.data["xAxis"];
+  double yaxis = KickoffApplication.data["yAxis"];
   String? path;
+
   @override
   Widget build(BuildContext context) {
         return Container(
@@ -44,7 +70,6 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                               radius: 40,
                               backgroundColor: Color(0xff74EDED),
                               backgroundImage: Image.file(File(path!)).image
-                                  as ImageProvider<Object>
                               //     NetworkImage("https://placeimg.com/640/480/people"),
                               )
                         ] else ...[
@@ -59,6 +84,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                               if (result != null) {
                                 File file = File(result.files.first.path!);
                                 path = result.files.first.path;
+                                save(file);
                               }
                               setState(() {
                                 path = result?.files.first.path;
@@ -152,7 +178,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                             name,
                             style: TextStyle(
                               letterSpacing: 0.4,
-                              fontSize: 15,
+                              fontSize: 20,
                               color: Colors.black,
                             ),
                           ),
@@ -165,7 +191,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                               " \u{1F4DE} ${phone} ",
                               style: TextStyle(
                                 letterSpacing: 0.4,
-                                fontSize: 10,
+                                fontSize: 15,
                                 // color: ,
                               ),
                             ),
@@ -178,8 +204,9 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                                 " \u{1F5FA} ${address}",
                                 style: TextStyle(
                                   letterSpacing: 0.4,
-                                  fontSize: 10,
-                                  // color: ,
+                                  fontSize: 15,
+                                  color: Colors.blue ,
+                                  decoration: TextDecoration.underline,
                                 ),
                               ),
                               onTap: () => launchUrlString(

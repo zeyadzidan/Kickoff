@@ -9,6 +9,7 @@ import 'package:kickoff_frontend/themes.dart';
 import 'fixtures/widgets/profile.dart';
 
 class KickoffApplication extends StatefulWidget {
+  static late Map<String, dynamic> data;
   const KickoffApplication({super.key});
 
   static late String OWNER_ID;

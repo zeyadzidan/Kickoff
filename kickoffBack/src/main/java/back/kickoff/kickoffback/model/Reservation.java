@@ -25,25 +25,26 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "reservation_player",
-            joinColumns = @JoinColumn(name = "reservation_id"),
-            inverseJoinColumns = @JoinColumn(name = "player_id"))
-    Set<Player> playersID = new HashSet<>();
-
-
-    @OneToOne(fetch = FetchType.EAGER)
-    Player mainPlayerID;
+//
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "reservation_player",
+//            joinColumns = @JoinColumn(name = "reservation_id"),
+//            inverseJoinColumns = @JoinColumn(name = "player_id"))
+//    Set<Player> playersID = new HashSet<>();
+//
+//
+//    @OneToOne(fetch = FetchType.EAGER)
+//    Player mainPlayerID;
 
     @Column(nullable = false)
     Long courtID;
     @Column(nullable = false)
     Long courtOwnerID;
-    Date date ;
+    Date startDate ;
+    Date endDate;
     Time timeFrom;
     Time timeTo;
-    String state;
+    ReservationState state;
     int moneyPayed ;
     int totalCost ;
     Long messageID ;
@@ -56,7 +57,18 @@ public class Reservation {
         this.courtOwnerID = courtOwnerID;
     }
 
-
+    public Reservation(Long courtID, Long courtOwnerID, Date startDate, Date endDate, Time timeFrom,
+                       Time timeTo, ReservationState state, int moneyPayed, int totalCost) {
+        this.courtID = courtID;
+        this.courtOwnerID = courtOwnerID;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.timeFrom = timeFrom;
+        this.timeTo = timeTo;
+        this.state = state;
+        this.moneyPayed = moneyPayed;
+        this.totalCost = totalCost;
+    }
 }
 
 
