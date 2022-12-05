@@ -128,7 +128,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.logout),
-            tooltip: 'Show Snackbar',
+            tooltip: 'Show Kickoff Bar',
             onPressed: () async {
               localFile.clearLoginData();
               KickoffApplication.data.clear();

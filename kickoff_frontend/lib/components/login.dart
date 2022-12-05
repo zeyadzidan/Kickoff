@@ -74,9 +74,9 @@ class RoundedLogin extends State<LoginButton> {
             showAlertDialog(context, 'Enter valid Password');
             RoundedPasswordInput.Password.clear();
           } else {
+            print(profileData);
             KickoffApplication.data = profileData;
             KickoffApplication.OWNER_ID = profileData["id"].toString();
-
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInput.Password.text);
             Navigator.of(context).push(MaterialPageRoute(
