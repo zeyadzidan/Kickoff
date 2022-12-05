@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ public class BookingAgent {
     private final CourtOwnerRepository courtOwnerRepository;
     private final ReservationRepository reservationRepository;
     private final ReservationService reservationService;
+
     public BookingAgent(CourtRepository courtRepository, ScheduleRepository scheduleRepository, CourtOwnerRepository courtOwnerRepository, ReservationRepository reservationRepository, ReservationService reservationService) {
         this.courtRepository = courtRepository;
         this.scheduleRepository = scheduleRepository;
@@ -143,6 +145,18 @@ public class BookingAgent {
         return "Success";
     }
 
+    public static class ReservationComparitor implements Comparator<Reservation>{
+
+        @Override
+        public int compare(Reservation o1, Reservation o2) {
+            if(o1.getId()<o2.getId())
+                return -1;
+            else if(o1.getId()>o2.getId())
+                return 1 ;
+            return 0 ;
+        }
+    }
+
     public String getReservations(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
         Long courtId = jsonObject.getLong("courtId");
@@ -174,7 +188,7 @@ public class BookingAgent {
         }
         ScheduleAgent scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository) ;
         List<Reservation> reservations = scheduleAgent.getScheduleOverlapped(date, date, new Time(0) , new Time(23,59,0), court.getCourtSchedule());
-
+        reservations.sort(new ReservationComparitor()) ;
         return "S "+  new  Gson().toJson(reservations);
     }
 
