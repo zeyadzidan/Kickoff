@@ -173,7 +173,7 @@ public class CourtOwnerAgent {
         if(courtOwnerOptional.isEmpty())
             return "CourtOwner does not exist";
 
-        CourtSchedule courtSchedule = new CourtSchedule(startWorkingHours, endWorkingHours, endMorning, morningCost, nightCost, minBookingHours) ;
+        CourtSchedule courtSchedule = new CourtSchedule(startWorkingHours, endWorkingHours, endMorning, morningCost, nightCost, minBookingHours);
         scheduleRepository.save(courtSchedule) ;   // heree
         Court newCourt = new Court(courtName, courtOwnerOptional.get(), CourtState.Active, description, startWorkingHours,
                 endWorkingHours, endMorning, morningCost, nightCost, minBookingHours, courtSchedule);

@@ -8,15 +8,18 @@ import java.sql.Time;
 import java.util.List;
 import java.util.Objects;
 
-@ToString
+
+
+@Data
+@Entity
 @Setter
 @Getter
 @Table
 @NoArgsConstructor
-@Data
-@Entity
 public class CourtSchedule {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     public CourtSchedule(Time startWorkingHours, Time endWorkingHours, Time endMorning, Integer morningCost, Integer nightCost, Integer minBookingHours) {
         this.startWorkingHours = startWorkingHours;
@@ -32,34 +35,31 @@ public class CourtSchedule {
             this.nightCost = nightCost ;
         if(minBookingHours != null)
             this.minBookingHours = minBookingHours ;
-
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long courtID;
+
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name= "fk_booked", referencedColumnName = "courtID")
+    @JoinColumn(name= "fk_booked", referencedColumnName = "id")
     List<Reservation> bookedReservations ;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name= "fk_pending", referencedColumnName = "courtID")
-    List<Reservation> pendingReservations ;
+    @JoinColumn(name= "fk_pending", referencedColumnName = "id")
+    private List<Reservation> pendingReservations ;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name= "fk_his", referencedColumnName = "courtID")
-    List<Reservation> history ;
+    @JoinColumn(name= "fk_his", referencedColumnName = "id")
+    private List<Reservation> history ;
 
-    Time startWorkingHours ;
-    Time endWorkingHours ;
-    Time endMorning ;
+    private Time startWorkingHours ;
+    private Time endWorkingHours ;
+    private Time endMorning ;
 
-    Integer minBookingHours = 1 ;
+    private Integer minBookingHours = 1 ;
 
-    Integer morningCost ;
+    private Integer morningCost ;
 
-    Integer nightCost ;
+    private Integer nightCost ;
 
 
 }
