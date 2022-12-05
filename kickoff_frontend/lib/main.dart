@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/application.dart';
 import 'package:kickoff_frontend/localFile.dart';
-import 'package:kickoff_frontend/components/login.dart';
+import 'package:kickoff_frontend/components/LoginRequest.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kickoff_frontend/screens/login.dart';
 

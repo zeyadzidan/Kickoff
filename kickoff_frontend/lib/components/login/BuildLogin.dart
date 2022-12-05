@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'rounded_button.dart';
-import 'rounded_input_login.dart';
-import 'rounded_password_input.dart';
+import 'SignUpRequest.dart';
+import 'EmailLogin.dart';
+import 'PasswordLogin.dart';
 
-import '../../../components/login.dart';
+import '../../../components/LoginRequest.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
