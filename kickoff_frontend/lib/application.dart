@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
+import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
 import 'package:kickoff_frontend/httpshandlers/courtsrequests.dart';
@@ -150,7 +151,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
                   elevation: 4,
                   context: context,
                   builder: (context) => SizedBox(
-                      height: 350,
+                      height: 700,
                       child: SingleChildScrollView(
                           child: Form(
                         key: key,
@@ -394,11 +395,8 @@ class KickoffApplicationState extends State<KickoffApplication> {
         keyboardType:
             (!moneyPayment) ? TextInputType.name : TextInputType.number,
         validator: (input) {
-          if (input!.isEmpty) {
+          if (!moneyPayment && input!.isEmpty) {
             return "This field can't be blank.";
-          }
-          if (moneyPayment) {
-            key.currentState!.save();
           }
           return null;
         },
@@ -480,35 +478,33 @@ class KickoffApplicationState extends State<KickoffApplication> {
               return;
             }
 
+            key.currentState!.save();
+            FixtureTicket ticket = FixtureTicket();
+
             String initTime = DateFormat("HH:mm").format(
                 DateFormat.jm().parse(_initSelectedTime.format(context)));
             String finTime = DateFormat("HH:mm").format(
                 DateFormat.jm().parse(_finSelectedTime.format(context)));
 
-            // Validate time constraints
             if (initTime.compareTo(finTime) > 0) {
               return;
             }
 
-            // Data Preparation
-            // TODO: Modify the court identification to CID
-            String court =
-                'Court: ${KickoffApplication.pages[_selectedPage].selectedCourt}';
+            ticket.pname = ticketInfo[0];
+            ticket.paidAmount = ticketInfo[1];  // save it for later if not pending
+            ticket.coid = KickoffApplication.OWNER_ID;
+            ticket.cid = ReservationsHome.courts[ReservationsHome.selectedCourt].cid;
             DateTime date =
                 KickoffApplication.pages[_selectedPage].selectedDate;
             String formattedDate = DateFormat.yMd().format(date);
+            ticket.startDate = formattedDate;
+            ticket.endDate = formattedDate;
+            ticket.startTime = initTime;
+            ticket.endTime = finTime;
 
-            // Player Name + Amount of Money
-            ticketInfo.add(court);
-            ticketInfo.add(formattedDate);
-            ticketInfo.add(initTime);
-            ticketInfo.add(finTime);
+            print(ticket.asList());
 
-            print(ticketInfo);
-            // TODO: Test the creation request in the back-end
-            NewTicket.sendTicket(ticketInfo);
-
-            ticketInfo = [];
+            Tickets.sendTicket(ticketInfo);
             Navigator.pop(context);
           },
         ),

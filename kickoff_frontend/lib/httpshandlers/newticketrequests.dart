@@ -2,19 +2,35 @@ import 'dart:convert';
 import 'dart:core';
 
 import 'package:http/http.dart' as http;
+import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 
-class NewTicket {
-  static String url = "http://192.168.1.49:8080/{PathOfTicketRequest}";
-  static Future sendTicket(ticketInfo) async {
-    await http.post(Uri.parse(url),
+import '../constants.dart';
+
+class Tickets {
+  static String url = "http://${ip}:8080";
+  static Future sendTicket(FixtureTicket ticket) async {
+    await http.post(Uri.parse('$url/BookingAgent/setPending'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "Player Name": ticketInfo[0],
-          "Money Paid": ticketInfo[1],
-          "Court Number": ticketInfo[2],
-          "Date": ticketInfo[3],
-          "Start Time": ticketInfo[4],
-          "End Time": ticketInfo[5],
+          "playerName": ticket.pname,
+          "courtId": ticket.cid,
+          "courtOwnerId": ticket.coid,
+          "startDate": ticket.startDate,
+          "endDate": ticket.endDate,
+          "startHour": ticket.startTime,
+          "finishHour": ticket.endTime,
     }));
+  }
+
+  static Future bookTicket(FixtureTicket ticket) async {
+    await http.post(Uri.parse('$url/BookingAgent/booking'),
+      headers: {"Content-Type": "application/json"},
+      body: json.encode(
+        {
+          "reseravtionId": ticket.ticketId,
+          "moneyPaid": ticket.paidAmount
+        }
+      )
+    );
   }
 }

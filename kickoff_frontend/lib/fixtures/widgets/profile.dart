@@ -1,17 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/classes/court.dart';
-import 'package:kickoff_frontend/constants.dart';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application.dart';
-import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
+import 'package:kickoff_frontend/components/classes/court.dart';
+import 'package:kickoff_frontend/constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:http/http.dart' as http;
 
 import '../../httpshandlers/courtsrequests.dart';
 
@@ -254,7 +251,6 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   }
 
   _buildCourts() async {
-    Court court = Court();
     await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
     return Expanded(
         child: SingleChildScrollView(

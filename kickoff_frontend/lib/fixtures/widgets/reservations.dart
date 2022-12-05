@@ -3,9 +3,8 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/application.dart';
 import 'package:kickoff_frontend/httpshandlers/courtsrequests.dart';
+import 'package:kickoff_frontend/httpshandlers/newticketrequests.dart';
 
-import '../../components/builders/ticket.dart';
-import '../../components/classes/court.dart';
 import '../../components/classes/fixtureticket.dart';
 import '../../constants.dart';
 
@@ -15,9 +14,11 @@ class ReservationsHome extends StatefulWidget {
   }
 
   _getCourts() async {
-    print("llll");
     // courts = await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
   }
+
+  static get selectedCourt => _ReservationsHomeState._selectedCourt;
+  static get selectedDate => _ReservationsHomeState._selectedDate;
 
   static Map<String, dynamic> courts = {};
 
@@ -104,18 +105,109 @@ class _ReservationsHomeState extends State<ReservationsHome> {
 
     // TODO: Generate the list of fixtures received from backend.
     String date = DateFormat.yMd().format(_selectedDate);
-    List<FixtureTicket> tickets = CourtsHTTPsHandler.getCourtFixtures(
+    List<dynamic> tickets = CourtsHTTPsHandler.getCourtFixtures(
         ReservationsHome.courts[_selectedCourt].cid,
         KickoffApplication.OWNER_ID,
-        date) as List<FixtureTicket>;
+        date) as List<dynamic>;
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
-            children: List<Container>.generate(tickets.length, (index) {
-          // ticket.isPending = !ticket.isPending;
-          return Ticket().build(tickets[index]);
+            children: List<GestureDetector>.generate(tickets.length, (index) {
+            List<dynamic> body = _buildBody(tickets[index]);
+            return GestureDetector(
+              onDoubleTap: _setBooked(index, tickets[index]),
+              child: Container(
+                decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(25),
+                    color: (_buildBody(tickets[index])[0] == 'Pending')
+                        ? Colors.yellow.withOpacity(0.3)
+                        : (_buildBody(tickets[index])[0] == 'Active')
+                        ? kPrimaryColor.withOpacity(0.3)
+                        : Colors.red.withOpacity(0.3) // Expired
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                alignment: Alignment.center,
+                child: Column(
+                  children: List<Text>.generate(body.length - 1, (index) =>
+                      Text(
+                          body[index + 1].toString()
+                      )
+                  ),
+                ),
+              ),
+            );
         })),
       ),
     );
+  }
+
+  _buildBody(fixtureTicket) => [
+    fixtureTicket.isPending,
+    'Player Name: ${fixtureTicket.pname}',
+    'Start Date: ${fixtureTicket.startDate}',
+    'End Date: ${fixtureTicket.endDate}',
+    'State: ${fixtureTicket.state}',
+    'Money Paid: ${fixtureTicket.paidAmount} EGP',
+    'Total Cost: ${fixtureTicket.totalCost} EGP',
+  ];
+
+  _setBooked(index, FixtureTicket ticket) {
+    GlobalKey<FormState> key = GlobalKey();
+    showDialog(
+        context: context, builder: (context) =>
+        Dialog(
+          child: Column(
+            children: [
+              Form(
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.monetization_on, color: kPrimaryColor),
+                    labelText: "Paid amount",
+                    labelStyle: TextStyle(color: kPrimaryColor),
+                    focusColor: kPrimaryColor,
+                    border: UnderlineInputBorder(),
+                    suffixText: 'EGP'
+                  ),
+                  validator: (input) {
+                    if(input! == 0) {
+                      return "This field can't be blank.";
+                    }
+                  },
+                  onSaved: (input) => ticket.paidAmount = input!,
+                ),
+              ),
+              Container(
+                alignment: Alignment.bottomCenter,
+                margin: const EdgeInsets.only(top: 15),
+                child: ElevatedButton.icon(
+                  label: const Text('SUBMIT'),
+                  icon: const Icon(Icons.schedule_send),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: kPrimaryColor,
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
+                  onPressed: () {
+                    // Validate name and money constraints
+                    if (!key.currentState!.validate()) {
+                      return;
+                    }
+                    key.currentState!.save();
+                    ticket.state = 'Active';
+                    Tickets.bookTicket(ticket);
+                    Navigator.pop(context);
+                  },
+                ),
+              )
+            ],
+          )
+        )
+    );
+
+    setState(() {
+
+    });
   }
 }

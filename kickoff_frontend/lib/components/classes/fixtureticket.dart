@@ -8,7 +8,6 @@
 class FixtureTicket {
   late String ticketId;
   late String pname;
-  late String pid;
   late String coname;
   late String coid;
   late String cname;
@@ -18,8 +17,10 @@ class FixtureTicket {
   late String state;
   late String startDate;
   late String endDate;
+  late String startTime;
+  late String endTime;
 
   asList() => [
-    pname, paidAmount, totalCost, state, startDate, endDate, ticketId
+    pname, paidAmount, totalCost, state, startTime, endTime, ticketId
   ];
 }
