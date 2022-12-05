@@ -7,6 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -40,7 +42,19 @@ public class SignupService
         newCourtOwner.setRating(0);
         newCourtOwner.setLocation(location);
         courtOwnerRepository.save(newCourtOwner);
-        return new Gson().toJson(newCourtOwner);
+
+        Map<String, String> res = new HashMap<>() ;
+        res.put("id", newCourtOwner.getId().toString());
+        res.put("userName", newCourtOwner.getUserName());
+        res.put("email", newCourtOwner.getEmail());
+        res.put("location", newCourtOwner.getLocation());
+        res.put("rating", String.valueOf(newCourtOwner.getRating()));
+        res.put("image", newCourtOwner.getImage());
+        res.put("phoneNumber", newCourtOwner.getPhoneNumber());
+        res.put("xAxis", newCourtOwner.getXAxis().toString());
+        res.put("yAxis", newCourtOwner.getYAxis().toString());
+
+        return new Gson().toJson(res);
     }
     
 }

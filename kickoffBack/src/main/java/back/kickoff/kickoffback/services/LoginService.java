@@ -7,6 +7,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
 @Service
@@ -30,6 +33,18 @@ public class LoginService {
        {
            return "Not found Password";
        }
-        return new Gson().toJson(courtOwner.get());
+       Map<String, String> res = new HashMap<>() ;
+       CourtOwner co = courtOwner.get();
+       res.put("id", co.getId().toString());
+       res.put("userName", co.getUserName());
+       res.put("email", co.getEmail());
+       res.put("location", co.getLocation());
+       res.put("rating", String.valueOf(co.getRating()));
+       res.put("image", co.getImage());
+       res.put("phoneNumber", co.getPhoneNumber());
+       res.put("xAxis", co.getXAxis().toString());
+       res.put("yAxis", co.getYAxis().toString());
+
+        return new Gson().toJson(res);
     }
 }
