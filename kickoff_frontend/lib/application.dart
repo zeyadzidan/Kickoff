@@ -5,15 +5,14 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 import 'package:kickoff_frontend/constants.dart';
-import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
 import 'package:kickoff_frontend/httpshandlers/courtsrequests.dart';
 import 'package:kickoff_frontend/localFile.dart';
 import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
+import 'package:kickoff_frontend/screens/login.dart';
+import 'package:kickoff_frontend/screens/profile.dart';
+import 'package:kickoff_frontend/screens/reservations.dart';
 import 'package:kickoff_frontend/themes.dart';
 import 'package:path_provider/path_provider.dart';
-
-import 'fixtures/widgets/login.dart';
-import 'fixtures/widgets/profile.dart';
 
 class KickoffApplication extends StatefulWidget {
   static late Map<String, dynamic> data;

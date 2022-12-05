@@ -72,8 +72,6 @@ class RoundedLogin extends State<LoginButton> {
             RoundedInputLogin.EmailLogin.clear();
           } else if (profileData.length == 4) {
             showAlertDialog(context, 'Enter valid Password');
-            print('DEBUG <-- Line 73');
-            print(profileData);
             RoundedPasswordInput.Password.clear();
           } else {
             KickoffApplication.data = profileData;

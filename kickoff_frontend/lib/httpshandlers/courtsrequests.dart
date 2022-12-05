@@ -13,7 +13,7 @@ class CourtsHTTPsHandler {
         .get(Uri.parse("${port}courtOwnerAgent/CourtOwner/$coid/Courts"));
     // TODO: Creation of courts list.
     print(rsp.body);
-    return rsp;
+    return {};
   }
 
   static Future getCourtFixtures(cid, courtOwnerId, date) async {
