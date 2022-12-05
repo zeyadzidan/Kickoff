@@ -24,8 +24,7 @@ public class LoginController {
 //        Optional<CourtOwner> cc = courtOwnerRepository.findByEmail()
     }
     @PostMapping("/courtOwner")
-    public ResponseEntity courtOwnerSignupRequest(@RequestBody String information) throws JSONException {
-        System.out.println("ban7bk ya youssry");
+    public ResponseEntity courtOwnerLoginRequest(@RequestBody String information) throws JSONException {
         String ans = loginService.courtOwnerLogin(information);
         if(ans.equals("Not found"))
         {
