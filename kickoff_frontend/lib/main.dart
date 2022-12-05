@@ -12,6 +12,7 @@ String loginData = "";
 bool loading = false;
 bool firstTime = true;
 bool finish = false;
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -20,13 +21,7 @@ Future main() async {
   _checkLogin(loginData, firstTime);
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-_readData () async {
+_readData() async {
   loginData = await localFile.readLoginData();
   firstTime = (loginData == "0");
   loading = false;
@@ -40,8 +35,9 @@ _checkLogin(loginData, firstTime) async {
     KickoffApplication.data = await RoundedLogin.save2(email, pass);
     finish = true;
   }
-  finsh = true;
+  finish = true;
 }
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -56,7 +52,7 @@ class _MyAppState extends State<MyApp> {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       counter++;
       setState(() {
-        if(loginData != "" && finish){
+        if (loginData != "" && finish) {
           firstTime = (loginData == "0");
           loading = false;
           _timer.cancel();
@@ -66,9 +62,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-
-  Widget build(BuildContext context)  {
-    if(loginData == "") {
+  Widget build(BuildContext context) {
+    if (loginData == "") {
       updateCounter();
     }
     return loading
@@ -152,12 +147,6 @@ class _MyAppState extends State<MyApp> {
               ]),
             ),
           )
-        : MaterialApp(
-            home: firstTime
-                ? LoginScreen()
-                : KickoffApplication(
-                    Data: profileData,
-                  ));
+        : MaterialApp(home: firstTime ? LoginScreen() : KickoffApplication());
   }
 }
-
