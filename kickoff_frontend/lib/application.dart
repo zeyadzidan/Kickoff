@@ -8,9 +8,9 @@ import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
 import 'package:kickoff_frontend/localFile.dart';
 import 'package:kickoff_frontend/httpshandlers/newticketrequests.dart';
 import 'package:kickoff_frontend/themes.dart';
-import 'package:kickoff_frontend/constants.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'fixtures/widgets/login.dart';
 import 'fixtures/widgets/profile.dart';
 
 class KickoffApplication extends StatefulWidget {
@@ -42,139 +42,145 @@ class KickoffApplicationState extends State<KickoffApplication> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: AppThemes.lightTheme,
-        title: "Kickoff",
-        debugShowCheckedModeBanner: false,
-        home: Builder(
-          builder: (context) => Scaffold(
-            appBar: _buildAppBar(),
-            body: Stack(children: [
-              Positioned(
-                  top: 100,
-                  right: -50,
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: const <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.black,
-                            blurRadius: 5,
-                          ),
-                        ],
-                        color: kPrimaryColor),
-                  )),
-              Positioned(
-                  top: -50,
-                  left: -50,
-                  child: Container(
-                    width: 190,
-                    height: 190,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(95),
-                        boxShadow: const <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.black,
-                            blurRadius: 5,
-                          ),
-                        ],
-                        color: kPrimaryColor),
-                  )),
-              Positioned(
-                  bottom: -100,
-                  left: -100,
-                  child: Container(
-                    width: 300,
-                    height: 300,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(150),
-                        boxShadow: const <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.black,
-                            blurRadius: 5,
-                          ),
-                        ],
-                        color: kPrimaryColor),
-                  )),
-              Center(
-                child: KickoffApplication.pages[_selectedPage],
-              ),
-            ]),
-            floatingActionButton:
-                (_selectedPage == 2) ? _buildAddFixtureButton(context) : null,
-            bottomNavigationBar: _buildNavBar(),
-          ),
-        ));
+      theme: AppThemes.lightTheme,
+      title: "Kickoff",
+      debugShowCheckedModeBanner: false,
+      home: Builder(
+        builder: (context) => Scaffold(
+          appBar: _buildAppBar(),
+          body: Stack(children: [
+            Positioned(
+                top: 100,
+                right: -50,
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      boxShadow: const <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.black,
+                          blurRadius: 5,
+                        ),
+                      ],
+                      color: kPrimaryColor),
+                )),
+            Positioned(
+                top: -50,
+                left: -50,
+                child: Container(
+                  width: 190,
+                  height: 190,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(95),
+                      boxShadow: const <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.black,
+                          blurRadius: 5,
+                        ),
+                      ],
+                      color: kPrimaryColor),
+                )),
+            Positioned(
+                bottom: -100,
+                left: -100,
+                child: Container(
+                  width: 300,
+                  height: 300,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(150),
+                      boxShadow: const <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.black,
+                          blurRadius: 5,
+                        ),
+                      ],
+                      color: kPrimaryColor),
+                )),
+            Center(
+              child: KickoffApplication.pages[_selectedPage],
+            ),
+          ]),
+          floatingActionButton:
+              (_selectedPage == 2) ? _buildAddFixtureButton(context) : null,
+          bottomNavigationBar: _buildNavBar(),
+        ),
+      )
+    );
   }
 
   _buildAppBar() => AppBar(
-        leading: const Icon(Icons.sports_soccer),
-        elevation: 4,
-        title: const Text(
-          "Kickoff",
-          style: TextStyle(color: Colors.white),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Show Snackbar',
-            onPressed: () async {
-              localFile.clearLoginData();
-              var appDir = (await getTemporaryDirectory()).path;
-              new Directory(appDir).delete(recursive: true);
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => LoginScreen()));
-            },
-          ),
-        ],
-        centerTitle: true,
-        backgroundColor: Colors.green,
-      );
+    leading: const Icon(Icons.sports_soccer),
+    elevation: 4,
+    title: const Text(
+      "Kickoff",
+      style: TextStyle(color: Colors.white),
+    ),
+    actions: <Widget>[
+      IconButton(
+        icon: const Icon(Icons.logout),
+        tooltip: 'Show Snackbar',
+        onPressed: () async {
+          localFile.clearLoginData();
+          var appDir = (await getTemporaryDirectory()).path;
+          Directory(appDir).delete(recursive: true);
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => LoginScreen()));
+        },
+      ),
+    ],
+    centerTitle: true,
+    backgroundColor: Colors.green,
+  );
 
   _buildAddFixtureButton(context) => Builder(builder: (context) {
-        GlobalKey<FormState> key = GlobalKey();
-        List<String> ticketInfo = <String>[];
-        return FloatingActionButton(
-            onPressed: () => showModalBottomSheet(
-                elevation: 4,
-                context: context,
-                builder: (context) => SizedBox(
-                  height: 350,
-                  child: SingleChildScrollView(
-                    child: Form(
-                      key: key,
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25.0),
-                        child: Column(
-                          children: [
-                            _buildTextField(key, ticketInfo, false),
-                            _buildTextField(key, ticketInfo, true),
-                            _buildTimePicker(true, context),
-                            const Divider(
-                              height: 1,
-                              color: kPrimaryColor,
-                              thickness: 2,
-                            ),
-                            _buildTimePicker(false, context),
-                            const Divider(
-                              height: 1,
-                              color: kPrimaryColor,
-                              thickness: 2,
-                            ),
-                            _buildSubmitButton(context, key, ticketInfo),
-                          ],
-                        ),
+      GlobalKey<FormState> key = GlobalKey();
+      List<String> ticketInfo = <String>[];
+      return FloatingActionButton(
+        onPressed: () => showModalBottomSheet(
+          elevation: 4,
+          context: context,
+          builder: (context) => SizedBox(
+            height: 350,
+            child: SingleChildScrollView(
+              child: Form(
+                key: key,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25.0),
+                  child: Column(
+                    children: [
+                      _buildTextField(key, ticketInfo, false),
+                      _buildTextField(key, ticketInfo, true),
+                      _buildTimePicker(true, context),
+                      const Divider(
+                        height: 1,
+                        color: kPrimaryColor,
+                        thickness: 2,
                       ),
-                    )),
-            elevation: 4,
-            foregroundColor:
-                Theme.of(context).floatingActionButtonTheme.foregroundColor,
-            backgroundColor:
-                Theme.of(context).floatingActionButtonTheme.backgroundColor,
-            hoverColor: Colors.green.shade800,
-            child: const Icon(Icons.add, size: 35));
-      });
+                      _buildTimePicker(false, context),
+                      const Divider(
+                        height: 1,
+                        color: kPrimaryColor,
+                        thickness: 2,
+                      ),
+                      _buildSubmitButton(context, key, ticketInfo),
+                    ],
+                  ),
+                ),
+              )
+            )
+          ),
+        ),
+        elevation: 4,
+        foregroundColor:
+            Theme.of(context).floatingActionButtonTheme.foregroundColor,
+        backgroundColor:
+            Theme.of(context).floatingActionButtonTheme.backgroundColor,
+        hoverColor: Colors.green.shade800,
+        child: const Icon(Icons.add, size: 35)
+      );
+    }
+  );
 
 
   _buildTextField(key, ticketInfo, moneyPayment) => TextFormField(
@@ -329,7 +335,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
   _buildNavBar() => Container(
     padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
     decoration: BoxDecoration(
-      boxShadow: <BoxShadow>[
+      boxShadow: const <BoxShadow>[
         BoxShadow(
           color: Colors.black,
           blurRadius: 10,
