@@ -53,7 +53,6 @@ public class SignupService
         res.put("phoneNumber", newCourtOwner.getPhoneNumber());
         res.put("xAxis", newCourtOwner.getXAxis());
         res.put("yAxis", newCourtOwner.getYAxis());
-        res.put("password", newCourtOwner.getPassword()) ;
 
         return new Gson().toJson(res);
     }

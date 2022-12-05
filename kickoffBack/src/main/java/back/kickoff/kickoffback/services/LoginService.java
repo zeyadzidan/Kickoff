@@ -44,7 +44,6 @@ public class LoginService {
        res.put("phoneNumber", co.getPhoneNumber());
        res.put("xAxis", co.getXAxis());
        res.put("yAxis", co.getYAxis());
-       res.put("password", co.getPassword()) ;
 
         return new Gson().toJson(res);
     }

@@ -57,7 +57,6 @@ class SignupServiceTest {
         res.put("phoneNumber", newCourtOwner.getPhoneNumber());
         res.put("xAxis", newCourtOwner.getXAxis());
         res.put("yAxis", newCourtOwner.getYAxis());
-        res.put("password", newCourtOwner.getPassword()) ;
 
         assertEquals(new Gson().toJson(res), result);
     }
