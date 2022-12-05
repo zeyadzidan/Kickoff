@@ -33,17 +33,18 @@ public class LoginService {
        {
            return "Not found Password";
        }
-       Map<String, String> res = new HashMap<>() ;
+       Map<String, Object> res = new HashMap<>() ;
        CourtOwner co = courtOwner.get();
-       res.put("id", co.getId().toString());
+       res.put("id", co.getId());
        res.put("userName", co.getUserName());
        res.put("email", co.getEmail());
        res.put("location", co.getLocation());
        res.put("rating", String.valueOf(co.getRating()));
        res.put("image", co.getImage());
        res.put("phoneNumber", co.getPhoneNumber());
-       res.put("xAxis", co.getXAxis().toString());
-       res.put("yAxis", co.getYAxis().toString());
+       res.put("xAxis", co.getXAxis());
+       res.put("yAxis", co.getYAxis());
+       res.put("password", co.getPassword()) ;
 
         return new Gson().toJson(res);
     }
