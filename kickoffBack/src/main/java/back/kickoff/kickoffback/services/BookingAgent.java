@@ -90,7 +90,8 @@ public class BookingAgent {
 
     public String setPending(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
-        Long playerID = jsonObject.getLong("playerId");
+        Long playerID = 0L ;
+        //Long playerID = jsonObject.getLong("playerId");
         String playerName = jsonObject.getString("playerName");
         Long courtId = jsonObject.getLong("courtId");
         Long courtOwnerId = jsonObject.getLong("courtOwnerId");
