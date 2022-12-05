@@ -24,7 +24,12 @@ class localFile {
 
       // Read the file
       final contents = await file.readAsString();
-      return (contents);
+      if (contents != "") {
+        return (contents);
+      } else {
+        return "0";
+      }
+
     } catch (e) {
       // If encountering an error, return 0
       return "0";
@@ -35,5 +40,11 @@ class localFile {
     final file = await _localFile;
     // Write the file
     return file.writeAsString("$email:$pass");
+  }
+
+  static Future<File> clearLoginData() async {
+    final file = await _localFile;
+    // Write the file
+    return file.writeAsString("");
   }
 }

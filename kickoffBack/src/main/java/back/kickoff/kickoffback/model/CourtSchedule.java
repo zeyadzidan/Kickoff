@@ -8,17 +8,20 @@ import java.sql.Time;
 import java.util.List;
 import java.util.Objects;
 
-@ToString
-@RequiredArgsConstructor
+
+
+@Data
+@Entity
 @Setter
 @Getter
 @Table
-@Entity
+@NoArgsConstructor
 public class CourtSchedule {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-
-    public CourtSchedule(Long courtID, Time startWorkingHours, Time endWorkingHours, Time endMorning, Integer morningCost, Integer nightCost, Integer minBookingHours) {
-        this.courtID = courtID;
+    public CourtSchedule(Time startWorkingHours, Time endWorkingHours, Time endMorning, Integer morningCost, Integer nightCost, Integer minBookingHours) {
         this.startWorkingHours = startWorkingHours;
         this.endWorkingHours = endWorkingHours;
         if(endMorning == null){
@@ -32,47 +35,31 @@ public class CourtSchedule {
             this.nightCost = nightCost ;
         if(minBookingHours != null)
             this.minBookingHours = minBookingHours ;
-
     }
 
-    @Id
-    Long courtID;
+
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name= "fk_booked", referencedColumnName = "courtID")
+    @JoinColumn(name= "fk_booked", referencedColumnName = "id")
     List<Reservation> bookedReservations ;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name= "fk_pending", referencedColumnName = "courtID")
-    List<Reservation> pendingReservations ;
+    @JoinColumn(name= "fk_pending", referencedColumnName = "id")
+    private List<Reservation> pendingReservations ;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name= "fk_his", referencedColumnName = "courtID")
-    List<Reservation> history ;
+    @JoinColumn(name= "fk_his", referencedColumnName = "id")
+    private List<Reservation> history ;
 
-    @Column(nullable = false)
-    Time startWorkingHours ;
-    @Column(nullable = false)
-    Time endWorkingHours ;
-    Time endMorning ;
+    private Time startWorkingHours ;
+    private Time endWorkingHours ;
+    private Time endMorning ;
 
-    Integer minBookingHours = 1 ;
+    private Integer minBookingHours = 1 ;
 
-    @Column(nullable = false)
-    Integer morningCost ;
+    private Integer morningCost ;
 
-    Integer nightCost ;
+    private Integer nightCost ;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        CourtSchedule schedule = (CourtSchedule) o;
-        return courtID != null && Objects.equals(courtID, schedule.courtID);
-    }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

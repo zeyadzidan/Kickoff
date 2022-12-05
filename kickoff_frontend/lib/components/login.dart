@@ -10,6 +10,7 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
 class LoginButton extends StatefulWidget {
+
   const LoginButton({super.key});
 
   @override
@@ -17,7 +18,7 @@ class LoginButton extends StatefulWidget {
 }
 
 class RoundedLogin extends State<LoginButton> {
-  static String url = "http://192.168.1.2:8080/login/courtOwner";
+  static String url = "http://${ip}:8080/login/courtOwner";
   var resp = 52;
   late Map<String, dynamic> profileData;
 
@@ -25,11 +26,12 @@ class RoundedLogin extends State<LoginButton> {
     var res = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "email": email,
+          "email": email.toLowerCase(),
           "password": pass,
         }));
+
     setState(() => profileData = json.decode(res.body));
-    print(res.body);
+
   }
 
   static Future save2(email, pass) async {
@@ -42,10 +44,9 @@ class RoundedLogin extends State<LoginButton> {
           "Access-Control-Allow-Methods": "POST, OPTIONS"
         },
         body: json.encode({
-          "email": email,
+          "email": email.toLowerCase(),
           "password": pass,
         }));
-    print(res.body);
     return json.decode(res.body);
   }
 
@@ -68,7 +69,7 @@ class RoundedLogin extends State<LoginButton> {
 
           await save(RoundedInputLogin.EmailLogin.text,
               RoundedPasswordInput.Password.text);
-          print(profileData.length);
+
           if (profileData.isEmpty) {
             showAlertDialog(context, 'Enter valid Email');
             RoundedInputLogin.EmailLogin.clear();
@@ -77,6 +78,8 @@ class RoundedLogin extends State<LoginButton> {
             RoundedPasswordInput.Password.clear();
           } else {
             KickoffApplication.data = profileData;
+            KickoffApplication.OWNER_ID = profileData["id"].toString();
+
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInput.Password.text);
             Navigator.of(context).push(
@@ -103,25 +106,19 @@ class RoundedLogin extends State<LoginButton> {
 }
 
 showAlertDialog(BuildContext context, text3) {
-  // Create button
-  Widget okButton = TextButton(
-    child: const Text("OK"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-  // Create AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: const Text("Warning"),
-    content: Text(text3),
-    actions: [
-      okButton,
-    ],
-  );
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
+  return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+            title: Text("Warning"),
+            content: Text(text3),
+            actions: [
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              ),
+            ],
+          ));
+
 }

@@ -10,8 +10,8 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
-
+class _LoginScreenState extends State<LoginScreen>
+    with SingleTickerProviderStateMixin {
   bool isLogin = true;
   late Animation<double> containerSize;
   AnimationController? animationController;
@@ -20,7 +20,8 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(vsync: this, duration: animationDuration);
+    animationController =
+        AnimationController(vsync: this, duration: animationDuration);
   }
 
   @override
@@ -33,11 +34,16 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    double viewInset = MediaQuery.of(context).viewInsets.bottom; // we are using this to determine Keyboard is opened or not
+    double viewInset = MediaQuery.of(context)
+        .viewInsets
+        .bottom; // we are using this to determine Keyboard is opened or not
     double defaultLoginSize = size.height - (size.height * 0.2);
     double defaultRegisterSize = size.height - (size.height * 0.1);
 
-    containerSize = Tween<double>(begin: size.height * 0.1, end: defaultRegisterSize).animate(CurvedAnimation(parent: animationController!, curve: Curves.linear));
+    containerSize =
+        Tween<double>(begin: size.height * 0.1, end: defaultRegisterSize)
+            .animate(CurvedAnimation(
+                parent: animationController!, curve: Curves.linear));
 
     return Scaffold(
       body: Stack(
@@ -51,10 +57,14 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                 height: 100,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color: kPrimaryColor
-                ),
-              )
-          ),
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 5,
+                      ),
+                    ],
+                    color: kPrimaryColor),
+              )),
 
           Positioned(
               top: -50,
@@ -64,10 +74,31 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                 height: 200,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    color: kPrimaryColor
-                ),
-              )
-          ),
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 5,
+                      ),
+                    ],
+                    color: kPrimaryColor),
+              )),
+
+          Positioned(
+              bottom: -100,
+              left: -100,
+              child: Container(
+                width: 290,
+                height: 290,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(145),
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 5,
+                      ),
+                    ],
+                    color: kPrimaryColor),
+              )),
 
           // Cancel Button
           CancelButton(
@@ -75,16 +106,23 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
             animationDuration: animationDuration,
             size: size,
             animationController: animationController,
-            tapEvent: isLogin ? null : () { // returning null to disable the button
-              animationController!.reverse();
-              setState(() {
-                isLogin = !isLogin;
-              });
-            },
+            tapEvent: isLogin
+                ? null
+                : () {
+                    // returning null to disable the button
+                    animationController!.reverse();
+                    setState(() {
+                      isLogin = !isLogin;
+                    });
+                  },
           ),
 
           // Login Form
-          LoginForm(isLogin: isLogin, animationDuration: animationDuration, size: size, defaultLoginSize: defaultLoginSize),
+          LoginForm(
+              isLogin: isLogin,
+              animationDuration: animationDuration,
+              size: size,
+              defaultLoginSize: defaultLoginSize),
 
           // Register Container
           AnimatedBuilder(
@@ -102,7 +140,11 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
           ),
 
           // Register Form
-          RegisterForm(isLogin: isLogin, animationDuration: animationDuration, size: size, defaultLoginSize: defaultRegisterSize),
+          RegisterForm(
+              isLogin: isLogin,
+              animationDuration: animationDuration,
+              size: size,
+              defaultLoginSize: defaultRegisterSize),
         ],
       ),
     );
@@ -119,25 +161,24 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               topLeft: Radius.circular(100),
               topRight: Radius.circular(100),
             ),
-            color: kBackgroundColor
-        ),
-
+            color: kBackgroundColor),
         alignment: Alignment.center,
         child: GestureDetector(
-          onTap: !isLogin ? null : () {
-            animationController!.forward();
+          onTap: !isLogin
+              ? null
+              : () {
+                  animationController!.forward();
 
-            setState(() {
-              isLogin = !isLogin;
-            });
-          },
-          child: isLogin ? Text(
-            "Don't have an account? Sign up",
-            style: TextStyle(
-                color: kPrimaryColor,
-                fontSize: 18
-            ),
-          ) : null,
+                  setState(() {
+                    isLogin = !isLogin;
+                  });
+                },
+          child: isLogin
+              ? Text(
+                  "Don't have an account? Sign up",
+                  style: TextStyle(color: kPrimaryColor, fontSize: 18),
+                )
+              : null,
         ),
       ),
     );

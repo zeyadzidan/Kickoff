@@ -27,9 +27,11 @@ public class CourtOwnerAgentController {
     @PostMapping("/CourtOwner/CreateCourt")
     public ResponseEntity<String> createCourt(@RequestBody String information) throws JSONException
     {
-        if(courtOwnerAgent.createCourt(information).equals("Success"))
+
+        String response = courtOwnerAgent.createCourt(information) ;
+        if(response.equals("Success"))
             return new ResponseEntity<>("Court added", HttpStatus.CREATED);
-        return new ResponseEntity<>("Court Owner not found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/CourtOwner/addImage")
