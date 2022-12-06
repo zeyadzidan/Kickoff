@@ -105,18 +105,18 @@ public class BookingAgent {
         Date stDate, endDate;
         Time timeFrom, timeTo;
         if(tempArrS.length != 3 || tempArrF.length != 3)
-            return "In valid date";
+            return "In valid date1";
         yearS = Integer.parseInt(tempArrS[2]); yearF = Integer.parseInt(tempArrF[2]);
         monthS = Integer.parseInt(tempArrS[0]); monthF = Integer.parseInt(tempArrF[0]);
         dayS = Integer.parseInt(tempArrS[1]); dayF = Integer.parseInt(tempArrF[1]);
         try
         {
-            stDate = new Date(yearS, monthS, dayS);
-            endDate = new Date(yearF, monthF, dayF);
+            stDate = new Date(yearS,monthS-1, dayS);
+            endDate = new Date(yearF, monthF-1, dayF);
         }
         catch (Exception e)
         {
-            return "In valid date";
+            return "In valid date2";
         }
         try
         {
