@@ -9,6 +9,9 @@ import 'package:kickoff_frontend/components/login/PasswordLogin.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
+import '../httpshandlers/courtsrequests.dart';
+import '../screens/reservations.dart';
+
 class LoginButton extends StatefulWidget {
   const LoginButton({super.key});
 
@@ -77,6 +80,9 @@ class RoundedLogin extends State<LoginButton> {
             print(profileData);
             KickoffApplication.data = profileData;
             KickoffApplication.OWNER_ID = profileData["id"].toString();
+            KickoffApplication.courts =
+                await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
+            await ReservationsHome.buildTickets();
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInput.Password.text);
             Navigator.of(context).push(MaterialPageRoute(

@@ -32,9 +32,10 @@ class ReservationsHome extends StatefulWidget {
 }
 
 class _ReservationsHomeState extends State<ReservationsHome> {
-  _onTabSelect(index) {
+  _onTabSelect(index) async {
     ReservationsHome._selectedCourt = index;
-    // setState(() {});
+    await ReservationsHome.buildTickets();
+    setState(() {});
   }
 
   _pickDate() async {
@@ -52,8 +53,11 @@ class _ReservationsHomeState extends State<ReservationsHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [_buildCourts(), _buildDatePicker(), _buildFixtures()],
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        children: [_buildCourts(), _buildDatePicker(), _buildFixtures()],
+      ),
     );
   }
 
@@ -102,24 +106,18 @@ class _ReservationsHomeState extends State<ReservationsHome> {
   _buildFixtures() {
     return SingleChildScrollView(
         child: ExpansionPanelList(
-          animationDuration: const Duration(milliseconds: 300),
-          expandedHeaderPadding: EdgeInsets.zero,
-          dividerColor: Theme.of(context).dividerColor,
-          elevation: 4,
-          children: List<ExpansionPanel>.generate(
-              ReservationsHome.reservations.length,
-              (index) => FixturePanelBuilder().build(
-                ReservationsHome.reservations[index],
-                ReservationsHome.isExpanded[index]
-              )
-          ),
-          expansionCallback: (i, isExpanded) =>
-              setState(
-                      () =>
-                  ReservationsHome.isExpanded[i] = !isExpanded
-              ),
-        )
-    );
+      animationDuration: const Duration(milliseconds: 300),
+      expandedHeaderPadding: EdgeInsets.zero,
+      dividerColor: Theme.of(context).dividerColor,
+      elevation: 4,
+      children: List<ExpansionPanel>.generate(
+          ReservationsHome.reservations.length,
+          (index) => FixturePanelBuilder().build(
+              ReservationsHome.reservations[index],
+              ReservationsHome.isExpanded[index])),
+      expansionCallback: (i, isExpanded) =>
+          setState(() => ReservationsHome.isExpanded[i] = !isExpanded),
+    ));
   }
 
   _setBooked(FixtureTicket ticket) {
