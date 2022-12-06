@@ -11,8 +11,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
+
 class CourtOwnerTest {
     CourtOwner courtOwner;
 
