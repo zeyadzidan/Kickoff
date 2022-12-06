@@ -25,12 +25,13 @@ class Tickets {
   }
 
   static Future bookTicket(FixtureTicket ticket) async {
-    await http.post(Uri.parse('$url/BookingAgent/booking'),
+    var response = await http.post(Uri.parse('$url/BookingAgent/booking'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "reseravtionId": ticket.ticketId,
+          "reservationId": ticket.ticketId,
           "moneyPaid": ticket.paidAmount
         }));
+    print(response.body);
   }
 
   static Future<List<FixtureTicket>> getCourtFixtures(

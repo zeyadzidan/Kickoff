@@ -6,11 +6,9 @@ import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
 
 import '../../components/classes/fixtureticket.dart';
 import '../../constants.dart';
-import '../components/builders/fpbuilder.dart';
 
 class ReservationsHome extends StatefulWidget {
   ReservationsHome({super.key}) {
-    // buildTickets(); //TODO:hanknsl hina
     for (FixtureTicket ticket in ReservationsHome.reservations)
       print(ticket.asView());
     isExpanded = List<bool>.generate(reservations.length, (index) => false);
@@ -46,18 +44,15 @@ class _ReservationsHomeState extends State<ReservationsHome> {
       lastDate: DateTime(DateTime.now().year + 5),
     );
 
-    // if (dateTime != null) {
-    //   setState(() => ReservationsHome._selectedDate = dateTime);
-    // }
+    if (dateTime != null) {
+      setState(() => ReservationsHome._selectedDate = dateTime);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-        children: [_buildCourts(), _buildDatePicker(), _buildFixtures()],
-      ),
+    return Column(
+      children: [_buildCourts(), _buildDatePicker(), _buildFixtures()],
     );
   }
 
@@ -104,74 +99,108 @@ class _ReservationsHomeState extends State<ReservationsHome> {
       );
 
   _buildFixtures() {
-    return SingleChildScrollView(
+    List<GlobalKey<FormState>> keys = <GlobalKey<FormState>>[];
+    for (FixtureTicket ticket in ReservationsHome.reservations) {
+      keys.add(GlobalKey());
+    }
+    return Expanded(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: ExpansionPanelList(
-      animationDuration: const Duration(milliseconds: 300),
-      expandedHeaderPadding: EdgeInsets.zero,
-      dividerColor: Theme.of(context).dividerColor,
-      elevation: 4,
-      children: List<ExpansionPanel>.generate(
-          ReservationsHome.reservations.length,
-          (index) => FixturePanelBuilder().build(
-              ReservationsHome.reservations[index],
-              ReservationsHome.isExpanded[index])),
-      expansionCallback: (i, isExpanded) =>
-          setState(() => ReservationsHome.isExpanded[i] = !isExpanded),
-    ));
-  }
-
-  _setBooked(FixtureTicket ticket) {
-    GlobalKey<FormState> key = GlobalKey();
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(actions: <Widget>[
-              Column(
-                children: [
-                  Form(
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                          prefixIcon:
-                              Icon(Icons.monetization_on, color: kPrimaryColor),
-                          labelText: "Paid amount",
-                          labelStyle: TextStyle(color: kPrimaryColor),
-                          focusColor: kPrimaryColor,
-                          border: UnderlineInputBorder(),
-                          suffixText: 'EGP'),
-                      validator: (input) {
-                        if (input! == 0) {
-                          return "This field can't be blank.";
-                        }
-                      },
-                      onSaved: (input) => ticket.paidAmount = input!,
+            animationDuration: const Duration(milliseconds: 300),
+            expandedHeaderPadding: EdgeInsets.zero,
+            dividerColor: kPrimaryColor,
+            elevation: 4,
+            children: List<ExpansionPanel>.generate(
+                ReservationsHome.reservations.length,
+                (index) => ExpansionPanel(
+                  headerBuilder: (_, isExpanded) => Container(
+                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(25),
+                        color: (ReservationsHome.reservations[index].state == 'Pending')
+                          ? Colors.yellow.withOpacity(0.5)
+                            : (ReservationsHome.reservations[index].state == 'Booked')
+                              ? kPrimaryColor.withOpacity(0.5)
+                                : Colors.red.withOpacity(0.5),
                     ),
+                    child: Text(ReservationsHome.reservations[index].pname),
                   ),
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    margin: const EdgeInsets.only(top: 15),
-                    child: ElevatedButton.icon(
-                      label: const Text('SUBMIT'),
-                      icon: const Icon(Icons.schedule_send),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: kPrimaryColor,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 15)),
-                      onPressed: () async {
-                        // Validate name and money constraints
-                        if (!key.currentState!.validate()) {
-                          return;
-                        }
-                        key.currentState!.save();
-                        ticket.state = 'Active';
-                        await Tickets.bookTicket(ticket);
-                        Navigator.pop(context);
-                      },
-                    ),
-                  )
-                ],
-              )
-            ]));
+                  body: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
+                      child: Column(
+                        children: [
+                          Column(
+                            children: List<Text>.generate(
+                                ReservationsHome.reservations[index].asView().length,
+                                    (j) => Text(ReservationsHome.reservations[index].asView()[j])
+                            ),
+                          ),
+                          (ReservationsHome.reservations[index].state == 'Pending')
+                          ? Form(
+                            key: keys[index],
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                  prefixIcon:
+                                  Icon(Icons.monetization_on, color: kPrimaryColor),
+                                  labelText: "Paid amount",
+                                  labelStyle: TextStyle(color: kPrimaryColor),
+                                  focusColor: kPrimaryColor,
+                                  border: UnderlineInputBorder(),
+                                  suffixText: 'EGP'
+                              ),
+                              validator: (input) {
+                                if (input! == 0 || input == '') {
+                                  return "This field can't be blank.";
+                                }
+                              },
+                              onSaved: (input) {
+                                ReservationsHome.reservations[index].state = 'Booked';
+                                ReservationsHome.reservations[index].paidAmount = input!;
+                              },
+                            ),
+                          )
+                          : Container(),
+                          (ReservationsHome.reservations[index].state == 'Pending')
+                          ? Container(
+                            alignment: Alignment.bottomCenter,
+                            margin: const EdgeInsets.only(top: 15),
+                            child: ElevatedButton.icon(
+                              label: const Text('SUBMIT'),
+                              icon: const Icon(Icons.schedule_send),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 15)),
+                              onPressed: () async {
+                                // Validate name and money constraints
+                                if (!keys[index].currentState!.validate()) {
+                                  return;
+                                }
+                                keys[index].currentState!.save();
+                                await Tickets.bookTicket(ReservationsHome.reservations[index]);
+                                setState(() {
 
-    // setState(() {});
+                                });
+                              },
+                            ),
+                          ) : Container(),
+                        ],
+                      )
+                  ),
+                  isExpanded: ReservationsHome.isExpanded[index],
+                  canTapOnHeader: true,
+                )
+            ),
+            expansionCallback: (i, isExpanded) =>
+                setState(
+                        () =>
+                    ReservationsHome.isExpanded[i] = !isExpanded
+                ),
+          )
+      ),
+    );
   }
 }
