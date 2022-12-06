@@ -6,15 +6,18 @@ import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
 
 import '../../components/classes/fixtureticket.dart';
 import '../../constants.dart';
+import '../components/builders/fpbuilder.dart';
 
 class ReservationsHome extends StatefulWidget {
   ReservationsHome({super.key}) {
     // buildTickets(); //TODO:hanknsl hina
     for (FixtureTicket ticket in ReservationsHome.reservations)
       print(ticket.asView());
+    isExpanded = List<bool>.generate(reservations.length, (index) => false);
   }
 
   static List<FixtureTicket> reservations = [];
+  static List<bool> isExpanded = [];
   static int _selectedCourt = 0;
   static DateTime _selectedDate = DateTime.now();
   static get selectedCourt => ReservationsHome._selectedCourt;
@@ -97,36 +100,25 @@ class _ReservationsHomeState extends State<ReservationsHome> {
       );
 
   _buildFixtures() {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-            children: List<GestureDetector>.generate(
-                ReservationsHome.reservations.length, (index) {
-          List<String> view = ReservationsHome.reservations[index].asView();
-          return GestureDetector(
-            onTap: () => print("lol"),
-            child: Container(
-              decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(25),
-                  color: (ReservationsHome.reservations[index].state ==
-                          'Pending')
-                      ? Colors.yellow.withOpacity(0.3)
-                      : (ReservationsHome.reservations[index].state == 'Active')
-                          ? kPrimaryColor.withOpacity(0.3)
-                          : Colors.red.withOpacity(0.3) // Expired
-                  ),
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              alignment: Alignment.center,
-              child: Column(
-                children: List<Text>.generate(
-                    view.length, (index) => Text(view[index].toString())),
+    return SingleChildScrollView(
+        child: ExpansionPanelList(
+          animationDuration: const Duration(milliseconds: 300),
+          expandedHeaderPadding: EdgeInsets.zero,
+          dividerColor: Theme.of(context).dividerColor,
+          elevation: 4,
+          children: List<ExpansionPanel>.generate(
+              ReservationsHome.reservations.length,
+              (index) => FixturePanelBuilder().build(
+                ReservationsHome.reservations[index],
+                ReservationsHome.isExpanded[index]
+              )
+          ),
+          expansionCallback: (i, isExpanded) =>
+              setState(
+                      () =>
+                  ReservationsHome.isExpanded[i] = !isExpanded
               ),
-            ),
-          );
-        })),
-      ),
+        )
     );
   }
 

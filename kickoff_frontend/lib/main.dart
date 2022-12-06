@@ -5,7 +5,7 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/application.dart';
 import 'package:kickoff_frontend/localFile.dart';
 import 'package:kickoff_frontend/components/LoginRequest.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:kickoff_frontend/screens/login.dart';
 import 'package:kickoff_frontend/screens/reservations.dart';
 
@@ -20,8 +20,8 @@ Map<String, dynamic> data = {};
 // late Map<String, dynamic> profileData;
 //
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   runApp(const MyApp());
   loginData = await localFile.readLoginData();
   firstTime = (loginData == "0");
