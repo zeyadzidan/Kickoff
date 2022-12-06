@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application.dart';
 import 'package:kickoff_frontend/components/classes/court.dart';
 import 'package:kickoff_frontend/constants.dart';
+import 'package:kickoff_frontend/screens/reservations.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../httpshandlers/courtsrequests.dart';
@@ -245,31 +246,32 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                 ),
               ),
             ),
-            // _buildCourts()
+            _buildCourts()
           ],
-        ));
+        )
+    );
   }
 
-  _buildCourts() async {
-    Map<String, dynamic> courts =
-        await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
-    return Expanded(
-        child: SingleChildScrollView(
+  _buildCourts() => Expanded(
+    child: SingleChildScrollView(
       child: Column(
-          children: List<Container>.generate(10 - 1, (index) {
-        return Container(
-            decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(25),
-                color: kPrimaryColor.withOpacity(0.3)),
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            alignment: Alignment.center,
-            child: Column(
-              children: List<Text>.generate(
-                  courts.length, (index) => Text(courts[index].asList())),
-            ));
-      })),
-    ));
-  }
+        children: List<Container>.generate(KickoffApplication.courts.length, (i) => Container(
+          decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(25),
+              color: kPrimaryColor.withOpacity(0.3)
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          alignment: Alignment.center,
+          child: Column(
+            children: List<Text>.generate(
+                KickoffApplication.courts[i].asList().length,
+                (j) => Text(KickoffApplication.courts[i].asList()[j])
+            ),
+          )
+        ))
+      ),
+    )
+  );
 }

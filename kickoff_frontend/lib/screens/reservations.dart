@@ -9,29 +9,21 @@ import '../../components/classes/fixtureticket.dart';
 import '../../constants.dart';
 
 class ReservationsHome extends StatefulWidget {
-  ReservationsHome({super.key}) {
-    _getCourts();
-  }
+  const ReservationsHome({super.key});
 
-  _getCourts() async {
-    // courts = await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
-  }
-
-  static get selectedCourt => _ReservationsHomeState._selectedCourt;
-  static get selectedDate => _ReservationsHomeState._selectedDate;
-
-  static Map<String, dynamic> courts = {};
+  static int _selectedCourt = 0;
+  static DateTime _selectedDate = DateTime.now();
+  static get selectedCourt => ReservationsHome._selectedCourt;
+  static get selectedDate => ReservationsHome._selectedDate;
 
   @override
   State<ReservationsHome> createState() => _ReservationsHomeState();
 }
 
 class _ReservationsHomeState extends State<ReservationsHome> {
-  static int _selectedCourt = 0;
-  static DateTime _selectedDate = DateTime.now();
 
   _onTabSelect(index) {
-    _selectedCourt = index;
+    ReservationsHome._selectedCourt = index;
     setState(() {});
   }
 
@@ -44,7 +36,7 @@ class _ReservationsHomeState extends State<ReservationsHome> {
     );
 
     if (dateTime != null) {
-      setState(() => _selectedDate = dateTime);
+      setState(() => ReservationsHome._selectedDate = dateTime);
     }
   }
 
@@ -58,25 +50,26 @@ class _ReservationsHomeState extends State<ReservationsHome> {
       decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(100),
-          color: kPrimaryColor.withOpacity(0.3)),
+          color: kPrimaryColor.withOpacity(0.3)
+      ),
       margin: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
           child: GNav(
-            selectedIndex: _selectedCourt,
+            selectedIndex: ReservationsHome._selectedCourt,
             onTabChange: _onTabSelect,
             duration: const Duration(milliseconds: 300),
             activeColor: Colors.white,
             color: kPrimaryColor,
             tabBackgroundColor: Colors.black.withAlpha(25),
             tabs: List<GButton>.generate(
-                ReservationsHome.courts.length,
+                KickoffApplication.courts.length,
                 (index) => GButton(
                       backgroundColor: kPrimaryColor,
                       icon: Icons.stadium,
-                      text: "   ${ReservationsHome.courts[index].cname}",
+                      text: "   ${KickoffApplication.courts[index].cname}",
                     )),
           ),
         ),
@@ -89,7 +82,7 @@ class _ReservationsHomeState extends State<ReservationsHome> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(Icons.calendar_month),
-            Text('  ${DateFormat.yMMMMEEEEd().format(_selectedDate)}'),
+            Text('  ${DateFormat.yMMMMEEEEd().format(ReservationsHome._selectedDate)}'),
           ],
         ),
       );
@@ -104,16 +97,15 @@ class _ReservationsHomeState extends State<ReservationsHome> {
     ticket.state = 'Pending';
 
     // TODO: Generate the list of fixtures received from backend.
-    String date = DateFormat.yMd().format(_selectedDate);
-    List<dynamic> tickets = CourtsHTTPsHandler.getCourtFixtures(
-        ReservationsHome.courts[_selectedCourt].cid,
-        KickoffApplication.OWNER_ID,
-        date) as List<dynamic>;
+    List<FixtureTicket> tickets = [];
+    _buildTickets(tickets);
+    for(FixtureTicket ticket in tickets)
+      print(ticket.asList());
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
             children: List<GestureDetector>.generate(tickets.length, (index) {
-            List<dynamic> body = _buildBody(tickets[index]);
+            List<String> body = _buildBody(tickets[index]);
             return GestureDetector(
               onDoubleTap: _setBooked(index, tickets[index]),
               child: Container(
@@ -143,8 +135,14 @@ class _ReservationsHomeState extends State<ReservationsHome> {
     );
   }
 
-  _buildBody(fixtureTicket) => [
-    fixtureTicket.isPending,
+  _buildTickets(tickets) async => tickets = await CourtsHTTPsHandler.getCourtFixtures(
+      KickoffApplication.courts[ReservationsHome._selectedCourt].cid,
+      KickoffApplication.OWNER_ID,
+      DateFormat.yMd().format(ReservationsHome._selectedDate)
+  );
+
+  _buildBody(FixtureTicket fixtureTicket) => [
+    fixtureTicket.state,
     'Player Name: ${fixtureTicket.pname}',
     'Start Date: ${fixtureTicket.startDate}',
     'End Date: ${fixtureTicket.endDate}',
@@ -206,8 +204,6 @@ class _ReservationsHomeState extends State<ReservationsHome> {
         )
     );
 
-    setState(() {
-
-    });
+    setState(() {});
   }
 }

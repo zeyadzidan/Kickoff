@@ -1,12 +1,12 @@
 class Court {
-  late String cname; // Court Name.
-  late String cid; // Court ID.
-  late String description;
-  late String morningCost;
-  late String nightCost;
-  late String minBookingHours;
-  late String startingWorkingHours;
-  late String finishWorkingHours;
+  String cname = ''; // Court Name.
+  String cid = ''; // Court ID.
+  String description = '';
+  String morningCost = '';
+  String nightCost = '';
+  String minBookingHours = '';
+  String startingWorkingHours = '';
+  String finishWorkingHours = '';
 
   asList() => [
     'Court Name: $cname',

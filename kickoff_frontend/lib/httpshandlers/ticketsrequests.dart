@@ -9,7 +9,7 @@ import '../constants.dart';
 class Tickets {
   static String url = "http://$ip:8080";
   static Future sendTicket(FixtureTicket ticket) async {
-    await http.post(Uri.parse('$url/BookingAgent/setPending'),
+    var response = await http.post(Uri.parse('$url/BookingAgent/setPending'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "playerName": ticket.pname,
@@ -22,6 +22,7 @@ class Tickets {
         }
       )
     );
+    print(response.body);
   }
 
   static Future bookTicket(FixtureTicket ticket) async {
