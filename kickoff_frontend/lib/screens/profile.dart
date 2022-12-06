@@ -263,7 +263,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                     alignment: Alignment.center,
                     child: Column(
                       children: List<Text>.generate(
-                          KickoffApplication.courts[i].asList().length,
+                          1,
                           (j) =>
                               Text(KickoffApplication.courts[i].asList()[j])),
                     )))),
