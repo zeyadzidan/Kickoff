@@ -95,8 +95,8 @@ class BookingAgentTest {
         HashMap<String, Object> hm = new HashMap<>();
         hm.put("courtId", 11L);
         hm.put("courtOwnerId", 1L);
-        hm.put("startDate", "2022//12//16");
-        hm.put("endDate", "2022//12//16");
+        hm.put("startDate", "2022/12/16");
+        hm.put("endDate", "2022/12/16");
         hm.put("startHour", 2);
         hm.put("finishHour", 4);
         hm.put("playerId", 44L);
