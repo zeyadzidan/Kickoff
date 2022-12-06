@@ -179,7 +179,7 @@ public class BookingAgent {
         {
             SimpleDateFormat obj = new SimpleDateFormat("MM/dd/yyyy");
             long date1 = obj.parse(strDate).getTime();
-            date = new Date(yearS, monthS, dayS);
+            date = new Date(date1);
         }
         catch (Exception e)
         {
