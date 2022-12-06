@@ -167,7 +167,7 @@ public class BookingAgent {
         Long courtId = jsonObject.getLong("courtId");
         Long courtOwnerId = jsonObject.getLong("courtOwnerId");
         String strDate = jsonObject.getString("date");
-        String[] tempArrS = strDate.split("//");
+        String[] tempArrS = strDate.split("/");
         if(tempArrS.length != 3)
             return "In valid date";
 
@@ -177,6 +177,8 @@ public class BookingAgent {
         Date date ;
         try
         {
+            SimpleDateFormat obj = new SimpleDateFormat("MM/dd/yyyy");
+            long date1 = obj.parse(strDate).getTime();
             date = new Date(yearS, monthS, dayS);
         }
         catch (Exception e)
