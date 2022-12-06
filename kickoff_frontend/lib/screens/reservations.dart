@@ -36,19 +36,23 @@ class _ReservationsHomeState extends State<ReservationsHome> {
   _onTabSelect(index) async {
     ReservationsHome._selectedCourt = index;
     await ReservationsHome.buildTickets("ontap");
-    setState(() {});
+    setState(() {
+      ReservationsHome._selectedCourt = index;
+    });
   }
 
   _pickDate() async {
     final DateTime? dateTime = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: ReservationsHome._selectedDate,
       firstDate: DateTime(DateTime.now().year - 5),
       lastDate: DateTime(DateTime.now().year + 5),
     );
 
     if (dateTime != null) {
-      setState(() => ReservationsHome._selectedDate = dateTime);
+      ReservationsHome._selectedDate = dateTime;
+      await ReservationsHome.buildTickets("ontap");
+      setState(() {});
     }
   }
 
