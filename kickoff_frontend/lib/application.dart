@@ -564,7 +564,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
             ticket.endTime = finTime;
 
             await Tickets.sendTicket(ticket);
-            await ReservationsHome.buildTickets();
+            await ReservationsHome.buildTickets("apppliacation");
             setState(() {
               (Navigator.pop(context));
             });

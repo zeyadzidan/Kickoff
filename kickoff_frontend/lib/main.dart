@@ -33,7 +33,7 @@ Future main() async {
     data = await RoundedLogin.save2(email, pass);
     int id = data["id"];
     KickoffApplication.courts = await CourtsHTTPsHandler.getCourts(id);
-    await ReservationsHome.buildTickets();
+    await ReservationsHome.buildTickets("main");
     finish = true;
   } else {
     finish = true;
