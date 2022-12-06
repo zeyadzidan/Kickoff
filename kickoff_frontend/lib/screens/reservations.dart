@@ -22,10 +22,13 @@ class ReservationsHome extends StatefulWidget {
   static DateTime _selectedDate = DateTime.now();
   static get selectedCourt => ReservationsHome._selectedCourt;
   static get selectedDate => ReservationsHome._selectedDate;
-  static buildTickets() async => reservations = await Tickets.getCourtFixtures(
-      KickoffApplication.courts[ReservationsHome._selectedCourt].cid,
-      KickoffApplication.OWNER_ID,
-      DateFormat.yMd().format(ReservationsHome.selectedDate));
+  static buildTickets(x) async {
+    reservations = await Tickets.getCourtFixtures(
+        KickoffApplication.courts[ReservationsHome._selectedCourt].cid,
+        KickoffApplication.OWNER_ID,
+        DateFormat.yMd().format(ReservationsHome.selectedDate));
+    print(x);
+  }
 
   @override
   State<ReservationsHome> createState() => _ReservationsHomeState();
@@ -34,7 +37,7 @@ class ReservationsHome extends StatefulWidget {
 class _ReservationsHomeState extends State<ReservationsHome> {
   _onTabSelect(index) async {
     ReservationsHome._selectedCourt = index;
-    await ReservationsHome.buildTickets();
+    await ReservationsHome.buildTickets("ontap");
     setState(() {});
   }
 

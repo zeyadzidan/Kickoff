@@ -82,7 +82,7 @@ class RoundedLogin extends State<LoginButton> {
             KickoffApplication.OWNER_ID = profileData["id"].toString();
             KickoffApplication.courts =
                 await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
-            await ReservationsHome.buildTickets();
+            await ReservationsHome.buildTickets("login");
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInput.Password.text);
             Navigator.of(context).push(MaterialPageRoute(
