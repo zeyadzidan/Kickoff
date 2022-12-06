@@ -20,7 +20,12 @@ class FixtureTicket {
   String startTime = '';
   String endTime = '';
 
-  asList() => [
-    pname, cid, paidAmount, totalCost, state, startDate, endDate, startTime, endTime, ticketId
+  asView() => [
+    'Player Name: $pname',
+    'Start Time: $startTime',
+    'Finish Time: $endTime',
+    'State: $state',
+    'Paid Amount: $paidAmount',
+    'Total Cost: $totalCost'
   ];
 }

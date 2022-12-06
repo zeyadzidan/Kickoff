@@ -6,12 +6,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application.dart';
-import 'package:kickoff_frontend/components/classes/court.dart';
 import 'package:kickoff_frontend/constants.dart';
-import 'package:kickoff_frontend/screens/reservations.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-import '../../httpshandlers/courtsrequests.dart';
 
 class ProfileBaseScreen extends StatefulWidget {
   const ProfileBaseScreen({Key? key}) : super(key: key);
@@ -41,7 +37,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
     UploadTask? uploadTask;
     final ref = FirebaseStorage.instance.ref().child(path);
     uploadTask = ref.putFile(file);
-    final snapshot = await uploadTask!.whenComplete(() {});
+    final snapshot = await uploadTask.whenComplete(() {});
     final Url = await snapshot.ref.getDownloadURL();
     String url = "http://$ip:8080/courtOwnerAgent/CourtOwner/addImage";
     var res = await http.post(Uri.parse(url),
@@ -82,7 +78,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                               if (loadingProgress == null) {
                                 return child;
                               } else {
-                                return Center(
+                                return const Center(
                                   child: CircularProgressIndicator(
                                     color: Colors.white,
                                   ),
@@ -110,25 +106,25 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                             if (result != null) {
                               File file = File(result.files.last.path!);
                               final path2 =
-                                  'files/${KickoffApplication.data["id"].toString()}.${result?.files.last.extension}';
+                                  'files/${KickoffApplication.data["id"].toString()}.${result.files.last.extension}';
                               print(result);
-                              print(result?.files.last.path);
+                              print(result.files.last.path);
                               uploadimage(file, path2);
                               setState(() {
                                 ProfileBaseScreen.path =
-                                    result?.files.last.path;
+                                    result.files.last.path;
                                 localPhoto = true;
                               });
                             }
                           },
                           color: Colors.blue,
                           textColor: Colors.white,
-                          child: Icon(
+                          padding: const EdgeInsets.all(20),
+                          shape: const CircleBorder(),
+                          child: const Icon(
                             Icons.add,
                             size: 40,
                           ),
-                          padding: EdgeInsets.all(20),
-                          shape: CircleBorder(),
                         )
                       ]
                     ],
@@ -144,14 +140,14 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                             child: Column(
                               children: [
                                 Text(
-                                  "${rating2} \u{2B50} ", //rememper to remove the 2 in milestone 2
-                                  style: TextStyle(
+                                  "$rating2 \u{2B50} ", //remember to remove the 2 in milestone 2
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                   ),
                                 ),
-                                Text(
+                                const Text(
                                   "Reviews",
                                   style: TextStyle(
                                     fontSize: 15,
@@ -175,14 +171,14 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                             child: Column(
                               children: [
                                 Text(
-                                  "${subscribers} \u{1F464}",
-                                  style: TextStyle(
+                                  "$subscribers \u{1F464}",
+                                  style: const TextStyle(
                                       letterSpacing: 0.4,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black),
                                 ),
-                                Text(
+                                const Text(
                                   "Subscribers",
                                   style: TextStyle(
                                     letterSpacing: 0.4,
@@ -207,7 +203,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         name,
-                        style: TextStyle(
+                        style: const TextStyle(
                           letterSpacing: 0.4,
                           fontSize: 20,
                           color: Colors.black,
@@ -215,32 +211,32 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0),
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: InkWell(
                             child: Text(
-                              " \u{1F4DE} ${phone} ",
-                              style: TextStyle(
+                              " \u{1F4DE} $phone ",
+                              style: const TextStyle(
                                 letterSpacing: 0.4,
                                 fontSize: 15,
                               ),
                             ),
-                            onTap: () => launchUrlString("tel://${phone}")),
+                            onTap: () => launchUrlString("tel://$phone")),
                       ),
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: InkWell(
                           child: Text(
-                            " \u{1F5FA} ${address}",
-                            style: TextStyle(
+                            " \u{1F5FA} $address",
+                            style: const TextStyle(
                               letterSpacing: 0.4,
                               fontSize: 15,
                             ),
                           ),
                           onTap: () => launchUrlString(
-                              'https://www.google.com/maps/place/${xaxis}+${yaxis}')),
+                              'https://www.google.com/maps/place/$xaxis+$yaxis')),
                     ),
                   ],
                 ),

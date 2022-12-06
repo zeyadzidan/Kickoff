@@ -36,4 +36,35 @@ class Tickets {
       )
     );
   }
+
+  static Future<List<FixtureTicket>> getCourtFixtures(cid, courtOwnerId, date) async {
+    print("ENTERED REQUEST");
+    var rsp =
+    await http.post(Uri.parse('$url/BookingAgent/reservationsOnDate'),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "courtId": cid,
+          "courtOwnerId": courtOwnerId,
+          "date": date
+        }));
+    print(rsp.body);
+    List<dynamic> fixturesMap = json.decode(rsp.body);
+    List<FixtureTicket> reservations = [];
+    FixtureTicket ticket; // The court model
+    for (Map<String, dynamic> map in fixturesMap) {
+      ticket = FixtureTicket();
+      ticket.ticketId = map['id'].toString();
+      ticket.pname = map['playerName'].toString();
+      ticket.cid = map['courtID'].toString();
+      ticket.startDate = map['startDate'].toString();
+      ticket.endDate = map['endDate'].toString();
+      ticket.startTime = map['timeFrom'].toString();
+      ticket.endTime = map['timeTo'].toString();
+      ticket.state = map['state'].toString();
+      ticket.paidAmount = map['moneyPayed'].toString();
+      ticket.totalCost = map['totalCost'].toString();
+      reservations.add(ticket);
+    }
+    return reservations;
+  }
 }

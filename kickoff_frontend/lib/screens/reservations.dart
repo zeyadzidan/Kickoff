@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/application.dart';
-import 'package:kickoff_frontend/httpshandlers/courtsrequests.dart';
 import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
 
 import '../../components/classes/fixtureticket.dart';
 import '../../constants.dart';
 
 class ReservationsHome extends StatefulWidget {
-  const ReservationsHome({super.key});
+  ReservationsHome({super.key}) {
+    Reservations.buildTickets();
+    for (FixtureTicket ticket in Reservations.reservations)
+      print(ticket.asView());
+  }
 
   static int _selectedCourt = 0;
   static DateTime _selectedDate = DateTime.now();
@@ -21,7 +24,6 @@ class ReservationsHome extends StatefulWidget {
 }
 
 class _ReservationsHomeState extends State<ReservationsHome> {
-
   _onTabSelect(index) {
     ReservationsHome._selectedCourt = index;
     setState(() {});
@@ -41,9 +43,11 @@ class _ReservationsHomeState extends State<ReservationsHome> {
   }
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [_buildCourts(), _buildDatePicker(), _buildFixtures()],
-      );
+  Widget build(BuildContext context) {
+    return Column(
+      children: [_buildCourts(), _buildDatePicker(), _buildFixtures()],
+    );
+  }
 
   _buildCourts() => Container(
       padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
@@ -88,33 +92,20 @@ class _ReservationsHomeState extends State<ReservationsHome> {
       );
 
   _buildFixtures() {
-    FixtureTicket ticket = FixtureTicket();
-    ticket.pname = 'Ahmed';
-    ticket.startDate = '16:00';
-    ticket.endDate = '17:00';
-    ticket.paidAmount = '200';
-    ticket.totalCost = '200';
-    ticket.state = 'Pending';
-
-    // TODO: Generate the list of fixtures received from backend.
-    List<FixtureTicket> tickets = [];
-    _buildTickets(tickets);
-    for(FixtureTicket ticket in tickets)
-      print(ticket.asList());
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
-            children: List<GestureDetector>.generate(tickets.length, (index) {
-            List<String> body = _buildBody(tickets[index]);
+            children: List<GestureDetector>.generate(Reservations.reservations.length, (index) {
+            List<String> view = Reservations.reservations[index].asView();
             return GestureDetector(
-              onDoubleTap: _setBooked(index, tickets[index]),
+              onDoubleTap: _setBooked(index, Reservations.reservations[index]),
               child: Container(
                 decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(25),
-                    color: (_buildBody(tickets[index])[0] == 'Pending')
+                    color: (Reservations.reservations[index].state == 'Pending')
                         ? Colors.yellow.withOpacity(0.3)
-                        : (_buildBody(tickets[index])[0] == 'Active')
+                        : (Reservations.reservations[index].state == 'Active')
                         ? kPrimaryColor.withOpacity(0.3)
                         : Colors.red.withOpacity(0.3) // Expired
                 ),
@@ -122,9 +113,9 @@ class _ReservationsHomeState extends State<ReservationsHome> {
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 alignment: Alignment.center,
                 child: Column(
-                  children: List<Text>.generate(body.length - 1, (index) =>
+                  children: List<Text>.generate(view.length, (index) =>
                       Text(
-                          body[index + 1].toString()
+                          view[index].toString()
                       )
                   ),
                 ),
@@ -134,22 +125,6 @@ class _ReservationsHomeState extends State<ReservationsHome> {
       ),
     );
   }
-
-  _buildTickets(tickets) async => tickets = await CourtsHTTPsHandler.getCourtFixtures(
-      KickoffApplication.courts[ReservationsHome._selectedCourt].cid,
-      KickoffApplication.OWNER_ID,
-      DateFormat.yMd().format(ReservationsHome._selectedDate)
-  );
-
-  _buildBody(FixtureTicket fixtureTicket) => [
-    fixtureTicket.state,
-    'Player Name: ${fixtureTicket.pname}',
-    'Start Date: ${fixtureTicket.startDate}',
-    'End Date: ${fixtureTicket.endDate}',
-    'State: ${fixtureTicket.state}',
-    'Money Paid: ${fixtureTicket.paidAmount} EGP',
-    'Total Cost: ${fixtureTicket.totalCost} EGP',
-  ];
 
   _setBooked(index, FixtureTicket ticket) {
     GlobalKey<FormState> key = GlobalKey();
@@ -206,4 +181,13 @@ class _ReservationsHomeState extends State<ReservationsHome> {
 
     setState(() {});
   }
+}
+
+class Reservations {
+  static List<FixtureTicket> reservations = [];
+  static buildTickets() async => reservations = await Tickets.getCourtFixtures(
+      KickoffApplication.courts[ReservationsHome._selectedCourt].cid,
+      KickoffApplication.OWNER_ID,
+      DateFormat.yMd().format(ReservationsHome._selectedDate)
+  );
 }

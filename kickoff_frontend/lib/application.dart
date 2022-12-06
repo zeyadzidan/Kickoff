@@ -14,23 +14,21 @@ import 'package:kickoff_frontend/screens/reservations.dart';
 import 'package:kickoff_frontend/themes.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'components/classes/court.dart';
+
 class KickoffApplication extends StatefulWidget {
   static late Map<String, dynamic> data;
   final Map<String, dynamic> profileData;
   KickoffApplication({super.key, required this.profileData}) {
     data = profileData;
     OWNER_ID = profileData["id"].toString();
+    getCourts();
   }
 
+  static List<Court> courts = [];
+  static getCourts() async => courts = await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
   static String OWNER_ID = "";
   static bool loggedIn = false;
-
-  // Application Pages
-  static final List pages = [
-    const ProfileBaseScreen(),
-    const Center(child: Text("ANNOUNCEMENTS FEATURE IS NOT YET IMPLEMENTED")),
-    ReservationsHome(),
-  ];
 
   @override
   State<KickoffApplication> createState() => KickoffApplicationState();
@@ -39,9 +37,9 @@ class KickoffApplication extends StatefulWidget {
 class KickoffApplicationState extends State<KickoffApplication> {
   late TimeOfDay _initSelectedTime = TimeOfDay.now().replacing(minute: 00);
   late TimeOfDay _finSelectedTime =
-      TimeOfDay.now().replacing(hour: _initSelectedTime.hour + 1, minute: 00);
+      TimeOfDay.now().replacing(hour: (_initSelectedTime.hour + 1)%24, minute: 00);
   late TimeOfDay _sWorkingHours = TimeOfDay.now().replacing(minute: 00);
-  late TimeOfDay _fWorkingHours = TimeOfDay.now().replacing(hour: _sWorkingHours.hour + 1,minute: 00);
+  late TimeOfDay _fWorkingHours = TimeOfDay.now().replacing(hour: (_sWorkingHours.hour + 1)%24,minute: 00);
   int _selectedPage = 0;
 
   _onTapSelect(index) => setState(() => _selectedPage = index);
@@ -105,7 +103,11 @@ class KickoffApplicationState extends State<KickoffApplication> {
                         color: kPrimaryColor),
                   )),
               Center(
-                child: KickoffApplication.pages[_selectedPage],
+                child: (_selectedPage == 0)
+                    ? const ProfileBaseScreen()
+                    : (_selectedPage == 1)
+                        ? const Center(child: Text("ANNOUNCEMENTS FEATURE IS NOT YET IMPLEMENTED"))
+                        : ReservationsHome(),
               ),
             ]),
             floatingActionButton: (_selectedPage == 0)
@@ -261,7 +263,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
         setState(() => _initSelectedTime = time);
       }
     } else {
-      if (time!.hour > _initSelectedTime.hour) {
+      if (time!.hour % 24 > _initSelectedTime.hour % 24) {
         (time.minute == 0)
             ? setState(() => _finSelectedTime = time)
             : showDialog(
@@ -429,6 +431,8 @@ class KickoffApplicationState extends State<KickoffApplication> {
                                     CourtsHTTPsHandler.sendCourt(courtInfo);
                                     courtInfo = [];
                                     Navigator.pop(context);
+                                    setState(() {
+                                    });
                                   },
                                 ),
                               ),
@@ -465,7 +469,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
         setState(() => _sWorkingHours = time);
       }
     } else {
-      if (time!.hour > startingWorkingHours!.hour) {
+      if (time!.hour % 24 > startingWorkingHours!.hour % 24) {
         (time.minute == 0)
             ? setState(() => _fWorkingHours = time)
             : showDialog(
@@ -520,13 +524,12 @@ class KickoffApplicationState extends State<KickoffApplication> {
             if (!key.currentState!.validate()) {
               return;
             }
-
             key.currentState!.save();
             FixtureTicket ticket = FixtureTicket();
 
-            String initTime = DateFormat("HH:mm").format(
+            String initTime = DateFormat("HH").format(
                 DateFormat.jm().parse(_initSelectedTime.format(context)));
-            String finTime = DateFormat("HH:mm").format(
+            String finTime = DateFormat("HH").format(
                 DateFormat.jm().parse(_finSelectedTime.format(context)));
 
             if (initTime.compareTo(finTime) > 0) {
@@ -534,21 +537,19 @@ class KickoffApplicationState extends State<KickoffApplication> {
             }
 
             ticket.pname = ticketInfo[0];
-            ticket.paidAmount = ticketInfo[1];  // save it for later if not pending
             ticket.coid = KickoffApplication.OWNER_ID;
-            ticket.cid = ReservationsHome.courts[ReservationsHome.selectedCourt].cid;
-            DateTime date =
-                KickoffApplication.pages[_selectedPage].selectedDate;
+            ticket.cid = KickoffApplication.courts[ReservationsHome.selectedCourt].cid;
+            DateTime date = ReservationsHome.selectedDate;
             String formattedDate = DateFormat.yMd().format(date);
             ticket.startDate = formattedDate;
             ticket.endDate = formattedDate;
             ticket.startTime = initTime;
             ticket.endTime = finTime;
 
-            print(ticket.asList());
-
-            Tickets.sendTicket(ticketInfo);
-            Navigator.pop(context);
+            Tickets.sendTicket(ticket);
+            setState(() {
+              (Navigator.pop(context));
+            });
           },
         ),
       );
@@ -593,5 +594,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
             ),
           ],
           selectedIndex: _selectedPage,
-          onTabChange: _onTapSelect));
+          onTabChange: _onTapSelect
+      )
+  );
 }
