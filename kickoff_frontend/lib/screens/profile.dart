@@ -10,7 +10,7 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ProfileBaseScreen extends StatefulWidget {
-  const ProfileBaseScreen({Key? key}) : super(key: key);
+  ProfileBaseScreen({Key? key}) : super(key: key) {}
   static String? path = "";
   @override
   State<ProfileBaseScreen> createState() => _ProfileBaseScreenState();
@@ -111,8 +111,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                               print(result.files.last.path);
                               uploadimage(file, path2);
                               setState(() {
-                                ProfileBaseScreen.path =
-                                    result.files.last.path;
+                                ProfileBaseScreen.path = result.files.last.path;
                                 localPhoto = true;
                               });
                             }
@@ -244,30 +243,29 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
             ),
             _buildCourts()
           ],
-        )
-    );
+        ));
   }
 
   _buildCourts() => Expanded(
-    child: SingleChildScrollView(
-      child: Column(
-        children: List<Container>.generate(KickoffApplication.courts.length, (i) => Container(
-          decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(25),
-              color: kPrimaryColor.withOpacity(0.3)
-          ),
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          alignment: Alignment.center,
-          child: Column(
-            children: List<Text>.generate(
-                KickoffApplication.courts[i].asList().length,
-                (j) => Text(KickoffApplication.courts[i].asList()[j])
-            ),
-          )
-        ))
-      ),
-    )
-  );
+          child: SingleChildScrollView(
+        child: Column(
+            children: List<Container>.generate(
+                KickoffApplication.courts.length,
+                (i) => Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(25),
+                        color: kPrimaryColor.withOpacity(0.3)),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: List<Text>.generate(
+                          KickoffApplication.courts[i].asList().length,
+                          (j) =>
+                              Text(KickoffApplication.courts[i].asList()[j])),
+                    )))),
+      ));
 }

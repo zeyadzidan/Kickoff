@@ -19,34 +19,27 @@ class Tickets {
           "endDate": ticket.endDate,
           "startHour": ticket.startTime,
           "finishHour": ticket.endTime,
-        }
-      )
-    );
+        }));
+
     print(response.body);
   }
 
   static Future bookTicket(FixtureTicket ticket) async {
     await http.post(Uri.parse('$url/BookingAgent/booking'),
-      headers: {"Content-Type": "application/json"},
-      body: json.encode(
-        {
-          "reseravtionId": ticket.ticketId,
-          "moneyPaid": ticket.paidAmount
-        }
-      )
-    );
-  }
-
-  static Future<List<FixtureTicket>> getCourtFixtures(cid, courtOwnerId, date) async {
-    print("ENTERED REQUEST");
-    var rsp =
-    await http.post(Uri.parse('$url/BookingAgent/reservationsOnDate'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "courtId": cid,
-          "courtOwnerId": courtOwnerId,
-          "date": date
+          "reseravtionId": ticket.ticketId,
+          "moneyPaid": ticket.paidAmount
         }));
+  }
+
+  static Future<List<FixtureTicket>> getCourtFixtures(
+      cid, courtOwnerId, date) async {
+    print("ENTERED REQUEST");
+    var rsp = await http.post(Uri.parse('$url/BookingAgent/reservationsOnDate'),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(
+            {"courtId": cid, "courtOwnerId": courtOwnerId, "date": date}));
     print(rsp.body);
     List<dynamic> fixturesMap = json.decode(rsp.body);
     List<FixtureTicket> reservations = [];
