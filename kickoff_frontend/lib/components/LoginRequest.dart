@@ -4,10 +4,13 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application.dart';
-import 'package:kickoff_frontend/components/login/rounded_input_login.dart';
-import 'package:kickoff_frontend/components/login/rounded_password_input.dart';
+import 'package:kickoff_frontend/components/login/EmailLogin.dart';
+import 'package:kickoff_frontend/components/login/PasswordLogin.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
+
+import '../httpshandlers/courtsrequests.dart';
+import '../screens/reservations.dart';
 
 class LoginButton extends StatefulWidget {
   const LoginButton({super.key});
@@ -17,7 +20,7 @@ class LoginButton extends StatefulWidget {
 }
 
 class RoundedLogin extends State<LoginButton> {
-  static String url = "http://${ip}:8080/login/courtOwner";
+  static String url = "http://$ip:8080/login/courtOwner";
   var resp = 52;
   late Map<String, dynamic> profileData;
 
@@ -74,9 +77,12 @@ class RoundedLogin extends State<LoginButton> {
             showAlertDialog(context, 'Enter valid Password');
             RoundedPasswordInput.Password.clear();
           } else {
+            print(profileData);
             KickoffApplication.data = profileData;
             KickoffApplication.OWNER_ID = profileData["id"].toString();
-
+            KickoffApplication.courts =
+                await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
+            await ReservationsHome.buildTickets("login");
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInput.Password.text);
             Navigator.of(context).push(MaterialPageRoute(

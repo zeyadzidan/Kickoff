@@ -53,7 +53,7 @@ public class BookingAgentController {
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
-    @GetMapping("/reservationsOnDate")
+    @PostMapping("/reservationsOnDate")
     public ResponseEntity<String> getReservations(@RequestBody String information) throws JSONException {
         String responseBody = bookingAgent.getReservations(information);
         if(responseBody.charAt(0)!='S')

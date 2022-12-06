@@ -11,12 +11,13 @@
 	<groupId>back.kickoff</groupId>
 	<artifactId>kickoffBack</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>kickoffBack</name>
+	 <name>kickoffBack</name>
 	<description>kickoffBack</description>
 	<properties>
 		<java.version>19</java.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -82,6 +83,7 @@
             <artifactId>json-smart</artifactId>
         </dependency>
     </dependencies>
+
 
 	<build>
 		<plugins>

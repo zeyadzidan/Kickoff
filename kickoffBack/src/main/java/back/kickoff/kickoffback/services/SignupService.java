@@ -43,16 +43,16 @@ public class SignupService
         newCourtOwner.setLocation(location);
         courtOwnerRepository.save(newCourtOwner);
 
-        Map<String, String> res = new HashMap<>() ;
-        res.put("id", newCourtOwner.getId().toString());
+        Map<String, Object> res = new HashMap<>() ;
+        res.put("id", newCourtOwner.getId());
         res.put("userName", newCourtOwner.getUserName());
         res.put("email", newCourtOwner.getEmail());
         res.put("location", newCourtOwner.getLocation());
         res.put("rating", String.valueOf(newCourtOwner.getRating()));
         res.put("image", newCourtOwner.getImage());
         res.put("phoneNumber", newCourtOwner.getPhoneNumber());
-        res.put("xAxis", newCourtOwner.getXAxis().toString());
-        res.put("yAxis", newCourtOwner.getYAxis().toString());
+        res.put("xAxis", newCourtOwner.getXAxis());
+        res.put("yAxis", newCourtOwner.getYAxis());
 
         return new Gson().toJson(res);
     }

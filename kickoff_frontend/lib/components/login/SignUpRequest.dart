@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/application.dart';
-import 'package:kickoff_frontend/components/login/rounded_input.dart';
+import 'package:kickoff_frontend/components/login/EmailSignUP.dart';
 import 'package:kickoff_frontend/constants.dart';
-import 'package:kickoff_frontend/components/login/rounded_input_Username.dart';
-import '../../../components/login/rounded_password_Signup.dart';
-import 'package:kickoff_frontend/components/login/rounded_phone_number.dart';
-import 'package:kickoff_frontend/components/login/Sign_up_location.dart';
+import 'package:kickoff_frontend/components/login/SignUpUserName.dart';
+import '../../../components/login/PasswordSignUp.dart';
+import 'package:kickoff_frontend/components/login/PhoneNumberSignUp.dart';
+import 'package:kickoff_frontend/components/login/SignUpLocation.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/localFile.dart';
 

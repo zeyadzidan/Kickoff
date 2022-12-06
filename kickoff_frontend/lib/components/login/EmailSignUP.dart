@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/login/input_container.dart';
+import 'package:kickoff_frontend/components/login/InputContainer.dart';
 import 'package:kickoff_frontend/constants.dart';
 
 class RoundedInput extends StatelessWidget {

@@ -3,32 +3,31 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
+import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 import 'package:kickoff_frontend/constants.dart';
-import 'package:kickoff_frontend/fixtures/widgets/reservations.dart';
+import 'package:kickoff_frontend/httpshandlers/courtsrequests.dart';
 import 'package:kickoff_frontend/localFile.dart';
-import 'package:kickoff_frontend/httpshandlers/newticketrequests.dart';
+import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
+import 'package:kickoff_frontend/screens/login.dart';
+import 'package:kickoff_frontend/screens/profile.dart';
+import 'package:kickoff_frontend/screens/reservations.dart';
 import 'package:kickoff_frontend/themes.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'fixtures/widgets/login.dart';
-import 'fixtures/widgets/profile.dart';
+import 'components/classes/court.dart';
 
 class KickoffApplication extends StatefulWidget {
   static late Map<String, dynamic> data;
   final Map<String, dynamic> profileData;
   KickoffApplication({super.key, required this.profileData}) {
     data = profileData;
+    OWNER_ID = profileData["id"].toString();
   }
 
-  static late String OWNER_ID = "";
-  static bool loggedIn = false;
+  static List<Court> courts = [];
 
-  // Application Pages
-  static final List pages = [
-    const ProfileBaseScreen(),
-    const Center(child: Text("ANNOUNCEMENTS FEATURE IS NOT YET IMPLEMENTED")),
-    ReservationsHome(),
-  ];
+  static String OWNER_ID = "";
+  static bool loggedIn = false;
 
   @override
   State<KickoffApplication> createState() => KickoffApplicationState();
@@ -36,8 +35,11 @@ class KickoffApplication extends StatefulWidget {
 
 class KickoffApplicationState extends State<KickoffApplication> {
   late TimeOfDay _initSelectedTime = TimeOfDay.now().replacing(minute: 00);
-  late TimeOfDay _finSelectedTime =
-      TimeOfDay.now().replacing(hour: _initSelectedTime.hour + 1, minute: 00);
+  late TimeOfDay _finSelectedTime = TimeOfDay.now()
+      .replacing(hour: (_initSelectedTime.hour + 1) % 24, minute: 00);
+  late TimeOfDay _sWorkingHours = TimeOfDay.now().replacing(minute: 00);
+  late TimeOfDay _fWorkingHours = TimeOfDay.now()
+      .replacing(hour: (_sWorkingHours.hour + 1) % 24, minute: 00);
   int _selectedPage = 0;
 
   _onTapSelect(index) => setState(() => _selectedPage = index);
@@ -101,11 +103,20 @@ class KickoffApplicationState extends State<KickoffApplication> {
                         color: kPrimaryColor),
                   )),
               Center(
-                child: KickoffApplication.pages[_selectedPage],
+                child: (_selectedPage == 0)
+                    ? ProfileBaseScreen()
+                    : (_selectedPage == 1)
+                        ? const Center(
+                            child: Text(
+                                "ANNOUNCEMENTS FEATURE IS NOT YET IMPLEMENTED"))
+                        : ReservationsHome(),
               ),
             ]),
-            floatingActionButton:
-                (_selectedPage == 2) ? _buildAddFixtureButton(context) : null,
+            floatingActionButton: (_selectedPage == 0)
+                ? _buildAddCourtButton(context)
+                : (_selectedPage == 2)
+                    ? _buildAddFixtureButton(context)
+                    : null,
             bottomNavigationBar: _buildNavBar(),
           ),
         ));
@@ -121,7 +132,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.logout),
-            tooltip: 'Show Snackbar',
+            tooltip: 'Show Kickoff Bar',
             onPressed: () async {
               localFile.clearLoginData();
               KickoffApplication.data.clear();
@@ -155,14 +166,14 @@ class KickoffApplicationState extends State<KickoffApplication> {
                           child: Column(
                             children: [
                               _buildTextField(key, ticketInfo, false),
-                              _buildTextField(key, ticketInfo, true),
-                              _buildTimePicker(true, context),
+                              // _buildTextField(key, ticketInfo, true), TODO: ADD THIS FEATURE IN SPRINT 2
+                              _buildFixtureTimePicker(true, context),
                               const Divider(
                                 height: 1,
                                 color: kPrimaryColor,
                                 thickness: 2,
                               ),
-                              _buildTimePicker(false, context),
+                              _buildFixtureTimePicker(false, context),
                               const Divider(
                                 height: 1,
                                 color: kPrimaryColor,
@@ -207,20 +218,17 @@ class KickoffApplicationState extends State<KickoffApplication> {
         keyboardType:
             (!moneyPayment) ? TextInputType.name : TextInputType.number,
         validator: (input) {
-          if (input!.isEmpty) {
+          if (!moneyPayment && input!.isEmpty) {
             return "This field can't be blank.";
-          }
-          if (moneyPayment) {
-            key.currentState!.save();
           }
           return null;
         },
         onSaved: (value) => ticketInfo.add(value!),
       );
 
-  _buildTimePicker(initTime, context) => MaterialButton(
+  _buildFixtureTimePicker(initTime, context) => MaterialButton(
         padding: const EdgeInsets.only(top: 10, bottom: 10),
-        onPressed: _pickTime(initTime),
+        onPressed: _pickTimeFixture(initTime),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -238,7 +246,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
         ),
       );
 
-  _pickTime(initTime) => () async {
+  _pickTimeFixture(initTime) => () async {
         var time = await showTimePicker(
           helpText: 'Please make sure to select only hour.',
           initialEntryMode: TimePickerEntryMode.inputOnly,
@@ -257,7 +265,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
             setState(() => _initSelectedTime = time);
           }
         } else {
-          if (time!.hour > _initSelectedTime.hour) {
+          if (time!.hour % 24 > _initSelectedTime.hour % 24) {
             (time.minute == 0)
                 ? setState(() => _finSelectedTime = time)
                 : showDialog(
@@ -277,6 +285,246 @@ class KickoffApplicationState extends State<KickoffApplication> {
         }
       };
 
+  _buildAddCourtButton(context) => Builder(builder: (context) {
+        GlobalKey<FormState> key = GlobalKey();
+        List<String> courtInfo = <String>[];
+        return FloatingActionButton(
+            onPressed: () => showModalBottomSheet(
+                  elevation: 4,
+                  context: context,
+                  builder: (context) => SizedBox(
+                      height: 700,
+                      child: SingleChildScrollView(
+                          child: Form(
+                        key: key,
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 25.0, horizontal: 25.0),
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                maxLength: 32,
+                                autofocus: true,
+                                decoration: const InputDecoration(
+                                  prefixIcon:
+                                      Icon(Icons.stadium, color: kPrimaryColor),
+                                  labelText: "Enter court name",
+                                  labelStyle: TextStyle(color: kPrimaryColor),
+                                  focusColor: kPrimaryColor,
+                                  border: UnderlineInputBorder(),
+                                ),
+                                validator: (input) {
+                                  if (input!.isEmpty) {
+                                    return "This field can't be blank.";
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) => courtInfo.add(value!),
+                              ),
+                              TextFormField(
+                                maxLength: 200,
+                                autofocus: true,
+                                decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.description,
+                                      color: kPrimaryColor),
+                                  labelText: "Enter court description",
+                                  labelStyle: TextStyle(color: kPrimaryColor),
+                                  focusColor: kPrimaryColor,
+                                  border: UnderlineInputBorder(),
+                                ),
+                                validator: (input) {
+                                  if (input!.isEmpty) {
+                                    return "This field can't be blank.";
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) => courtInfo.add(value!),
+                              ),
+                              TextFormField(
+                                keyboardType: TextInputType.number,
+                                maxLength: 4,
+                                autofocus: true,
+                                decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.monetization_on,
+                                      color: kPrimaryColor),
+                                  labelText: "Enter morning hour cost",
+                                  labelStyle: TextStyle(color: kPrimaryColor),
+                                  focusColor: kPrimaryColor,
+                                  border: UnderlineInputBorder(),
+                                ),
+                                validator: (input) {
+                                  if (input!.isEmpty) {
+                                    return "This field can't be blank.";
+                                  } else if (double.parse(input) ==
+                                      double.nan) {
+                                    return 'Please specify a numeric value.';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) => courtInfo.add(value!),
+                              ),
+                              TextFormField(
+                                keyboardType: TextInputType.number,
+                                maxLength: 4,
+                                autofocus: true,
+                                decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.monetization_on,
+                                      color: kPrimaryColor),
+                                  labelText: "Enter evening hour cost",
+                                  labelStyle: TextStyle(color: kPrimaryColor),
+                                  focusColor: kPrimaryColor,
+                                  border: UnderlineInputBorder(),
+                                ),
+                                validator: (input) {
+                                  if (input!.isEmpty) {
+                                    return "This field can't be blank.";
+                                  } else if (double.parse(input) ==
+                                      double.nan) {
+                                    return 'Please specify a numeric value.';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) => courtInfo.add(value!),
+                              ),
+                              TextFormField(
+                                keyboardType: TextInputType.number,
+                                maxLength: 2,
+                                autofocus: true,
+                                decoration: const InputDecoration(
+                                  prefixIcon:
+                                      Icon(Icons.timer, color: kPrimaryColor),
+                                  labelText: "Minimum booking hours",
+                                  labelStyle: TextStyle(color: kPrimaryColor),
+                                  focusColor: kPrimaryColor,
+                                  border: UnderlineInputBorder(),
+                                ),
+                                validator: (input) {
+                                  if (input!.isEmpty) {
+                                    return "This field can't be blank.";
+                                  } else if (double.parse(input) ==
+                                      double.nan) {
+                                    return 'Please specify a numeric value.';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) => courtInfo.add(value!),
+                              ),
+                              _buildCourtTimePicker(true, context),
+                              _buildCourtTimePicker(false, context),
+                              Container(
+                                alignment: Alignment.bottomCenter,
+                                margin: const EdgeInsets.only(top: 15),
+                                child: ElevatedButton.icon(
+                                  label: const Text('SUBMIT'),
+                                  icon: const Icon(Icons.schedule_send),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: kPrimaryColor,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20, horizontal: 15)),
+                                  onPressed: () async {
+                                    // Validate name and money constraints
+                                    if (!key.currentState!.validate()) {
+                                      return;
+                                    }
+                                    key.currentState!.save();
+                                    String sWorkingHoursString = DateFormat(
+                                            "HH")
+                                        .format(DateFormat.jm().parse(
+                                            _sWorkingHours.format(context)));
+                                    String fWorkingHoursString = DateFormat(
+                                            "HH")
+                                        .format(DateFormat.jm().parse(
+                                            _fWorkingHours.format(context)));
+                                    courtInfo.add(sWorkingHoursString);
+                                    courtInfo.add(fWorkingHoursString);
+                                    print(courtInfo);
+                                    // TODO: Test the creation request in the back-end
+                                    await CourtsHTTPsHandler.sendCourt(
+                                        courtInfo);
+                                    courtInfo = [];
+                                    KickoffApplication.courts =
+                                        await CourtsHTTPsHandler.getCourts(
+                                            KickoffApplication.OWNER_ID);
+                                    Navigator.pop(context);
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ))),
+                ),
+            elevation: 4,
+            foregroundColor:
+                Theme.of(context).floatingActionButtonTheme.foregroundColor,
+            backgroundColor:
+                Theme.of(context).floatingActionButtonTheme.backgroundColor,
+            hoverColor: Colors.green.shade800,
+            child: const Icon(Icons.add, size: 35));
+      });
+
+  _pickTimeCourt(initTime, TimeOfDay? startingWorkingHours) => () async {
+        var time = await showTimePicker(
+          helpText: 'Please make sure to select only hour.',
+          initialEntryMode: TimePickerEntryMode.inputOnly,
+          initialTime: (initTime) ? _initSelectedTime : _finSelectedTime,
+          context: context,
+        );
+        if (initTime) {
+          if (time!.minute > 0) {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) => const AlertDialog(
+                      title: Text(
+                          'Please select hour only.\nMinutes are not considered.'),
+                    ));
+          } else {
+            setState(() => _sWorkingHours = time);
+          }
+        } else {
+          if (time!.hour % 24 > startingWorkingHours!.hour % 24) {
+            (time.minute == 0)
+                ? setState(() => _fWorkingHours = time)
+                : showDialog(
+                    context: context,
+                    builder: (BuildContext context) => const AlertDialog(
+                          title: Text(
+                              'Please select hour only.\nMinutes are not considered.'),
+                        ));
+          } else {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) => const AlertDialog(
+                      title: Text(
+                          'Minimum number of hours to reserve is 1.\nPlease try again.'),
+                    ));
+          }
+        }
+      };
+
+  _buildCourtTimePicker(initTime, context) => MaterialButton(
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
+        onPressed: (initTime)
+            ? _pickTimeCourt(initTime, null)
+            : _pickTimeCourt(initTime, _sWorkingHours),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.timer,
+              color: kPrimaryColor,
+            ),
+            Text(
+              (initTime)
+                  ? '   Starting Working Hour - ${DateFormat("hh:mm a").format(DateFormat.jm().parse(_sWorkingHours.format(context)))}'
+                  : '   Finishing Working Hour  - ${DateFormat("hh:mm a").format(DateFormat.jm().parse(_fWorkingHours.format(context)))}',
+              style: const TextStyle(color: kPrimaryColor),
+            )
+          ],
+        ),
+      );
+
   _buildSubmitButton(context, key, ticketInfo) => Container(
         alignment: Alignment.bottomCenter,
         margin: const EdgeInsets.only(top: 15),
@@ -287,42 +535,39 @@ class KickoffApplicationState extends State<KickoffApplication> {
               backgroundColor: kPrimaryColor,
               padding:
                   const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
-          onPressed: () {
+          onPressed: () async {
             // Validate name and money constraints
             if (!key.currentState!.validate()) {
               return;
             }
+            key.currentState!.save();
+            FixtureTicket ticket = FixtureTicket();
 
-            String initTime = DateFormat("HH:mm").format(
+            String initTime = DateFormat("HH").format(
                 DateFormat.jm().parse(_initSelectedTime.format(context)));
-            String finTime = DateFormat("HH:mm").format(
+            String finTime = DateFormat("HH").format(
                 DateFormat.jm().parse(_finSelectedTime.format(context)));
 
-            // Validate time constraints
             if (initTime.compareTo(finTime) > 0) {
               return;
             }
 
-            // Data Preparation
-            // TODO: Modify the court identification to CID
-            String court =
-                'Court: ${KickoffApplication.pages[_selectedPage].selectedCourt}';
-            DateTime date =
-                KickoffApplication.pages[_selectedPage].selectedDate;
+            ticket.pname = ticketInfo[0];
+            ticket.coid = KickoffApplication.OWNER_ID;
+            ticket.cid =
+                KickoffApplication.courts[ReservationsHome.selectedCourt].cid;
+            DateTime date = ReservationsHome.selectedDate;
             String formattedDate = DateFormat.yMd().format(date);
+            ticket.startDate = formattedDate;
+            ticket.endDate = formattedDate;
+            ticket.startTime = initTime;
+            ticket.endTime = finTime;
 
-            // Player Name + Amount of Money
-            ticketInfo.add(court);
-            ticketInfo.add(formattedDate);
-            ticketInfo.add(initTime);
-            ticketInfo.add(finTime);
-
-            print(ticketInfo);
-            // TODO: Test the creation request in the back-end
-            NewTicket.sendTicket(ticketInfo);
-
-            ticketInfo = [];
-            Navigator.pop(context);
+            await Tickets.sendTicket(ticket);
+            await ReservationsHome.buildTickets("apppliacation");
+            setState(() {
+              (Navigator.pop(context));
+            });
           },
         ),
       );

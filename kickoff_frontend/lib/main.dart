@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/fixtures/widgets/login.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/application.dart';
 import 'package:kickoff_frontend/localFile.dart';
-import 'package:kickoff_frontend/components/login.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:kickoff_frontend/components/LoginRequest.dart';
+// import 'package:firebase_core/firebase_core.dart';
+import 'package:kickoff_frontend/screens/login.dart';
+import 'package:kickoff_frontend/screens/reservations.dart';
+
+import 'httpshandlers/courtsrequests.dart';
 
 String loginData = "";
 bool loading = true;
@@ -17,8 +20,8 @@ Map<String, dynamic> data = {};
 // late Map<String, dynamic> profileData;
 //
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   runApp(const MyApp());
   loginData = await localFile.readLoginData();
   firstTime = (loginData == "0");
@@ -28,6 +31,9 @@ Future main() async {
     String email = loginData.substring(0, idx).trim();
     String pass = loginData.substring(idx + 1).trim();
     data = await RoundedLogin.save2(email, pass);
+    int id = data["id"];
+    KickoffApplication.courts = await CourtsHTTPsHandler.getCourts(id);
+    await ReservationsHome.buildTickets("main");
     finish = true;
   } else {
     finish = true;
@@ -137,8 +143,8 @@ class _MyAppState extends State<MyApp> {
                   child: Container(
                       height: 175,
                       width: 175,
-                      child:
-                          Image(image: AssetImage('assets/images/pic4.PNG'))),
+                      child: const Image(
+                          image: AssetImage('assets/images/pic4.PNG'))),
                 )),
               ]),
             ),

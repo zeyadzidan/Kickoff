@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -97,26 +98,29 @@ public class BookingAgent {
         Long courtOwnerId = jsonObject.getLong("courtOwnerId");
         String dateStrS = jsonObject.getString("startDate");
         String dateStrF = jsonObject.getString("endDate");
-        String[] tempArrS = dateStrS.split("//");
-        String[] tempArrF = dateStrF.split("//");
+        String[] tempArrS = dateStrS.split("/");
+        String[] tempArrF = dateStrF.split("/");
         int startHour = jsonObject.getInt("startHour");
         int finishHour = jsonObject.getInt("finishHour");
         int yearS, monthS, dayS, yearF, monthF, dayF;
         Date stDate, endDate;
         Time timeFrom, timeTo;
         if(tempArrS.length != 3 || tempArrF.length != 3)
-            return "In valid date";
+            return "In valid date1";
         yearS = Integer.parseInt(tempArrS[2]); yearF = Integer.parseInt(tempArrF[2]);
         monthS = Integer.parseInt(tempArrS[0]); monthF = Integer.parseInt(tempArrF[0]);
         dayS = Integer.parseInt(tempArrS[1]); dayF = Integer.parseInt(tempArrF[1]);
         try
         {
-            stDate = new Date(yearS, monthS, dayS);
-            endDate = new Date(yearF, monthF, dayF);
+            SimpleDateFormat obj = new SimpleDateFormat("MM/dd/yyyy");
+            long date1 = obj.parse(dateStrS).getTime();
+            long date2 = obj.parse(dateStrF).getTime();
+            stDate = new Date(date1);
+            endDate = new Date(date2);
         }
         catch (Exception e)
         {
-            return "In valid date";
+            return "In valid date2";
         }
         try
         {
@@ -163,7 +167,7 @@ public class BookingAgent {
         Long courtId = jsonObject.getLong("courtId");
         Long courtOwnerId = jsonObject.getLong("courtOwnerId");
         String strDate = jsonObject.getString("date");
-        String[] tempArrS = strDate.split("//");
+        String[] tempArrS = strDate.split("/");
         if(tempArrS.length != 3)
             return "In valid date";
 
@@ -173,7 +177,9 @@ public class BookingAgent {
         Date date ;
         try
         {
-            date = new Date(yearS, monthS, dayS);
+            SimpleDateFormat obj = new SimpleDateFormat("MM/dd/yyyy");
+            long date1 = obj.parse(strDate).getTime();
+            date = new Date(date1);
         }
         catch (Exception e)
         {

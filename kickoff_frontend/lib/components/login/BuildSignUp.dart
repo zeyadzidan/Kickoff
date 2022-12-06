@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'Sign_up_location.dart';
-import 'rounded_button.dart';
-import 'rounded_input_Username.dart';
-import 'rounded_input.dart';
-import 'rounded_password_Signup.dart';
-import 'rounded_phone_number.dart';
+import 'SignUpLocation.dart';
+import 'SignUpRequest.dart';
+import 'SignUpUserName.dart';
+import 'EmailSignUP.dart';
+import 'PasswordSignUp.dart';
+import 'PhoneNumberSignUp.dart';
 
 class RegisterForm extends StatelessWidget {
   const RegisterForm({

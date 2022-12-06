@@ -6,16 +6,26 @@
 /// time.
 
 class FixtureTicket {
-  late String ticketId;
-  late String pname;
-  late String pid;
-  late String coname;
-  late String coid;
-  late String cname;
-  late String cid;
-  late String paidAmount;
-  late String totalCost;
-  late String state;
-  late String startDate;
-  late String endDate;
+  String ticketId = '';
+  String pname = '';
+  String coname = '';
+  String coid = '';
+  String cname = '';
+  String cid = '';
+  String paidAmount = '0';
+  String totalCost = '';
+  String state = 'Pending';
+  String startDate = '';
+  String endDate = '';
+  String startTime = '';
+  String endTime = '';
+
+  asView() => [
+    'Player Name: $pname',
+    'Start Time: $startTime',
+    'Finish Time: $endTime',
+    'State: $state',
+    'Paid Amount: $paidAmount',
+    'Total Cost: $totalCost'
+  ];
 }

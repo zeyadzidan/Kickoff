@@ -5,7 +5,6 @@ class FixtureTicketBuilder {
 
   FixtureTicketBuilder buildId(id) => _fixtureTicket.ticketId = id;
   FixtureTicketBuilder buildPname(name) => _fixtureTicket.pname = name;
-  FixtureTicketBuilder buildPid(pid) => _fixtureTicket.pid = pid;
   FixtureTicketBuilder buildConame(name) => _fixtureTicket.coname = name;
   FixtureTicketBuilder buildCoid(coid) => _fixtureTicket.coid = coid;
   FixtureTicketBuilder buildCname(name) => _fixtureTicket.cname = name;

@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -40,11 +41,23 @@ class SignupServiceTest {
         String information = new Gson().toJson(hm);
         when(courtOwnerRepository.save(new CourtOwner())).thenReturn(new CourtOwner());
         //abdelaziz
-        String res = signupService.courtOwnerSignup(information);
+        String result = signupService.courtOwnerSignup(information);
         CourtOwner newCourtOwner = new CourtOwner("Nasr CLub", "nasrClub@gmail.com", "12345678900",
                 "01206555589", 44.5, 44.5);
         newCourtOwner.setRating(0);
         newCourtOwner.setLocation("Nasr CLub");
-        assertEquals(new Gson().toJson(newCourtOwner), res);
+
+        Map<String, Object> res = new HashMap<>() ;
+        res.put("id", newCourtOwner.getId());
+        res.put("userName", newCourtOwner.getUserName());
+        res.put("email", newCourtOwner.getEmail());
+        res.put("location", newCourtOwner.getLocation());
+        res.put("rating", String.valueOf(newCourtOwner.getRating()));
+        res.put("image", newCourtOwner.getImage());
+        res.put("phoneNumber", newCourtOwner.getPhoneNumber());
+        res.put("xAxis", newCourtOwner.getXAxis());
+        res.put("yAxis", newCourtOwner.getYAxis());
+
+        assertEquals(new Gson().toJson(res), result);
     }
 }
