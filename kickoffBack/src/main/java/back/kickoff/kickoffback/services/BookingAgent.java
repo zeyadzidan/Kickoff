@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -97,8 +98,8 @@ public class BookingAgent {
         Long courtOwnerId = jsonObject.getLong("courtOwnerId");
         String dateStrS = jsonObject.getString("startDate");
         String dateStrF = jsonObject.getString("endDate");
-        String[] tempArrS = dateStrS.split("//");
-        String[] tempArrF = dateStrF.split("//");
+        String[] tempArrS = dateStrS.split("/");
+        String[] tempArrF = dateStrF.split("/");
         int startHour = jsonObject.getInt("startHour");
         int finishHour = jsonObject.getInt("finishHour");
         int yearS, monthS, dayS, yearF, monthF, dayF;
@@ -111,8 +112,11 @@ public class BookingAgent {
         dayS = Integer.parseInt(tempArrS[1]); dayF = Integer.parseInt(tempArrF[1]);
         try
         {
-            stDate = new Date(yearS,monthS-1, dayS);
-            endDate = new Date(yearF, monthF-1, dayF);
+            SimpleDateFormat obj = new SimpleDateFormat("MM/dd/yyyy");
+            long date1 = obj.parse(dateStrS).getTime();
+            long date2 = obj.parse(dateStrF).getTime();
+            stDate = new Date(date1);
+            endDate = new Date(date2);
         }
         catch (Exception e)
         {
