@@ -51,7 +51,7 @@ class CourtOwnerAgentControllerTest {
         String information = new Gson().toJson(hm);
         Mockito.when(courtOwnerAgent.createCourt(information)).thenReturn("Success");
         ResponseEntity<String> res = courtOwnerAgentController.createCourt(information);
-        assertEquals(res, new ResponseEntity<>("Court added", HttpStatus.CREATED));
+        assertEquals(res, new ResponseEntity<>("Success", HttpStatus.CREATED));
     }
 
     @Test
