@@ -11,7 +11,7 @@
 	<groupId>back.kickoff</groupId>
 	<artifactId>kickoffBack</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>kickoffBack</name>
+	 <name>kickoffBack</name>
 	<description>kickoffBack</description>
 	<properties>
 		<java.version>19</java.version>
