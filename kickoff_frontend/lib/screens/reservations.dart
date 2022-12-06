@@ -9,15 +9,21 @@ import '../../constants.dart';
 
 class ReservationsHome extends StatefulWidget {
   ReservationsHome({super.key}) {
-    Reservations.buildTickets();
-    for (FixtureTicket ticket in Reservations.reservations)
+    buildTickets();
+    for (FixtureTicket ticket in ReservationsHome.reservations)
       print(ticket.asView());
   }
 
+  static List<FixtureTicket> reservations = [];
   static int _selectedCourt = 0;
   static DateTime _selectedDate = DateTime.now();
   static get selectedCourt => ReservationsHome._selectedCourt;
   static get selectedDate => ReservationsHome._selectedDate;
+  static buildTickets() async => reservations = await Tickets.getCourtFixtures(
+      KickoffApplication.courts[ReservationsHome._selectedCourt].cid,
+      KickoffApplication.OWNER_ID,
+      DateFormat.yMd().format(ReservationsHome._selectedDate)
+  );
 
   @override
   State<ReservationsHome> createState() => _ReservationsHomeState();
@@ -95,17 +101,17 @@ class _ReservationsHomeState extends State<ReservationsHome> {
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
-            children: List<GestureDetector>.generate(Reservations.reservations.length, (index) {
-            List<String> view = Reservations.reservations[index].asView();
+            children: List<GestureDetector>.generate(ReservationsHome.reservations.length, (index) {
+            List<String> view = ReservationsHome.reservations[index].asView();
             return GestureDetector(
-              onDoubleTap: _setBooked(index, Reservations.reservations[index]),
+              onDoubleTap: _setBooked(index, ReservationsHome.reservations[index]),
               child: Container(
                 decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(25),
-                    color: (Reservations.reservations[index].state == 'Pending')
+                    color: (ReservationsHome.reservations[index].state == 'Pending')
                         ? Colors.yellow.withOpacity(0.3)
-                        : (Reservations.reservations[index].state == 'Active')
+                        : (ReservationsHome.reservations[index].state == 'Active')
                         ? kPrimaryColor.withOpacity(0.3)
                         : Colors.red.withOpacity(0.3) // Expired
                 ),
@@ -181,13 +187,4 @@ class _ReservationsHomeState extends State<ReservationsHome> {
 
     setState(() {});
   }
-}
-
-class Reservations {
-  static List<FixtureTicket> reservations = [];
-  static buildTickets() async => reservations = await Tickets.getCourtFixtures(
-      KickoffApplication.courts[ReservationsHome._selectedCourt].cid,
-      KickoffApplication.OWNER_ID,
-      DateFormat.yMd().format(ReservationsHome._selectedDate)
-  );
 }
