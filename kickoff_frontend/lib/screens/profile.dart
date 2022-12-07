@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -65,10 +65,21 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                         radius: 40,
                         backgroundColor: Colors.green,
                         child: ClipOval(
-                          child: Image.network(
-                            utl,
+                          child: CachedNetworkImage(
+                            imageUrl: utl,
                             width: 100,
                             height: 100,
+                            fit: BoxFit.cover,
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) =>
+                                    CircularProgressIndicator(
+                                        value: downloadProgress.progress),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          ),
+
+                          /*Image.network(
+                            utl,
                             fit: BoxFit.cover,
                             frameBuilder: (context, child, frame,
                                 wasSynchronouslyLoaded) {
@@ -85,7 +96,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                                 );
                               }
                             },
-                          ),
+                          ),*/
                         ),
                       )
                     ] else ...[
