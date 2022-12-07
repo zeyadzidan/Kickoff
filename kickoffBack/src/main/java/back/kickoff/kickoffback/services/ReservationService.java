@@ -40,7 +40,6 @@ public class ReservationService {
         }
         System.out.println(totalCost);
 
-
         return totalCost ;
     }
 
