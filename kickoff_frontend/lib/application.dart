@@ -563,9 +563,12 @@ class KickoffApplicationState extends State<KickoffApplication> {
             ticket.startTime = initTime;
             ticket.endTime = finTime;
 
-            await Tickets.sendTicket(ticket);
+            String resp = await Tickets.sendTicket(ticket);
+            if (resp == "that time have reservation") {
+              showAlertDialog(context, "That time have reservation");
+            }
             await ReservationsHome.buildTickets(
-                "apppliacation", KickoffApplication.OWNER_ID);
+                "added court", KickoffApplication.OWNER_ID);
             setState(() {
               (Navigator.pop(context));
             });
@@ -614,4 +617,21 @@ class KickoffApplicationState extends State<KickoffApplication> {
           ],
           selectedIndex: _selectedPage,
           onTabChange: _onTapSelect));
+}
+
+showAlertDialog(BuildContext context, text3) {
+  return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+            title: Text("Warning"),
+            content: Text(text3),
+            actions: [
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              ),
+            ],
+          ));
 }

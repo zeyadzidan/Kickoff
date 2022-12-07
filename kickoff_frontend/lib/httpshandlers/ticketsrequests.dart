@@ -22,6 +22,7 @@ class Tickets {
         }));
 
     print(response.body);
+    return response.body;
   }
 
   static Future bookTicket(FixtureTicket ticket) async {

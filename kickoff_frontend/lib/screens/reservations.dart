@@ -8,10 +8,11 @@ import '../../components/classes/fixtureticket.dart';
 import '../../constants.dart';
 
 class ReservationsHome extends StatefulWidget {
-  ReservationsHome({super.key}) {
+  ReservationsHome() {
     for (FixtureTicket ticket in ReservationsHome.reservations)
       print(ticket.asView());
-    isExpanded = List<bool>.generate(reservations.length, (index) => false);
+    ReservationsHome.isExpanded = List<bool>.generate(
+        ReservationsHome.reservations.length, (index) => false);
   }
 
   static List<FixtureTicket> reservations = [];
@@ -36,6 +37,8 @@ class _ReservationsHomeState extends State<ReservationsHome> {
   _onTabSelect(index) async {
     ReservationsHome._selectedCourt = index;
     await ReservationsHome.buildTickets("ontap", KickoffApplication.OWNER_ID);
+    ReservationsHome.isExpanded = List<bool>.generate(
+        ReservationsHome.reservations.length, (index) => false);
     setState(() {
       ReservationsHome._selectedCourt = index;
     });
@@ -51,13 +54,15 @@ class _ReservationsHomeState extends State<ReservationsHome> {
 
     if (dateTime != null) {
       ReservationsHome._selectedDate = dateTime;
-      await ReservationsHome.buildTickets("ontap", KickoffApplication.OWNER_ID);
+      await ReservationsHome.buildTickets(
+          "pickdate", KickoffApplication.OWNER_ID);
       setState(() {});
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    print("gina elbuild");
     return Column(
       children: [_buildCourts(), _buildDatePicker(), _buildFixtures()],
     );
