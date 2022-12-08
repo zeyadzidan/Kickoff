@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/application.dart';
+import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/components/login/EmailSignUP.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/components/login/SignUpUserName.dart';

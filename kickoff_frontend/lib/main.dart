@@ -1,15 +1,15 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/constants.dart';
-import 'package:kickoff_frontend/application.dart';
 import 'package:kickoff_frontend/localFile.dart';
-import 'package:kickoff_frontend/components/LoginRequest.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:kickoff_frontend/screens/login.dart';
-import 'package:kickoff_frontend/screens/reservations.dart';
 
+import 'application/screens/login.dart';
+import 'application/screens/reservations.dart';
 import 'httpshandlers/courtsrequests.dart';
+import 'httpshandlers/loginrequests.dart';
 
 String loginData = "";
 bool loading = true;
@@ -20,8 +20,9 @@ Map<String, dynamic> data = {};
 // late Map<String, dynamic> profileData;
 //
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // String getIP = (await NetworkInfo().getWifiIP())!;
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   runApp(const MyApp());
   loginData = await localFile.readLoginData();
   firstTime = (loginData == "0");

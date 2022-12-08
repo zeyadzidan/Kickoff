@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:kickoff_frontend/application.dart';
+import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -263,9 +263,9 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                     alignment: Alignment.center,
                     child: Column(
                       children: List<Text>.generate(
-                          KickoffApplication.courts[i].asList().length,
+                          KickoffApplication.courts[i].asView().length,
                           (j) =>
-                              Text(KickoffApplication.courts[i].asList()[j])),
+                              Text(KickoffApplication.courts[i].asView()[j])),
                     )))),
       ));
 }

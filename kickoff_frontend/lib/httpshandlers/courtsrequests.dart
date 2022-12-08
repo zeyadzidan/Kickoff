@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:kickoff_frontend/application.dart';
+import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/components/classes/court.dart';
 
 import '../constants.dart';

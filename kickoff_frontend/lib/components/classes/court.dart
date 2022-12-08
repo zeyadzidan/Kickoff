@@ -8,7 +8,7 @@ class Court {
   String startingWorkingHours = '';
   String finishWorkingHours = '';
 
-  asList() => [
+  asView() => [
     'Court Name: $cname',
     'Description: $description',
     'Morning Cost: $morningCost EGP',

@@ -8,13 +8,13 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/httpshandlers/courtsrequests.dart';
 import 'package:kickoff_frontend/localFile.dart';
 import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
-import 'package:kickoff_frontend/screens/login.dart';
-import 'package:kickoff_frontend/screens/profile.dart';
-import 'package:kickoff_frontend/screens/reservations.dart';
 import 'package:kickoff_frontend/themes.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'components/classes/court.dart';
+import 'screens/login.dart';
+import 'screens/profile.dart';
+import 'screens/reservations.dart';
+import '../components/classes/court.dart';
 
 class KickoffApplication extends StatefulWidget {
   static late Map<String, dynamic> data;

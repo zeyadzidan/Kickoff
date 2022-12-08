@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'SignUpRequest.dart';
+import '../../httpshandlers/loginrequests.dart';
 import 'EmailLogin.dart';
 import 'PasswordLogin.dart';
-
-import '../../../components/LoginRequest.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({

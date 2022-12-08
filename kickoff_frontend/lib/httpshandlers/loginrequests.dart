@@ -3,14 +3,14 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:kickoff_frontend/application.dart';
+import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/components/login/EmailLogin.dart';
 import 'package:kickoff_frontend/components/login/PasswordLogin.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
-import '../httpshandlers/courtsrequests.dart';
-import '../screens/reservations.dart';
+import '../application/screens/reservations.dart';
+import 'courtsrequests.dart';
 
 class LoginButton extends StatefulWidget {
   const LoginButton({super.key});
