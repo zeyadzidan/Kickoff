@@ -22,6 +22,7 @@ class Tickets {
         }));
 
     print(response.body);
+    return response.body;
   }
 
   static Future bookTicket(FixtureTicket ticket) async {
@@ -32,6 +33,7 @@ class Tickets {
           "moneyPaid": ticket.paidAmount
         }));
     print(response.body);
+    return response.body;
   }
 
   static Future<List<FixtureTicket>> getCourtFixtures(
