@@ -92,7 +92,6 @@ public class BookingAgent {
     public String setPending(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
         Long playerID = 0L ;
-        //Long playerID = jsonObject.getLong("playerId");
         String playerName = jsonObject.getString("playerName");
         Long courtId = jsonObject.getLong("courtId");
         Long courtOwnerId = jsonObject.getLong("courtOwnerId");
@@ -131,6 +130,7 @@ public class BookingAgent {
         {
             return "In valid Time";
         }
+
         Optional<Court> courtOptional = courtRepository.findById(courtId);
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(courtOwnerId);
         if(courtOptional.isEmpty() || courtOwnerOptional.isEmpty())
@@ -139,11 +139,23 @@ public class BookingAgent {
         if(!court.getCourtOwner().equals(courtOwnerOptional.get())){
             return "Court does not belong to the courtOwner" ;
         }
+        //check
+        CourtSchedule courtSchedule = court.getCourtSchedule();
+        ScheduleAgent scheduleAgent= new ScheduleAgent(scheduleRepository, reservationRepository) ;
+        if(timeFrom.before(courtSchedule.getStartWorkingHours()) || timeTo.after(courtSchedule.getEndWorkingHours()))
+            return "In that time the court is closed" ;
+
+
+        List<Reservation> oldReservation = scheduleAgent.getScheduleOverlapped(stDate, endDate, timeFrom,timeTo,courtSchedule) ;
+        if(!oldReservation.isEmpty())
+            return "that time have reservation" ;
+
+
+
         Reservation reservation = new Reservation(playerID, playerName,courtId, courtOwnerId, stDate, endDate, timeFrom,
                 timeTo, ReservationState.Pending,0,
                 reservationService.calcTotalCost(stDate, endDate, timeFrom, timeTo, courtOptional.get()));
         reservationRepository.save(reservation);
-        CourtSchedule courtSchedule = court.getCourtSchedule();
         courtSchedule.getPendingReservations().add(reservation);
         scheduleRepository.save(courtSchedule);
         courtRepository.save(court);
