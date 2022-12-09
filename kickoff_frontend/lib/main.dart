@@ -21,6 +21,7 @@ Future main() async {
   runApp(const MyApp());
   loginData = await localFile.readLoginData();
   firstTime = (loginData == "0");
+  loading = (loginData == "0") ? false : true;
   if (!firstTime) {
     int idx = loginData.indexOf(":");
     String email = loginData.substring(0, idx).trim();
@@ -53,14 +54,17 @@ class _MyAppState extends State<MyApp> {
           firstTime = (loginData == "0");
           loading = false;
           _timer.cancel();
+        } else if (loginData == "0") {
+          _timer.cancel();
         }
+        ;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (data.isEmpty) {
+    if (loading && data.isEmpty) {
       print("gowa if");
       updateCounter();
     }
