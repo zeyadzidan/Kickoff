@@ -7,14 +7,14 @@ class Court {
   String minBookingHours = '';
   String startingWorkingHours = '';
   String finishWorkingHours = '';
+  String state = '';
 
   asView() => [
-    'Court Name: $cname',
-    'Description: $description',
-    'Morning Cost: $morningCost EGP',
-    'Night Cost: $nightCost EGP',
-    'Minimum Booking Hours: $minBookingHours',
-    'Starting Working Hours: $startingWorkingHours',
-    'Finishing Working Hours: $finishWorkingHours'
-  ];
+        'وصف الملعب: $description',
+        'سعر الساعة صباحاً: $morningCost جنيهاً مصرياً',
+        'سعر الساعة مساءً: $nightCost جنيهاً مصرياً',
+        'أقل عدد ساعات للحجز: $minBookingHours',
+        'بداية العمل: $startingWorkingHours',
+        'نهاية العمل: $finishWorkingHours'
+      ];
 }
