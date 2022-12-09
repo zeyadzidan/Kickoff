@@ -44,7 +44,7 @@ class LoginForm extends StatelessWidget {
                     child: const Image(
                         image: AssetImage('assets/images/pic3.PNG'))),
                 SizedBox(height: 40),
-                RoundedInputLogin(icon: Icons.mail, hint: 'Email'),
+                RoundedInputLogin(icon: Icons.mail, hint: 'البريد الالكتروني'),
                 PasswordInput(),
                 SizedBox(height: 10),
                 LoginButton(),

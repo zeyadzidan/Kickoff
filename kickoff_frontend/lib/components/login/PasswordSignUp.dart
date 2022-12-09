@@ -27,7 +27,7 @@ class RoundedPasswordSignup extends State<PasswordInputSignup> {
             },
             child: Icon(obsecuretext ? Icons.visibility : Icons.visibility_off),
           ),
-          hintText: 'Password',
+          hintText: 'كلمة المرور',
           border: InputBorder.none),
       obscureText: obsecuretext,
     ));

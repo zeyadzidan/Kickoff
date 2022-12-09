@@ -11,8 +11,8 @@ class Court {
 
   asView() => [
         'وصف الملعب: $description',
-        'سعر الساعة صباحاً: $morningCost جنيهاً مصرياً',
-        'سعر الساعة مساءً: $nightCost جنيهاً مصرياً',
+        'سعر الساعة صباحاً: $morningCost جنيهاً',
+        'سعر الساعة مساءً: $nightCost جنيهاًً',
         'أقل عدد ساعات للحجز: $minBookingHours',
         'بداية العمل: $startingWorkingHours',
         'نهاية العمل: $finishWorkingHours'
