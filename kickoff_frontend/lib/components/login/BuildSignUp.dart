@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'SignUpLocation.dart';
-import 'SignUpRequest.dart';
-import 'SignUpUserName.dart';
+
 import 'EmailSignUP.dart';
 import 'PasswordSignUp.dart';
 import 'PhoneNumberSignUp.dart';
+import 'SignUpLocation.dart';
+import 'SignUpRequest.dart';
+import 'SignUpUserName.dart';
 
 class RegisterForm extends StatelessWidget {
   const RegisterForm({
@@ -18,6 +19,7 @@ class RegisterForm extends StatelessWidget {
   final Duration animationDuration;
   final Size size;
   final double defaultLoginSize;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
