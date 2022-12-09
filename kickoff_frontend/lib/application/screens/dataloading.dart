@@ -15,7 +15,6 @@ Map<String, dynamic> data = {};
 class Loading {
   static loadData() async {
     KickoffApplication.userIP = getIP();
-    print('${getIP()}');
     loginData = await localFile.readLoginData();
     firstTime = (loginData == "0");
     loading = false;
@@ -26,7 +25,6 @@ class Loading {
       data = await RoundedLogin.save2(email, pass);
       int id = data["id"];
       ProfileBaseScreen.courts = await CourtsHTTPsHandler.getCourts(id);
-      // await ReservationsHome.buildTickets("main");
     }
     finish = true;
   }
