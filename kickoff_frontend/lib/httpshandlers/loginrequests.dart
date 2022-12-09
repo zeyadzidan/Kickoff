@@ -4,6 +4,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
+import 'package:kickoff_frontend/application/screens/profile.dart';
 import 'package:kickoff_frontend/components/login/EmailLogin.dart';
 import 'package:kickoff_frontend/components/login/PasswordLogin.dart';
 import 'package:kickoff_frontend/constants.dart';
@@ -20,12 +21,13 @@ class LoginButton extends StatefulWidget {
 }
 
 class RoundedLogin extends State<LoginButton> {
-  static String url = "http://$ip:8080/login/courtOwner";
+  static final String _url =
+      "http://${KickoffApplication.userIP}:8080/login/courtOwner";
   var resp = 52;
   late Map<String, dynamic> profileData;
 
   Future save(email, pass) async {
-    var res = await http.post(Uri.parse(url),
+    var res = await http.post(Uri.parse(_url),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "email": email.toLowerCase(),
@@ -36,7 +38,7 @@ class RoundedLogin extends State<LoginButton> {
   }
 
   static Future save2(email, pass) async {
-    var res = await http.post(Uri.parse(url),
+    var res = await http.post(Uri.parse(_url),
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Credentials": "true",
@@ -59,35 +61,34 @@ class RoundedLogin extends State<LoginButton> {
         var Email = RoundedInputLogin.EmailLogin.text;
         var Password = RoundedPasswordInput.Password.text;
         if (Email.isEmpty) {
-          showAlertDialog(context, 'Enter valid Email');
+          showAlertDialog(context, 'بيانات حسابك فارغة');
           RoundedInputLogin.EmailLogin.clear();
         } else if (Password.length < 6 ||
             Password.length > 15 ||
             Password.isEmpty) {
-          showAlertDialog(context, 'Enter Valid Password');
+          showAlertDialog(context,
+              'خطأ بكلمة المرور. تأكد من ان عدد الحروف يقع ما بين 6 و 15 حرفاً.');
           RoundedPasswordInput.Password.clear();
         } else {
           await save(RoundedInputLogin.EmailLogin.text,
               RoundedPasswordInput.Password.text);
-
           if (profileData.isEmpty) {
-            showAlertDialog(context, 'Enter valid Email');
+            showAlertDialog(context, 'تأكد من بيانات حسابك');
             RoundedInputLogin.EmailLogin.clear();
           } else if (profileData.length == 4) {
-            showAlertDialog(context, 'Enter valid Password');
+            showAlertDialog(
+                context, 'خطأ بكلمة المرور (غير مسموح بأقل من 4 حروف)');
             RoundedPasswordInput.Password.clear();
           } else {
             print(profileData);
             KickoffApplication.data = profileData;
-            KickoffApplication.OWNER_ID = profileData["id"].toString();
-            KickoffApplication.courts =
-                await CourtsHTTPsHandler.getCourts(KickoffApplication.OWNER_ID);
-            await ReservationsHome.buildTickets("login");
+            KickoffApplication.ownerId = profileData["id"].toString();
+            ProfileBaseScreen.courts =
+                await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
+            await ReservationsHome.buildTickets();
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInput.Password.text);
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) =>
-                    KickoffApplication(profileData: profileData)));
+            Navigator.pushNamed(context, '/kickoff');
           }
         }
       },
@@ -96,12 +97,12 @@ class RoundedLogin extends State<LoginButton> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: kPrimaryColor,
+          color: primaryColor,
         ),
         padding: const EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
         child: const Text(
-          'LOGIN',
+          'تسجيل دخول',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
@@ -113,11 +114,11 @@ showAlertDialog(BuildContext context, text3) {
   return showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-            title: Text("Warning"),
+            title: const Text("تنبيه!"),
             content: Text(text3),
             actions: [
               TextButton(
-                child: Text("OK"),
+                child: const Text("حسناً"),
                 onPressed: () {
                   Navigator.of(ctx).pop();
                 },
