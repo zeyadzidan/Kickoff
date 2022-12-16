@@ -1,7 +1,9 @@
 package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.CourtOwner;
+import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
+import back.kickoff.kickoffback.repositories.PlayerRepository;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,9 +18,11 @@ import java.util.regex.Pattern;
 public class SignupService
 {
     private final CourtOwnerRepository courtOwnerRepository;
+    private final PlayerRepository playerRepository;
 
-    public SignupService(CourtOwnerRepository courtOwnerRepository) {
+    public SignupService(CourtOwnerRepository courtOwnerRepository, PlayerRepository playerRepository) {
         this.courtOwnerRepository = courtOwnerRepository;
+        this.playerRepository = playerRepository;
     }
 
     public String courtOwnerSignup(String information) throws JSONException
@@ -56,5 +60,37 @@ public class SignupService
 
         return new Gson().toJson(res);
     }
-    
+    public String playerSignup(String information) throws JSONException
+    {
+        JSONObject jsonObject = new JSONObject(information);
+        String email  =  jsonObject.getString("email");
+        String password  =  jsonObject.getString("password");
+        String name = jsonObject.getString("Name");
+        String location = jsonObject.getString("location");
+        String phoneNumber = jsonObject.getString("phoneNumber");
+        Double xAxis = jsonObject.getDouble("xAxis");
+        Double yAxis = jsonObject.getDouble("yAxis");
+        Optional<Player> player = playerRepository.findByEmail(email);
+        String regex = "^(.+)@(.+)$";
+        boolean valid =Pattern.compile(regex).matcher(email).matches();
+        if(player.isPresent())
+            return "Email exist";
+        if(valid)
+            return "invalid" ;
+        Player newPlayer = new Player(name, email, phoneNumber,password, location, xAxis, yAxis);
+        playerRepository.save(newPlayer);
+
+        Map<String, Object> res = new HashMap<>() ;
+        res.put("id", newPlayer.getId());
+        res.put("userName", newPlayer.getName());
+        res.put("email", newPlayer.getEmail());
+        res.put("location", newPlayer.getLocation());
+        res.put("image", newPlayer.getImage());
+        res.put("phoneNumber", newPlayer.getPhoneNumber());
+        res.put("xAxis", newPlayer.getXAxis());
+        res.put("yAxis", newPlayer.getYAxis());
+
+        return new Gson().toJson(res);
+    }
+
 }
