@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/reservations.dart';
+import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
 
 import '../../constants.dart';
@@ -15,7 +16,7 @@ class PlusReservationButton extends StatefulWidget {
 
 class _PlusReservationButtonState extends State<PlusReservationButton> {
   final GlobalKey<FormState> _key = GlobalKey();
-  final List<String> _ticket = <String>[];
+  late List<String> _ticket = <String>[];
   TimeOfDay _from = TimeOfDay.now().replacing(minute: 00);
   late TimeOfDay _to =
       TimeOfDay.now().replacing(hour: (_from.hour + 1) % 24, minute: 00);
@@ -157,6 +158,7 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
                       (ReservationsHome.selectedCourt + 1),
                       KickoffApplication.ownerId,
                       _formatDate(ReservationsHome.selectedDate));
+              _ticket = [];
               KickoffApplication.update();
               Navigator.pop(context);
             }),

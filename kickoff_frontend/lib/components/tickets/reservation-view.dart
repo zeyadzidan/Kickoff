@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/application/application.dart';
 
 import '../../application/screens/reservations.dart';
@@ -39,10 +40,10 @@ class _ReservationsViewState extends State<ReservationsView> {
                             borderRadius: BorderRadius.circular(25),
                             color: (ReservationsHome
                                         .reservations[index].state ==
-                                    'يحتاج تأكيداً')
+                                    'Pending')
                                 ? Colors.yellow.withOpacity(0.5)
                                 : (ReservationsHome.reservations[index].state ==
-                                        'مؤكد')
+                                        'Booked')
                                     ? primaryColor.withOpacity(0.5)
                                     : Colors.red.withOpacity(0.5),
                           ),
@@ -127,6 +128,29 @@ class _ReservationsViewState extends State<ReservationsView> {
                                         ),
                                       )
                                     : Container(),
+                                Container(
+                                  margin: const EdgeInsets.only(top: 70.0, right: 300.0),
+                                  child: ElevatedButton.icon(
+                                    icon: const Icon(Icons.delete),
+                                    label: const Text('مسح الحجز'),
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red,
+                                        padding:
+                                        const EdgeInsets.symmetric(
+                                            vertical: 20,
+                                            horizontal: 15)),
+                                    onPressed: () async {
+                                      await TicketsHTTPsHandler.deleteTicket(
+                                          ReservationsHome.reservations[index]);
+                                      ReservationsHome.reservations =
+                                      await TicketsHTTPsHandler.getCourtReservations(
+                                          (ReservationsHome.selectedCourt + 1),
+                                          KickoffApplication.ownerId,
+                                          DateFormat.yMd().format(ReservationsHome.selectedDate));
+                                      KickoffApplication.update();
+                                    },
+                                  ),
+                                ),
                               ],
                             )),
                         isExpanded: ReservationsHome.isExpanded[index],

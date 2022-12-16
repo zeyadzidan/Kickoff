@@ -47,9 +47,6 @@ class _ReservationsHomeState extends State<ReservationsHome> {
   _onTabSelect(index) async {
     ReservationsHome._selectedCourt = index;
     await ReservationsHome.buildTickets();
-    // setState(() {
-    //   ReservationsHome._selectedCourt = index;
-    // });
     KickoffApplication.update();
   }
 
