@@ -4,7 +4,6 @@
 // >>>>>>> Sprint-Two
 // import 'package:flutter/material.dart';
 // import 'package:kickoff_frontend/application/application.dart';
-// import 'package:firebase_core/firebase_core.dart';
 // <<<<<<< HEAD
 // import 'package:kickoff_frontend/screens/login.dart';
 // import 'package:kickoff_frontend/screens/reservations.dart';
@@ -158,7 +157,7 @@
 // =======
 
 import 'package:flutter/cupertino.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'application/application.dart';
 import 'application/screens/dataloading.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -166,7 +165,7 @@ import 'package:firebase_core/firebase_core.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  Loading.loadData();
+  await Loading.loadData();
   runApp(KickoffApplication(profileData: data));
 // >>>>>>> Sprint-Two
 }
