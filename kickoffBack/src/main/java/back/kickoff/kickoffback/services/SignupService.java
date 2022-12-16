@@ -65,7 +65,7 @@ public class SignupService
         JSONObject jsonObject = new JSONObject(information);
         String email  =  jsonObject.getString("email");
         String password  =  jsonObject.getString("password");
-        String name = jsonObject.getString("Name");
+        String name = jsonObject.getString("name");
         String location = jsonObject.getString("location");
         String phoneNumber = jsonObject.getString("phoneNumber");
         Double xAxis = jsonObject.getDouble("xAxis");
