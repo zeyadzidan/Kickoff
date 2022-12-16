@@ -1,5 +1,6 @@
 package back.kickoff.kickoffback.cotrollers;
 
+import back.kickoff.kickoffback.services.AnnouncementService;
 import back.kickoff.kickoffback.services.CourtOwnerAgent;
 
 import org.json.JSONException;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/courtOwnerAgent")
 public class CourtOwnerAgentController {
     private final CourtOwnerAgent courtOwnerAgent;
-
-    public CourtOwnerAgentController(CourtOwnerAgent courtOwnerAgent) {
+    private final AnnouncementService announcementService ;
+    public CourtOwnerAgentController(CourtOwnerAgent courtOwnerAgent, AnnouncementService announcementService) {
         this.courtOwnerAgent = courtOwnerAgent;
+        this.announcementService = announcementService;
     }
+
 
     @GetMapping("/CourtOwner/{courtOwnerId}/Courts")
     public ResponseEntity<String> listCourts(@PathVariable String courtOwnerId) {
@@ -41,6 +44,37 @@ public class CourtOwnerAgentController {
         if (responseBody.equals("Success"))
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @PostMapping("/CourtOwner/CreateAnnouncement")
+    public ResponseEntity<String> CreateAnnouncement(@RequestBody String information) throws JSONException
+    {
+        String responseBody = announcementService.addAnnouncement(information);
+
+        if(responseBody.equals("Success"))
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @GetMapping("/CourtOwner/{courtOwnerId}/Announcements")
+    public ResponseEntity<String> getAnnouncements(@PathVariable String courtOwnerId)
+    {
+        String responseBody = announcementService.getAnnouncement(Long.valueOf(courtOwnerId));
+        if(responseBody.equals("CourtOwner do not exist"))
+            return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/CourtOwner/{courtOwnerId}/Announcements")
+    public ResponseEntity<String> deleteAnnouncements(@PathVariable String courtOwnerId, @RequestBody String information) throws JSONException {
+        String responseBody = announcementService.deleteAnnouncement(Long.valueOf(courtOwnerId) , information);
+        if(responseBody.equals("Success"))
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+
     }
 
 

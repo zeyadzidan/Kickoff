@@ -30,6 +30,9 @@ public class CourtOwner {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courtOwner")
     private List<Court> courts;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courtOwner")
+    private List<Announcement> announcements ;
+
 
     public CourtOwner(String userName, String email, String password, String phoneNumber,
                       Double xAxis, Double yAxis) {

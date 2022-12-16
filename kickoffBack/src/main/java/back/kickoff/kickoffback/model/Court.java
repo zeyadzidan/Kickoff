@@ -19,6 +19,7 @@ public class Court {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
     public String courtName;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_court_schedule")
     public CourtSchedule courtSchedule;

@@ -1,9 +1,10 @@
 package back.kickoff.kickoffback.cotrollers;
 
 import back.kickoff.kickoffback.model.Court;
-import back.kickoff.kickoffback.model.CourtOwner;
+import back.kickoff.kickoffback.services.AnnouncementService;
 import back.kickoff.kickoffback.services.CourtOwnerAgent;
 import back.kickoff.kickoffback.services.SignupService;
+
 
 import com.google.gson.Gson;
 
@@ -18,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,10 +27,12 @@ class CourtOwnerAgentControllerTest {
     @Mock
     CourtOwnerAgent courtOwnerAgent;
 
+    @Mock
+    AnnouncementService announcementService ;
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        courtOwnerAgentController = new CourtOwnerAgentController(courtOwnerAgent);
+        courtOwnerAgentController = new CourtOwnerAgentController(courtOwnerAgent, announcementService);
     }
 
     @Test
