@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/login/BuildLoginPlayer.dart';
+import 'package:kickoff_frontend/components/login/BuildLogin.dart';
 import 'package:kickoff_frontend/components/login/CancelButton.dart';
 import 'package:kickoff_frontend/constants.dart';
 
-import '../../components/login/BuildSignUpPlayer.dart';
+import '../../components/login/BuildSignUp.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginScreenCourtOwner extends StatefulWidget {
+  const LoginScreenCourtOwner({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginScreenCourtOwner> createState() => _LoginScreenCourtOwnerState();
 }
 
-class _LoginScreenState extends State<LoginScreen>
+class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
     with SingleTickerProviderStateMixin {
   bool isLogin = true;
   late Animation<double> containerSize;
@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen>
     containerSize =
         Tween<double>(begin: size.height * 0.1, end: defaultRegisterSize)
             .animate(CurvedAnimation(
-                parent: animationController!, curve: Curves.linear));
+            parent: animationController!, curve: Curves.linear));
     return Scaffold(
       body: Stack(
         children: [
@@ -58,49 +58,49 @@ class _LoginScreenState extends State<LoginScreen>
                 height: 100,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    
+
                     boxShadow: const <BoxShadow>[
                       BoxShadow(
                         color: Colors.black,
                         blurRadius: 5,
                       ),
                     ],
-                    color: primaryColor),
+                    color: primaryColor2),
               )),
 
           Positioned(
-              top: -50,
-              left: -50,
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      boxShadow: const <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.black,
-                          blurRadius: 5,
-                        ),
-                      ],
-                      color: primaryColor),
-                   child: Padding(
-                     padding: const EdgeInsets.fromLTRB(55, 100, 0, 0),
-                       child :InkWell(
-                         onTap: (){
-                           Navigator.pushNamed( context,'/login');
-                         },
-                         child: Text("I am a CourtOwner?!"
-                           ,style: const TextStyle(
-                             fontSize: 20,
-                             fontWeight: FontWeight.bold,
-                             color: Colors.white,
-                          ),
-                         ),
-                       ),
-              ),
+            top: -50,
+            left: -50,
+            child: Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  boxShadow: const <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 5,
+                    ),
+                  ],
+                  color: primaryColor2),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(55, 108, 0, 0),
+                child :InkWell(
+                  onTap: (){
+                    Navigator.pushNamed( context,'/loginPlayer');
+                  },
+                  child: Text("I am a Player?!"
+                    ,style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-
               ),
+            ),
+
+          ),
 
           Positioned(
               bottom: -100,
@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: primaryColor),
+                    color: primaryColor2),
               )),
 
           // Cancel Button
@@ -128,16 +128,16 @@ class _LoginScreenState extends State<LoginScreen>
             tapEvent: isLogin
                 ? null
                 : () {
-                    // returning null to disable the button
-                    animationController!.reverse();
-                    setState(() {
-                      isLogin = !isLogin;
-                    });
-                  },
+              // returning null to disable the button
+              animationController!.reverse();
+              setState(() {
+                isLogin = !isLogin;
+              });
+            },
           ),
 
           // Login Form
-          LoginFormPlayer(
+          LoginForm(
               isLogin: isLogin,
               animationDuration: animationDuration,
               size: size,
@@ -158,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen>
           ),
 
           // Register Form
-          RegisterFormPlayer(
+          RegisterForm(
               isLogin: isLogin,
               animationDuration: animationDuration,
               size: size,
@@ -185,16 +185,16 @@ class _LoginScreenState extends State<LoginScreen>
           onTap: !isLogin
               ? null
               : () {
-                  animationController!.forward();
-                  setState(() {
-                    isLogin = !isLogin;
-                  });
-                },
+            animationController!.forward();
+            setState(() {
+              isLogin = !isLogin;
+            });
+          },
           child: isLogin
               ? const Text(
-                  "SignUp",
-                  style: TextStyle(color: primaryColor, fontSize: 18),
-                )
+            "انشاء حساب جديد",
+            style: TextStyle(color: primaryColor2, fontSize:20),
+          )
               : null,
         ),
       ),
