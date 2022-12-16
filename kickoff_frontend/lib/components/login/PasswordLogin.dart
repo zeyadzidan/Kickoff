@@ -8,19 +8,17 @@ class PasswordInput extends StatefulWidget {
 }
 
 class RoundedPasswordInput extends State<PasswordInput> {
-
   static TextEditingController Password = TextEditingController();
   var obsecuretext = true;
 
   @override
   Widget build(BuildContext context) {
     return InputContainer(
-      color: Colors.cyan,
         child: TextField(
       cursorColor: primaryColor,
       controller: Password,
       decoration: InputDecoration(
-          icon: Icon(Icons.lock, color: primaryColor2),
+          icon: Icon(Icons.lock, color: primaryColor),
           suffix: GestureDetector(
             onTap: () {
               setState(() {
@@ -29,7 +27,7 @@ class RoundedPasswordInput extends State<PasswordInput> {
             },
             child: Icon(obsecuretext ? Icons.visibility : Icons.visibility_off),
           ),
-          hintText: 'كلمه مرور',
+          hintText: 'كلمة المرور',
           border: InputBorder.none),
       obscureText: obsecuretext,
     ));
