@@ -3,9 +3,9 @@ import 'package:kickoff_frontend/components/login/InputContainer.dart';
 import 'package:kickoff_frontend/constants.dart';
 
 class RoundedPhoneNumber extends StatelessWidget {
-  const RoundedPhoneNumber({Key? key, required this.icon,required this.color, required this.hint})
+  const RoundedPhoneNumber({Key? key, required this.icon, required this.hint})
       : super(key: key);
-  final Color color;
+
   final IconData icon;
   final String hint;
   static TextEditingController PhoneNumber = TextEditingController();
@@ -13,12 +13,11 @@ class RoundedPhoneNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InputContainer(
-      color: color,
       child: TextField(
-        cursorColor: color,
+        cursorColor: primaryColor,
         controller: PhoneNumber,
         decoration: InputDecoration(
-            icon: Icon(icon, color: color),
+            icon: Icon(icon, color: primaryColor),
             hintText: hint,
             border: InputBorder.none),
         keyboardType: TextInputType.number,

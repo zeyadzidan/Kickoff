@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/login/BuildLoginPlayer.dart';
+import 'package:kickoff_frontend/components/login/BuildLogin.dart';
 import 'package:kickoff_frontend/components/login/CancelButton.dart';
 import 'package:kickoff_frontend/constants.dart';
 
-import '../../components/login/BuildSignUpPlayer.dart';
+import '../../components/login/BuildSignUp.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -46,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen>
         Tween<double>(begin: size.height * 0.1, end: defaultRegisterSize)
             .animate(CurvedAnimation(
                 parent: animationController!, curve: Curves.linear));
+
     return Scaffold(
       body: Stack(
         children: [
@@ -58,7 +59,6 @@ class _LoginScreenState extends State<LoginScreen>
                 height: 100,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    
                     boxShadow: const <BoxShadow>[
                       BoxShadow(
                         color: Colors.black,
@@ -71,36 +71,19 @@ class _LoginScreenState extends State<LoginScreen>
           Positioned(
               top: -50,
               left: -50,
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      boxShadow: const <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.black,
-                          blurRadius: 5,
-                        ),
-                      ],
-                      color: primaryColor),
-                   child: Padding(
-                     padding: const EdgeInsets.fromLTRB(55, 100, 0, 0),
-                       child :InkWell(
-                         onTap: (){
-                           Navigator.pushNamed( context,'/login');
-                         },
-                         child: Text("I am a CourtOwner?!"
-                           ,style: const TextStyle(
-                             fontSize: 20,
-                             fontWeight: FontWeight.bold,
-                             color: Colors.white,
-                          ),
-                         ),
-                       ),
-              ),
-                ),
-
-              ),
+              child: Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 5,
+                      ),
+                    ],
+                    color: primaryColor),
+              )),
 
           Positioned(
               bottom: -100,
@@ -137,11 +120,12 @@ class _LoginScreenState extends State<LoginScreen>
           ),
 
           // Login Form
-          LoginFormPlayer(
+          LoginForm(
               isLogin: isLogin,
               animationDuration: animationDuration,
               size: size,
               defaultLoginSize: defaultLoginSize),
+
           // Register Container
           AnimatedBuilder(
             animation: animationController!,
@@ -158,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen>
           ),
 
           // Register Form
-          RegisterFormPlayer(
+          RegisterForm(
               isLogin: isLogin,
               animationDuration: animationDuration,
               size: size,
@@ -192,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen>
                 },
           child: isLogin
               ? const Text(
-                  "SignUp",
+                  "لا تملك حساباً؟ قم بالتسجيل الآن.",
                   style: TextStyle(color: primaryColor, fontSize: 18),
                 )
               : null,

@@ -10,7 +10,6 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/themes.dart';
 
 import '../components/classes/court.dart';
-import '../components/login/BuildComponentsCourtOwner.dart';
 import 'screens/login.dart';
 import 'screens/profile.dart';
 import 'screens/reservations.dart';
@@ -52,10 +51,9 @@ class KickoffApplicationState extends State<KickoffApplication> {
       theme: AppThemes.lightTheme,
       title: "Kickoff",
       debugShowCheckedModeBanner: false,
-      initialRoute: '/loginPlayer',
+      initialRoute: '/login',
       routes: {
-        '/loginPlayer': (context)=> const LoginScreen(),
-        '/login': (context) => const LoginScreenCourtOwner(),
+        '/login': (context) => const LoginScreen(),
         '/kickoff': (context) => Builder(
               builder: (context) => Scaffold(
                 appBar: KickoffAppBar().build(context),

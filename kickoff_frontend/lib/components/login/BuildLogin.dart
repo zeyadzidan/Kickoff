@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/login/PasswordSignUp.dart';
 
 import '../../httpshandlers/loginrequests.dart';
 import 'EmailLogin.dart';
@@ -45,8 +44,8 @@ class LoginForm extends StatelessWidget {
                     child: const Image(
                         image: AssetImage('assets/images/pic3.PNG'))),
                 SizedBox(height: 40),
-                RoundedInputLogin(icon: Icons.mail,color:Colors.cyan , hint: 'البريد الالكتروني'),
-                PasswordInputSignup(),
+                RoundedInputLogin(icon: Icons.mail, hint: 'البريد الالكتروني'),
+                PasswordInput(),
                 SizedBox(height: 10),
                 LoginButton(),
                 SizedBox(height: 10),
