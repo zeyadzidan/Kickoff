@@ -42,6 +42,10 @@ public class Reservation {
     Date endDate;
     Time timeFrom;
     Time timeTo;
+
+    Date dateReserved;
+    Time timeReserved ;
+
     ReservationState state;
     int moneyPayed ;
     int totalCost ;
@@ -62,6 +66,10 @@ public class Reservation {
         this.state = state;
         this.moneyPayed = moneyPayed;
         this.totalCost = totalCost;
+        this.dateReserved = new Date(System.currentTimeMillis());
+        this.timeReserved = new Time(System.currentTimeMillis());
+
+
     }
 }
 
