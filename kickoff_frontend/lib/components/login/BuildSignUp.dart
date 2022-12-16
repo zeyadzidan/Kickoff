@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'SignUpLocation.dart';
-import 'SignUpRequest.dart';
-import 'SignUpUserName.dart';
+
 import 'EmailSignUP.dart';
 import 'PasswordSignUp.dart';
 import 'PhoneNumberSignUp.dart';
+import 'SignUpLocation.dart';
+import 'SignUpRequest.dart';
+import 'SignUpUserName.dart';
 
 class RegisterForm extends StatelessWidget {
   const RegisterForm({
@@ -18,6 +19,7 @@ class RegisterForm extends StatelessWidget {
   final Duration animationDuration;
   final Size size;
   final double defaultLoginSize;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -48,14 +50,14 @@ class RegisterForm extends StatelessWidget {
                       child:
                           Image(image: AssetImage('assets/images/pic4.PNG'))),
                   SizedBox(height: 40),
-                  RoundedInput(icon: Icons.mail, hint: 'Email'),
-                  RoundedInputUsername(icon: Icons.face_rounded, hint: 'Name'),
+                  RoundedInput(icon: Icons.mail, hint: 'البريد الالكتروني'),
+                  RoundedInputUsername(icon: Icons.face_rounded, hint: 'الاسم'),
                   PasswordInputSignup(),
-                  RoundedPhoneNumber(icon: Icons.phone, hint: 'Phone Number'),
+                  RoundedPhoneNumber(icon: Icons.phone, hint: 'رقم الهاتف'),
                   Container(
                     height: 450,
                     width: size.width * 0.8,
-                    child: FindLocation(title: 'Location'),
+                    child: FindLocation(title: 'المكان'),
                   ),
                   SizedBox(height: 30),
                   SignUpButton(),

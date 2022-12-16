@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class localFile {
@@ -29,7 +28,6 @@ class localFile {
       } else {
         return "0";
       }
-
     } catch (e) {
       // If encountering an error, return 0
       return "0";

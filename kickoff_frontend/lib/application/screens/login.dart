@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/login/CancelButton.dart';
 import 'package:kickoff_frontend/components/login/BuildLogin.dart';
+import 'package:kickoff_frontend/components/login/CancelButton.dart';
 import 'package:kickoff_frontend/constants.dart';
 
 import '../../components/login/BuildSignUp.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen>
@@ -15,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen>
   bool isLogin = true;
   late Animation<double> containerSize;
   AnimationController? animationController;
-  Duration animationDuration = Duration(milliseconds: 270);
+  Duration animationDuration = const Duration(milliseconds: 270);
 
   @override
   void initState() {
@@ -63,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: kPrimaryColor),
+                    color: primaryColor),
               )),
 
           Positioned(
@@ -80,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: kPrimaryColor),
+                    color: primaryColor),
               )),
 
           Positioned(
@@ -97,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: kPrimaryColor),
+                    color: primaryColor),
               )),
 
           // Cancel Button
@@ -156,27 +158,26 @@ class _LoginScreenState extends State<LoginScreen>
       child: Container(
         width: double.infinity,
         height: containerSize.value,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(100),
               topRight: Radius.circular(100),
             ),
-            color: kBackgroundColor),
+            color: secondaryColor),
         alignment: Alignment.center,
         child: GestureDetector(
           onTap: !isLogin
               ? null
               : () {
                   animationController!.forward();
-
                   setState(() {
                     isLogin = !isLogin;
                   });
                 },
           child: isLogin
-              ? Text(
-                  "Don't have an account? Sign up",
-                  style: TextStyle(color: kPrimaryColor, fontSize: 18),
+              ? const Text(
+                  "لا تملك حساباً؟ قم بالتسجيل الآن.",
+                  style: TextStyle(color: primaryColor, fontSize: 18),
                 )
               : null,
         ),

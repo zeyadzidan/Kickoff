@@ -45,16 +45,17 @@ public class BookingAgent {
             return "invalid amount of money" ;
         reservation.setMoneyPayed(moneyPaid);
         reservation.setState(ReservationState.Booked);
-        reservationRepository.save(reservation);
-
         Optional<CourtSchedule> optionalCourtSchedule = scheduleRepository.findById(reservation.getCourtID());
         CourtSchedule courtSchedule = optionalCourtSchedule.get() ;
         courtSchedule.getPendingReservations().remove(reservation) ;
         courtSchedule.getBookedReservations().add(reservation) ;
+        reservationRepository.save(reservation);
+        scheduleRepository.save(courtSchedule);
         return "Success";
     }
-    public String cancelBookedReservation(Long id)
-    {
+    public String cancelBookedReservation(String information) throws JSONException {
+        JSONObject jsonObject = new JSONObject(information);
+        Long id = jsonObject.getLong("id");
         Optional<Reservation> reservationOptional = reservationRepository.findById(id);
         if(reservationOptional.isEmpty())
             return  "Reservation not found";
@@ -67,12 +68,15 @@ public class BookingAgent {
         }
         CourtSchedule courtSchedule = optionalCourtSchedule.get() ;
         courtSchedule.getBookedReservations().remove(reservation) ;
+        scheduleRepository.save(courtSchedule);
         int cost = reservation.getMoneyPayed();
+        System.out.println("ID DELETED|  " + id.toString());
         reservationRepository.deleteById(id);
         return Integer.toString(cost);
     }
-    public String cancelPendingReservation(Long id)
-    {
+    public String cancelPendingReservation(String information) throws JSONException {
+        JSONObject jsonObject = new JSONObject(information);
+        Long id = jsonObject.getLong("id");
         Optional<Reservation> reservationOptional = reservationRepository.findById(id);
         if(reservationOptional.isEmpty())
             return  "Reservation not found";

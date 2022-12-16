@@ -21,11 +21,11 @@ class FixtureTicket {
   String endTime = '';
 
   asView() => [
-    'Player Name: $pname',
-    'Start Time: $startTime',
-    'Finish Time: $endTime',
-    'State: $state',
-    'Paid Amount: $paidAmount',
-    'Total Cost: $totalCost'
-  ];
+        'اسم اللاعب صاحب الحجز: $pname',
+        'موعد بداية الحجز: $startTime',
+        'موعد نهاية الحجز: $endTime',
+        'حالة الحجز: ${(state == 'Pending') ? 'يحتاج تأكيداً' : (state == 'Booked') ? 'مؤكد' : 'منتهي'}',
+        'العربون: $paidAmount جنيهاً مصرياً',
+        'التكلفة الإجمالية: $totalCost جنيهاً مصرياً'
+      ];
 }

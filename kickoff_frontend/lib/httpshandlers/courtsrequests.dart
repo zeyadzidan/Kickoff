@@ -1,17 +1,15 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:kickoff_frontend/application.dart';
+import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/components/classes/court.dart';
 
-import '../constants.dart';
-
 class CourtsHTTPsHandler {
-  static const String port = "http://$ip:8080/";
+  static final String _url = "http://${KickoffApplication.userIP}:8080/";
 
   static Future<List<Court>> getCourts(coid) async {
     http.Response rsp = await http
-        .get(Uri.parse("${port}courtOwnerAgent/CourtOwner/$coid/Courts"));
+        .get(Uri.parse("${_url}courtOwnerAgent/CourtOwner/$coid/Courts"));
     print(rsp.body);
     List<dynamic> courtsMap = json.decode(rsp.body);
     List<Court> courts = [];
@@ -26,10 +24,11 @@ class CourtsHTTPsHandler {
   }
 
   static Future sendCourt(courtInfo) async {
-    var response = await http.post(Uri.parse('${port}courtOwnerAgent/CourtOwner/CreateCourt'),
+    var response = await http.post(
+        Uri.parse('${_url}courtOwnerAgent/CourtOwner/CreateCourt'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "ownerID": KickoffApplication.OWNER_ID,
+          "ownerID": KickoffApplication.ownerId,
           "courtName": courtInfo[0],
           "description": courtInfo[1],
           "morningCost": courtInfo[2],

@@ -45,19 +45,19 @@ class BookingAgentControllerTest {
         assertEquals(res, new ResponseEntity<>("Success", HttpStatus.OK));
     }
 
-    @Test
-    void cancelBooking() {
-        Long id = 66L;
-        Mockito.when(bookingAgent.cancelBookedReservation(id)).thenReturn(String.valueOf(55));
-        ResponseEntity<String> res = bookingAgentController.cancelBooking(id);
-        assertEquals(res, new ResponseEntity<>("55", HttpStatus.OK));
-    }
-
-    @Test
-    void cancelPending() {
-        Long id = 66L;
-        Mockito.when(bookingAgent.cancelPendingReservation(id)).thenReturn("Success");
-        ResponseEntity<String> res = bookingAgentController.cancelPending(id);
-        assertEquals(res, new ResponseEntity<>("Success", HttpStatus.OK));
-    }
+//    @Test
+//    void cancelBooking() {
+//        Long id = 66L;
+//        Mockito.when(bookingAgent.cancelBookedReservation(id)).thenReturn(String.valueOf(55));
+//        ResponseEntity<String> res = bookingAgentController.cancelBooking(id);
+//        assertEquals(res, new ResponseEntity<>("55", HttpStatus.OK));
+//    }
+//
+//    @Test
+//    void cancelPending() {
+//        Long id = 66L;
+//        Mockito.when(bookingAgent.cancelPendingReservation(id)).thenReturn("Success");
+//        ResponseEntity<String> res = bookingAgentController.cancelPending(id);
+//        assertEquals(res, new ResponseEntity<>("Success", HttpStatus.OK));
+//    }
 }
