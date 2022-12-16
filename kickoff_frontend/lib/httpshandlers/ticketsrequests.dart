@@ -42,6 +42,7 @@ class TicketsHTTPsHandler {
           "finishHour": ticket[6],
         }));
     print(response.body);
+    return response.body;
   }
 
   static Future bookTicket(FixtureTicket ticket) async {
@@ -52,6 +53,7 @@ class TicketsHTTPsHandler {
           "moneyPaid": ticket.paidAmount
         }));
     print(response.body);
+    return response.body;
   }
 
   static Future<List<FixtureTicket>> getCourtReservations(

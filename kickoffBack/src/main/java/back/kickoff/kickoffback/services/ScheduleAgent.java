@@ -32,30 +32,23 @@ public class ScheduleAgent {
     public List<Reservation> getScheduleOverlapped(Date fromD, Date toD, Time fromT, Time toT, CourtSchedule schedule){
         ArrayList<Reservation> res = new ArrayList<Reservation>() ;
         for(Reservation r: schedule.getBookedReservations()){
-            /*
-            if(r.getStartDate().compareTo(fromD) >= 0 && r.getStartDate().compareTo(toD) <= 0 &&
-                    ((r.getTimeFrom().compareTo(fromT)>=0 && r.getTimeTo().compareTo(toT)>=0)
-                            || (r.getTimeFrom().compareTo(toT)>=0 && r.getTimeTo().compareTo(toT)>=0))
-                            || (r.getTimeFrom().compareTo(fromT)>=0 && r.getTimeFrom().compareTo(toT)>=0) ){
-                res.add(r) ;
-            }
-             */
-            if(r.getStartDate().equals(fromD)){
+            if(!r.getStartDate().equals(fromD))
+                continue;
+            if(((r.getTimeFrom().after(fromT) || r.getTimeFrom().equals(fromT)) &&
+                    (r.getTimeTo().before(toT) || r.getTimeTo().equals(toT)) )
+                    || (r.getTimeFrom().before(fromT) && r.getTimeTo().after(fromT))
+                    || (r.getTimeFrom().before(toT) && r.getTimeTo().after(toT))){
                 res.add(r) ;
             }
 
         }
         for(Reservation r: schedule.getPendingReservations()){
-            /*
-            if(r.getStartDate().compareTo(fromD) >= 0 && r.getStartDate().compareTo(toD) <= 0 &&
-                    ((r.getTimeFrom().compareTo(fromT)>=0 && r.getTimeTo().compareTo(toT)>=0)
-                            || (r.getTimeFrom().compareTo(toT)>=0 && r.getTimeTo().compareTo(toT)>=0))
-                    || (r.getTimeFrom().compareTo(fromT)>=0 && r.getTimeFrom().compareTo(toT)>=0) ){
-                res.add(r) ;
-            }
-
-             */
-            if(r.getStartDate().equals(fromD)){
+            if(!r.getStartDate().equals(fromD))
+                continue;
+            if(((r.getTimeFrom().after(fromT) || r.getTimeFrom().equals(fromT)) &&
+                    (r.getTimeTo().before(toT) || r.getTimeTo().equals(toT)) )
+                    || (r.getTimeFrom().before(fromT) && r.getTimeTo().after(fromT))
+                    || (r.getTimeFrom().before(toT) && r.getTimeTo().after(toT))){
                 res.add(r) ;
             }
         }

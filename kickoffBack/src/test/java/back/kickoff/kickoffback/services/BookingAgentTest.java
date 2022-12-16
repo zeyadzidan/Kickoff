@@ -67,28 +67,28 @@ class BookingAgentTest {
         assertEquals(res, "Success");
     }
 
-    @Test
-    void cancelBookedReservation() {
+//    @Test
+//    void cancelBookedReservation() {
+//
+//        Reservation reservation = new Reservation();
+//        reservation.setState(ReservationState.Pending);
+//        reservation.setCourtID(223L);
+//        when(reservationRepository.findById(11L)).thenReturn(Optional.of(reservation));
+//        when(scheduleRepository.findById(223L)).thenReturn(Optional.of(new CourtSchedule()));
+//        String res = bookingAgent.cancelBookedReservation(11L);
+//        assertEquals(res, "Reservation not booked" );
+//    }
 
-        Reservation reservation = new Reservation();
-        reservation.setState(ReservationState.Pending);
-        reservation.setCourtID(223L);
-        when(reservationRepository.findById(11L)).thenReturn(Optional.of(reservation));
-        when(scheduleRepository.findById(223L)).thenReturn(Optional.of(new CourtSchedule()));
-        String res = bookingAgent.cancelBookedReservation(11L);
-        assertEquals(res, "Reservation not booked" );
-    }
-
-    @Test
-    void cancelPendingReservation() {
-        Reservation reservation = new Reservation();
-        reservation.setState(ReservationState.Expired);
-        reservation.setCourtID(223L);
-        when(reservationRepository.findById(11L)).thenReturn(Optional.of(reservation));
-        when(scheduleRepository.findById(223L)).thenReturn(Optional.of(new CourtSchedule()));
-        String res = bookingAgent.cancelPendingReservation(11L);
-        assertEquals(res, "Reservation is not pending" );
-    }
+//    @Test
+//    void cancelPendingReservation() {
+//        Reservation reservation = new Reservation();
+//        reservation.setState(ReservationState.Expired);
+//        reservation.setCourtID(223L);
+//        when(reservationRepository.findById(11L)).thenReturn(Optional.of(reservation));
+//        when(scheduleRepository.findById(223L)).thenReturn(Optional.of(new CourtSchedule()));
+//        String res = bookingAgent.cancelPendingReservation(11L);
+//        assertEquals(res, "Reservation is not pending" );
+//    }
 
     @Test
     void setPending() throws JSONException {
