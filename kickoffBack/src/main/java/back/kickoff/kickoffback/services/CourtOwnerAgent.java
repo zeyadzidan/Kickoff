@@ -25,7 +25,12 @@ public class CourtOwnerAgent {
         String name;
         String state ;
         String description;
-        // Schedule ???
+        int morningCost ;
+        int nightCost ;
+        int minBookingHours ;
+        int startingWorkingHours ;
+        int finishWorkingHours ;
+        int finishMorning ;
         FrontEndCourt(Court court){
             this.id = court.getId();
             this.name = court.getCourtName();
@@ -34,6 +39,13 @@ public class CourtOwnerAgent {
             else
                 this.state = "OutOfOrder" ;
             this.description = court.getDescription();
+            this.morningCost = court.getCourtSchedule().getMorningCost();
+            this.nightCost = court.getCourtSchedule().getNightCost();
+            this.minBookingHours = court.getCourtSchedule().getMinBookingHours();
+            this.startingWorkingHours = court.getCourtSchedule().getStartWorkingHours().getHours();
+            this.finishWorkingHours = court.getCourtSchedule().getEndWorkingHours().getHours();
+            this.finishMorning = court.getCourtSchedule().getEndMorning().getHours();
+
 
         }
     }
