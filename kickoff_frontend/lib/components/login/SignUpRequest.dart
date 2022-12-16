@@ -1,15 +1,17 @@
 import 'dart:convert';
 import 'dart:core';
+
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/application.dart';
+import 'package:http/http.dart' as http;
+import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/components/login/EmailSignUP.dart';
-import 'package:kickoff_frontend/constants.dart';
-import 'package:kickoff_frontend/components/login/SignUpUserName.dart';
-import '../../../components/login/PasswordSignUp.dart';
 import 'package:kickoff_frontend/components/login/PhoneNumberSignUp.dart';
 import 'package:kickoff_frontend/components/login/SignUpLocation.dart';
-import 'package:http/http.dart' as http;
+import 'package:kickoff_frontend/components/login/SignUpUserName.dart';
+import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
+
+import '../../../components/login/PasswordSignUp.dart';
 
 class SignUpButton extends StatefulWidget {
   @override
@@ -19,7 +21,8 @@ class SignUpButton extends StatefulWidget {
 class RoundedButton extends State<SignUpButton> {
   String url = "http://${ip}:8080/signup/courtOwner";
   var resp = "";
-  late Map<String, dynamic> Profile_data;
+  late Map<String, dynamic> profileData;
+
   Future save() async {
     var res = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
@@ -39,7 +42,7 @@ class RoundedButton extends State<SignUpButton> {
         resp = "Email exist";
       } else {
         resp = "";
-        Profile_data = jsonDecode(res.body);
+        profileData = jsonDecode(res.body);
       }
     });
   }
@@ -49,47 +52,45 @@ class RoundedButton extends State<SignUpButton> {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () async {
-        print("lolo");
         var Email = RoundedInput.EmailSignUp.text;
         var username = RoundedInputUsername.username.text;
         var Password = RoundedPasswordSignup.Password.text;
         var phoneNumber = RoundedPhoneNumber.PhoneNumber.text;
         var Locationaddress = FindLocation.Locationaddress;
         if (Email.isEmpty) {
-          showAlertDialog(context, 'Enter valid Email');
+          showAlertDialog(context, 'تأكد من بيانات حسابك');
           RoundedInput.EmailSignUp.clear();
         } else if (username.isEmpty) {
-          showAlertDialog(context, 'Enter Valid Username');
+          showAlertDialog(context, 'لا يمكنك ترك هذا الحقل فارغاً');
           RoundedInputUsername.username.clear();
         } else if (phoneNumber.isEmpty || phoneNumber.length < 11) {
-          showAlertDialog(context, 'Enter Valid phone Number');
+          showAlertDialog(context, 'تأكد من إدخال رقم هاتف صحيح');
           RoundedPhoneNumber.PhoneNumber.clear();
         } else if (Locationaddress.toString() == 'null') {
-          showAlertDialog(context, 'Select location from Map');
+          showAlertDialog(context, 'تأكد من اختيارك لموقع ملعبك');
         } else if (Password.length < 6 ||
             Password.length > 15 ||
             Password.isEmpty) {
-          showAlertDialog(context, 'Enter Valid Password');
+          showAlertDialog(context, 'تأكد من إدخال كلمة مرور صالحة');
           RoundedPasswordSignup.Password.clear();
         } else if (username.length < 3) {
-          showAlertDialog(context, 'Enter Valid Username');
+          showAlertDialog(context, 'لا يمكن أن يقل الاسم عن 3 أحرف');
           RoundedInputUsername.username.clear();
         } else {
-          print("lolo");
           var res = await save();
           if (resp == "invalid") {
-            showAlertDialog(context, 'Enter valid Email');
+            showAlertDialog(context, 'تأكد من بيانات حسابك');
             RoundedInput.EmailSignUp.clear();
           } else if (resp == "Email exist") {
-            showAlertDialog(context, 'Email already Exist');
+            showAlertDialog(context, 'الحساب موجود بالفعل');
             RoundedInput.EmailSignUp.clear();
           } else {
-            KickoffApplication.data = Profile_data;
+            KickoffApplication.data = profileData;
             localFile.writeLoginData(RoundedInput.EmailSignUp.text,
                 RoundedPasswordSignup.Password.text);
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) =>
-                    KickoffApplication(profileData: Profile_data)));
+                    KickoffApplication(profileData: profileData)));
           }
         }
       },
@@ -98,12 +99,12 @@ class RoundedButton extends State<SignUpButton> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: kPrimaryColor,
+          color: primaryColor,
         ),
         padding: EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
         child: Text(
-          'SIGN UP',
+          'تسجيل حساب جديد',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
@@ -115,11 +116,11 @@ showAlertDialog(BuildContext context, text3) {
   return showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-            title: Text("Warning"),
+            title: Text("تحذير!"),
             content: Text(text3),
             actions: [
               TextButton(
-                child: Text("OK"),
+                child: Text("حسناً"),
                 onPressed: () {
                   Navigator.of(ctx).pop();
                 },

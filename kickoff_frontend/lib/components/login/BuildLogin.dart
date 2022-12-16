@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'SignUpRequest.dart';
+import '../../httpshandlers/loginrequests.dart';
 import 'EmailLogin.dart';
 import 'PasswordLogin.dart';
-
-import '../../../components/LoginRequest.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -35,7 +33,7 @@ class LoginForm extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Kickoff',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
@@ -43,9 +41,10 @@ class LoginForm extends StatelessWidget {
                 Container(
                     height: 175,
                     width: 175,
-                    child: Image(image: AssetImage('assets/images/pic3.PNG'))),
+                    child: const Image(
+                        image: AssetImage('assets/images/pic3.PNG'))),
                 SizedBox(height: 40),
-                RoundedInputLogin(icon: Icons.mail, hint: 'Email'),
+                RoundedInputLogin(icon: Icons.mail, hint: 'البريد الالكتروني'),
                 PasswordInput(),
                 SizedBox(height: 10),
                 LoginButton(),

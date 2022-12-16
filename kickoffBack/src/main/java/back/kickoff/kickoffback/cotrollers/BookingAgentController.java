@@ -32,22 +32,22 @@ public class BookingAgentController {
             return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
-    @GetMapping("/cancelBooking")
-    public ResponseEntity<String> cancelBooking(@RequestParam Long reservationId)
+    @PostMapping("/cancelBooking")
+    public ResponseEntity<String> cancelReservation(@RequestBody String information)  throws JSONException
     {
-        String responseBody = bookingAgent.cancelBookedReservation(reservationId);
-        try{
+        String responseBody = bookingAgent.cancelBookedReservation(information);
+        try {
             Integer cost = Integer.parseInt(responseBody);
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping("/cancelPending")
-    public ResponseEntity<String> cancelPending(@RequestParam Long reservationId)
+    @PostMapping("/cancelPending")
+    public ResponseEntity<String> cancelPending(@RequestBody String information)  throws JSONException
     {
-        String responseBody = bookingAgent.cancelPendingReservation(reservationId);
+        String responseBody = bookingAgent.cancelPendingReservation(information);
         if(!responseBody.equals("Success"))
             return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);

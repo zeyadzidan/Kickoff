@@ -9,15 +9,16 @@ class RoundedInputUsername extends StatelessWidget {
   final IconData icon;
   final String hint;
   static TextEditingController username = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return InputContainer(
         child: TextField(
       controller: username,
-      cursorColor: kPrimaryColor,
+      cursorColor: primaryColor,
       decoration: InputDecoration(
-          icon: Icon(icon, color: kPrimaryColor),
+          icon: Icon(icon, color: primaryColor),
           hintText: hint,
           border: InputBorder.none),
     ));

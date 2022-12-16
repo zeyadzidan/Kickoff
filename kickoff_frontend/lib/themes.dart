@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-enum Themes {light, dark}
+enum Themes { light, dark }
 
 class AppThemes {
-
   static final ThemeData lightTheme = ThemeData(
     primarySwatch: Colors.green,
     primaryColor: Colors.green,
@@ -19,10 +18,10 @@ class AppThemes {
     dividerColor: Colors.green,
     brightness: Brightness.light,
     highlightColor: Colors.white,
-    floatingActionButtonTheme: const FloatingActionButtonThemeData (
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.green,
-        splashColor: Colors.lightGreen,
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.green,
+      splashColor: Colors.lightGreen,
     ),
     colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
   );
@@ -34,15 +33,13 @@ class AppThemes {
     brightness: Brightness.dark,
     highlightColor: Colors.white,
     backgroundColor: Colors.black87,
-    textSelectionTheme: const TextSelectionThemeData(
-        selectionColor: Colors.grey
-    ),
-    floatingActionButtonTheme: const FloatingActionButtonThemeData (
+    textSelectionTheme:
+        const TextSelectionThemeData(selectionColor: Colors.grey),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
         foregroundColor: Colors.black87,
         backgroundColor: Colors.green,
         focusColor: Colors.greenAccent,
-        splashColor: Colors.lightGreen
-    ),
+        splashColor: Colors.lightGreen),
   );
 
   static ThemeData getThemeFromKey(Themes key) {
