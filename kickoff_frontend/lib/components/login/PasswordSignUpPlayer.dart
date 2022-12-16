@@ -16,10 +16,10 @@ class RoundedPasswordSignup extends State<PasswordInputSignupPlayer> {
     return InputContainer(
       color: Colors.green,
         child: TextField(
-          cursorColor: primaryColor,
+          cursorColor: PlayerColor,
           controller: Password,
           decoration: InputDecoration(
-              icon: Icon(Icons.lock, color: primaryColor),
+              icon: Icon(Icons.lock, color: PlayerColor),
               suffix: GestureDetector(
                 onTap: () {
                   setState(() {

@@ -98,7 +98,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
       decoration: BoxDecoration(
           boxShadow: const <BoxShadow>[
             BoxShadow(
-              color: primaryColor,
+              color: PlayerColor,
               blurRadius: 3,
             ),
           ],
@@ -109,23 +109,23 @@ class KickoffApplicationState extends State<KickoffApplication> {
       child: GNav(
           gap: 5,
           activeColor: Colors.white,
-          color: primaryColor,
+          color: PlayerColor,
           tabBackgroundColor: Colors.black.withAlpha(25),
           duration: const Duration(milliseconds: 300),
           tabs: const <GButton>[
             GButton(
-              backgroundColor: primaryColor,
+              backgroundColor: PlayerColor,
               text: "Profile",
               icon: Icons.person,
               onPressed: null,
             ),
             GButton(
-              backgroundColor: primaryColor,
+              backgroundColor: PlayerColor,
               text: "Announcements",
               icon: Icons.add,
             ),
             GButton(
-              backgroundColor: primaryColor,
+              backgroundColor: PlayerColor,
               text: "Reservations",
               icon: Icons.stadium,
             ),

@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: primaryColor),
+                    color: PlayerColor),
               )),
 
           Positioned(
@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen>
                           blurRadius: 5,
                         ),
                       ],
-                      color: primaryColor),
+                      color: PlayerColor),
                    child: Padding(
                      padding: const EdgeInsets.fromLTRB(55, 100, 0, 0),
                        child :InkWell(
@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: primaryColor),
+                    color: PlayerColor),
               )),
 
           // Cancel Button
@@ -193,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen>
           child: isLogin
               ? const Text(
                   "SignUp",
-                  style: TextStyle(color: primaryColor, fontSize: 18),
+                  style: TextStyle(color: PlayerColor, fontSize: 18),
                 )
               : null,
         ),

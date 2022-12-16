@@ -65,7 +65,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
                         blurRadius: 5,
                       ),
                     ],
-                    color: primaryColor2),
+                    color: CourtOwnerColor),
               )),
 
           Positioned(
@@ -82,7 +82,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
                       blurRadius: 5,
                     ),
                   ],
-                  color: primaryColor2),
+                  color: CourtOwnerColor),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(55, 108, 0, 0),
                 child :InkWell(
@@ -116,7 +116,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
                         blurRadius: 5,
                       ),
                     ],
-                    color: primaryColor2),
+                    color: CourtOwnerColor),
               )),
 
           // Cancel Button
@@ -193,7 +193,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
           child: isLogin
               ? const Text(
             "انشاء حساب جديد",
-            style: TextStyle(color: primaryColor2, fontSize:20),
+            style: TextStyle(color: CourtOwnerColor, fontSize:20),
           )
               : null,
         ),
