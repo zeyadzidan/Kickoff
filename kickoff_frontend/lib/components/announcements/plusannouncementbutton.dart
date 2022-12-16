@@ -1,4 +1,11 @@
+import 'dart:io';
+import 'dart:convert';
+import 'dart:math';
+import 'package:http/http.dart' as http;
+
 import 'package:cached_network_image/src/cached_image_widget.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/application/application.dart';
@@ -19,6 +26,23 @@ class PlusAnnouncementButton extends StatefulWidget {
 class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
   final GlobalKey<FormState> _key = GlobalKey();
   late List<String> _announcement = <String>[];
+  void uploadimage(File file, final path) async {
+    UploadTask? uploadTask;
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTask = ref.putFile(file);
+    final snapshot = await uploadTask.whenComplete(() {});
+    final Url = await snapshot.ref.getDownloadURL();
+
+    //2ib3t elrequest hina :-
+
+    // String url = "http://$ip:8080/courtOwnerAgent/CourtOwner/addImage";
+    // await http.post(Uri.parse(url),
+    //     headers: {"Content-Type": "application/json"},
+    //     body: json.encode({
+    //       "ownerID": id,
+    //       "imageURL": Url.toString(),
+    //     }));
+  }
 
   @override
   Widget build(BuildContext context) => FloatingActionButton(
@@ -53,7 +77,24 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 20, horizontal: 15)),
                               onPressed:
-                                  () async {}, // TODO: Handle attachments
+                                  () async {
+                                    Random random = new Random();
+                                    FilePickerResult? result =
+                                    await FilePicker.platform.pickFiles(
+                                        type: FileType.custom,
+                                        allowedExtensions: ['png', 'jpg']);
+                                    if (result != null) {
+                                      File file = File(result.files.last.path!);
+                                      final path2 =
+                                          'files/${KickoffApplication.data["id"].toString()}.${random.nextInt(10000000)}.${result.files.last.extension}';
+                                      print(result);
+                                      print(result.files.last.path);
+                                      uploadimage(file, path2);
+                                      setState(() {
+                                            //4oof hati3rdha 2zay lw 3ayz
+                                      });
+                                    }
+                                  }, // TODO: Handle attachments
                             ),
                           ),
                           _submitButton()
