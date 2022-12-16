@@ -102,18 +102,22 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
                           Text('من فضلك اختر الساعة فقط.\nالدقائق غير محسوبة.'),
                     ));
           } else {
-            setState(() => _from = selected);
+            _from = selected;
+            KickoffApplication.update();
           }
         } else {
           if (selected!.hour % 24 > _from.hour % 24) {
-            (selected.minute == 0)
-                ? setState(() => _to = selected)
-                : showDialog(
+            if (selected.minute == 0) {
+                  _to = selected;
+                  KickoffApplication.update();
+            } else {
+              showDialog(
                     context: context,
                     builder: (BuildContext context) => const AlertDialog(
                           title: Text(
                               'من فضلك اختر الساعة فقط.\nالدقائق غير محسوبة.'),
                         ));
+            }
           } else {
             showDialog(
                 context: context,

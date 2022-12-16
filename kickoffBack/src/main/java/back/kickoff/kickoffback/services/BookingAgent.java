@@ -89,6 +89,7 @@ public class BookingAgent {
         }
         CourtSchedule courtSchedule = optionalCourtSchedule.get() ;
         courtSchedule.getPendingReservations().remove(reservation) ;
+        scheduleRepository.save(courtSchedule);
         reservationRepository.deleteById(id);
         return "Success";
     }
@@ -105,14 +106,10 @@ public class BookingAgent {
         String[] tempArrF = dateStrF.split("/");
         int startHour = jsonObject.getInt("startHour");
         int finishHour = jsonObject.getInt("finishHour");
-        int yearS, monthS, dayS, yearF, monthF, dayF;
         Date stDate, endDate;
         Time timeFrom, timeTo;
         if(tempArrS.length != 3 || tempArrF.length != 3)
             return "In valid date1";
-        yearS = Integer.parseInt(tempArrS[2]); yearF = Integer.parseInt(tempArrF[2]);
-        monthS = Integer.parseInt(tempArrS[0]); monthF = Integer.parseInt(tempArrF[0]);
-        dayS = Integer.parseInt(tempArrS[1]); dayF = Integer.parseInt(tempArrF[1]);
         try
         {
             SimpleDateFormat obj = new SimpleDateFormat("MM/dd/yyyy");
@@ -187,9 +184,6 @@ public class BookingAgent {
         if(tempArrS.length != 3)
             return "In valid date";
 
-        int yearS = Integer.parseInt(tempArrS[2]);
-        int monthS = Integer.parseInt(tempArrS[0]);
-        int dayS = Integer.parseInt(tempArrS[1]);
         Date date ;
         try
         {
