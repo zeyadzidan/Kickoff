@@ -10,6 +10,7 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/themes.dart';
 
 import '../components/classes/court.dart';
+import '../components/login/BuildComponentsCourtOwner.dart';
 import 'screens/login.dart';
 import 'screens/profile.dart';
 import 'screens/reservations.dart';
@@ -51,9 +52,11 @@ class KickoffApplicationState extends State<KickoffApplication> {
       theme: AppThemes.lightTheme,
       title: "Kickoff",
       debugShowCheckedModeBanner: false,
-      initialRoute: firstTime?'/login':'/kickoff',
+      initialRoute: '/loginPlayer',
+      //initialRoute: firstTime?'/login':'/kickoff',
       routes: {
-        '/login': (context) => const LoginScreen(),
+        '/loginPlayer': (context)=> const LoginScreen(),
+        '/login': (context) => const LoginScreenCourtOwner(),
         '/kickoff': (context) => Builder(
               builder: (context) => Scaffold(
                 appBar: KickoffAppBar().build(context),
@@ -99,7 +102,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
       decoration: BoxDecoration(
           boxShadow: const <BoxShadow>[
             BoxShadow(
-              color: primaryColor,
+              color: PlayerColor,
               blurRadius: 3,
             ),
           ],
@@ -110,23 +113,23 @@ class KickoffApplicationState extends State<KickoffApplication> {
       child: GNav(
           gap: 5,
           activeColor: Colors.white,
-          color: primaryColor,
+          color: PlayerColor,
           tabBackgroundColor: Colors.black.withAlpha(25),
           duration: const Duration(milliseconds: 300),
           tabs: const <GButton>[
             GButton(
-              backgroundColor: primaryColor,
+              backgroundColor: PlayerColor,
               text: "Profile",
               icon: Icons.person,
               onPressed: null,
             ),
             GButton(
-              backgroundColor: primaryColor,
+              backgroundColor: PlayerColor,
               text: "Announcements",
               icon: Icons.add,
             ),
             GButton(
-              backgroundColor: primaryColor,
+              backgroundColor: PlayerColor,
               text: "Reservations",
               icon: Icons.stadium,
             ),
