@@ -25,7 +25,10 @@ class KickoffAppBar {
               ProfileBaseScreen.path = "";
               var appDir = (await getTemporaryDirectory()).path;
               Directory(appDir).delete(recursive: true);
-              Navigator.pop(context);
+              if(Navigator.canPop(context))
+                Navigator.pop(context);
+              else
+                Navigator.pushNamed(context, '/login');
             },
           ),
         ],
