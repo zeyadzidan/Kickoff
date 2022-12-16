@@ -13,12 +13,12 @@ import 'package:kickoff_frontend/localFile.dart';
 
 import '../../../components/login/PasswordSignUp.dart';
 
-class SignUpButton extends StatefulWidget {
+class SignUpButtonPlayer extends StatefulWidget {
   @override
   RoundedButton createState() => RoundedButton();
 }
 
-class RoundedButton extends State<SignUpButton> {
+class RoundedButton extends State<SignUpButtonPlayer> {
   String url = "http://${ip}:8080/signup/courtOwner";
   var resp = "";
   late Map<String, dynamic> profileData;
@@ -58,31 +58,31 @@ class RoundedButton extends State<SignUpButton> {
         var phoneNumber = RoundedPhoneNumber.PhoneNumber.text;
         var Locationaddress = FindLocation.Locationaddress;
         if (Email.isEmpty) {
-          showAlertDialog(context, 'تأكد من بيانات حسابك');
+          showAlertDialog(context, 'Check your Email');
           RoundedInput.EmailSignUp.clear();
         } else if (username.isEmpty) {
-          showAlertDialog(context, 'لا يمكنك ترك هذا الحقل فارغاً');
+          showAlertDialog(context, 'Name can not be emptyً');
           RoundedInputUsername.username.clear();
         } else if (phoneNumber.isEmpty || phoneNumber.length < 11) {
-          showAlertDialog(context, 'تأكد من إدخال رقم هاتف صحيح');
+          showAlertDialog(context, 'Check your phone number');
           RoundedPhoneNumber.PhoneNumber.clear();
         } else if (Locationaddress.toString() == 'null') {
-          showAlertDialog(context, 'تأكد من اختيارك لموقع ملعبك');
+          showAlertDialog(context, 'Check your Location');
         } else if (Password.length < 6 ||
             Password.length > 15 ||
             Password.isEmpty) {
-          showAlertDialog(context, 'تأكد من إدخال كلمة مرور صالحة');
+          showAlertDialog(context, 'Check your password');
           RoundedPasswordSignup.Password.clear();
         } else if (username.length < 3) {
-          showAlertDialog(context, 'لا يمكن أن يقل الاسم عن 3 أحرف');
+          showAlertDialog(context, 'UserName cannot be less than 3');
           RoundedInputUsername.username.clear();
         } else {
           var res = await save();
           if (resp == "invalid") {
-            showAlertDialog(context, 'تأكد من بيانات حسابك');
+            showAlertDialog(context, 'Check your Email');
             RoundedInput.EmailSignUp.clear();
           } else if (resp == "Email exist") {
-            showAlertDialog(context, 'الحساب موجود بالفعل');
+            showAlertDialog(context, 'Email Already Exist');
             RoundedInput.EmailSignUp.clear();
           } else {
             KickoffApplication.data = profileData;
@@ -99,12 +99,12 @@ class RoundedButton extends State<SignUpButton> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: primaryColor2,
+          color: primaryColor,
         ),
         padding: EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
         child: Text(
-          'تسجيل حساب جديد',
+          'SignUp',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
@@ -116,15 +116,15 @@ showAlertDialog(BuildContext context, text3) {
   return showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-            title: Text("تحذير!"),
-            content: Text(text3),
-            actions: [
-              TextButton(
-                child: Text("حسناً"),
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-              ),
-            ],
-          ));
+        title: Text("Alert"),
+        content: Text(text3),
+        actions: [
+          TextButton(
+            child: Text("OK"),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          ),
+        ],
+      ));
 }
