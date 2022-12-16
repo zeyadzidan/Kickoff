@@ -86,7 +86,10 @@ class KickoffApplicationState extends State<KickoffApplication> {
           firstTime = (loginData == "0");
           loading = false;
           _timer.cancel();
+        }else if (loginData=="0"){
+          _timer.cancel();
         }
+
       });
     });
   }
