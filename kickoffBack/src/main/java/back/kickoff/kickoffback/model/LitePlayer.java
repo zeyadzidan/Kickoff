@@ -10,11 +10,17 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 @Entity
-public class LitePlayer {
+public class LitePlayer implements PlayerI{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long Id ;
+    private Long id ;
+    private String Name;
+    private String phoneNumber;
+    private PlayerType  playerType = PlayerType.Lite ;
+
+
+
 /*
     @ManyToMany(mappedBy = "playersID")
     @ToString.Exclude

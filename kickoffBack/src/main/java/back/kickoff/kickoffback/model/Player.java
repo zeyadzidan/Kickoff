@@ -15,13 +15,14 @@ import java.util.Set;
 @Entity
 @Table
 @NoArgsConstructor
-public class Player {
+public class Player implements PlayerI{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String Name;
     private String email;
     private String phoneNumber;
+    private PlayerType  playerType = PlayerType.Registered ;
     private String password;
     private String location;
     private String image;
