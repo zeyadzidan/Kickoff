@@ -2,7 +2,9 @@ package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
+
 import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,6 +30,7 @@ class SignupServiceTest {
 
         signupService = new SignupService(courtOwnerRepository);
     }
+
     @Test
     void courtOwnerSignup() throws JSONException {
         HashMap<String, Object> hm = new HashMap<>();
@@ -47,7 +50,7 @@ class SignupServiceTest {
         newCourtOwner.setRating(0);
         newCourtOwner.setLocation("Nasr CLub");
 
-        Map<String, Object> res = new HashMap<>() ;
+        Map<String, Object> res = new HashMap<>();
         res.put("id", newCourtOwner.getId());
         res.put("userName", newCourtOwner.getUserName());
         res.put("email", newCourtOwner.getEmail());

@@ -2,6 +2,7 @@ package back.kickoff.kickoffback.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
@@ -18,7 +19,7 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long Id ;
+    Long Id;
 /*
     @ManyToMany(mappedBy = "playersID")
     @ToString.Exclude

@@ -13,8 +13,7 @@ import java.util.Set;
 @Entity
 @Table
 @NoArgsConstructor
-public class CourtOwner
-{
+public class CourtOwner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,12 +28,11 @@ public class CourtOwner
     private Double xAxis;
     private Double yAxis;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courtOwner")
-    private List<Court> courts ;
+    private List<Court> courts;
 
 
     public CourtOwner(String userName, String email, String password, String phoneNumber,
-                      Double xAxis, Double yAxis)
-    {
+                      Double xAxis, Double yAxis) {
         this.userName = userName;
         this.email = email;
         this.password = password;
@@ -43,8 +41,7 @@ public class CourtOwner
         this.yAxis = yAxis;
     }
 
-    public CourtOwner addCourt(Court court)
-    {
+    public CourtOwner addCourt(Court court) {
         court.setCourtOwner(this);
         courts.add(court);
         return this;

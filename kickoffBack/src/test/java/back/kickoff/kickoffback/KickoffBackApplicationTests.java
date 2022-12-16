@@ -9,6 +9,7 @@ import back.kickoff.kickoffback.repositories.ReservationRepository;
 import back.kickoff.kickoffback.repositories.ScheduleRepository;
 import back.kickoff.kickoffback.services.ReservationService;
 import back.kickoff.kickoffback.services.ScheduleAgent;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,10 @@ import java.util.Optional;
 @SpringBootTest
 class KickoffBackApplicationTests {
 
-	@Test
-	void contextLoads() {
+    @Test
+    void contextLoads() {
 
-	}
-
+    }
 
 
 //	@Autowired

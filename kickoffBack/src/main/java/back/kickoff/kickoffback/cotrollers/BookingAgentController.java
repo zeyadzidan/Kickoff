@@ -1,6 +1,7 @@
 package back.kickoff.kickoffback.cotrollers;
 
 import back.kickoff.kickoffback.services.BookingAgent;
+
 import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,21 +21,21 @@ public class BookingAgentController {
     @PostMapping("/setPending")
     public ResponseEntity<String> setPending(@RequestBody String information) throws JSONException {
         String responseBody = bookingAgent.setPending(information);
-        if(!responseBody.equals("Success"))
+        if (!responseBody.equals("Success"))
             return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(responseBody, HttpStatus.CREATED);
     }
+
     @PostMapping("/booking")
-    public ResponseEntity<String> book(@RequestBody String information) throws JSONException
-    {
+    public ResponseEntity<String> book(@RequestBody String information) throws JSONException {
         String responseBody = bookingAgent.book(information);
-        if(!responseBody.equals("Success"))
+        if (!responseBody.equals("Success"))
             return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
+
     @PostMapping("/cancelBooking")
-    public ResponseEntity<String> cancelReservation(@RequestBody String information)  throws JSONException
-    {
+    public ResponseEntity<String> cancelReservation(@RequestBody String information) throws JSONException {
         String responseBody = bookingAgent.cancelBookedReservation(information);
         try {
             Integer cost = Integer.parseInt(responseBody);
@@ -45,10 +46,9 @@ public class BookingAgentController {
     }
 
     @PostMapping("/cancelPending")
-    public ResponseEntity<String> cancelPending(@RequestBody String information)  throws JSONException
-    {
+    public ResponseEntity<String> cancelPending(@RequestBody String information) throws JSONException {
         String responseBody = bookingAgent.cancelPendingReservation(information);
-        if(!responseBody.equals("Success"))
+        if (!responseBody.equals("Success"))
             return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
@@ -56,9 +56,9 @@ public class BookingAgentController {
     @PostMapping("/reservationsOnDate")
     public ResponseEntity<String> getReservations(@RequestBody String information) throws JSONException {
         String responseBody = bookingAgent.getReservations(information);
-        if(responseBody.charAt(0)!='S')
+        if (responseBody.charAt(0) != 'S')
             return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
-        responseBody = responseBody.substring(2) ;
+        responseBody = responseBody.substring(2);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 

@@ -79,7 +79,8 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
               child: Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                     padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -224,7 +225,8 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 20),
                       child: Column(
                         children: [
                           Align(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
 import 'package:kickoff_frontend/components/application/applicationbar.dart';
 import 'package:kickoff_frontend/components/courts/pluscourtbutton.dart';
@@ -61,9 +62,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
                   child: (KickoffApplication._selectedPage == 0)
                       ? ProfileBaseScreen()
                       : (KickoffApplication._selectedPage == 1)
-                          ? const Center(
-                              child: Text(
-                                  "ANNOUNCEMENTS FEATURE IS NOT YET IMPLEMENTED"))
+                          ? AnnouncementsHome()
                           : ReservationsHome(),
                 ),
                 floatingActionButton: (KickoffApplication._selectedPage == 0)

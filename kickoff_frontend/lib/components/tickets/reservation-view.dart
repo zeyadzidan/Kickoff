@@ -129,24 +129,28 @@ class _ReservationsViewState extends State<ReservationsView> {
                                       )
                                     : Container(),
                                 Container(
-                                  margin: const EdgeInsets.only(top: 70.0, right: 300.0),
+                                  margin: const EdgeInsets.only(
+                                      top: 70.0, right: 300.0),
                                   child: ElevatedButton.icon(
                                     icon: const Icon(Icons.delete),
                                     label: const Text('مسح الحجز'),
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.red,
-                                        padding:
-                                        const EdgeInsets.symmetric(
-                                            vertical: 20,
-                                            horizontal: 15)),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 20, horizontal: 15)),
                                     onPressed: () async {
                                       await TicketsHTTPsHandler.deleteTicket(
                                           ReservationsHome.reservations[index]);
                                       ReservationsHome.reservations =
-                                      await TicketsHTTPsHandler.getCourtReservations(
-                                          (ReservationsHome.selectedCourt + 1),
-                                          KickoffApplication.ownerId,
-                                          DateFormat.yMd().format(ReservationsHome.selectedDate));
+                                          await TicketsHTTPsHandler
+                                              .getCourtReservations(
+                                                  (ReservationsHome
+                                                          .selectedCourt +
+                                                      1),
+                                                  KickoffApplication.ownerId,
+                                                  DateFormat.yMd().format(
+                                                      ReservationsHome
+                                                          .selectedDate));
                                       KickoffApplication.update();
                                     },
                                   ),

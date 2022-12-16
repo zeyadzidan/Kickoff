@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.hibernate.cfg.annotations.reflection.internal.XMLContext;
 
 import java.sql.Date;
@@ -38,20 +39,19 @@ public class Reservation {
     String playerName;
     Long courtID;
     Long courtOwnerID;
-    Date startDate ;
+    Date startDate;
     Date endDate;
     Time timeFrom;
     Time timeTo;
     ReservationState state;
-    int moneyPayed ;
-    int totalCost ;
+    int moneyPayed;
+    int totalCost;
     //Long messageID ;
-
 
 
     public Reservation(Long playerID, String playerName, Long courtID, Long courtOwnerID, Date startDate, Date endDate, Time timeFrom,
                        Time timeTo, ReservationState state, int moneyPayed, int totalCost) {
-        this.playerID = playerID ;
+        this.playerID = playerID;
         this.playerName = playerName;
         this.courtID = courtID;
         this.courtOwnerID = courtOwnerID;

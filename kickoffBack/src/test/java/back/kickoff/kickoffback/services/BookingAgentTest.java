@@ -5,7 +5,9 @@ import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.CourtRepository;
 import back.kickoff.kickoffback.repositories.ReservationRepository;
 import back.kickoff.kickoffback.repositories.ScheduleRepository;
+
 import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,12 +40,13 @@ class BookingAgentTest {
     ReservationService reservationService;
 
     @BeforeEach
-    public void setUp()  {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
 
         bookingAgent = new BookingAgent(courtRepository, scheduleRepository, courtOwnerRepository,
                 reservationRepository, reservationService);
     }
+
     @Test
     void book() throws JSONException {
         HashMap<String, Object> hm = new HashMap<>();
@@ -111,8 +114,8 @@ class BookingAgentTest {
         when(courtOwnerRepository.findById(1L)).thenReturn(Optional.of(courtOwner));
         when(courtRepository.findById(11L)).thenReturn(Optional.of(court));
         when(reservationService.calcTotalCost(new Date(22, 12, 16),
-                new Date(22, 12, 16), new Time(2, 0,0),
-                new Time(4, 0,0), court)).thenReturn(1000);
+                new Date(22, 12, 16), new Time(2, 0, 0),
+                new Time(4, 0, 0), court)).thenReturn(1000);
         when(scheduleRepository.save(new CourtSchedule())).thenReturn(new CourtSchedule());
         when(courtRepository.save(court)).thenReturn(new Court());
         String res = bookingAgent.setPending(information);

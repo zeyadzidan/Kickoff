@@ -4,7 +4,9 @@ import back.kickoff.kickoffback.model.Court;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.services.CourtOwnerAgent;
 import back.kickoff.kickoffback.services.SignupService;
+
 import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,7 @@ class CourtOwnerAgentControllerTest {
     CourtOwnerAgentController courtOwnerAgentController;
     @Mock
     CourtOwnerAgent courtOwnerAgent;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -57,8 +60,8 @@ class CourtOwnerAgentControllerTest {
     @Test
     void addImage() throws JSONException {
         HashMap<String, Object> hm = new HashMap<>();
-        hm.put("ownerID", 1L) ;
-        hm.put("imageURL", "thisIsAnImage.com") ;
+        hm.put("ownerID", 1L);
+        hm.put("imageURL", "thisIsAnImage.com");
         String information = new Gson().toJson(hm);
         Mockito.when(courtOwnerAgent.addImage(information)).thenReturn("Success");
 

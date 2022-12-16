@@ -2,7 +2,9 @@ package back.kickoff.kickoffback.cotrollers;
 
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.services.SignupService;
+
 import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +19,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/signup")
 public class SignupController {
     private final SignupService signupService;
-    public SignupController(SignupService signupService)
-    {
+
+    public SignupController(SignupService signupService) {
         this.signupService = signupService;
 //        Optional<CourtOwner> cc = courtOwnerRepository.findByEmail()
     }
+
     @PostMapping("/courtOwner")
     public ResponseEntity<String> courtOwnerSignupRequest(@RequestBody String information) throws JSONException {
-        String response = signupService.courtOwnerSignup(information) ;
+        String response = signupService.courtOwnerSignup(information);
         System.out.println(response);
-        if(response.equals("Email exist") || response.equals("invalid") )
+        if (response.equals("Email exist") || response.equals("invalid"))
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

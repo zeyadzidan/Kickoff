@@ -2,7 +2,9 @@ package back.kickoff.kickoffback.cotrollers;
 
 import back.kickoff.kickoffback.services.BookingAgent;
 import back.kickoff.kickoffback.services.SignupService;
+
 import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,11 +24,13 @@ class BookingAgentControllerTest {
     BookingAgentController bookingAgentController;
     @Mock
     BookingAgent bookingAgent;
+
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         bookingAgentController = new BookingAgentController(bookingAgent);
     }
+
     @Test
     void setPending() throws JSONException {
         HashMap<String, Object> hm = new HashMap<>();
