@@ -16,6 +16,8 @@ class Loading {
   static loadData() async {
     KickoffApplication.userIP = getIP();
     loginData = await localFile.readLoginData();
+    print("loginData is ");
+    print(loginData);
     firstTime = (loginData == "0");
     loading = false;
     if (!firstTime) {
