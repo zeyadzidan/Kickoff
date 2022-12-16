@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/profile.dart';
 import 'package:kickoff_frontend/components/login/EmailLogin.dart';
-import 'package:kickoff_frontend/components/login/PasswordLogin.dart';
+import 'package:kickoff_frontend/components/login/PasswordPlayer.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
@@ -22,7 +22,7 @@ class LoginButtonPlayer extends StatefulWidget {
 
 class RoundedLogin extends State<LoginButtonPlayer> {
   static final String _url =
-      "http://${KickoffApplication.userIP}:8080/login/courtOwner";
+      "http://${KickoffApplication.userIP}:8080/login/player";
   var resp = 52;
   late Map<String, dynamic> profileData;
 
@@ -33,8 +33,8 @@ class RoundedLogin extends State<LoginButtonPlayer> {
           "email": email.toLowerCase(),
           "password": pass,
         }));
-
-    setState(() => profileData = json.decode(res.body));
+     print(res.body);
+    // setState(() => profileData = json.decode(res.body));
   }
 
   static Future save2(email, pass) async {
@@ -59,7 +59,7 @@ class RoundedLogin extends State<LoginButtonPlayer> {
     return InkWell(
       onTap: () async {
         var Email = RoundedInputLogin.EmailLogin.text;
-        var Password = RoundedPasswordInput.Password.text;
+        var Password = RoundedPasswordInputPlayer.Password.text;
         if (Email.isEmpty) {
           showAlertDialog(context, 'Empty Email Address');
           RoundedInputLogin.EmailLogin.clear();
@@ -68,27 +68,27 @@ class RoundedLogin extends State<LoginButtonPlayer> {
             Password.isEmpty) {
           showAlertDialog(context,
               'Wrong Password');
-          RoundedPasswordInput.Password.clear();
+          RoundedPasswordInputPlayer.Password.clear();
         } else {
           await save(RoundedInputLogin.EmailLogin.text,
-              RoundedPasswordInput.Password.text);
+              RoundedPasswordInputPlayer.Password.text);
           if (profileData.isEmpty) {
             showAlertDialog(context, 'Check your Information');
             RoundedInputLogin.EmailLogin.clear();
           } else if (profileData.length == 4) {
             showAlertDialog(
                 context, 'Wrong password password less than 4 character not accepted ');
-            RoundedPasswordInput.Password.clear();
+            RoundedPasswordInputPlayer.Password.clear();
           } else {
-            print(profileData);
-            KickoffApplication.data = profileData;
-            KickoffApplication.ownerId = profileData["id"].toString();
-            ProfileBaseScreen.courts =
-            await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
-            await ReservationsHome.buildTickets();
-            localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
-                RoundedPasswordInput.Password.text);
-            Navigator.pushNamed(context, '/kickoff');
+            // print(profileData);
+            // KickoffApplication.data = profileData;
+            // KickoffApplication.ownerId = profileData["id"].toString();
+            // ProfileBaseScreen.courts =
+            // await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
+            // await ReservationsHome.buildTickets();
+            // localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
+            //     RoundedPasswordInput.Password.text);
+            // Navigator.pushNamed(context, '/kickoff');
           }
         }
       },

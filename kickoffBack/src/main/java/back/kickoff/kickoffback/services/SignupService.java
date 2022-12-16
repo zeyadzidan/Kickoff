@@ -73,9 +73,10 @@ public class SignupService
         Optional<Player> player = playerRepository.findByEmail(email);
         String regex = "^(.+)@(.+)$";
         boolean valid =Pattern.compile(regex).matcher(email).matches();
+        System.out.println("youssryTaha 2adwtna");
         if(player.isPresent())
             return "Email exist";
-        if(valid)
+        if(!valid)
             return "invalid" ;
         Player newPlayer = new Player(name, email, phoneNumber,password, location, xAxis, yAxis);
         playerRepository.save(newPlayer);

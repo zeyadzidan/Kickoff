@@ -11,7 +11,7 @@ import 'package:kickoff_frontend/components/login/SignUpUserName.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
-import '../../../components/login/PasswordSignUp.dart';
+import '../../../components/login/PasswordSignUpPlayer.dart';
 
 class SignUpButtonPlayer extends StatefulWidget {
   @override
@@ -19,7 +19,7 @@ class SignUpButtonPlayer extends StatefulWidget {
 }
 
 class RoundedButton extends State<SignUpButtonPlayer> {
-  String url = "http://${ip}:8080/signup/courtOwner";
+  String url = "http://${ip}:8080/signup/player";
   var resp = "";
   late Map<String, dynamic> profileData;
 
@@ -28,8 +28,8 @@ class RoundedButton extends State<SignUpButtonPlayer> {
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "email": RoundedInput.EmailSignUp.text.toLowerCase(),
-          "password": RoundedPasswordSignup.Password.text,
-          "username": RoundedInputUsername.username.text,
+          "password": RoundedPasswordSignupPlayer.Password.text,
+          "name": RoundedInputUsername.username.text,
           "phoneNumber": RoundedPhoneNumber.PhoneNumber.text,
           "location": FindLocation.Locationaddress,
           "xAxis": FindLocation.X_axis,
@@ -42,6 +42,7 @@ class RoundedButton extends State<SignUpButtonPlayer> {
         resp = "Email exist";
       } else {
         resp = "";
+        print(res.body);
         profileData = jsonDecode(res.body);
       }
     });
@@ -54,7 +55,7 @@ class RoundedButton extends State<SignUpButtonPlayer> {
       onTap: () async {
         var Email = RoundedInput.EmailSignUp.text;
         var username = RoundedInputUsername.username.text;
-        var Password = RoundedPasswordSignup.Password.text;
+        var Password = RoundedPasswordSignupPlayer.Password.text;
         var phoneNumber = RoundedPhoneNumber.PhoneNumber.text;
         var Locationaddress = FindLocation.Locationaddress;
         if (Email.isEmpty) {
@@ -72,7 +73,7 @@ class RoundedButton extends State<SignUpButtonPlayer> {
             Password.length > 15 ||
             Password.isEmpty) {
           showAlertDialog(context, 'Check your password');
-          RoundedPasswordSignup.Password.clear();
+          RoundedPasswordSignupPlayer.Password.clear();
         } else if (username.length < 3) {
           showAlertDialog(context, 'UserName cannot be less than 3');
           RoundedInputUsername.username.clear();
@@ -85,12 +86,13 @@ class RoundedButton extends State<SignUpButtonPlayer> {
             showAlertDialog(context, 'Email Already Exist');
             RoundedInput.EmailSignUp.clear();
           } else {
-            KickoffApplication.data = profileData;
-            localFile.writeLoginData(RoundedInput.EmailSignUp.text,
-                RoundedPasswordSignup.Password.text);
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) =>
-                    KickoffApplication(profileData: profileData)));
+            // KickoffApplication.data = profileData;
+            // localFile.writeLoginData(RoundedInput.EmailSignUp.text,
+            //     RoundedPasswordSignupPlayer.Password.text);
+            // Navigator.of(context).push(MaterialPageRoute(
+            //     builder: (context) =>
+            //         KickoffApplication(profileData: profileData)));
+            print(resp);
           }
         }
       },
