@@ -53,6 +53,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
       title: "Kickoff",
       debugShowCheckedModeBanner: false,
       initialRoute: '/loginPlayer',
+      //initialRoute: firstTime?'/login':'/kickoff',
       routes: {
         '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
@@ -88,7 +89,10 @@ class KickoffApplicationState extends State<KickoffApplication> {
           firstTime = (loginData == "0");
           loading = false;
           _timer.cancel();
+        }else if (loginData=="0"){
+          _timer.cancel();
         }
+
       });
     });
   }
