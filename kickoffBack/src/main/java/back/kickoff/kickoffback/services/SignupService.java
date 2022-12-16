@@ -2,6 +2,7 @@ package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Player;
+import back.kickoff.kickoffback.model.PlayerType;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import com.google.gson.Gson;
@@ -79,8 +80,8 @@ public class SignupService
         if(!valid)
             return "invalid" ;
         Player newPlayer = new Player(name, email, phoneNumber,password, location, xAxis, yAxis);
+        newPlayer.setPlayerType(PlayerType.Registered);
         playerRepository.save(newPlayer);
-
         Map<String, Object> res = new HashMap<>() ;
         res.put("id", newPlayer.getId());
         res.put("userName", newPlayer.getName());
