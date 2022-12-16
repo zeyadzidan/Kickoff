@@ -2,6 +2,7 @@ package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
+import back.kickoff.kickoffback.repositories.PlayerRepository;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,12 +23,14 @@ class LoginServiceTest {
 
     @Mock
     CourtOwnerRepository courtOwnerRepository;
+    @Mock
+    PlayerRepository playerRepository;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        loginService = new LoginService(courtOwnerRepository);
+        loginService = new LoginService(courtOwnerRepository, playerRepository);
     }
 
     @Test

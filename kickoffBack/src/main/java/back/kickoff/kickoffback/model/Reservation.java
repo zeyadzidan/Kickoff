@@ -30,7 +30,7 @@ public class Reservation {
     @JoinTable(name = "reservation_player",
             joinColumns = @JoinColumn(name = "reservation_id"),
             inverseJoinColumns = @JoinColumn(name = "player_id"))
-    Set<Player> playersID = new HashSet<>();
+    Set<LitePlayer> playersID = new HashSet<>();
 */
 
     //@OneToOne(fetch = FetchType.EAGER)
@@ -45,6 +45,8 @@ public class Reservation {
     ReservationState state;
     int moneyPayed ;
     int totalCost ;
+    @ManyToMany(mappedBy = "reservations")
+    Set<Player> players;
     //Long messageID ;
 
 

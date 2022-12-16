@@ -30,4 +30,12 @@ public class SignupController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+    @PostMapping("/player")
+    public ResponseEntity<String> playerSignupRequest(@RequestBody String information) throws JSONException{
+        String response = signupService.playerSignup(information) ;
+        System.out.println(response);
+        if(response.equals("Email exist") || response.equals("invalid") )
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
 }
