@@ -27,12 +27,12 @@ class KickoffAppBar {
         icon: const Icon(Icons.logout),
         tooltip: 'تسجيل خروج',
         onPressed: () async {
-          // localFile.clearLoginData();
-          // KickoffApplication.data.clear();
-          // ProfileBaseScreen.path = "";
-          // var appDir = (await getTemporaryDirectory()).path;
-          // Directory(appDir).delete(recursive: true);
-          // Navigator.pop(context);
+            localFile.clearLoginData();
+            KickoffApplication.data.clear();
+            ProfileBaseScreen.path = "";
+            var appDir = (await getTemporaryDirectory()).path;
+            Directory(appDir).delete(recursive: true);
+            Navigator.popAndPushNamed(context, '/loginPlayer');
         },
       ),
     ],
@@ -50,12 +50,12 @@ class KickoffAppBar {
         icon: const Icon(Icons.logout),
         tooltip: 'تسجيل خروج',
         onPressed: () async {
-          // localFile.clearLoginData();
-          // KickoffApplication.data.clear();
-          // ProfileBaseScreen.path = "";
-          // var appDir = (await getTemporaryDirectory()).path;
-          // Directory(appDir).delete(recursive: true);
-          // Navigator.pop(context);
+            localFile.clearLoginData();
+            KickoffApplication.data.clear();
+            ProfileBaseScreen.path = "";
+            var appDir = (await getTemporaryDirectory()).path;
+            Directory(appDir).delete(recursive: true);
+            Navigator.popAndPushNamed(context, '/login');
         },
       ),
     ],

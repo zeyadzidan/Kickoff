@@ -56,6 +56,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
       title: "Kickoff",
       debugShowCheckedModeBanner: false,
       initialRoute: '/loginPlayer',
+      //initialRoute: firstTime?'/login':'/kickoff',
       routes: {
         '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
@@ -89,7 +90,9 @@ class KickoffApplicationState extends State<KickoffApplication> {
                     : (KickoffApplication._selectedPage == 2)
                     ? const PlusReservationButton()
                     : null,
-                bottomNavigationBar:KickoffApplication.Player?_buildPlayerNavBar() : _buildNavBar(),
+                bottomNavigationBar:KickoffApplication.Player
+                    ?_buildPlayerNavBar()
+                    :_buildNavBar(),
               ),
             )
       },
@@ -104,7 +107,10 @@ class KickoffApplicationState extends State<KickoffApplication> {
           firstTime = (loginData == "0");
           loading = false;
           _timer.cancel();
+        }else if (loginData=="0"){
+          _timer.cancel();
         }
+
       });
     });
   }
@@ -114,7 +120,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
       decoration: BoxDecoration(
           boxShadow: const <BoxShadow>[
             BoxShadow(
-              color: primaryColor,
+              color: PlayerColor,
               blurRadius: 3,
             ),
           ],
@@ -125,23 +131,23 @@ class KickoffApplicationState extends State<KickoffApplication> {
       child: GNav(
           gap: 5,
           activeColor: Colors.white,
-          color: primaryColor,
+          color: PlayerColor,
           tabBackgroundColor: Colors.black.withAlpha(25),
           duration: const Duration(milliseconds: 300),
           tabs: const <GButton>[
             GButton(
-              backgroundColor: primaryColor,
+              backgroundColor: PlayerColor,
               text: "Profile",
               icon: Icons.person,
               onPressed: null,
             ),
             GButton(
-              backgroundColor: primaryColor,
+              backgroundColor: PlayerColor,
               text: "Announcements",
               icon: Icons.add,
             ),
             GButton(
-              backgroundColor: primaryColor,
+              backgroundColor: PlayerColor,
               text: "Reservations",
               icon: Icons.stadium,
             ),
@@ -155,7 +161,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
       decoration: BoxDecoration(
           boxShadow: const <BoxShadow>[
             BoxShadow(
-              color: primaryColor,
+              color: PlayerColor,
               blurRadius: 3,
             ),
           ],
@@ -166,22 +172,22 @@ class KickoffApplicationState extends State<KickoffApplication> {
       child: GNav(
           gap: 5,
           activeColor: Colors.white,
-          color: primaryColor,
+          color: PlayerColor,
           tabBackgroundColor: Colors.black.withAlpha(25),
           duration: const Duration(milliseconds: 300),
           tabs: const <GButton>[
             GButton(
-              backgroundColor: primaryColor,
+              backgroundColor: PlayerColor,
               text: "Search",
               icon: Icons.search,
             ),
             GButton(
-              backgroundColor: primaryColor,
+              backgroundColor: PlayerColor,
               text: "News Feed",
               icon: Icons.new_releases_sharp,
             ),
             GButton(
-              backgroundColor: primaryColor,
+              backgroundColor: PlayerColor,
               text: "Reservations",
               icon: Icons.stadium,
             ),

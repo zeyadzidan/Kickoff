@@ -35,7 +35,7 @@ class LoginForm extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Kickoff',
+                  'Court Owner',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
                 SizedBox(height: 40),
@@ -43,7 +43,7 @@ class LoginForm extends StatelessWidget {
                     height: 175,
                     width: 175,
                     child: const Image(
-                        image: AssetImage('assets/images/pic3.PNG'))),
+                        image: AssetImage('assets/images/football court.png'))),
                 SizedBox(height: 40),
                 RoundedInputLogin(icon: Icons.mail,color:Colors.cyan , hint: 'البريد الالكتروني'),
                 PasswordInputSignup(),

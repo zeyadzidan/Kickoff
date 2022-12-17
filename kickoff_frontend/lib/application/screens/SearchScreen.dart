@@ -51,7 +51,7 @@ class _SearchScreenState extends  State<SearchScreen> {
                         blurRadius: 5,
                       ),
                     ],
-                    color: primaryColor),
+                    color: PlayerColor),
               )),
 
           Positioned(
@@ -68,7 +68,7 @@ class _SearchScreenState extends  State<SearchScreen> {
                       blurRadius: 5,
                     ),
                   ],
-                  color: primaryColor),
+                  color: PlayerColor),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(55, 100, 0, 0),
               ),
@@ -90,7 +90,7 @@ class _SearchScreenState extends  State<SearchScreen> {
                         blurRadius: 5,
                       ),
                     ],
-                    color: primaryColor),
+                    color: PlayerColor),
               )),
           Container(
             padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
@@ -119,13 +119,13 @@ class _SearchScreenState extends  State<SearchScreen> {
                   decoration: InputDecoration(
                     filled: true,
                     hintText: "Search",
-                    fillColor: primaryColor.withAlpha(50),
+                    fillColor: PlayerColor.withAlpha(50),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide: BorderSide.none,
                     ) ,
                     prefixIcon: Icon(Icons.search),
-                    prefixIconColor:primaryColor,
+                    prefixIconColor:PlayerColor,
                   ),
                 ),
                 SizedBox(height: 10.0,),

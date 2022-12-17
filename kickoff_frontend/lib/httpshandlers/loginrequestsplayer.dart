@@ -89,7 +89,7 @@ class RoundedLogin extends State<LoginButtonPlayer> {
             // localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
             //     RoundedPasswordInputPlayer.Password.text);
             KickoffApplication.Player=true;
-            Navigator.pushNamed(context, '/kickoff');
+            Navigator.popAndPushNamed(context, '/kickoff');
             // Navigator.pushNamed(context, '/playersearch');
           }
         }
@@ -99,7 +99,7 @@ class RoundedLogin extends State<LoginButtonPlayer> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: primaryColor,
+          color: PlayerColor,
         ),
         padding: const EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
