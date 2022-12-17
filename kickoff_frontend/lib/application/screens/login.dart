@@ -152,11 +152,14 @@ class _LoginScreenState extends State<LoginScreen>
           ),
 
           // Login Form
-          LoginFormPlayer(
-              isLogin: isLogin,
-              animationDuration: animationDuration,
-              size: size,
-              defaultLoginSize: defaultLoginSize),
+          Padding(
+            padding: EdgeInsets.only(top: size.height *0.1),
+            child: LoginFormPlayer(
+                isLogin: isLogin,
+                animationDuration: animationDuration,
+                size: size,
+                defaultLoginSize: defaultLoginSize),
+          ),
           // Register Container
           AnimatedBuilder(
             animation: animationController!,
