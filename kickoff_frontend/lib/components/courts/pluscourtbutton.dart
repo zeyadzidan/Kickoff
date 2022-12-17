@@ -60,12 +60,12 @@ class _PlusCourtButtonState extends State<PlusCourtButton> {
           ));
 
   _formField(label, icon, digits) => TextFormField(
-        maxLength: (label == 'وصف الملعب')
+        maxLength: (label == 'Court Description')
             ? 150
             : (label == 'أقل عدد ساعات للحجز')
                 ? 2
                 : 32,
-        maxLines: (label == 'وصف الملعب') ? 3 : 1,
+        maxLines: (label == 'Court Description') ? 3 : 1,
         inputFormatters:
             (digits) ? [FilteringTextInputFormatter.digitsOnly] : null,
         decoration: InputDecoration(
