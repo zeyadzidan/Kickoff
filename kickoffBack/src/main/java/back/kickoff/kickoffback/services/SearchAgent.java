@@ -1,5 +1,6 @@
 package back.kickoff.kickoffback.services;
 
+import back.kickoff.kickoffback.Commands.CourtOwnerSearchCommand;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import com.google.gson.Gson;
@@ -19,6 +20,14 @@ public class SearchAgent {
     public SearchAgent(CourtOwnerRepository courtOwnerRepository) {
         this.courtOwnerRepository = courtOwnerRepository;
     }
+
+    private Double getDistance(Double a_longitude, Double a_latitude, Double b_longitude, Double b_latitude)
+    {
+        Double distance = Math.sqrt(Math.pow(Math.sin((b_latitude -a_latitude)/2), 2) + Math.cos(a_latitude) * Math.cos(b_latitude)
+        * Math.pow(Math.sin((b_longitude -a_longitude)/2), 2) );
+        distance = 2 * 6371 * Math.asin(distance);
+        return distance;
+    }
     public String getNearestCourtOwners(String information) throws JSONException {
         System.out.println(information);
         JSONObject jsonObject = new JSONObject(information);
@@ -29,21 +38,15 @@ public class SearchAgent {
         keyword = "%".concat(keyword.concat("%"));
         System.out.println("keyword: " + keyword + " keywordBegin: "+ keywordBegin);
         List<CourtOwner> courtOwners =  courtOwnerRepository.searchNearestCourtOwner(xAxis, yAxis, keyword, keywordBegin);
-        HashMap<String, Object> hm = new HashMap<>();
-        ArrayList<String> usernames = new ArrayList<>();
-        ArrayList<Long> ids = new ArrayList<>();
-            ArrayList<String> images = new ArrayList<>();
-        for(int i = 0; i < Math.min(courtOwners.size(), 5); i++)
+        ArrayList<CourtOwnerSearchCommand> commands = new ArrayList<>();
+        for(int i = 0; i < courtOwners.size(); i++)
         {
             System.out.println(courtOwners.get(i).getEmail() + " " + courtOwners.get(i).getId());
-            usernames.add(courtOwners.get(i).getUserName());
-            ids.add(courtOwners.get(i).getId());
-            images.add(courtOwners.get(i).getImage());
+            CourtOwner courtOwner = courtOwners.get(i);
+            Double distance = getDistance(xAxis, yAxis, courtOwner.getXAxis(), courtOwner.getYAxis());
+            commands.add(new CourtOwnerSearchCommand(courtOwner.getId(), courtOwner.getUserName(),
+                    courtOwner.getImage(), distance, Double.valueOf(courtOwner.getRating())));
         }
-        hm.put("N", courtOwners.size());
-        hm.put("UserNames", usernames);
-        hm.put("Ids", ids);
-        hm.put("images", images);
-        return new Gson().toJson(hm);
+        return new Gson().toJson(commands);
     }
 }
