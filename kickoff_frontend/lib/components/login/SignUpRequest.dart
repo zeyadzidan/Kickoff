@@ -88,9 +88,9 @@ class RoundedButton extends State<SignUpButton> {
             KickoffApplication.data = profileData;
             localFile.writeLoginData(RoundedInput.EmailSignUp.text,
                 RoundedPasswordSignup.Password.text);
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) =>
-                    KickoffApplication(profileData: profileData)));
+
+            KickoffApplication.Player=false;
+            Navigator.pushNamed(context, '/kickoff');
           }
         }
       },
@@ -99,7 +99,7 @@ class RoundedButton extends State<SignUpButton> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: primaryColor,
+          color: courtOwnerColor,
         ),
         padding: EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,

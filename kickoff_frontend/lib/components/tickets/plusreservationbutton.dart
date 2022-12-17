@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/reservations.dart';
-import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
 
 import '../../constants.dart';
@@ -23,34 +23,29 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
 
   @override
   Widget build(BuildContext context) => FloatingActionButton(
-      backgroundColor: primaryColor,
-      child: const Icon(Icons.add, size: 35),
+      backgroundColor: courtOwnerColor,
+      child: const Icon(Icons.add_card_rounded, size: 35),
       onPressed: () => showModalBottomSheet(
             elevation: 4,
             context: context,
-            builder: (context) => SizedBox(
-                height: MediaQuery.of(context).size.height / 2,
-                child: Expanded(
-                  child: SingleChildScrollView(
-                      child: Form(
-                    key: _key,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 25.0, horizontal: 25.0),
-                      child: Column(
-                        children: [
-                          const Text("أضف حجزاً",
-                              style:
-                                  TextStyle(color: primaryColor, fontSize: 32)),
-                          _formField('اسم اللاعب صاحب الحجز', Icons.person),
-                          _reservationTimePicker(true),
-                          _reservationTimePicker(false),
-                          _submitButton()
-                        ],
-                      ),
-                    ),
-                  )),
-                )),
+            builder: (context) => SingleChildScrollView(
+                child: Form(
+              key: _key,
+              child: Container(
+                margin: const EdgeInsets.symmetric(
+                    vertical: 25.0, horizontal: 25.0),
+                child: Column(
+                  children: [
+                    const Text("أضف حجزاً",
+                        style: TextStyle(color: courtOwnerColor, fontSize: 32)),
+                    _formField('اسم اللاعب صاحب الحجز', Icons.person),
+                    _reservationTimePicker(true),
+                    _reservationTimePicker(false),
+                    _submitButton()
+                  ],
+                ),
+              ),
+            )),
           ));
 
   _formField(label, icon) => TextFormField(
@@ -58,11 +53,11 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
         maxLines: 1,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
-          focusColor: primaryColor,
+          focusColor: courtOwnerColor,
           floatingLabelAlignment: FloatingLabelAlignment.center,
           labelText: label,
-          suffixIcon: Icon(icon, color: primaryColor),
-          labelStyle: const TextStyle(color: primaryColor),
+          suffixIcon: Icon(icon, color: courtOwnerColor),
+          labelStyle: const TextStyle(color: courtOwnerColor),
           border: const UnderlineInputBorder(),
         ),
         validator: (input) =>
@@ -74,12 +69,10 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
         margin: const EdgeInsets.only(top: 10),
         child: ElevatedButton.icon(
           onPressed: _pickTimeReservation(initTime),
-          icon: const Icon(Icons.timer, color: primaryColor),
-          label: Text((initTime)
-              ? 'ميعاد بدأ الحجز: ${_from.format(context)}'
-              : 'ميعاد انتهاء الحجز: ${_to.format(context)}'),
+          icon: const Icon(Icons.timer, color: courtOwnerColor),
+          label: Text((initTime) ? 'ميعاد بدأ الحجز' : 'ميعاد انتهاء الحجز'),
           style: ElevatedButton.styleFrom(
-              foregroundColor: primaryColor,
+              foregroundColor: courtOwnerColor,
               backgroundColor: secondaryColor,
               padding:
                   const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
@@ -87,6 +80,8 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
       );
 
   _pickTimeReservation(initTime) => () async {
+        FToast toast = FToast();
+        toast.init(context);
         var selected = await showTimePicker(
           helpText: 'اختر الساعة فقط',
           initialEntryMode: TimePickerEntryMode.inputOnly,
@@ -95,36 +90,44 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
         );
         if (initTime) {
           if (selected!.minute > 0) {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) => const AlertDialog(
-                      title:
-                          Text('من فضلك اختر الساعة فقط.\nالدقائق غير محسوبة.'),
-                    ));
+            toast.showToast(
+              toastDuration: const Duration(seconds: 4),
+              gravity: ToastGravity.CENTER,
+              child:
+                  customToast("من فضلك اختر الساعة فقط. الدقائق غير محسوبة."),
+            );
           } else {
-            _from = selected;
-            KickoffApplication.update();
+            setState(() => _from = selected);
+            toast.showToast(
+              toastDuration: const Duration(seconds: 2),
+              gravity: ToastGravity.CENTER,
+              child: customToast("تم اختيار الوقت بنجاح"),
+            );
           }
         } else {
           if (selected!.hour % 24 > _from.hour % 24) {
-            if (selected.minute == 0) {
-                  _to = selected;
-                  KickoffApplication.update();
-            } else {
-              showDialog(
-                    context: context,
-                    builder: (BuildContext context) => const AlertDialog(
-                          title: Text(
-                              'من فضلك اختر الساعة فقط.\nالدقائق غير محسوبة.'),
-                        ));
-            }
+            (selected.minute == 0)
+                ? setState(() {
+                    _to = selected;
+                    toast.showToast(
+                      toastDuration: const Duration(seconds: 2),
+                      gravity: ToastGravity.CENTER,
+                      child: customToast("تم اختيار الوقت بنجاح"),
+                    );
+                  })
+                : toast.showToast(
+                    toastDuration: const Duration(seconds: 4),
+                    gravity: ToastGravity.CENTER,
+                    child: customToast(
+                        'من فضلك اختر الساعة فقط. الدقائق غير محسوبة.'),
+                  );
           } else {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) => const AlertDialog(
-                      title: Text(
-                          'أقل عدد ساعات للحجز هو ساعة واحدة.\nحاول مرة أخرى.'),
-                    ));
+            toast.showToast(
+              toastDuration: const Duration(seconds: 4),
+              gravity: ToastGravity.CENTER,
+              child: customToast(
+                  'أقل عدد ساعات للحجز هو ساعة واحدة. حاول مرة أخرى.'),
+            );
           }
         }
       };
@@ -141,7 +144,7 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
             label: const Text('حفظ'),
             icon: const Icon(Icons.schedule_send),
             style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
+                backgroundColor: courtOwnerColor,
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
             onPressed: () async {
@@ -166,5 +169,17 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
               KickoffApplication.update();
               Navigator.pop(context);
             }),
+      );
+
+  customToast(text) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25.0),
+          color: Colors.green,
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(color: secondaryColor),
+        ),
       );
 }

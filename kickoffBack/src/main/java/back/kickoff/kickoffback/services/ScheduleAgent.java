@@ -2,7 +2,6 @@ package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.CourtSchedule;
 import back.kickoff.kickoffback.model.Reservation;
-import back.kickoff.kickoffback.repositories.PlayerRepositry;
 import back.kickoff.kickoffback.repositories.ReservationRepository;
 import back.kickoff.kickoffback.repositories.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +11,15 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ScheduleAgent {
 
     @Autowired
-    ScheduleRepository sr ;
+    ScheduleRepository sr;
 
     @Autowired
-    ReservationRepository rr ;
+    ReservationRepository rr;
 
     public ScheduleAgent(ScheduleRepository sr, ReservationRepository rr) {
         this.rr = rr;
@@ -56,7 +54,7 @@ public class ScheduleAgent {
             }
         }
 
-        return res ;
+        return res;
 
     }
 

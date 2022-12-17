@@ -5,13 +5,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.cfg.annotations.reflection.internal.XMLContext;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @Setter
@@ -30,7 +26,7 @@ public class Reservation {
     @JoinTable(name = "reservation_player",
             joinColumns = @JoinColumn(name = "reservation_id"),
             inverseJoinColumns = @JoinColumn(name = "player_id"))
-    Set<Player> playersID = new HashSet<>();
+    Set<LitePlayer> playersID = new HashSet<>();
 */
 
     //@OneToOne(fetch = FetchType.EAGER)
@@ -38,7 +34,7 @@ public class Reservation {
     String playerName;
     Long courtID;
     Long courtOwnerID;
-    Date startDate ;
+    Date startDate;
     Date endDate;
     Time timeFrom;
     Time timeTo;
@@ -49,13 +45,14 @@ public class Reservation {
     ReservationState state;
     int moneyPayed ;
     int totalCost ;
+    @ManyToMany(mappedBy = "reservations")
+    Set<Player> players;
     //Long messageID ;
-
 
 
     public Reservation(Long playerID, String playerName, Long courtID, Long courtOwnerID, Date startDate, Date endDate, Time timeFrom,
                        Time timeTo, ReservationState state, int moneyPayed, int totalCost) {
-        this.playerID = playerID ;
+        this.playerID = playerID;
         this.playerName = playerName;
         this.courtID = courtID;
         this.courtOwnerID = courtOwnerID;

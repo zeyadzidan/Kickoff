@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -69,17 +69,18 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
               decoration: BoxDecoration(
                   boxShadow: const <BoxShadow>[
                     BoxShadow(
-                      color: primaryColor,
+                      color: playerColor,
                       blurRadius: 3,
                     ),
                   ],
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(5),
-                  color: Colors.green.shade100),
+                  color: courtOwnerColor.shade100),
               child: Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                     padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,29 +88,19 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                           if (foundPhoto) ...[
                             CircleAvatar(
                               radius: 40,
-                              backgroundColor: Colors.green,
+                              backgroundColor: courtOwnerColor,
                               child: ClipOval(
-                                child: Image.network(
-                                  utl,
+                                child: CachedNetworkImage(
+                                  imageUrl: utl,
                                   width: 100,
                                   height: 100,
                                   fit: BoxFit.cover,
-                                  frameBuilder: (context, child, frame,
-                                      wasSynchronouslyLoaded) {
-                                    return child;
-                                  },
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
-                                    if (loadingProgress == null) {
-                                      return child;
-                                    } else {
-                                      return const Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                        ),
-                                      );
-                                    }
-                                  },
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
                                 ),
                               ),
                             )
@@ -117,7 +108,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                             if (localPhoto) ...[
                               CircleAvatar(
                                   radius: 40,
-                                  backgroundColor: Colors.green,
+                                  backgroundColor: courtOwnerColor,
                                   backgroundImage:
                                       Image.file(File(ProfileBaseScreen.path!))
                                           .image)
@@ -143,8 +134,8 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                                     });
                                   }
                                 },
-                                color: primaryColor,
-                                textColor: Colors.white,
+                                color: playerColor,
+                                textColor: secondaryColor,
                                 padding: const EdgeInsets.all(20),
                                 shape: const CircleBorder(),
                                 child: const Icon(
@@ -224,7 +215,8 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 20),
                       child: Column(
                         children: [
                           Align(

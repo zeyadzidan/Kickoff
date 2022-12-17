@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -19,10 +18,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 class BookingAgentTest {
@@ -43,13 +41,14 @@ class BookingAgentTest {
     ScheduleAgent scheduleAgent ;
 
     @BeforeEach
-    public void setUp()  {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
 
         bookingAgent = new BookingAgent(courtRepository, scheduleRepository, courtOwnerRepository,
                 reservationRepository, reservationService);
         scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository) ;
     }
+
     @Test
     void book() throws JSONException {
         HashMap<String, Object> hm = new HashMap<>();

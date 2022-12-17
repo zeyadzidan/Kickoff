@@ -11,26 +11,17 @@ import back.kickoff.kickoffback.services.ReservationService;
 import back.kickoff.kickoffback.services.ScheduleAgent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.sql.Date;
-import java.sql.Time;
-import java.util.List;
-import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class KickoffBackApplicationTests {
 
-	@Test
-	void contextLoads() {
+    @Test
+    void contextLoads() {
 
-	}
-
+    }
 
 
 //	@Autowired
@@ -38,11 +29,11 @@ class KickoffBackApplicationTests {
 //	@Autowired
 //	CourtRepository cr ;
 //	@Autowired
-//	PlayerRepositry pr ;
+//	LitePlayerRepository pr ;
 //	@Autowired
 //	ScheduleRepository sr ;
 //
-//	public KickoffBackApplicationTests(ReservationRepository rr, CourtRepository cr, PlayerRepositry pr, ScheduleRepository sr){
+//	public KickoffBackApplicationTests(ReservationRepository rr, CourtRepository cr, LitePlayerRepository pr, ScheduleRepository sr){
 //		this.rr =rr;
 //		this.cr = cr;
 //		this.pr = pr ;

@@ -27,7 +27,7 @@ class _ReservationsViewState extends State<ReservationsView> {
             child: ExpansionPanelList(
               animationDuration: const Duration(milliseconds: 300),
               expandedHeaderPadding: EdgeInsets.zero,
-              dividerColor: primaryColor,
+              dividerColor: playerColor,
               elevation: 4,
               children: List<ExpansionPanel>.generate(
                   ReservationsHome.reservations.length,
@@ -44,7 +44,7 @@ class _ReservationsViewState extends State<ReservationsView> {
                                 ? Colors.yellow.withOpacity(0.5)
                                 : (ReservationsHome.reservations[index].state ==
                                         'Booked')
-                                    ? primaryColor.withOpacity(0.5)
+                                    ? playerColor.withOpacity(0.5)
                                     : Colors.red.withOpacity(0.5),
                           ),
                           child:
@@ -73,13 +73,13 @@ class _ReservationsViewState extends State<ReservationsView> {
                                           decoration: const InputDecoration(
                                               suffixIcon: Icon(
                                                   Icons.monetization_on,
-                                                  color: primaryColor),
+                                                  color: playerColor),
                                               labelText: "العربون",
                                               labelStyle: TextStyle(
-                                                  color: primaryColor),
+                                                  color: playerColor),
                                               floatingLabelAlignment:
                                                   FloatingLabelAlignment.center,
-                                              focusColor: primaryColor,
+                                              focusColor: playerColor,
                                               border: UnderlineInputBorder(),
                                               prefixText: 'جنيهاً مصرياً'),
                                           validator: (input) {
@@ -128,29 +128,33 @@ class _ReservationsViewState extends State<ReservationsView> {
                                         ),
                                       )
                                     : Container(),
-                                Container(
-                                  margin: const EdgeInsets.only(top: 70.0, right: 300.0),
+                                (ReservationsHome.reservations[index].state == 'Expired') ? Container(
+                                  margin: const EdgeInsets.only(
+                                      top: 70.0, right: 300.0),
                                   child: ElevatedButton.icon(
                                     icon: const Icon(Icons.delete),
                                     label: const Text('مسح الحجز'),
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.red,
-                                        padding:
-                                        const EdgeInsets.symmetric(
-                                            vertical: 20,
-                                            horizontal: 15)),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 20, horizontal: 15)),
                                     onPressed: () async {
                                       await TicketsHTTPsHandler.deleteTicket(
                                           ReservationsHome.reservations[index]);
                                       ReservationsHome.reservations =
-                                      await TicketsHTTPsHandler.getCourtReservations(
-                                          (ReservationsHome.selectedCourt + 1),
-                                          KickoffApplication.ownerId,
-                                          DateFormat.yMd().format(ReservationsHome.selectedDate));
+                                          await TicketsHTTPsHandler
+                                              .getCourtReservations(
+                                                  (ReservationsHome
+                                                          .selectedCourt +
+                                                      1),
+                                                  KickoffApplication.ownerId,
+                                                  DateFormat.yMd().format(
+                                                      ReservationsHome
+                                                          .selectedDate));
                                       KickoffApplication.update();
                                     },
                                   ),
-                                ),
+                                ) : Container(),
                               ],
                             )),
                         isExpanded: ReservationsHome.isExpanded[index],
