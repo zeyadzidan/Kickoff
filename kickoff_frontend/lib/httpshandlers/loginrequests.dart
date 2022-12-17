@@ -88,6 +88,7 @@ class RoundedLogin extends State<LoginButton> {
             await ReservationsHome.buildTickets();
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInput.Password.text);
+            KickoffApplication.Player=false;
             Navigator.pushNamed(context, '/kickoff');
           }
         }

@@ -4,10 +4,10 @@ import 'package:kickoff_frontend/constants.dart';
 
 class PasswordInputPlayer extends StatefulWidget {
   @override
-  RoundedPasswordInput createState() => RoundedPasswordInput();
+  RoundedPasswordInputPlayer createState() => RoundedPasswordInputPlayer();
 }
 
-class RoundedPasswordInput extends State<PasswordInputPlayer> {
+class RoundedPasswordInputPlayer extends State<PasswordInputPlayer> {
 
   static TextEditingController Password = TextEditingController();
   var obsecuretext = true;

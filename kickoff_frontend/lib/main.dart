@@ -167,5 +167,4 @@ Future main() async {
   await Firebase.initializeApp();
   await Loading.loadData();
   runApp(KickoffApplication(profileData: data));
-// >>>>>>> Sprint-Two
 }

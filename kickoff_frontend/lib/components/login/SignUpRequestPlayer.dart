@@ -12,7 +12,7 @@ import 'package:kickoff_frontend/components/login/SignUpUserName.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
-import '../../../components/login/PasswordSignUp.dart';
+import '../../../components/login/PasswordSignUpPlayer.dart';
 
 class SignUpButtonPlayer extends StatefulWidget {
   @override
@@ -44,7 +44,7 @@ class RoundedButton extends State<SignUpButtonPlayer> {
       } else {
         resp = "";
         print(res.body);
-        // profileData = jsonDecode(res.body);
+        profileData = jsonDecode(res.body);
       }
     });
   }
@@ -89,10 +89,13 @@ class RoundedButton extends State<SignUpButtonPlayer> {
           } else {
             // KickoffApplication.data = profileData;
             // localFile.writeLoginData(RoundedInput.EmailSignUp.text,
-            //     RoundedPasswordSignup.Password.text);
+            //     RoundedPasswordSignupPlayer.Password.text);
             // Navigator.of(context).push(MaterialPageRoute(
             //     builder: (context) =>
             //         KickoffApplication(profileData: profileData)));
+            KickoffApplication.Player=true;
+            Navigator.pushNamed(context, '/kickoff');
+            print(resp);
           }
         }
       },
