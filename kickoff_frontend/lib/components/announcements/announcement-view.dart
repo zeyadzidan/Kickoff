@@ -8,13 +8,10 @@ import '../../constants.dart';
 class AnnouncementsView extends StatefulWidget {
   const AnnouncementsView({super.key});
 
-  static final _AnnouncementsViewState _currentState =
-      _AnnouncementsViewState();
-
-  static update() => _currentState.setState(() {});
+  // static update() => _currentState.setState(() {});
 
   @override
-  State<StatefulWidget> createState() => _currentState;
+  State<StatefulWidget> createState() => _AnnouncementsViewState();
 }
 
 class _AnnouncementsViewState extends State<AnnouncementsView> {
@@ -49,6 +46,7 @@ class _AnnouncementsViewState extends State<AnnouncementsView> {
                         child: Column(
                           children: [
                             Text(AnnouncementsHome.announcements[index].body),
+                            AnnouncementsHome.announcements[index].img!=""?
                             Image.network(
                               AnnouncementsHome.announcements[index].img,
                               width: 100,
@@ -70,29 +68,35 @@ class _AnnouncementsViewState extends State<AnnouncementsView> {
                                   );
                                 }
                               },
-                            ),
+                            ):Container(height: 0,),
                             Container(
                               margin:
-                              const EdgeInsets.only(top: 70.0, right: 300.0),
-                              child: ElevatedButton.icon(
-                                icon: const Icon(Icons.delete),
-                                label: const Text('مسح الإعلان'),
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.red,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 20, horizontal: 15)),
-                                onPressed: () async {
-                                  await AnnouncementHTTPsHandler
-                                      .deleteAnnouncement(AnnouncementsHome
-                                      .announcements[index].aid);
-                                  AnnouncementsHome.announcements =
-                                  await AnnouncementHTTPsHandler
-                                      .getAnnouncements(
-                                      KickoffApplication.ownerId);
-                                  setState(() {
+                              const EdgeInsets.only(top: 70.0),
+                              child: SizedBox(
+                                height: 50,
+                                width: 150,
+                                child: ElevatedButton.icon(
 
-                                  });
-                                },
+                                  icon: const Icon(Icons.delete),
+                                  label: const Text('مسح الإعلان'),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.red,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10)
+                                  ),
+                                  onPressed: () async {
+                                    await AnnouncementHTTPsHandler
+                                        .deleteAnnouncement(AnnouncementsHome
+                                        .announcements[index].aid);
+                                    AnnouncementsHome.announcements =
+                                    await AnnouncementHTTPsHandler
+                                        .getAnnouncements(
+                                        KickoffApplication.ownerId);
+                                    AnnouncementsHome.isExpanded = List<bool>.generate(AnnouncementsHome.announcements.length, (index) => false);
+                                    setState(() {
+                                    });
+                                  },
+                                ),
                               ),
                             ),
                           ],

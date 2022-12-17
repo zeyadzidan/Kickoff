@@ -26,6 +26,7 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
 
   @override
   Widget build(BuildContext context) {
+    print("plus");
     return FloatingActionButton(
         backgroundColor: primaryColor,
         child: const Icon(Icons.add_comment_rounded, size: 35),
@@ -130,10 +131,9 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
                   await AnnouncementHTTPsHandler.getAnnouncements(
                       KickoffApplication.ownerId);
               AnnouncementsHome.isExpanded = List<bool>.generate(AnnouncementsHome.announcements.length, (index) => false);
-
               _announcement = [];
               Navigator.pop(context);
-              AnnouncementsView.update();
+              KickoffApplication.update();
             }),
       );
 }
