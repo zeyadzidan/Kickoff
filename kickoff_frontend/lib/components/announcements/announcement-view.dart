@@ -23,7 +23,7 @@ class _AnnouncementsViewState extends State<AnnouncementsView> {
         child: ExpansionPanelList(
           animationDuration: const Duration(milliseconds: 300),
           expandedHeaderPadding: EdgeInsets.zero,
-          dividerColor: CourtOwnerColor,
+          dividerColor: courtOwnerColor,
           elevation: 4,
           children: List<ExpansionPanel>.generate(
               AnnouncementsHome.announcements.length,

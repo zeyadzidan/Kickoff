@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: PlayerColor),
+                    color: playerColor),
               )),
 
           // Positioned(
@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: PlayerColor),
+                    color: playerColor),
               )),
 
           // Cancel Button
@@ -208,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen>
           child: isLogin
               ? const Text(
                   "SignUp",
-                  style: TextStyle(color: PlayerColor, fontSize: 18),
+                  style: TextStyle(color: playerColor, fontSize: 18),
                 )
               : null,
         ),
@@ -273,7 +273,7 @@ class _circleSizerState extends State<circleSizer> with SingleTickerProviderStat
                 blurRadius: 5,
               ),
             ],
-            color: PlayerColor),
+            color: playerColor),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(55, 100, 0, 0),
           child :Text("I am a CourtOwner?!"

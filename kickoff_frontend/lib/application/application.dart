@@ -118,34 +118,34 @@ class KickoffApplicationState extends State<KickoffApplication> {
       decoration: BoxDecoration(
           boxShadow: const <BoxShadow>[
             BoxShadow(
-              color: PlayerColor,
+              color: playerColor,
               blurRadius: 3,
             ),
           ],
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(100),
-          color: Colors.green.shade100),
+          color: courtOwnerColor.shade100),
       margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
       child: GNav(
           gap: 5,
           activeColor: Colors.white,
-          color: PlayerColor,
+          color: playerColor,
           tabBackgroundColor: Colors.black.withAlpha(25),
           duration: const Duration(milliseconds: 300),
           tabs: const <GButton>[
             GButton(
-              backgroundColor: CourtOwnerColor,
+              backgroundColor: courtOwnerColor,
               text: "الملف الشخصي",
               icon: Icons.person,
               onPressed: null,
             ),
             GButton(
-              backgroundColor: CourtOwnerColor,
+              backgroundColor: courtOwnerColor,
               text: "الإعلانات",
               icon: Icons.add,
             ),
             GButton(
-              backgroundColor: CourtOwnerColor,
+              backgroundColor: courtOwnerColor,
               text: "الحجوزات",
               icon: Icons.stadium,
             ),
@@ -159,33 +159,33 @@ class KickoffApplicationState extends State<KickoffApplication> {
       decoration: BoxDecoration(
           boxShadow: const <BoxShadow>[
             BoxShadow(
-              color: PlayerColor,
+              color: playerColor,
               blurRadius: 3,
             ),
           ],
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(100),
-          color: Colors.green.shade100),
+          color: playerColor.shade100),
       margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
       child: GNav(
           gap: 5,
           activeColor: Colors.white,
-          color: PlayerColor,
+          color: playerColor,
           tabBackgroundColor: Colors.black.withAlpha(25),
           duration: const Duration(milliseconds: 300),
           tabs: const <GButton>[
             GButton(
-              backgroundColor: PlayerColor,
+              backgroundColor: playerColor,
               text: "Search",
               icon: Icons.search,
             ),
             GButton(
-              backgroundColor: PlayerColor,
+              backgroundColor: playerColor,
               text: "News Feed",
               icon: Icons.new_releases_sharp,
             ),
             GButton(
-              backgroundColor: PlayerColor,
+              backgroundColor: playerColor,
               text: "Reservations",
               icon: Icons.stadium,
             ),

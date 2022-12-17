@@ -65,7 +65,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
                         blurRadius: 5,
                       ),
                     ],
-                    color: CourtOwnerColor),
+                    color: courtOwnerColor),
               )),
 
           SizedBox(
@@ -97,7 +97,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
                         blurRadius: 5,
                       ),
                     ],
-                    color: CourtOwnerColor),
+                    color: courtOwnerColor),
               )),
 
           // Cancel Button
@@ -174,7 +174,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
           child: isLogin
               ? const Text(
             "انشاء حساب جديد",
-            style: TextStyle(color: CourtOwnerColor, fontSize:20),
+            style: TextStyle(color: courtOwnerColor, fontSize:20),
           )
               : null,
         ),
@@ -240,7 +240,7 @@ class _circleSizerState extends State<circleSizer> with SingleTickerProviderStat
                 blurRadius: 5,
               ),
             ],
-            color: CourtOwnerColor),
+            color: courtOwnerColor),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(55, 108, 0, 0),
           child :Text("I am a Player?!"

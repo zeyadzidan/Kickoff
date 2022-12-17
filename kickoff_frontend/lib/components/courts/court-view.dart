@@ -20,7 +20,7 @@ class _CourtsViewState extends State<CourtsView> {
               child: ExpansionPanelList(
                 animationDuration: const Duration(milliseconds: 300),
                 expandedHeaderPadding: EdgeInsets.zero,
-                dividerColor: PlayerColor,
+                dividerColor: playerColor,
                 elevation: 4,
                 children: List<ExpansionPanel>.generate(
                     ProfileBaseScreen.courts.length,

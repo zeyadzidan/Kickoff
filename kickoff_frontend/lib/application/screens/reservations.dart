@@ -60,7 +60,6 @@ class _ReservationsHomeState extends State<ReservationsHome> {
 
     if (dateTime != null) {
       ReservationsHome._selectedDate = dateTime;
-      // await ReservationsHome.buildTickets("ontap");
       setState(() {});
     }
   }
@@ -70,7 +69,7 @@ class _ReservationsHomeState extends State<ReservationsHome> {
       decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(100),
-          color: PlayerColor.withOpacity(0.3)),
+          color: courtOwnerColor.withOpacity(0.3)),
       margin: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -81,12 +80,12 @@ class _ReservationsHomeState extends State<ReservationsHome> {
             onTabChange: _onTabSelect,
             duration: const Duration(milliseconds: 300),
             activeColor: Colors.white,
-            color: PlayerColor,
+            color: playerColor,
             tabBackgroundColor: Colors.black.withAlpha(25),
             tabs: List<GButton>.generate(
                 ProfileBaseScreen.courts.length,
                 (index) => GButton(
-                      backgroundColor: PlayerColor,
+                      backgroundColor: playerColor,
                       icon: Icons.stadium,
                       text: "   ${ProfileBaseScreen.courts[index].cname}",
                     )),

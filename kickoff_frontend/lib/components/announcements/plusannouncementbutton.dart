@@ -28,7 +28,7 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
   Widget build(BuildContext context) {
     print("plus");
     return FloatingActionButton(
-        backgroundColor: CourtOwnerColor,
+        backgroundColor: courtOwnerColor,
         child: const Icon(Icons.add_comment_rounded, size: 35),
         onPressed: () =>
             showModalBottomSheet(
@@ -45,7 +45,7 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
                             children: [
                               const Text("أضف إعلاناً",
                                   style: TextStyle(
-                                      color: CourtOwnerColor, fontSize: 32)),
+                                      color: courtOwnerColor, fontSize: 32)),
                               _formField('العنوان', Icons.title),
                               _formField('وصف الإعلان', Icons.announcement),
                               Container(
@@ -56,7 +56,7 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
                                       .names[0]!),
                                   icon: const Icon(Icons.add_a_photo),
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: CourtOwnerColor,
+                                      backgroundColor: courtOwnerColor,
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 20, horizontal: 15)),
                                   onPressed: () async {
@@ -85,11 +85,11 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
         maxLength: (label == 'وصف الإعلان') ? 150 : 32,
         maxLines: (label == 'وصف الإعلان') ? 3 : 1,
         decoration: InputDecoration(
-          focusColor: CourtOwnerColor,
+          focusColor: courtOwnerColor,
           floatingLabelAlignment: FloatingLabelAlignment.center,
           labelText: label,
-          suffixIcon: Icon(icon, color: CourtOwnerColor),
-          labelStyle: const TextStyle(color: CourtOwnerColor),
+          suffixIcon: Icon(icon, color: courtOwnerColor),
+          labelStyle: const TextStyle(color: courtOwnerColor),
           border: const UnderlineInputBorder(),
         ),
         validator: (input) =>
@@ -104,7 +104,7 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
             label: const Text('إرسال'),
             icon: const Icon(Icons.schedule_send),
             style: ElevatedButton.styleFrom(
-                backgroundColor: CourtOwnerColor,
+                backgroundColor: courtOwnerColor,
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
             onPressed: () async {
