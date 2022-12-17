@@ -87,12 +87,12 @@ class RoundedButton extends State<SignUpButtonPlayer> {
             showAlertDialog(context, 'Email Already Exist');
             RoundedInput.EmailSignUp.clear();
           } else {
-            // KickoffApplication.data = profileData;
-            // localFile.writeLoginData(RoundedInput.EmailSignUp.text,
-            //     RoundedPasswordSignupPlayer.Password.text);
-            // Navigator.of(context).push(MaterialPageRoute(
-            //     builder: (context) =>
-            //         KickoffApplication(profileData: profileData)));
+            KickoffApplication.data = profileData;
+            localFile.writeLoginData(RoundedInput.EmailSignUp.text,
+                RoundedPasswordSignupPlayer.Password.text,"1");
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    KickoffApplication(profileData: profileData)));
             KickoffApplication.Player=true;
             Navigator.popAndPushNamed(context, '/kickoff');
             print(resp);

@@ -83,11 +83,11 @@ class RoundedLogin extends State<LoginButtonPlayer> {
             print(profileData);
             KickoffApplication.data = profileData;
             KickoffApplication.ownerId = profileData["id"].toString();
-            // ProfileBaseScreen.courts =
-            // await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
-            // await ReservationsHome.buildTickets();
-            // localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
-            //     RoundedPasswordInputPlayer.Password.text);
+            ProfileBaseScreen.courts =
+            await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
+            await ReservationsHome.buildTickets();
+            localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
+                RoundedPasswordInputPlayer.Password.text,"1");
             KickoffApplication.Player=true;
             Navigator.popAndPushNamed(context, '/kickoff');
             // Navigator.pushNamed(context, '/playersearch');
