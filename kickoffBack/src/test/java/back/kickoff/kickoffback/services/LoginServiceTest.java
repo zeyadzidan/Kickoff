@@ -6,6 +6,7 @@ import back.kickoff.kickoffback.model.PlayerType;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,7 +53,7 @@ class LoginServiceTest {
         when(courtOwnerRepository.findByEmail("nasrClub@gmail.com")).thenReturn(java.util.Optional.of(newCourtOwner));
         String result = loginService.courtOwnerLogin(information);
 
-        Map<String, Object> res = new HashMap<>() ;
+        Map<String, Object> res = new HashMap<>();
         res.put("id", newCourtOwner.getId());
         res.put("userName", newCourtOwner.getUserName());
         res.put("email", newCourtOwner.getEmail());

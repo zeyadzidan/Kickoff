@@ -4,7 +4,9 @@ import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.model.PlayerType;
 import back.kickoff.kickoffback.services.SignupService;
+
 import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,11 +30,13 @@ class SignupControllerTest {
     SignupController controller;
     @Mock
     SignupService signupService;
+
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         controller = new SignupController(signupService);
     }
+
     @Test
     void courtOwnerSignupRequest() throws JSONException {
         HashMap<String, Object> hm = new HashMap<>();
@@ -49,7 +53,7 @@ class SignupControllerTest {
         newCourtOwner.setRating(0);
         newCourtOwner.setLocation("Nasr CLub");
         when(signupService.courtOwnerSignup(information)).thenReturn(new Gson().toJson(newCourtOwner));
-        ResponseEntity<String> res =controller.courtOwnerSignupRequest(information);
+        ResponseEntity<String> res = controller.courtOwnerSignupRequest(information);
         assertEquals(res, new ResponseEntity<>(new Gson().toJson(newCourtOwner), HttpStatus.CREATED));
     }
 

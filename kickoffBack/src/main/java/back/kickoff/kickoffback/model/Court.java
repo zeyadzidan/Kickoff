@@ -19,24 +19,22 @@ public class Court {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
     public String courtName;
-        @ManyToOne
-    private CourtOwner courtOwner;
-    private CourtState state;
-
-    private String description;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_court_schedule")
     public CourtSchedule courtSchedule;
+    @ManyToOne
+    private CourtOwner courtOwner;
+    private CourtState state;
+    private String description;
 
-    public Court(String name, CourtOwner courtOwner, CourtState state, String description,CourtSchedule courtSchedule)
-    {
-      this.courtName =name;
-      this.courtOwner = courtOwner;
-      this.state = state;
-      this.description=description;
-      this.courtSchedule = courtSchedule ;
+    public Court(String name, CourtOwner courtOwner, CourtState state, String description, CourtSchedule courtSchedule) {
+        this.courtName = name;
+        this.courtOwner = courtOwner;
+        this.state = state;
+        this.description = description;
+        this.courtSchedule = courtSchedule;
 
-      }
+    }
 
 }

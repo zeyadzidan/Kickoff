@@ -6,6 +6,7 @@ import back.kickoff.kickoffback.model.PlayerType;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
-public class SignupService
-{
+public class SignupService {
     private final CourtOwnerRepository courtOwnerRepository;
     private final PlayerRepository playerRepository;
 
@@ -26,11 +26,10 @@ public class SignupService
         this.playerRepository = playerRepository;
     }
 
-    public String courtOwnerSignup(String information) throws JSONException
-    {
+    public String courtOwnerSignup(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
-        String email  =  jsonObject.getString("email");
-        String password  =  jsonObject.getString("password");
+        String email = jsonObject.getString("email");
+        String password = jsonObject.getString("password");
         String username = jsonObject.getString("username");
         String location = jsonObject.getString("location");
         String phoneNumber = jsonObject.getString("phoneNumber");
@@ -38,17 +37,17 @@ public class SignupService
         Double yAxis = jsonObject.getDouble("yAxis");
         Optional<CourtOwner> courtOwner = courtOwnerRepository.findByEmail(email);
         String regex = "^(.+)@(.+)$";
-       boolean isvalid =Pattern.compile(regex).matcher(email).matches();
-        if(courtOwner.isPresent())
+        boolean isvalid = Pattern.compile(regex).matcher(email).matches();
+        if (courtOwner.isPresent())
             return "Email exist";
-        if( !isvalid)
-            return "invalid" ;
+        if (!isvalid)
+            return "invalid";
         CourtOwner newCourtOwner = new CourtOwner(username, email, password, phoneNumber, xAxis, yAxis);
         newCourtOwner.setRating(0);
         newCourtOwner.setLocation(location);
         courtOwnerRepository.save(newCourtOwner);
 
-        Map<String, Object> res = new HashMap<>() ;
+        Map<String, Object> res = new HashMap<>();
         res.put("id", newCourtOwner.getId());
         res.put("userName", newCourtOwner.getUserName());
         res.put("email", newCourtOwner.getEmail());
@@ -61,6 +60,7 @@ public class SignupService
 
         return new Gson().toJson(res);
     }
+
     public String playerSignup(String information) throws JSONException
     {
         JSONObject jsonObject = new JSONObject(information);
@@ -94,5 +94,4 @@ public class SignupService
 
         return new Gson().toJson(res);
     }
-
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 public class KickoffBackApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(KickoffBackApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(KickoffBackApplication.class, args);
+    }
 }

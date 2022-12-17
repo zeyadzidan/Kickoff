@@ -4,6 +4,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
+import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/profile.dart';
 import 'package:kickoff_frontend/components/login/EmailLogin.dart';
 import 'package:kickoff_frontend/components/login/PasswordLogin.dart';
@@ -86,6 +87,7 @@ class RoundedLogin extends State<LoginButton> {
             ProfileBaseScreen.courts =
                 await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
             await ReservationsHome.buildTickets();
+            await AnnouncementsHome.buildAnnouncements();
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInput.Password.text);
             KickoffApplication.Player=false;

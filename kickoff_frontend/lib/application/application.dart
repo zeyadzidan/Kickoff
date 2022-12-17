@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
+import 'package:kickoff_frontend/components/announcements/plusannouncementbutton.dart';
 import 'package:kickoff_frontend/components/application/applicationbar.dart';
 import 'package:kickoff_frontend/components/courts/pluscourtbutton.dart';
 import 'package:kickoff_frontend/components/tickets/plusreservationbutton.dart';
@@ -65,34 +67,30 @@ class KickoffApplicationState extends State<KickoffApplication> {
               builder: (context) => Scaffold(
                 appBar: KickoffAppBar().build(context),
                 body: Center(
-                  child: (KickoffApplication._selectedPage == 0)
-                    ? KickoffApplication.Player
-                      ?SearchScreen()
-                      :ProfileBaseScreen()
-                    : (KickoffApplication._selectedPage == 1)
-                      ?KickoffApplication.Player
-                        ?const Center(
-                          child: Text(
-                            "ANNOUNCEMENTS FEATURE IS NOT YET IMPLEMENTED"))
-                        :const Center(
-                          child: Text(
-                            "ANNOUNCEMENTS FEATURE IS NOT YET IMPLEMENTED"))
-                      : KickoffApplication.Player
-                        ?const Center(
-                          child: Text(
-                            "Reservation FEATURE IS NOT YET IMPLEMENTED"))
-                        :ReservationsHome(),
+                // Player Application
+                  child: (KickoffApplication.Player) ?
+                    (KickoffApplication._selectedPage == 0) ?
+                      SearchScreen() :
+                    (KickoffApplication._selectedPage == 1) ?
+                      const Center(child: Text("DUMMY PAGE 1")) :
+                    (KickoffApplication._selectedPage == 2) ?
+                      const Center(child: Text("DUMMY PAGE 2")) :
+                      const Center(child: Text("DUMMY PAGE 3"))
+                // Court Owner Application
+                  : (KickoffApplication._selectedPage == 0) ?
+                      ProfileBaseScreen() :
+                    (KickoffApplication._selectedPage == 1) ?
+                      AnnouncementsHome() : ReservationsHome()
                 ),
-                floatingActionButton:KickoffApplication.Player
-                  ?null
-                  :(KickoffApplication._selectedPage == 0)
-                    ? const PlusCourtButton()
-                    : (KickoffApplication._selectedPage == 2)
-                    ? const PlusReservationButton()
-                    : null,
-                bottomNavigationBar:KickoffApplication.Player
-                    ?_buildPlayerNavBar()
-                    :_buildNavBar(),
+                // Court Owner Floating Buttons
+                floatingActionButton: (!KickoffApplication.Player) ?
+                  (KickoffApplication._selectedPage == 0) ?
+                    const PlusCourtButton() :
+                  (KickoffApplication._selectedPage == 1) ?
+                    const PlusAnnouncementButton() : const PlusReservationButton()
+                : null,
+                bottomNavigationBar:KickoffApplication.Player ?
+                    _buildPlayerNavBar() : _buildNavBar(),
               ),
             )
       },

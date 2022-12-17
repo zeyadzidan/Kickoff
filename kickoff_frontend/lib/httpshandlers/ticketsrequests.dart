@@ -7,7 +7,7 @@ import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 
 class TicketsHTTPsHandler {
   static final String _url = "http://${KickoffApplication.userIP}:8080";
-  
+
   static Future deleteTicket(FixtureTicket ticket) async {
     String cancellation;
     if (ticket.state == 'Booked') {
@@ -21,11 +21,10 @@ class TicketsHTTPsHandler {
     print("TICKET: ${ticket.ticketId}");
 
     var response = await http.post(Uri.parse(cancellation),
-      headers: {"Content-Type": "application/json"},
-      body: json.encode({
-        "id": ticket.ticketId,
-      })
-    );
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "id": ticket.ticketId,
+        }));
     print(response.body);
   }
 
