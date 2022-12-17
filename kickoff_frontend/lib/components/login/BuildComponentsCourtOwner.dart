@@ -39,7 +39,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
     double viewInset = MediaQuery.of(context)
         .viewInsets
         .bottom; // we are using this to determine Keyboard is opened or not
-    double defaultLoginSize = size.height - (size.height * 0.2);
+    double defaultLoginSize = size.height - (size.height * 0.3);
     double defaultRegisterSize = size.height - (size.height * 0.1);
 
     containerSize =
@@ -68,38 +68,19 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
                     color: CourtOwnerColor),
               )),
 
-          Positioned(
-            top: -50,
-            left: -50,
-            child: Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  boxShadow: const <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.black,
-                      blurRadius: 5,
-                    ),
-                  ],
-                  color: CourtOwnerColor),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(55, 108, 0, 0),
-                child :InkWell(
-                  onTap: (){
-                    Navigator.pushNamed( context,'/loginPlayer');
-                  },
-                  child: Text("I am a Player?!"
-                    ,style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+          SizedBox(
+            width: 210,
+            child: InkWell(
+              onTap: (){
+                Navigator.popAndPushNamed(context, '/loginPlayer');
+              },
+              borderRadius: BorderRadius.circular(100),
+              child: Stack(
+                clipBehavior: Clip.none, children: <Widget>[
+                circleSizer()
+                ],
               ),
             ),
-
           ),
 
           Positioned(
@@ -196,6 +177,79 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
             style: TextStyle(color: CourtOwnerColor, fontSize:20),
           )
               : null,
+        ),
+      ),
+    );
+  }
+}
+
+
+class circleSizer extends StatefulWidget {
+  const circleSizer({Key? key}) : super(key: key);
+
+  @override
+  State<circleSizer> createState() => _circleSizerState();
+}
+
+class _circleSizerState extends State<circleSizer> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+      super.initState();
+      _controller =
+          AnimationController(duration: const Duration(seconds: 2), vsync: this);
+      _animation = Tween(begin: 0.0,end: 10.0,).animate(_controller)
+        ..addListener(() {
+          setState(() {
+            // The state that has changed here is the animation object’s value.
+          });
+
+        });
+      _animation.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _controller.reverse();
+        } else if (status == AnimationStatus.dismissed) {
+          _controller.forward();
+        }
+      });
+      _controller.forward();
+      // _controller.reverse();
+    }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: -50,
+      left: -50,
+      child: Container(
+        width: 200+_animation.value,
+        height: 200+_animation.value,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            boxShadow: const <BoxShadow>[
+              BoxShadow(
+                color: Colors.black,
+                blurRadius: 5,
+              ),
+            ],
+            color: CourtOwnerColor),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(55, 108, 0, 0),
+          child :Text("I am a Player?!"
+            ,style: const TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );
