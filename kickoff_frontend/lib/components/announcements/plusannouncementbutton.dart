@@ -10,6 +10,7 @@ import 'package:kickoff_frontend/components/classes/announcement.dart';
 
 import '../../constants.dart';
 import '../../httpshandlers/announcements-requests.dart';
+import 'announcement-view.dart';
 
 class PlusAnnouncementButton extends StatefulWidget {
   const PlusAnnouncementButton({super.key});
@@ -24,51 +25,61 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
   late List<dynamic> _announcement = <String>[];
 
   @override
-  Widget build(BuildContext context) => FloatingActionButton(
-      backgroundColor: primaryColor,
-      child: const Icon(Icons.add_comment_rounded, size: 35),
-      onPressed: () => showModalBottomSheet(
-            elevation: 4,
-            context: context,
-            builder: (context) => SingleChildScrollView(
-                child: Form(
-              key: _key,
-              child: Container(
-                margin: const EdgeInsets.symmetric(
-                    vertical: 25.0, horizontal: 25.0),
-                child: Column(
-                  children: [
-                    const Text("أضف إعلاناً",
-                        style: TextStyle(color: primaryColor, fontSize: 32)),
-                    _formField('العنوان', Icons.title),
-                    _formField('وصف الإعلان', Icons.announcement),
-                    Container(
-                      margin: const EdgeInsets.only(top: 15),
-                      child: ElevatedButton.icon(
-                        label:
-                            Text((_result == null) ? '' : _result!.names[0]!),
-                        icon: const Icon(Icons.add_a_photo),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 15)),
-                        onPressed: () async {
-                          _result = await FilePicker.platform.pickFiles(
-                              type: FileType.custom,
-                              allowedExtensions: ['png', 'jpg', 'jpeg']);
-                          if (_result != null) {
-                            KickoffApplication.update();
-                          }
-                        },
-                      ),
-                    ),
-                    _submitButton()
-                  ],
-                ),
-              ),
-            )),
-          ));
-
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+        backgroundColor: primaryColor,
+        child: const Icon(Icons.add_comment_rounded, size: 35),
+        onPressed: () =>
+            showModalBottomSheet(
+              elevation: 4,
+              context: context,
+              builder: (context) =>
+                  SingleChildScrollView(
+                      child: Form(
+                        key: _key,
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 25.0, horizontal: 25.0),
+                          child: Column(
+                            children: [
+                              const Text("أضف إعلاناً",
+                                  style: TextStyle(
+                                      color: primaryColor, fontSize: 32)),
+                              _formField('العنوان', Icons.title),
+                              _formField('وصف الإعلان', Icons.announcement),
+                              Container(
+                                margin: const EdgeInsets.only(top: 15),
+                                child: ElevatedButton.icon(
+                                  label:
+                                  Text((_result == null) ? '' : _result!
+                                      .names[0]!),
+                                  icon: const Icon(Icons.add_a_photo),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: primaryColor,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20, horizontal: 15)),
+                                  onPressed: () async {
+                                    _result =
+                                    await FilePicker.platform.pickFiles(
+                                        type: FileType.custom,
+                                        allowedExtensions: [
+                                          'png',
+                                          'jpg',
+                                          'jpeg'
+                                        ]);
+                                    if (_result != null) {
+                                      KickoffApplication.update();
+                                    }
+                                  },
+                                ),
+                              ),
+                              _submitButton()
+                            ],
+                          ),
+                        ),
+                      )),
+            ));
+  }
   _formField(label, icon) => TextFormField(
         maxLength: (label == 'وصف الإعلان') ? 150 : 32,
         maxLines: (label == 'وصف الإعلان') ? 3 : 1,
@@ -118,9 +129,11 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
               AnnouncementsHome.announcements =
                   await AnnouncementHTTPsHandler.getAnnouncements(
                       KickoffApplication.ownerId);
+              AnnouncementsHome.isExpanded = List<bool>.generate(AnnouncementsHome.announcements.length, (index) => false);
+
               _announcement = [];
-              KickoffApplication.update();
               Navigator.pop(context);
+              AnnouncementsView.update();
             }),
       );
 }
