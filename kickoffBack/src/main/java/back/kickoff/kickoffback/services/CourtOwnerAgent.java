@@ -23,18 +23,9 @@ public class CourtOwnerAgent {
     static class FrontEndCourt{
         Long id;
         String name;
-        String state ;
-        String description;
-        // Schedule ???
-        FrontEndCourt(Court court){
-            this.id = court.getId();
-            this.name = court.getCourtName();
-            if(court.getState()==CourtState.Active)
-                this.state = "Active" ;
-            else
-                this.state = "OutOfOrder" ;
-            this.description = court.getDescription();
-
+        FrontEndCourt(Long id, String name){
+            this.id = id;
+            this.name = name ;
         }
     }
 
@@ -75,7 +66,7 @@ public class CourtOwnerAgent {
         List<Court> courts = source.getCourts() ;
         List<FrontEndCourt> data = new ArrayList<FrontEndCourt>() ;
         for (Court c: courts){
-            data.add(new FrontEndCourt(c));
+            data.add(new FrontEndCourt(c.id,c.getCourtName()));
         }
         System.out.println(data);
 
