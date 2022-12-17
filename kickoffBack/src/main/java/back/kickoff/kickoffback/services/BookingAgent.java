@@ -167,12 +167,10 @@ public class BookingAgent {
 
         @Override
         public int compare(Reservation o1, Reservation o2) {
-            if(o1.getStartDate().before(o2.getStartDate()) || (o1.getStartDate().equals(o2.getStartDate()) && o1.getTimeFrom().before(o2.getTimeFrom())) )
-                return 1;
-            else if(o1.getStartDate().equals(o2.getStartDate()) && o1.getEndDate().equals(o2.getEndDate()) && o1.getTimeFrom().equals(o2.getTimeFrom()) && o1.getTimeTo().equals(o2.getTimeTo()))
-                return 0 ;
-            else
-                return -1 ;
+            DateTime stR1 = new DateTime(o1.getStartDate(), o1.getTimeFrom()) ;
+            DateTime stR2 = new DateTime(o2.getStartDate(), o2.getTimeFrom()) ;
+            return stR1.compareTo(stR2) ;
+
         }
     }
 
