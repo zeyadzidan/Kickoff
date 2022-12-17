@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
+import 'package:kickoff_frontend/components/announcements/plusannouncementbutton.dart';
 import 'package:kickoff_frontend/components/application/applicationbar.dart';
 import 'package:kickoff_frontend/components/courts/pluscourtbutton.dart';
 import 'package:kickoff_frontend/components/tickets/plusreservationbutton.dart';
@@ -67,9 +68,9 @@ class KickoffApplicationState extends State<KickoffApplication> {
                 ),
                 floatingActionButton: (KickoffApplication._selectedPage == 0)
                     ? const PlusCourtButton()
-                    : (KickoffApplication._selectedPage == 2)
-                        ? const PlusReservationButton()
-                        : null,
+                    : (KickoffApplication._selectedPage == 1)
+                        ? const PlusAnnouncementButton()
+                        : const PlusReservationButton(),
                 bottomNavigationBar: _buildNavBar(),
               ),
             )
