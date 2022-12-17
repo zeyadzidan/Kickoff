@@ -23,7 +23,7 @@ class _PlusCourtButtonState extends State<PlusCourtButton> {
 
   @override
   Widget build(BuildContext context) => FloatingActionButton(
-      backgroundColor: primaryColor,
+      backgroundColor: CourtOwnerColor,
       child: const Icon(Icons.add, size: 35),
       onPressed: () => showModalBottomSheet(
             elevation: 4,
@@ -37,7 +37,7 @@ class _PlusCourtButtonState extends State<PlusCourtButton> {
                 child: Column(
                   children: [
                     const Text("أضف ملعباً جديداً",
-                        style: TextStyle(color: primaryColor, fontSize: 32)),
+                        style: TextStyle(color: CourtOwnerColor, fontSize: 32)),
                     _formField('اسم الملعب', Icons.stadium, false),
                     _formField('وصف الملعب', Icons.description, false),
                     _formField(
@@ -58,11 +58,11 @@ class _PlusCourtButtonState extends State<PlusCourtButton> {
         inputFormatters:
             (digits) ? [FilteringTextInputFormatter.digitsOnly] : null,
         decoration: InputDecoration(
-          focusColor: primaryColor,
+          focusColor: CourtOwnerColor,
           floatingLabelAlignment: FloatingLabelAlignment.center,
           labelText: label,
-          suffixIcon: Icon(icon, color: primaryColor),
-          labelStyle: const TextStyle(color: primaryColor),
+          suffixIcon: Icon(icon, color: CourtOwnerColor),
+          labelStyle: const TextStyle(color: CourtOwnerColor),
           border: const UnderlineInputBorder(),
         ),
         validator: (input) =>
@@ -74,12 +74,12 @@ class _PlusCourtButtonState extends State<PlusCourtButton> {
         margin: const EdgeInsets.only(top: 10),
         child: ElevatedButton.icon(
           onPressed: _pickTimeCourt(initTime),
-          icon: const Icon(Icons.timer, color: primaryColor),
+          icon: const Icon(Icons.timer, color: CourtOwnerColor),
           label: Text((initTime)
               ? 'ميعاد فتح الملعب: ${_open.format(context)}'
               : 'ميعاد غلق الملعب: ${_close.format(context)}'),
           style: ElevatedButton.styleFrom(
-              foregroundColor: primaryColor,
+              foregroundColor: CourtOwnerColor,
               backgroundColor: secondaryColor,
               padding:
                   const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
@@ -135,7 +135,7 @@ class _PlusCourtButtonState extends State<PlusCourtButton> {
             label: const Text('حفظ'),
             icon: const Icon(Icons.schedule_send),
             style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
+                backgroundColor: CourtOwnerColor,
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
             onPressed: () async {
