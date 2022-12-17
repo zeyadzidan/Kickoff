@@ -28,44 +28,33 @@ class _PlusCourtButtonState extends State<PlusCourtButton> {
       onPressed: () => showModalBottomSheet(
             elevation: 4,
             context: context,
-            builder: (context) => SizedBox(
-                height: MediaQuery.of(context).size.height / 2,
-                child: Expanded(
-                  child: SingleChildScrollView(
-                      child: Form(
-                    key: _key,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 25.0, horizontal: 25.0),
-                      child: Column(
-                        children: [
-                          const Text("أضف ملعباً جديداً",
-                              style:
-                                  TextStyle(color: primaryColor, fontSize: 32)),
-                          _formField('اسم الملعب', Icons.stadium, false),
-                          _formField('وصف الملعب', Icons.description, false),
-                          _formField(
-                              'سعر الساعة صباحاً', Icons.monetization_on, true),
-                          _formField(
-                              'سعر الساعة مساءً', Icons.monetization_on, true),
-                          _formField('أقل عدد ساعات للحجز', Icons.timer, true),
-                          _buildCourtTimePicker(true),
-                          _buildCourtTimePicker(false),
-                          _submitButton()
-                        ],
-                      ),
-                    ),
-                  )),
-                )),
+            builder: (context) => SingleChildScrollView(
+                child: Form(
+              key: _key,
+              child: Container(
+                margin: const EdgeInsets.symmetric(
+                    vertical: 25.0, horizontal: 25.0),
+                child: Column(
+                  children: [
+                    const Text("أضف ملعباً جديداً",
+                        style: TextStyle(color: primaryColor, fontSize: 32)),
+                    _formField('اسم الملعب', Icons.stadium, false),
+                    _formField('وصف الملعب', Icons.description, false),
+                    _formField(
+                        'سعر الساعة صباحاً', Icons.monetization_on, true),
+                    _formField('سعر الساعة مساءً', Icons.monetization_on, true),
+                    _formField('أقل عدد ساعات للحجز', Icons.timer, true),
+                    _buildCourtTimePicker(true),
+                    _buildCourtTimePicker(false),
+                    _submitButton()
+                  ],
+                ),
+              ),
+            )),
           ));
 
   _formField(label, icon, digits) => TextFormField(
-        maxLength: (label == 'وصف الملعب')
-            ? 150
-            : (label == 'أقل عدد ساعات للحجز')
-                ? 2
-                : 32,
-        maxLines: (label == 'وصف الملعب') ? 3 : 1,
+        maxLength: (label == 'أقل عدد ساعات للحجز') ? 2 : 32,
         inputFormatters:
             (digits) ? [FilteringTextInputFormatter.digitsOnly] : null,
         decoration: InputDecoration(
