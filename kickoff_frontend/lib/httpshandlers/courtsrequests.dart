@@ -37,6 +37,6 @@ class CourtsHTTPsHandler {
           "startWorkingHours": courtInfo[5],
           "finishWorkingHours": courtInfo[6],
         }));
-    print(response);
+    print(response.body);
   }
 }
