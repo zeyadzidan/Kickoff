@@ -33,8 +33,8 @@ class RoundedLogin extends State<LoginButtonPlayer> {
           "email": email.toLowerCase(),
           "password": pass,
         }));
-     print(res.body);
-    // setState(() => profileData = json.decode(res.body));
+     // print(res.body);
+    setState(() => profileData = json.decode(res.body));
   }
 
   static Future save2(email, pass) async {
@@ -80,16 +80,17 @@ class RoundedLogin extends State<LoginButtonPlayer> {
                 context, 'Wrong password password less than 4 character not accepted ');
             RoundedPasswordInputPlayer.Password.clear();
           } else {
-            // print(profileData);
-            // KickoffApplication.data = profileData;
-            // KickoffApplication.ownerId = profileData["id"].toString();
+            print(profileData);
+            KickoffApplication.data = profileData;
+            KickoffApplication.ownerId = profileData["id"].toString();
             // ProfileBaseScreen.courts =
             // await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
             // await ReservationsHome.buildTickets();
             // localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
-            //     RoundedPasswordInput.Password.text);
-            // Navigator.pushNamed(context, '/kickoff');
-            Navigator.pushNamed(context, '/playersearch');
+            //     RoundedPasswordInputPlayer.Password.text);
+            KickoffApplication.Player=true;
+            Navigator.pushNamed(context, '/kickoff');
+            // Navigator.pushNamed(context, '/playersearch');
           }
         }
       },

@@ -8,27 +8,57 @@ import '../../application/application.dart';
 import '../../application/screens/profile.dart';
 
 class KickoffAppBar {
-  build(context) => AppBar(
-        leading: const Icon(Icons.sports_soccer),
-        elevation: 4,
-        title: const Text(
-          "Kickoff",
-          style: TextStyle(color: Colors.white),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'تسجيل خروج',
-            onPressed: () async {
-              localFile.clearLoginData();
-              KickoffApplication.data.clear();
-              ProfileBaseScreen.path = "";
-              var appDir = (await getTemporaryDirectory()).path;
-              Directory(appDir).delete(recursive: true);
-              Navigator.pop(context);
-            },
-          ),
-        ],
-        backgroundColor: Colors.green,
-      );
+  build(context) => KickoffApplication.Player
+      ?AppBar(
+    leading: IconButton(
+      icon: const Icon(Icons.person),
+      tooltip: 'تعديل البيانات',
+      onPressed: () async {
+        //to be implemented
+      },
+    ),
+    elevation: 4,
+    title: const Text(
+      "Kickoff",
+      style: TextStyle(color: Colors.white),
+    ),
+    actions: <Widget>[
+      IconButton(
+        icon: const Icon(Icons.logout),
+        tooltip: 'تسجيل خروج',
+        onPressed: () async {
+          // localFile.clearLoginData();
+          // KickoffApplication.data.clear();
+          // ProfileBaseScreen.path = "";
+          // var appDir = (await getTemporaryDirectory()).path;
+          // Directory(appDir).delete(recursive: true);
+          // Navigator.pop(context);
+        },
+      ),
+    ],
+    backgroundColor: Colors.green,
+  )
+  :AppBar(
+    leading: const Icon(Icons.sports_soccer),
+    elevation: 4,
+    title: const Text(
+      "Kickoff",
+      style: TextStyle(color: Colors.white),
+    ),
+    actions: <Widget>[
+      IconButton(
+        icon: const Icon(Icons.logout),
+        tooltip: 'تسجيل خروج',
+        onPressed: () async {
+          // localFile.clearLoginData();
+          // KickoffApplication.data.clear();
+          // ProfileBaseScreen.path = "";
+          // var appDir = (await getTemporaryDirectory()).path;
+          // Directory(appDir).delete(recursive: true);
+          // Navigator.pop(context);
+        },
+      ),
+    ],
+    backgroundColor: Colors.green,
+  );
 }

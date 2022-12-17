@@ -88,9 +88,8 @@ class RoundedButton extends State<SignUpButton> {
             KickoffApplication.data = profileData;
             localFile.writeLoginData(RoundedInput.EmailSignUp.text,
                 RoundedPasswordSignup.Password.text);
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) =>
-                    KickoffApplication(profileData: profileData)));
+            KickoffApplication.Player=false;
+            Navigator.pushNamed(context, '/kickoff');
           }
         }
       },

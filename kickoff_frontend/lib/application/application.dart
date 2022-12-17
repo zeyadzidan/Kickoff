@@ -24,6 +24,7 @@ class KickoffApplication extends StatefulWidget {
 
   final Map<String, dynamic> profileData;
   static int _selectedPage = 0;
+  static bool Player=true;
   static String userIP = '';
   static String ownerId = '';
   static List<Court> courts = [];
@@ -35,6 +36,7 @@ class KickoffApplication extends StatefulWidget {
   State<KickoffApplication> createState() => _currentState;
 
   static update() => _currentState.setState(() {});
+
 
   static onTapSelect(index) =>
       _currentState.setState(() => _selectedPage = index);
@@ -63,19 +65,31 @@ class KickoffApplicationState extends State<KickoffApplication> {
                 appBar: KickoffAppBar().build(context),
                 body: Center(
                   child: (KickoffApplication._selectedPage == 0)
-                      ? ProfileBaseScreen()
-                      : (KickoffApplication._selectedPage == 1)
-                          ? const Center(
-                              child: Text(
-                                  "ANNOUNCEMENTS FEATURE IS NOT YET IMPLEMENTED"))
-                          : ReservationsHome(),
+                    ? KickoffApplication.Player
+                      ?SearchScreen()
+                      :ProfileBaseScreen()
+                    : (KickoffApplication._selectedPage == 1)
+                      ?KickoffApplication.Player
+                        ?const Center(
+                          child: Text(
+                            "ANNOUNCEMENTS FEATURE IS NOT YET IMPLEMENTED"))
+                        :const Center(
+                          child: Text(
+                            "ANNOUNCEMENTS FEATURE IS NOT YET IMPLEMENTED"))
+                      : KickoffApplication.Player
+                        ?const Center(
+                          child: Text(
+                            "Reservation FEATURE IS NOT YET IMPLEMENTED"))
+                        :ReservationsHome(),
                 ),
-                floatingActionButton: (KickoffApplication._selectedPage == 0)
+                floatingActionButton:KickoffApplication.Player
+                  ?null
+                  :(KickoffApplication._selectedPage == 0)
                     ? const PlusCourtButton()
                     : (KickoffApplication._selectedPage == 2)
-                        ? const PlusReservationButton()
-                        : null,
-                bottomNavigationBar: _buildNavBar(),
+                    ? const PlusReservationButton()
+                    : null,
+                bottomNavigationBar:KickoffApplication.Player?_buildPlayerNavBar() : _buildNavBar(),
               ),
             )
       },
@@ -133,5 +147,47 @@ class KickoffApplicationState extends State<KickoffApplication> {
             ),
           ],
           selectedIndex: KickoffApplication._selectedPage,
-          onTabChange: KickoffApplication.onTapSelect));
+          onTabChange: KickoffApplication.onTapSelect)
+  );
+
+  _buildPlayerNavBar() => Container(
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+      decoration: BoxDecoration(
+          boxShadow: const <BoxShadow>[
+            BoxShadow(
+              color: primaryColor,
+              blurRadius: 3,
+            ),
+          ],
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(100),
+          color: Colors.green.shade100),
+      margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+      child: GNav(
+          gap: 5,
+          activeColor: Colors.white,
+          color: primaryColor,
+          tabBackgroundColor: Colors.black.withAlpha(25),
+          duration: const Duration(milliseconds: 300),
+          tabs: const <GButton>[
+            GButton(
+              backgroundColor: primaryColor,
+              text: "Search",
+              icon: Icons.search,
+            ),
+            GButton(
+              backgroundColor: primaryColor,
+              text: "News Feed",
+              icon: Icons.new_releases_sharp,
+            ),
+            GButton(
+              backgroundColor: primaryColor,
+              text: "Reservations",
+              icon: Icons.stadium,
+            ),
+          ],
+          selectedIndex: KickoffApplication._selectedPage,
+          onTabChange: KickoffApplication.onTapSelect)
+  );
+
 }
