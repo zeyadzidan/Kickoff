@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Date;
-import java.util.List;
 
 @ToString
 @Setter
@@ -23,7 +22,7 @@ public class Announcement {
     CourtOwner courtOwner;
     String title ;
     String body ;
-    String cni ; // Attachments
+    String img; // Attachments
 
     Date date ;
 
