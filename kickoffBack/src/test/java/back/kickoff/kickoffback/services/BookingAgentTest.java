@@ -1,23 +1,18 @@
 package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.*;
-import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
-import back.kickoff.kickoffback.repositories.CourtRepository;
-import back.kickoff.kickoffback.repositories.ReservationRepository;
-import back.kickoff.kickoffback.repositories.ScheduleRepository;
+import back.kickoff.kickoffback.repositories.*;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,12 +32,15 @@ class BookingAgentTest {
     @Mock
     ReservationService reservationService;
 
+    @Mock
+    PlayerRepository playerRepository ;
+
     @BeforeEach
     public void setUp()  {
         MockitoAnnotations.openMocks(this);
 
         bookingAgent = new BookingAgent(courtRepository, scheduleRepository, courtOwnerRepository,
-                reservationRepository, reservationService);
+                reservationRepository, reservationService, playerRepository);
     }
     @Test
     void book() throws JSONException {
