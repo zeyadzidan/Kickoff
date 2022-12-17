@@ -5,10 +5,11 @@ class InputContainer extends StatelessWidget {
   const InputContainer({
     Key? key,
     required this.child,
+    required this.color,
   }) : super(key: key);
 
   final Widget child;
-
+  final Color color;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -19,7 +20,7 @@ class InputContainer extends StatelessWidget {
         width: size.width * 0.8,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: primaryColor.withAlpha(50)),
+            color: color.withAlpha(50)),
         child: child);
   }
 }

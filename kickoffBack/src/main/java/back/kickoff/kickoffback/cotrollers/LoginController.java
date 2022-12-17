@@ -39,4 +39,21 @@ public class LoginController {
         }
         return new ResponseEntity<>(ans, HttpStatus.OK);
     }
+
+    @PostMapping("/player")
+    public ResponseEntity playerLoginRequest(@RequestBody String information) throws JSONException {
+        String ans = loginService.playerLogin(information);
+        if(ans.equals("Not found"))
+        {
+            System.out.println(new EmptyJsonResponse());
+            return new ResponseEntity<>(new EmptyJsonResponse(), HttpStatus.BAD_REQUEST);
+        }
+        else if(ans.equals("Incorrect Password"))
+        {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("Password", "Incorrect");
+            return new ResponseEntity<>(jsonObject, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(ans, HttpStatus.OK);
+    }
 }

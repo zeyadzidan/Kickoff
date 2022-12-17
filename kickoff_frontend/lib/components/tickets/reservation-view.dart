@@ -27,7 +27,7 @@ class _ReservationsViewState extends State<ReservationsView> {
             child: ExpansionPanelList(
               animationDuration: const Duration(milliseconds: 300),
               expandedHeaderPadding: EdgeInsets.zero,
-              dividerColor: primaryColor,
+              dividerColor: PlayerColor,
               elevation: 4,
               children: List<ExpansionPanel>.generate(
                   ReservationsHome.reservations.length,
@@ -44,7 +44,7 @@ class _ReservationsViewState extends State<ReservationsView> {
                                 ? Colors.yellow.withOpacity(0.5)
                                 : (ReservationsHome.reservations[index].state ==
                                         'Booked')
-                                    ? primaryColor.withOpacity(0.5)
+                                    ? PlayerColor.withOpacity(0.5)
                                     : Colors.red.withOpacity(0.5),
                           ),
                           child:
@@ -73,13 +73,13 @@ class _ReservationsViewState extends State<ReservationsView> {
                                           decoration: const InputDecoration(
                                               suffixIcon: Icon(
                                                   Icons.monetization_on,
-                                                  color: primaryColor),
+                                                  color: PlayerColor),
                                               labelText: "العربون",
                                               labelStyle: TextStyle(
-                                                  color: primaryColor),
+                                                  color: PlayerColor),
                                               floatingLabelAlignment:
                                                   FloatingLabelAlignment.center,
-                                              focusColor: primaryColor,
+                                              focusColor: PlayerColor,
                                               border: UnderlineInputBorder(),
                                               prefixText: 'جنيهاً مصرياً'),
                                           validator: (input) {

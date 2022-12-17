@@ -46,7 +46,7 @@ public class ReservationService {
 
 /*
     public Long tryy(Long CourtId, Long courtOwnerId){
-        Player p = new Player();
+        LitePlayer p = new LitePlayer();
         pr.save(p) ;
         Date d = new Date(2022,12,1) ;
         Time from = new Time(10,0,0);

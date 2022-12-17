@@ -4,26 +4,25 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
-import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/profile.dart';
 import 'package:kickoff_frontend/components/login/EmailLogin.dart';
-import 'package:kickoff_frontend/components/login/PasswordLogin.dart';
+import 'package:kickoff_frontend/components/login/PasswordPlayer.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
 import '../application/screens/reservations.dart';
 import 'courtsrequests.dart';
 
-class LoginButton extends StatefulWidget {
-  const LoginButton({super.key});
+class LoginButtonPlayer extends StatefulWidget {
+  const LoginButtonPlayer({super.key});
 
   @override
   RoundedLogin createState() => RoundedLogin();
 }
 
-class RoundedLogin extends State<LoginButton> {
+class RoundedLogin extends State<LoginButtonPlayer> {
   static final String _url =
-      "http://${KickoffApplication.userIP}:8080/login/courtOwner";
+      "http://${KickoffApplication.userIP}:8080/login/player";
   var resp = 52;
   late Map<String, dynamic> profileData;
 
@@ -34,7 +33,7 @@ class RoundedLogin extends State<LoginButton> {
           "email": email.toLowerCase(),
           "password": pass,
         }));
-
+     // print(res.body);
     setState(() => profileData = json.decode(res.body));
   }
 
@@ -44,7 +43,7 @@ class RoundedLogin extends State<LoginButton> {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Credentials": "true",
           "Access-Control-Allow-Headers":
-              "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+          "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
           "Access-Control-Allow-Methods": "POST, OPTIONS"
         },
         body: json.encode({
@@ -60,38 +59,38 @@ class RoundedLogin extends State<LoginButton> {
     return InkWell(
       onTap: () async {
         var Email = RoundedInputLogin.EmailLogin.text;
-        var Password = RoundedPasswordInput.Password.text;
+        var Password = RoundedPasswordInputPlayer.Password.text;
         if (Email.isEmpty) {
-          showAlertDialog(context, 'بيانات حسابك فارغة');
+          showAlertDialog(context, 'Empty Email Address');
           RoundedInputLogin.EmailLogin.clear();
         } else if (Password.length < 6 ||
             Password.length > 15 ||
             Password.isEmpty) {
           showAlertDialog(context,
-              'خطأ بكلمة المرور. تأكد من ان عدد الحروف يقع ما بين 6 و 15 حرفاً.');
-          RoundedPasswordInput.Password.clear();
+              'Wrong Password');
+          RoundedPasswordInputPlayer.Password.clear();
         } else {
           await save(RoundedInputLogin.EmailLogin.text,
-              RoundedPasswordInput.Password.text);
+              RoundedPasswordInputPlayer.Password.text);
           if (profileData.isEmpty) {
-            showAlertDialog(context, 'تأكد من بيانات حسابك');
+            showAlertDialog(context, 'Check your Information');
             RoundedInputLogin.EmailLogin.clear();
           } else if (profileData.length == 4) {
             showAlertDialog(
-                context, 'خطأ بكلمة المرور (غير مسموح بأقل من 4 حروف)');
-            RoundedPasswordInput.Password.clear();
+                context, 'Wrong password password less than 4 character not accepted ');
+            RoundedPasswordInputPlayer.Password.clear();
           } else {
             print(profileData);
             KickoffApplication.data = profileData;
             KickoffApplication.ownerId = profileData["id"].toString();
-            ProfileBaseScreen.courts =
-                await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
-            await ReservationsHome.buildTickets();
-            await AnnouncementsHome.buildAnnouncements();
-            localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
-                RoundedPasswordInput.Password.text);
-            KickoffApplication.Player=false;
-            Navigator.pushNamed(context, '/kickoff');
+            // ProfileBaseScreen.courts =
+            // await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
+            // await ReservationsHome.buildTickets();
+            // localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
+            //     RoundedPasswordInputPlayer.Password.text);
+            KickoffApplication.Player=true;
+            Navigator.popAndPushNamed(context, '/kickoff');
+            // Navigator.pushNamed(context, '/playersearch');
           }
         }
       },
@@ -100,12 +99,12 @@ class RoundedLogin extends State<LoginButton> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: CourtOwnerColor,
+          color: PlayerColor,
         ),
         padding: const EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
         child: const Text(
-          'تسجيل الدخول',
+          'Login',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
@@ -117,15 +116,15 @@ showAlertDialog(BuildContext context, text3) {
   return showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-            title: const Text("تنبيه!"),
-            content: Text(text3),
-            actions: [
-              TextButton(
-                child: const Text("حسناً"),
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-              ),
-            ],
-          ));
+        title: const Text("Alert!"),
+        content: Text(text3),
+        actions: [
+          TextButton(
+            child: const Text("OK"),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          ),
+        ],
+      ));
 }

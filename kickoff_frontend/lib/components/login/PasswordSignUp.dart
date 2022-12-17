@@ -14,11 +14,12 @@ class RoundedPasswordSignup extends State<PasswordInputSignup> {
   @override
   Widget build(BuildContext context) {
     return InputContainer(
+      color: Colors.cyan,
         child: TextField(
-      cursorColor: primaryColor,
+      cursorColor: CourtOwnerColor,
       controller: Password,
       decoration: InputDecoration(
-          icon: Icon(Icons.lock, color: primaryColor),
+          icon: Icon(Icons.lock, color: CourtOwnerColor),
           suffix: GestureDetector(
             onTap: () {
               setState(() {

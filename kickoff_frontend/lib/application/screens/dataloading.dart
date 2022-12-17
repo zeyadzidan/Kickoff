@@ -16,8 +16,10 @@ class Loading {
   static loadData() async {
     KickoffApplication.userIP = getIP();
     loginData = await localFile.readLoginData();
+    print("loginData is ");
+    print(loginData);
     firstTime = (loginData == "0");
-    loading = false;
+    loading = (loginData != "0");
     if (!firstTime) {
       int idx = loginData.indexOf(":");
       String email = loginData.substring(0, idx).trim();
