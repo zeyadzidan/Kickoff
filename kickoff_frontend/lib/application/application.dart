@@ -161,7 +161,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
       decoration: BoxDecoration(
           boxShadow: const <BoxShadow>[
             BoxShadow(
-              color: CourtOwnerColor,
+              color: PlayerColor,
               blurRadius: 3,
             ),
           ],
@@ -172,22 +172,22 @@ class KickoffApplicationState extends State<KickoffApplication> {
       child: GNav(
           gap: 5,
           activeColor: Colors.white,
-          color: CourtOwnerColor,
+          color: PlayerColor,
           tabBackgroundColor: Colors.black.withAlpha(25),
           duration: const Duration(milliseconds: 300),
           tabs: const <GButton>[
             GButton(
-              backgroundColor: CourtOwnerColor,
+              backgroundColor: PlayerColor,
               text: "Search",
               icon: Icons.search,
             ),
             GButton(
-              backgroundColor: CourtOwnerColor,
+              backgroundColor: PlayerColor,
               text: "News Feed",
               icon: Icons.new_releases_sharp,
             ),
             GButton(
-              backgroundColor: CourtOwnerColor,
+              backgroundColor: PlayerColor,
               text: "Reservations",
               icon: Icons.stadium,
             ),
