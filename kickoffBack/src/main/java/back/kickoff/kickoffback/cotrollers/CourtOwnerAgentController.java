@@ -68,7 +68,7 @@ public class CourtOwnerAgentController {
     }
 
 
-    @PostMapping("/CourtOwner/{courtOwnerId}/Announcements")
+    @PostMapping("/CourtOwner/{courtOwnerId}/deleteAnnouncement")
     public ResponseEntity<String> deleteAnnouncements(@PathVariable String courtOwnerId, @RequestBody String information) throws JSONException {
         String responseBody = announcementService.deleteAnnouncement(Long.valueOf(courtOwnerId) , information);
         if(responseBody.equals("Success"))

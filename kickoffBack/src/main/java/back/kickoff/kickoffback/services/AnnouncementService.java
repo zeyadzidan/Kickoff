@@ -5,17 +5,14 @@ import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.repositories.AnnouncementRepository;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import com.google.gson.Gson;
-import jakarta.persistence.ManyToOne;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.regex.Pattern;
 
 @Service
 public class AnnouncementService {
@@ -53,7 +50,10 @@ public class AnnouncementService {
         Long courtOwnerId = jsonObject.getLong("courtOwnerId");
         String title = jsonObject.getString("title");
         String body = jsonObject.getString("body");
-        String attachmentsURL = jsonObject.getString("attachments");
+        String attachmentsURL = null;
+        if (jsonObject.has("attachments")) {
+            attachmentsURL = jsonObject.getString("attachments");
+        }
         String dateString = jsonObject.getString("date");
 
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(courtOwnerId) ;
@@ -64,7 +64,7 @@ public class AnnouncementService {
         Announcement newAnnouncement = new Announcement();
         newAnnouncement.setTitle(title);
         newAnnouncement.setBody(body);
-        newAnnouncement.setCni(attachmentsURL);
+        newAnnouncement.setImg(attachmentsURL);
         Date date;
         try
         {
@@ -123,7 +123,7 @@ public class AnnouncementService {
         for (Announcement a: announcements){
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             String strDate = dateFormat.format(a.getDate());
-            announcmentFrontends.add(new AnnouncmentFrontend(a.getId(), a.getCourtOwner().getId(), a.getTitle(), a.getBody(), a.getCni(), strDate )) ;
+            announcmentFrontends.add(new AnnouncmentFrontend(a.getId(), a.getCourtOwner().getId(), a.getTitle(), a.getBody(), a.getImg(), strDate )) ;
         }
         return new Gson().toJson(announcmentFrontends);
     }
