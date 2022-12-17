@@ -5,21 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/components/login/EmailSignUP.dart';
+import 'package:kickoff_frontend/components/login/PasswordSignUpPlayer.dart';
 import 'package:kickoff_frontend/components/login/PhoneNumberSignUp.dart';
 import 'package:kickoff_frontend/components/login/SignUpLocation.dart';
 import 'package:kickoff_frontend/components/login/SignUpUserName.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
-import '../../../components/login/PasswordSignUp.dart';
+import '../../../components/login/PasswordSignUpPlayer.dart';
 
-class SignUpButton extends StatefulWidget {
+class SignUpButtonPlayer extends StatefulWidget {
   @override
   RoundedButton createState() => RoundedButton();
 }
 
-class RoundedButton extends State<SignUpButton> {
-  String url = "http://${ip}:8080/signup/courtOwner";
+class RoundedButton extends State<SignUpButtonPlayer> {
+  String url = "http://${ip}:8080/signup/player";
   var resp = "";
   late Map<String, dynamic> profileData;
 
@@ -28,8 +29,8 @@ class RoundedButton extends State<SignUpButton> {
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "email": RoundedInput.EmailSignUp.text.toLowerCase(),
-          "password": RoundedPasswordSignup.Password.text,
-          "username": RoundedInputUsername.username.text,
+          "password": RoundedPasswordSignupPlayer.Password.text,
+          "name": RoundedInputUsername.username.text,
           "phoneNumber": RoundedPhoneNumber.PhoneNumber.text,
           "location": FindLocation.Locationaddress,
           "xAxis": FindLocation.X_axis,
@@ -42,6 +43,7 @@ class RoundedButton extends State<SignUpButton> {
         resp = "Email exist";
       } else {
         resp = "";
+        print(res.body);
         profileData = jsonDecode(res.body);
       }
     });
@@ -54,43 +56,46 @@ class RoundedButton extends State<SignUpButton> {
       onTap: () async {
         var Email = RoundedInput.EmailSignUp.text;
         var username = RoundedInputUsername.username.text;
-        var Password = RoundedPasswordSignup.Password.text;
+        var Password = RoundedPasswordSignupPlayer.Password.text;
         var phoneNumber = RoundedPhoneNumber.PhoneNumber.text;
         var Locationaddress = FindLocation.Locationaddress;
         if (Email.isEmpty) {
-          showAlertDialog(context, 'تأكد من بيانات حسابك');
+          showAlertDialog(context, 'Check your Email');
           RoundedInput.EmailSignUp.clear();
         } else if (username.isEmpty) {
-          showAlertDialog(context, 'لا يمكنك ترك هذا الحقل فارغاً');
+          showAlertDialog(context, 'Name can not be emptyً');
           RoundedInputUsername.username.clear();
         } else if (phoneNumber.isEmpty || phoneNumber.length < 11) {
-          showAlertDialog(context, 'تأكد من إدخال رقم هاتف صحيح');
+          showAlertDialog(context, 'Check your phone number');
           RoundedPhoneNumber.PhoneNumber.clear();
         } else if (Locationaddress.toString() == 'null') {
-          showAlertDialog(context, 'تأكد من اختيارك لموقع ملعبك');
+          showAlertDialog(context, 'Check your Location');
         } else if (Password.length < 6 ||
             Password.length > 15 ||
             Password.isEmpty) {
-          showAlertDialog(context, 'تأكد من إدخال كلمة مرور صالحة');
-          RoundedPasswordSignup.Password.clear();
+          showAlertDialog(context, 'Check your password');
+          RoundedPasswordSignupPlayer.Password.clear();
         } else if (username.length < 3) {
-          showAlertDialog(context, 'لا يمكن أن يقل الاسم عن 3 أحرف');
+          showAlertDialog(context, 'UserName cannot be less than 3');
           RoundedInputUsername.username.clear();
         } else {
           var res = await save();
           if (resp == "invalid") {
-            showAlertDialog(context, 'تأكد من بيانات حسابك');
+            showAlertDialog(context, 'Check your Email');
             RoundedInput.EmailSignUp.clear();
           } else if (resp == "Email exist") {
-            showAlertDialog(context, 'الحساب موجود بالفعل');
+            showAlertDialog(context, 'Email Already Exist');
             RoundedInput.EmailSignUp.clear();
           } else {
-            KickoffApplication.data = profileData;
-            localFile.writeLoginData(RoundedInput.EmailSignUp.text,
-                RoundedPasswordSignup.Password.text);
-
-            KickoffApplication.Player=false;
-            Navigator.pushNamed(context, '/kickoff');
+            // KickoffApplication.data = profileData;
+            // localFile.writeLoginData(RoundedInput.EmailSignUp.text,
+            //     RoundedPasswordSignupPlayer.Password.text);
+            // Navigator.of(context).push(MaterialPageRoute(
+            //     builder: (context) =>
+            //         KickoffApplication(profileData: profileData)));
+            KickoffApplication.Player=true;
+            Navigator.popAndPushNamed(context, '/kickoff');
+            print(resp);
           }
         }
       },
@@ -99,12 +104,12 @@ class RoundedButton extends State<SignUpButton> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: CourtOwnerColor,
+          color: PlayerColor,
         ),
         padding: EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
         child: Text(
-          'تسجيل حساب جديد',
+          'SignUp',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
@@ -116,15 +121,15 @@ showAlertDialog(BuildContext context, text3) {
   return showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-            title: Text("تحذير!"),
-            content: Text(text3),
-            actions: [
-              TextButton(
-                child: Text("حسناً"),
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-              ),
-            ],
-          ));
+        title: Text("Alert"),
+        content: Text(text3),
+        actions: [
+          TextButton(
+            child: Text("OK"),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          ),
+        ],
+      ));
 }

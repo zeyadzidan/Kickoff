@@ -63,4 +63,5 @@ class CourtOwnerTest {
         assertEquals(image, courtOwner.getImage());
     }
 
+
 }

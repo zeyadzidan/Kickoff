@@ -1,7 +1,10 @@
 package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.CourtOwner;
+import back.kickoff.kickoffback.model.Player;
+import back.kickoff.kickoffback.model.PlayerType;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
+import back.kickoff.kickoffback.repositories.PlayerRepository;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,12 +25,14 @@ class LoginServiceTest {
 
     @Mock
     CourtOwnerRepository courtOwnerRepository;
+    @Mock
+    PlayerRepository playerRepository;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        loginService = new LoginService(courtOwnerRepository);
+        loginService = new LoginService(courtOwnerRepository, playerRepository);
     }
 
     @Test
@@ -62,5 +67,31 @@ class LoginServiceTest {
         assertEquals(new Gson().toJson(res), result);
 
 
+    }
+
+    @Test
+    void playerLogin() throws JSONException {
+        Player newPlayer = new Player("Cristiano Ronaldo", "cr7@gmail.com", "01176553539",
+                "12345678900", "Lisbon Portugal",34.5, 24.5);
+        newPlayer.setPlayerType(PlayerType.Registered);
+        HashMap<String, Object> hm = new HashMap<>();
+        hm.put("email", "cr7@gmail.com");
+        hm.put("password", "12345678900");
+        String information = new Gson().toJson(hm);
+        when(playerRepository.save(new Player())).thenReturn(new Player());
+        when(playerRepository.findByEmail("cr7@gmail.com")).thenReturn(java.util.Optional.of(newPlayer));
+        String result = loginService.playerLogin(information);
+        Map<String, Object> res = new HashMap<>() ;
+        res.put("id", newPlayer.getId());
+        res.put("name", newPlayer.getName());
+        res.put("email", newPlayer.getEmail());
+        res.put("location", newPlayer.getLocation());
+        res.put("image", newPlayer.getImage());
+        res.put("phoneNumber", newPlayer.getPhoneNumber());
+        res.put("xAxis", newPlayer.getXAxis());
+        res.put("yAxis", newPlayer.getYAxis());
+
+
+        assertEquals(new Gson().toJson(res), result);
     }
 }

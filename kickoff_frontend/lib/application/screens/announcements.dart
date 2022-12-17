@@ -27,6 +27,6 @@ class AnnouncementsHome extends StatefulWidget {
 class _AnnouncementsHomeState extends State<AnnouncementsHome> {
   @override
   Widget build(BuildContext context) {
-    return const AnnouncementsView();
+    return AnnouncementsView();
   }
 }

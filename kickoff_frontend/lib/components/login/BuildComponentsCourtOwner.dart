@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/login/BuildLoginPlayer.dart';
+import 'package:kickoff_frontend/components/login/BuildLogin.dart';
 import 'package:kickoff_frontend/components/login/CancelButton.dart';
 import 'package:kickoff_frontend/constants.dart';
 
-import '../../components/login/BuildSignUpPlayer.dart';
+import '../../components/login/BuildSignUp.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginScreenCourtOwner extends StatefulWidget {
+  const LoginScreenCourtOwner({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginScreenCourtOwner> createState() => _LoginScreenCourtOwnerState();
 }
 
-class _LoginScreenState extends State<LoginScreen>
+class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
     with SingleTickerProviderStateMixin {
   bool isLogin = true;
   late Animation<double> containerSize;
@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen>
     containerSize =
         Tween<double>(begin: size.height * 0.1, end: defaultRegisterSize)
             .animate(CurvedAnimation(
-                parent: animationController!, curve: Curves.linear));
+            parent: animationController!, curve: Curves.linear));
     return Scaffold(
       body: Stack(
         children: [
@@ -58,61 +58,27 @@ class _LoginScreenState extends State<LoginScreen>
                 height: 100,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    
+
                     boxShadow: const <BoxShadow>[
                       BoxShadow(
                         color: Colors.black,
                         blurRadius: 5,
                       ),
                     ],
-                    color: PlayerColor),
+                    color: CourtOwnerColor),
               )),
-
-          // Positioned(
-          //     top: -50,
-          //     left: -50,
-          //       child: Container(
-          //         width: 200,
-          //         height: 200,
-          //         decoration: BoxDecoration(
-          //             borderRadius: BorderRadius.circular(100),
-          //             boxShadow: const <BoxShadow>[
-          //               BoxShadow(
-          //                 color: Colors.black,
-          //                 blurRadius: 5,
-          //               ),
-          //             ],
-          //             color: PlayerColor),
-          //          child: Padding(
-          //            padding: const EdgeInsets.fromLTRB(55, 100, 0, 0),
-          //              child :InkWell(
-          //                onTap: (){
-          //                  Navigator.pushNamed( context,'/login');
-          //                },
-          //                child: Text("I am a CourtOwner?!"
-          //                  ,style: const TextStyle(
-          //                    fontSize: 20,
-          //                    fontWeight: FontWeight.bold,
-          //                    color: Colors.white,
-          //                 ),
-          //                ),
-          //              ),
-          //     ),
-          //       ),
-          //
-          //     ),
 
           SizedBox(
             width: 210,
             child: InkWell(
               onTap: (){
-                Navigator.popAndPushNamed(context, '/login');
+                Navigator.popAndPushNamed(context, '/loginPlayer');
               },
               borderRadius: BorderRadius.circular(100),
               child: Stack(
                 clipBehavior: Clip.none, children: <Widget>[
                 circleSizer()
-              ],
+                ],
               ),
             ),
           ),
@@ -131,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: PlayerColor),
+                    color: CourtOwnerColor),
               )),
 
           // Cancel Button
@@ -143,16 +109,16 @@ class _LoginScreenState extends State<LoginScreen>
             tapEvent: isLogin
                 ? null
                 : () {
-                    // returning null to disable the button
-                    animationController!.reverse();
-                    setState(() {
-                      isLogin = !isLogin;
-                    });
-                  },
+              // returning null to disable the button
+              animationController!.reverse();
+              setState(() {
+                isLogin = !isLogin;
+              });
+            },
           ),
 
           // Login Form
-          LoginFormPlayer(
+          LoginForm(
               isLogin: isLogin,
               animationDuration: animationDuration,
               size: size,
@@ -173,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen>
           ),
 
           // Register Form
-          RegisterFormPlayer(
+          RegisterForm(
               isLogin: isLogin,
               animationDuration: animationDuration,
               size: size,
@@ -200,22 +166,23 @@ class _LoginScreenState extends State<LoginScreen>
           onTap: !isLogin
               ? null
               : () {
-                  animationController!.forward();
-                  setState(() {
-                    isLogin = !isLogin;
-                  });
-                },
+            animationController!.forward();
+            setState(() {
+              isLogin = !isLogin;
+            });
+          },
           child: isLogin
               ? const Text(
-                  "SignUp",
-                  style: TextStyle(color: PlayerColor, fontSize: 18),
-                )
+            "انشاء حساب جديد",
+            style: TextStyle(color: CourtOwnerColor, fontSize:20),
+          )
               : null,
         ),
       ),
     );
   }
 }
+
 
 class circleSizer extends StatefulWidget {
   const circleSizer({Key? key}) : super(key: key);
@@ -230,26 +197,26 @@ class _circleSizerState extends State<circleSizer> with SingleTickerProviderStat
 
   @override
   void initState() {
-    super.initState();
-    _controller =
-        AnimationController(duration: const Duration(seconds: 2), vsync: this);
-    _animation = Tween(begin: 0.0,end: 10.0,).animate(_controller)
-      ..addListener(() {
-        setState(() {
-          // The state that has changed here is the animation object’s value.
-        });
+      super.initState();
+      _controller =
+          AnimationController(duration: const Duration(seconds: 2), vsync: this);
+      _animation = Tween(begin: 0.0,end: 10.0,).animate(_controller)
+        ..addListener(() {
+          setState(() {
+            // The state that has changed here is the animation object’s value.
+          });
 
+        });
+      _animation.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _controller.reverse();
+        } else if (status == AnimationStatus.dismissed) {
+          _controller.forward();
+        }
       });
-    _animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _controller.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        _controller.forward();
-      }
-    });
-    _controller.forward();
-    // _controller.reverse();
-  }
+      _controller.forward();
+      // _controller.reverse();
+    }
 
   @override
   void dispose() {
@@ -273,10 +240,10 @@ class _circleSizerState extends State<circleSizer> with SingleTickerProviderStat
                 blurRadius: 5,
               ),
             ],
-            color: PlayerColor),
+            color: CourtOwnerColor),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(55, 100, 0, 0),
-          child :Text("I am a CourtOwner?!"
+          padding: const EdgeInsets.fromLTRB(55, 108, 0, 0),
+          child :Text("I am a Player?!"
             ,style: const TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,

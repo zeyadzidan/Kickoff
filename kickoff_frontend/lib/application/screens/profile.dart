@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +69,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
               decoration: BoxDecoration(
                   boxShadow: const <BoxShadow>[
                     BoxShadow(
-                      color: primaryColor,
+                      color: PlayerColor,
                       blurRadius: 3,
                     ),
                   ],
@@ -90,27 +90,17 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                               radius: 40,
                               backgroundColor: Colors.green,
                               child: ClipOval(
-                                child: Image.network(
-                                  utl,
+                                child: CachedNetworkImage(
+                                  imageUrl: utl,
                                   width: 100,
                                   height: 100,
                                   fit: BoxFit.cover,
-                                  frameBuilder: (context, child, frame,
-                                      wasSynchronouslyLoaded) {
-                                    return child;
-                                  },
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
-                                    if (loadingProgress == null) {
-                                      return child;
-                                    } else {
-                                      return const Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                        ),
-                                      );
-                                    }
-                                  },
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
                                 ),
                               ),
                             )
@@ -144,7 +134,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                                     });
                                   }
                                 },
-                                color: primaryColor,
+                                color: PlayerColor,
                                 textColor: Colors.white,
                                 padding: const EdgeInsets.all(20),
                                 shape: const CircleBorder(),

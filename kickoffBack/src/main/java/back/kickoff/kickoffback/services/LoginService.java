@@ -1,7 +1,9 @@
 package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.CourtOwner;
+import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
+import back.kickoff.kickoffback.repositories.PlayerRepository;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,9 +16,11 @@ import java.util.Optional;
 @Service
 public class LoginService {
     private final CourtOwnerRepository courtOwnerRepository;
+    private final PlayerRepository playerRepository;
 
-    public LoginService(CourtOwnerRepository courtOwnerRepository) {
+    public LoginService(CourtOwnerRepository courtOwnerRepository, PlayerRepository playerRepository) {
         this.courtOwnerRepository = courtOwnerRepository;
+        this.playerRepository = playerRepository;
     }
 
     public String courtOwnerLogin(String information) throws JSONException {
@@ -44,5 +48,30 @@ public class LoginService {
         res.put("yAxis", co.getYAxis());
 
         return new Gson().toJson(res);
+    }
+    public String playerLogin(String information) throws JSONException
+    {
+        JSONObject jsonObject = new JSONObject(information);
+        String email  =  jsonObject.getString("email");
+        String password  =  jsonObject.getString("password");
+        Optional<Player> optionalPlayer = playerRepository.findByEmail(email);
+        if(optionalPlayer.isEmpty())
+            return "Not found";
+        String password2 =optionalPlayer.get().getPassword();
+        if(!password.equals(password2))
+        {
+            return "Incorrect Password";
+        }
+        Map<String, Object> hm = new HashMap<>() ;
+        Player player = optionalPlayer.get();
+        hm.put("email", player.getEmail());
+        hm.put("id", player.getId());
+        hm.put("name", player.getName());
+        hm.put("image", player.getImage());
+        hm.put("phoneNumber", player.getPhoneNumber());
+        hm.put("location", player.getLocation());
+        hm.put("xAxis", player.getXAxis());
+        hm.put("yAxis", player.getYAxis());
+        return new Gson().toJson(hm);
     }
 }
