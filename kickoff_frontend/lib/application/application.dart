@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
 import 'package:kickoff_frontend/components/application/applicationbar.dart';
 import 'package:kickoff_frontend/components/courts/pluscourtbutton.dart';
@@ -56,6 +57,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
       routes: {
         '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
+        '/playersearch':(context) =>  SearchScreen(),
         '/kickoff': (context) => Builder(
               builder: (context) => Scaffold(
                 appBar: KickoffAppBar().build(context),
