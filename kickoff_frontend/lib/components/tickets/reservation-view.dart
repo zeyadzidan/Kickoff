@@ -128,7 +128,7 @@ class _ReservationsViewState extends State<ReservationsView> {
                                         ),
                                       )
                                     : Container(),
-                                Container(
+                                (ReservationsHome.reservations[index].state == 'Expired') ? Container(
                                   margin: const EdgeInsets.only(
                                       top: 70.0, right: 300.0),
                                   child: ElevatedButton.icon(
@@ -154,7 +154,7 @@ class _ReservationsViewState extends State<ReservationsView> {
                                       KickoffApplication.update();
                                     },
                                   ),
-                                ),
+                                ) : Container(),
                               ],
                             )),
                         isExpanded: ReservationsHome.isExpanded[index],
