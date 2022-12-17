@@ -113,18 +113,18 @@ class KickoffApplicationState extends State<KickoffApplication> {
           tabs: const <GButton>[
             GButton(
               backgroundColor: primaryColor,
-              text: "Profile",
+              text: "الملف الشخصي",
               icon: Icons.person,
               onPressed: null,
             ),
             GButton(
               backgroundColor: primaryColor,
-              text: "Announcements",
+              text: "الإعلانات",
               icon: Icons.add,
             ),
             GButton(
               backgroundColor: primaryColor,
-              text: "Reservations",
+              text: "الحجوزات",
               icon: Icons.stadium,
             ),
           ],

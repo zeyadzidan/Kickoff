@@ -2,8 +2,6 @@ package back.kickoff.kickoffback.cotrollers;
 
 import back.kickoff.kickoffback.services.EmptyJsonResponse;
 import back.kickoff.kickoffback.services.LoginService;
-import back.kickoff.kickoffback.services.SignupService;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;

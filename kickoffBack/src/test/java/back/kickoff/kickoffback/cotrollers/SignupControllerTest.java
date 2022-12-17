@@ -2,27 +2,19 @@ package back.kickoff.kickoffback.cotrollers;
 
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.services.SignupService;
-
 import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.http.RequestEntity.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class SignupControllerTest {
     SignupController controller;

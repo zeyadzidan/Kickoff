@@ -6,9 +6,7 @@ import back.kickoff.kickoffback.model.CourtSchedule;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.CourtRepository;
 import back.kickoff.kickoffback.repositories.ScheduleRepository;
-
 import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,13 +14,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static reactor.core.publisher.Mono.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CourtOwnerAgentTest {
     CourtOwnerAgent courtOwnerAgent;
@@ -40,7 +36,7 @@ class CourtOwnerAgentTest {
     }
 
     @Test
-    void findCourtOwnerCourts() {
+    void findCourtOwnerCourts() throws JSONException {
         Long id = 22L;
         CourtOwner courtOwner = new CourtOwner();
         courtOwner.setCourts(new ArrayList<Court>());

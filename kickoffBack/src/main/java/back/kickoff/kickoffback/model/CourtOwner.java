@@ -1,11 +1,12 @@
 package back.kickoff.kickoffback.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Getter
@@ -31,7 +32,7 @@ public class CourtOwner {
     private List<Court> courts;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courtOwner")
-    private List<Announcement> announcements ;
+    private List<Announcement> announcements;
 
 
     public CourtOwner(String userName, String email, String password, String phoneNumber,

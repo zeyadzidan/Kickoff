@@ -1,10 +1,6 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.services.SignupService;
-
-import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

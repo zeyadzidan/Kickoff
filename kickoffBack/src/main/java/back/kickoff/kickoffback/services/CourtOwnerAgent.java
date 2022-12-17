@@ -7,9 +7,6 @@ import back.kickoff.kickoffback.model.CourtState;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.CourtRepository;
 import back.kickoff.kickoffback.repositories.ScheduleRepository;
-
-import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -25,6 +22,7 @@ public class CourtOwnerAgent {
     private final CourtOwnerRepository courtOwnerRepository;
     private final CourtRepository courtRepository;
     private final ScheduleRepository scheduleRepository;
+
     public CourtOwnerAgent(CourtOwnerRepository courtOwnerRepository, CourtRepository courtRepository, ScheduleRepository scheduleRepository) {
         this.courtOwnerRepository = courtOwnerRepository;
         this.courtRepository = courtRepository;
@@ -38,31 +36,26 @@ public class CourtOwnerAgent {
         return courtOwnerOptional.get();
     }
 
-    public String findCourtOwnerCourts(Long courtOwnerId) {
+    public String findCourtOwnerCourts(Long courtOwnerId) throws JSONException {
         CourtOwner source = findCourtOwner(courtOwnerId);
-        if (source == null)
-            return "CourtOwner Not Found";
-        /*
-        int n = source.getCourts().size();
-        HashMap<String, Object> hmAns = new HashMap<>();
-        hmAns.put("courtNumber", n);
-        HashMap<String, Object> hmCourt = new HashMap<>();
-        Court[] courtsArr = source.getCourts().toArray(new Court[n]);
-        for(int i = 0; i < n; i++)
-        {
-            hmCourt.put(Integer.toString(i), courtsArr[i]);
-        }
-        hmAns.put("courts", hmCourt);
-
-         */
         List<Court> courts = source.getCourts();
-        List<FrontEndCourt> data = new ArrayList<FrontEndCourt>();
+        List<JSONObject> data = new ArrayList<>();
         for (Court c : courts) {
-            data.add(new FrontEndCourt(c.id, c.getCourtName()));
+            data.add(
+                    new JSONObject()
+                            .put("id", c.getId())
+                            .put("cname", c.getCourtName())
+                            .put("state", c.getState())
+                            .put("description", c.getDescription())
+                            .put("swh", c.getCourtSchedule().getStartWorkingHours())
+                            .put("ewh", c.getCourtSchedule().getEndWorkingHours())
+                            .put("minBookingHours", c.getCourtSchedule().getMinBookingHours())
+                            .put("morningCost", c.getCourtSchedule().getMorningCost())
+                            .put("nightCost", c.getCourtSchedule().getNightCost())
+                            .put("endMorning", c.getCourtSchedule().getEndMorning())
+            );
         }
-        System.out.println(data);
-
-        return new Gson().toJson(data);
+        return data.toString();
     }
 
     public String addImage(String information) throws JSONException {
@@ -142,19 +135,13 @@ public class CourtOwnerAgent {
         Time startWorkingHours, endWorkingHours, endMorning;
         try {
             int startHour = jsonObject.getInt("startWorkingHours");
+            int endMorningHour = jsonObject.getInt("endMorningHours");
             int finishHour = jsonObject.getInt("finishWorkingHours");
             startWorkingHours = new Time(startHour, 0, 0);
+            endMorning = new Time(endMorningHour, 0, 0);
             endWorkingHours = new Time(finishHour, 0, 0);
         } catch (Exception e) {
             return "In valid Time";
-        }
-
-        try {
-            int finishMorning = jsonObject.getInt("finishMorning");
-            endMorning = new Time(finishMorning, 0, 0);
-
-        } catch (Exception e) {
-            endMorning = endWorkingHours;
         }
 
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(ownerId);

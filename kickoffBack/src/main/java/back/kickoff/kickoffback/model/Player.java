@@ -3,11 +3,6 @@ package back.kickoff.kickoffback.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import org.hibernate.Hibernate;
-
-import java.util.Objects;
-import java.util.Set;
-
 @ToString
 @Setter
 @Getter

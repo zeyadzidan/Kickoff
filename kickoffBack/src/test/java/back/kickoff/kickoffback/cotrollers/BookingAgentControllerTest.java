@@ -1,10 +1,7 @@
 package back.kickoff.kickoffback.cotrollers;
 
 import back.kickoff.kickoffback.services.BookingAgent;
-import back.kickoff.kickoffback.services.SignupService;
-
 import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,11 +11,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static reactor.core.publisher.Mono.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BookingAgentControllerTest {
     BookingAgentController bookingAgentController;

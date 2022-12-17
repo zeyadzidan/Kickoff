@@ -2,9 +2,7 @@ package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
-
 import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 class LoginServiceTest {
