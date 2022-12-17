@@ -3,11 +3,7 @@ package back.kickoff.kickoffback.cotrollers;
 import back.kickoff.kickoffback.model.Court;
 import back.kickoff.kickoffback.services.AnnouncementService;
 import back.kickoff.kickoffback.services.CourtOwnerAgent;
-import back.kickoff.kickoffback.services.SignupService;
-
-
 import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CourtOwnerAgentControllerTest {
     CourtOwnerAgentController courtOwnerAgentController;
@@ -28,7 +24,8 @@ class CourtOwnerAgentControllerTest {
     CourtOwnerAgent courtOwnerAgent;
 
     @Mock
-    AnnouncementService announcementService ;
+    AnnouncementService announcementService;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -36,7 +33,7 @@ class CourtOwnerAgentControllerTest {
     }
 
     @Test
-    void listCourts() {
+    void listCourts() throws JSONException {
         Mockito.when(courtOwnerAgent.findCourtOwnerCourts(1L)).thenReturn(String.valueOf(new ArrayList<Court>()));
         ResponseEntity<String> res = courtOwnerAgentController.listCourts("1");
         assertEquals(res, new ResponseEntity<>("[]", HttpStatus.OK));

@@ -6,7 +6,6 @@ import back.kickoff.kickoffback.model.PlayerType;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;

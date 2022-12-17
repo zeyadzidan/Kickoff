@@ -2,14 +2,13 @@ package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.Court;
 import back.kickoff.kickoffback.model.CourtSchedule;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
 import java.sql.Time;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ReservationServiceTest {
     ReservationService reservationService;

@@ -20,10 +20,10 @@ public class Announcement {
     Long id;
     @ManyToOne
     CourtOwner courtOwner;
-    String title ;
-    String body ;
+    String title;
+    String body;
     String img; // Attachments
 
-    Date date ;
+    Date date;
 
 }

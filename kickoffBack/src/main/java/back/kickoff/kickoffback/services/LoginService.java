@@ -5,16 +5,13 @@ import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 @Service
 public class LoginService {

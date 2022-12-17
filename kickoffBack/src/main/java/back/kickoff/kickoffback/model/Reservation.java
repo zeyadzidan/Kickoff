@@ -6,13 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import org.hibernate.cfg.annotations.reflection.internal.XMLContext;
-
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @Setter

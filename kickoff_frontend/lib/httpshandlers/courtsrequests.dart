@@ -10,20 +10,35 @@ class CourtsHTTPsHandler {
   static Future<List<Court>> getCourts(coid) async {
     http.Response rsp = await http
         .get(Uri.parse("${_url}courtOwnerAgent/CourtOwner/$coid/Courts"));
-    print(rsp.body);
     List<dynamic> courtsMap = json.decode(rsp.body);
     List<Court> courts = [];
-    Court court; // The court model
+    Court court;
+    int time;
     for (Map<String, dynamic> map in courtsMap) {
       court = Court();
       court.cid = map['id'].toString();
-      court.cname = map['name'].toString();
+      court.cname = map['cname'].toString();
+      court.state = map['state'].toString();
+      court.description = map['description'].toString();
+      time = int.parse(map['swh'].toString().split(':')[0]);
+      court.startingWorkingHours =
+          (time % 24 < 12) ? '$time صباحاً' : '${time % 24} مساءً';
+      time = int.parse(map['ewh'].toString().split(':')[0]);
+      court.finishWorkingHours =
+          (time % 24 < 12) ? '$time صباحاً' : '${time % 24} مساءً';
+      court.minBookingHours = map['minBookingHours'].toString();
+      court.morningCost = map['morningCost'].toString();
+      court.nightCost = map['nightCost'].toString();
+      time = int.parse(map['endMorning'].toString().split(':')[0]);
+      court.morningFinish =
+          (time % 24 < 12) ? '$time صباحاً' : '${time % 24} مساءً';
       courts.add(court);
     }
     return courts;
   }
 
   static Future sendCourt(courtInfo) async {
+    print(courtInfo);
     var response = await http.post(
         Uri.parse('${_url}courtOwnerAgent/CourtOwner/CreateCourt'),
         headers: {"Content-Type": "application/json"},
@@ -35,7 +50,8 @@ class CourtsHTTPsHandler {
           "nightCost": courtInfo[3],
           "minBookingHours": courtInfo[4],
           "startWorkingHours": courtInfo[5],
-          "finishWorkingHours": courtInfo[6],
+          "endMorningHours": courtInfo[6],
+          "finishWorkingHours": courtInfo[7],
         }));
     print(response.body);
   }

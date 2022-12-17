@@ -5,9 +5,7 @@ import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.CourtRepository;
 import back.kickoff.kickoffback.repositories.ReservationRepository;
 import back.kickoff.kickoffback.repositories.ScheduleRepository;
-
 import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;

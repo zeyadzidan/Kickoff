@@ -4,7 +4,6 @@ import back.kickoff.kickoffback.model.CourtSchedule;
 import back.kickoff.kickoffback.model.Reservation;
 import back.kickoff.kickoffback.repositories.ReservationRepository;
 import back.kickoff.kickoffback.repositories.ScheduleRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
