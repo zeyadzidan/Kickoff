@@ -89,8 +89,9 @@ public class BookingAgent {
         if (!reservation.getState().equals(ReservationState.Pending)) {
             return "Reservation is not pending";
         }
-        CourtSchedule courtSchedule = optionalCourtSchedule.get();
-        courtSchedule.getPendingReservations().remove(reservation);
+        CourtSchedule courtSchedule = optionalCourtSchedule.get() ;
+        courtSchedule.getPendingReservations().remove(reservation) ;
+        scheduleRepository.save(courtSchedule);
         reservationRepository.deleteById(id);
         return "Success";
     }
@@ -111,9 +112,8 @@ public class BookingAgent {
         Time timeFrom, timeTo;
         if (tempArrS.length != 3 || tempArrF.length != 3)
             return "In valid date1";
-
-        try {
-
+        try
+        {
             SimpleDateFormat obj = new SimpleDateFormat("MM/dd/yyyy");
             long date1 = obj.parse(dateStrS).getTime();
             long date2 = obj.parse(dateStrF).getTime();
@@ -159,6 +159,17 @@ public class BookingAgent {
         return "Success";
     }
 
+    public static class ReservationComparitor implements Comparator<Reservation>{
+
+        @Override
+        public int compare(Reservation o1, Reservation o2) {
+            DateTime stR1 = new DateTime(o1.getStartDate(), o1.getTimeFrom()) ;
+            DateTime stR2 = new DateTime(o2.getStartDate(), o2.getTimeFrom()) ;
+            return stR1.compareTo(stR2) ;
+
+        }
+    }
+
     public String getReservations(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
         Long courtId = jsonObject.getLong("courtId");
@@ -168,11 +179,9 @@ public class BookingAgent {
         if (tempArrS.length != 3)
             return "In valid date";
 
-        int yearS = Integer.parseInt(tempArrS[2]);
-        int monthS = Integer.parseInt(tempArrS[0]);
-        int dayS = Integer.parseInt(tempArrS[1]);
-        Date date;
-        try {
+        Date date ;
+        try
+        {
             SimpleDateFormat obj = new SimpleDateFormat("MM/dd/yyyy");
             long date1 = obj.parse(strDate).getTime();
             date = new Date(date1);
@@ -191,18 +200,6 @@ public class BookingAgent {
         List<Reservation> reservations = scheduleAgent.getScheduleOverlapped(date, date, new Time(0), new Time(23, 59, 0), court.getCourtSchedule());
         reservations.sort(new ReservationComparitor());
         return "S " + new Gson().toJson(reservations);
-    }
-
-    public static class ReservationComparitor implements Comparator<Reservation> {
-
-        @Override
-        public int compare(Reservation o1, Reservation o2) {
-            if (o1.getId() < o2.getId())
-                return -1;
-            else if (o1.getId() > o2.getId())
-                return 1;
-            return 0;
-        }
     }
 
 

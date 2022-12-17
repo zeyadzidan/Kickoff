@@ -35,28 +35,5 @@ public class ReservationService {
 
         return totalCost;
     }
-
-
-/*
-    public Long tryy(Long CourtId, Long courtOwnerId){
-        LitePlayer p = new LitePlayer();
-        pr.save(p) ;
-        Date d = new Date(2022,12,1) ;
-        Time from = new Time(10,0,0);
-        Time to = new Time(12,0,0);
-        Reservation r = new Reservation(p, CourtId, courtOwnerId);
-        r.setStartDate(d);
-        r.setTimeFrom(from);
-        r.setTimeTo(to);
-        r.setState(ReservationState.Booked);
-        r.setMoneyPayed(50);
-        r.setTotalCost(200) ;
-
-        rr.save(r) ;
-        System.out.println(r.toString());
-        return r.getId();
-    }
-
-
- */
+    
 }

@@ -27,27 +27,30 @@ public class ScheduleAgent {
     }
 
 
-    public List<Reservation> getScheduleOverlapped(Date fromD, Date toD, Time fromT, Time toT, CourtSchedule schedule) {
-        ArrayList<Reservation> res = new ArrayList<Reservation>();
-        for (Reservation r : schedule.getBookedReservations()) {
-            if (!r.getStartDate().equals(fromD))
-                continue;
-            if (((r.getTimeFrom().after(fromT) || r.getTimeFrom().equals(fromT)) &&
-                    (r.getTimeTo().before(toT) || r.getTimeTo().equals(toT)))
-                    || (r.getTimeFrom().before(fromT) && r.getTimeTo().after(fromT))
-                    || (r.getTimeFrom().before(toT) && r.getTimeTo().after(toT))) {
-                res.add(r);
+    public List<Reservation> getScheduleOverlapped(Date fromD, Date toD, Time fromT, Time toT, CourtSchedule schedule){
+        ArrayList<Reservation> res = new ArrayList<Reservation>() ;
+        DateTime start = new DateTime(fromD, fromT) ;
+        DateTime end = new DateTime(toD, toT) ;
+
+        for(Reservation r: schedule.getBookedReservations()){
+            DateTime resStart = new DateTime(r.getStartDate(), r.getTimeFrom()) ;
+            DateTime resEnd = new DateTime(r.getEndDate(), r.getTimeTo()) ;
+
+            if((resStart.compareTo(start) >= 0 && resEnd.compareTo(end)<=0)
+                    || (resStart.compareTo(start) <= 0 && resEnd.compareTo(start)>0)
+                    || (resStart.compareTo(end) < 0 && resEnd.compareTo(end)>=0) ){
+                res.add(r) ;
             }
 
         }
-        for (Reservation r : schedule.getPendingReservations()) {
-            if (!r.getStartDate().equals(fromD))
-                continue;
-            if (((r.getTimeFrom().after(fromT) || r.getTimeFrom().equals(fromT)) &&
-                    (r.getTimeTo().before(toT) || r.getTimeTo().equals(toT)))
-                    || (r.getTimeFrom().before(fromT) && r.getTimeTo().after(fromT))
-                    || (r.getTimeFrom().before(toT) && r.getTimeTo().after(toT))) {
-                res.add(r);
+        for(Reservation r: schedule.getPendingReservations()){
+            DateTime resStart = new DateTime(r.getStartDate(), r.getTimeFrom()) ;
+            DateTime resEnd = new DateTime(r.getEndDate(), r.getTimeTo()) ;
+
+            if((resStart.compareTo(start) >= 0 && resEnd.compareTo(end)<=0)
+                    || (resStart.compareTo(start) <= 0 && resEnd.compareTo(start)>0)
+                    || (resStart.compareTo(end) < 0 && resEnd.compareTo(end)>=0) ){
+                res.add(r) ;
             }
         }
 

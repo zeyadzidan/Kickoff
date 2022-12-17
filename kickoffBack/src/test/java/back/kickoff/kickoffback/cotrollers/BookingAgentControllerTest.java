@@ -44,19 +44,26 @@ class BookingAgentControllerTest {
         assertEquals(res, new ResponseEntity<>("Success", HttpStatus.OK));
     }
 
-//    @Test
-//    void cancelBooking() {
-//        Long id = 66L;
-//        Mockito.when(bookingAgent.cancelBookedReservation(id)).thenReturn(String.valueOf(55));
-//        ResponseEntity<String> res = bookingAgentController.cancelBooking(id);
-//        assertEquals(res, new ResponseEntity<>("55", HttpStatus.OK));
-//    }
-//
-//    @Test
-//    void cancelPending() {
-//        Long id = 66L;
-//        Mockito.when(bookingAgent.cancelPendingReservation(id)).thenReturn("Success");
-//        ResponseEntity<String> res = bookingAgentController.cancelPending(id);
-//        assertEquals(res, new ResponseEntity<>("Success", HttpStatus.OK));
-//    }
+    @Test
+    void cancelBooking() throws JSONException {
+        Long id = 66L;
+        HashMap<String, Object> hm = new HashMap<>();
+        hm.put("id", id) ;
+        String information = new Gson().toJson(hm);
+        Mockito.when(bookingAgent.cancelBookedReservation(information)).thenReturn(String.valueOf(55));
+        ResponseEntity<String> res = bookingAgentController.cancelReservation(information);
+        assertEquals(res, new ResponseEntity<>("55", HttpStatus.OK));
+    }
+
+    @Test
+    void cancelPending() throws JSONException {
+        Long id = 66L;
+
+        HashMap<String, Object> hm = new HashMap<>();
+        hm.put("id", id) ;
+        String information = new Gson().toJson(hm);
+        Mockito.when(bookingAgent.cancelPendingReservation(information)).thenReturn("Success");
+        ResponseEntity<String> res = bookingAgentController.cancelPending(information);
+        assertEquals(res, new ResponseEntity<>("Success", HttpStatus.OK));
+    }
 }
