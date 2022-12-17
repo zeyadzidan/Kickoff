@@ -60,7 +60,6 @@ class KickoffApplicationState extends State<KickoffApplication> {
       routes: {
         '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
-        '/playersearch':(context) =>  SearchScreen(),
         '/kickoff': (context) => Builder(
               builder: (context) => Scaffold(
                 appBar: KickoffAppBar().build(context),

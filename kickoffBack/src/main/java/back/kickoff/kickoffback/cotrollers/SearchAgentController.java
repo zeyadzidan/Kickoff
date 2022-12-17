@@ -17,7 +17,7 @@ public class SearchAgentController {
     public SearchAgentController(SearchAgent searchAgent) {
         this.searchAgent = searchAgent;
     }
-    @GetMapping("/courtOwner/distance")
+    @PostMapping("/courtOwner/distance")
     public ResponseEntity<String>  searchNearestCourtOwner(@RequestBody String information) throws JSONException {
         return new ResponseEntity<>(searchAgent.getNearestCourtOwners(information),
                 HttpStatus.OK);

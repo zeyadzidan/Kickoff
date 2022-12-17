@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:core';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
+import 'package:kickoff_frontend/components/courts/CourtsInSearch.dart';
 import 'package:kickoff_frontend/components/login/EmailSignUP.dart';
 import 'package:kickoff_frontend/components/login/PasswordSignUpPlayer.dart';
 import 'package:kickoff_frontend/components/login/PhoneNumberSignUp.dart';
@@ -20,10 +22,30 @@ class SignUpButtonPlayer extends StatefulWidget {
 }
 
 class RoundedButton extends State<SignUpButtonPlayer> {
+  String url2 = "http://${ip}:8080/search/courtOwner/distance";
   String url = "http://${ip}:8080/signup/player";
+
   var resp = "";
   late Map<String, dynamic> profileData;
+  late List<CourtModel> courts;
+  Future getCourtsinSearch() async{
+    var res = await http.post(Uri.parse(url2),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "keyword":"",
+          "xAxis": FindLocation.X_axis,
+          "yAxis": FindLocation.Y_axis,
+        }));
+    setState(() {
+        print(res.body);
+        // FieldValue arrayUnion(List<dynamic> elements) =>
+        //     FieldValue._(FieldValueType.arrayUnion, elements);
+        courts= jsonEncode(res.body) as List<CourtModel>  ;
+        print("lol");
+        print(courts);
+    });
 
+  }
   Future save() async {
     var res = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
@@ -94,6 +116,7 @@ class RoundedButton extends State<SignUpButtonPlayer> {
                 builder: (context) =>
                     KickoffApplication(profileData: profileData)));
             KickoffApplication.Player=true;
+            await getCourtsinSearch();
             Navigator.popAndPushNamed(context, '/kickoff');
             print(resp);
           }
