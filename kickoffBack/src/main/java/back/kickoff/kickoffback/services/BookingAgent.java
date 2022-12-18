@@ -1,13 +1,11 @@
 package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.*;
-import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
-import back.kickoff.kickoffback.repositories.CourtRepository;
-import back.kickoff.kickoffback.repositories.ReservationRepository;
-import back.kickoff.kickoffback.repositories.ScheduleRepository;
-
+import back.kickoff.kickoffback.repositories.*;
 import com.google.gson.Gson;
-
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -15,9 +13,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class BookingAgent {
@@ -26,16 +22,54 @@ public class BookingAgent {
     private final CourtOwnerRepository courtOwnerRepository;
     private final ReservationRepository reservationRepository;
     private final ReservationService reservationService;
+    private final PlayerRepository playerRepository;
 
-    public BookingAgent(CourtRepository courtRepository, ScheduleRepository scheduleRepository, CourtOwnerRepository courtOwnerRepository, ReservationRepository reservationRepository, ReservationService reservationService) {
+    public BookingAgent(CourtRepository courtRepository, ScheduleRepository scheduleRepository, CourtOwnerRepository courtOwnerRepository, ReservationRepository reservationRepository, ReservationService reservationService, back.kickoff.kickoffback.repositories.PlayerRepository playerRepository) {
         this.courtRepository = courtRepository;
         this.scheduleRepository = scheduleRepository;
         this.courtOwnerRepository = courtOwnerRepository;
         this.reservationRepository = reservationRepository;
         this.reservationService = reservationService;
+        this.playerRepository = playerRepository;
     }
 
-    public String book(String information) throws JSONException {
+    static class FrontEndReservation{
+
+        Long id;
+        Long playerID;
+        String playerName;
+        Player mainPlayer;
+        Long courtID;
+        Long courtOwnerID;
+        Date startDate ;
+        Date endDate;
+        Time timeFrom;
+        Time timeTo;
+        ReservationState state;
+        int moneyPayed ;
+        int totalCost ;
+        Set<Player> players;
+
+        public FrontEndReservation(Reservation reservation){
+            this.id = reservation.getId();
+            this.playerID = reservation.getMainPlayer().getId();
+            this.playerName = reservation.getMainPlayer().getName();
+            this.mainPlayer = reservation.getMainPlayer();
+            this.courtID = reservation.getCourtID();
+            this.courtOwnerID = reservation.getCourtOwnerID();
+            this.startDate = reservation.getStartDate();
+            this.endDate = reservation.getEndDate();
+            this.timeFrom = reservation.getTimeFrom();
+            this.timeTo = reservation.getTimeTo();
+            this.state = reservation.getState();
+            this.moneyPayed = reservation.getMoneyPayed();
+            this.totalCost = reservation.getTotalCost();
+            this.players = reservation.getPlayers();
+        }
+    }
+
+    public String book(String information)  throws JSONException
+    {
         JSONObject jsonObject = new JSONObject(information);
         Long reservationId = jsonObject.getLong("reservationId");
         Integer moneyPaid = jsonObject.getInt("moneyPaid");
@@ -91,15 +125,15 @@ public class BookingAgent {
         if (!reservation.getState().equals(ReservationState.Pending)) {
             return "Reservation is not pending";
         }
-        CourtSchedule courtSchedule = optionalCourtSchedule.get();
-        courtSchedule.getPendingReservations().remove(reservation);
+        CourtSchedule courtSchedule = optionalCourtSchedule.get() ;
+        courtSchedule.getPendingReservations().remove(reservation) ;
+        scheduleRepository.save(courtSchedule);
         reservationRepository.deleteById(id);
         return "Success";
     }
 
     public String setPending(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
-        Long playerID = 0L;
         String playerName = jsonObject.getString("playerName");
         Long courtId = jsonObject.getLong("courtId");
         Long courtOwnerId = jsonObject.getLong("courtOwnerId");
@@ -113,9 +147,8 @@ public class BookingAgent {
         Time timeFrom, timeTo;
         if (tempArrS.length != 3 || tempArrF.length != 3)
             return "In valid date1";
-
-        try {
-
+        try
+        {
             SimpleDateFormat obj = new SimpleDateFormat("MM/dd/yyyy");
             long date1 = obj.parse(dateStrS).getTime();
             long date2 = obj.parse(dateStrF).getTime();
@@ -142,7 +175,18 @@ public class BookingAgent {
         //check
         CourtSchedule courtSchedule = court.getCourtSchedule();
         ScheduleAgent scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository);
-        if (timeFrom.before(courtSchedule.getStartWorkingHours()) || timeTo.after(courtSchedule.getEndWorkingHours()))
+        DateTime startWorking = new DateTime(stDate, courtSchedule.getStartWorkingHours()) ;
+        DateTime endWorking ;
+        DateTime startDateTime = new DateTime(stDate,timeFrom) ;
+        DateTime endDateTime = new DateTime(endDate, timeTo) ;
+        if(courtSchedule.getStartWorkingHours().after(courtSchedule.getEndWorkingHours())){
+            Date temp = new Date(stDate.getTime() + (1000 * 60 * 60 * 24)) ;
+            endWorking = new DateTime(temp,courtSchedule.getEndWorkingHours()) ;
+        }else{
+            endWorking = new DateTime(stDate,courtSchedule.getEndWorkingHours()) ;
+        }
+
+        if (startDateTime.compareTo(startWorking)< 0 || endDateTime.compareTo(endWorking)>0)
             return "In that time the court is closed";
 
 
@@ -151,14 +195,46 @@ public class BookingAgent {
             return "that time have reservation";
 
 
-        Reservation reservation = new Reservation(playerID, playerName, courtId, courtOwnerId, stDate, endDate, timeFrom,
-                timeTo, ReservationState.Pending, 0,
+        Player player ;
+        try {
+            Long playerID = jsonObject.getLong("playerId");
+            Optional<Player> optionalPlayer= playerRepository.findById(playerID) ;
+            if(optionalPlayer.isPresent()){
+                player = optionalPlayer.get();
+                if(!player.getName().equals(playerName)){
+                    return "Player name do not match the player id" ;
+                }
+            }else{
+                throw new JSONException("Player ID") ;
+            }
+
+        }catch (Exception e){
+            player = new Player() ;
+            player.setPlayerType(PlayerType.Lite);
+            player.setName(playerName);
+        }
+
+        this.playerRepository.save(player) ;
+
+        Reservation reservation = new Reservation(player,courtId, courtOwnerId, stDate, endDate, timeFrom,
+                timeTo, ReservationState.Pending,0,
                 reservationService.calcTotalCost(stDate, endDate, timeFrom, timeTo, courtOptional.get()));
         reservationRepository.save(reservation);
         courtSchedule.getPendingReservations().add(reservation);
         scheduleRepository.save(courtSchedule);
         courtRepository.save(court);
         return "Success";
+    }
+
+    public static class ReservationComparitor implements Comparator<Reservation>{
+
+        @Override
+        public int compare(Reservation o1, Reservation o2) {
+            DateTime stR1 = new DateTime(o1.getStartDate(), o1.getTimeFrom()) ;
+            DateTime stR2 = new DateTime(o2.getStartDate(), o2.getTimeFrom()) ;
+            return stR1.compareTo(stR2) ;
+
+        }
     }
 
     public String getReservations(String information) throws JSONException {
@@ -170,11 +246,9 @@ public class BookingAgent {
         if (tempArrS.length != 3)
             return "In valid date";
 
-        int yearS = Integer.parseInt(tempArrS[2]);
-        int monthS = Integer.parseInt(tempArrS[0]);
-        int dayS = Integer.parseInt(tempArrS[1]);
-        Date date;
-        try {
+        Date date ;
+        try
+        {
             SimpleDateFormat obj = new SimpleDateFormat("MM/dd/yyyy");
             long date1 = obj.parse(strDate).getTime();
             date = new Date(date1);
@@ -189,22 +263,16 @@ public class BookingAgent {
         if (!court.getCourtOwner().equals(courtOwnerOptional.get())) {
             return "Court does not belong to the courtOwner";
         }
-        ScheduleAgent scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository);
-        List<Reservation> reservations = scheduleAgent.getScheduleOverlapped(date, date, new Time(0), new Time(23, 59, 0), court.getCourtSchedule());
-        reservations.sort(new ReservationComparitor());
-        return "S " + new Gson().toJson(reservations);
-    }
+        ScheduleAgent scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository) ;
+        List<Reservation> reservations = scheduleAgent.getScheduleOverlapped(date, date, new Time(0) , new Time(23,59,0), court.getCourtSchedule());
+        reservations.sort(new ReservationComparitor()) ;
 
-    public static class ReservationComparitor implements Comparator<Reservation> {
-
-        @Override
-        public int compare(Reservation o1, Reservation o2) {
-            if (o1.getId() < o2.getId())
-                return -1;
-            else if (o1.getId() > o2.getId())
-                return 1;
-            return 0;
+        List<FrontEndReservation> frontEndReservations = new ArrayList<>(reservations.size());
+        for(Reservation r: reservations){
+            frontEndReservations.add(new FrontEndReservation(r)) ;
         }
+        return "S "+  new  Gson().toJson(frontEndReservations);
+
     }
 
 

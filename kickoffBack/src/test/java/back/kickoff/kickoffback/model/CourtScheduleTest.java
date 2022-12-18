@@ -2,13 +2,12 @@ package back.kickoff.kickoffback.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.relational.core.sql.In;
 
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CourtScheduleTest {
     CourtSchedule courtSchedule;

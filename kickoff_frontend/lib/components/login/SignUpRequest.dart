@@ -87,7 +87,7 @@ class RoundedButton extends State<SignUpButton> {
           } else {
             KickoffApplication.data = profileData;
             localFile.writeLoginData(RoundedInput.EmailSignUp.text,
-                RoundedPasswordSignup.Password.text);
+                RoundedPasswordSignup.Password.text,"0");
 
             KickoffApplication.Player=false;
             Navigator.pushNamed(context, '/kickoff');
@@ -99,7 +99,7 @@ class RoundedButton extends State<SignUpButton> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: CourtOwnerColor,
+          color: courtOwnerColor,
         ),
         padding: EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,

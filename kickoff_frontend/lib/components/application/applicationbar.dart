@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -20,7 +21,7 @@ class KickoffAppBar {
     elevation: 4,
     title: const Text(
       "Kickoff",
-      style: TextStyle(color: Colors.white),
+      style: TextStyle(color: secondaryColor),
     ),
     actions: <Widget>[
       IconButton(
@@ -36,14 +37,14 @@ class KickoffAppBar {
         },
       ),
     ],
-    backgroundColor: Colors.green,
+    backgroundColor: courtOwnerColor,
   )
   :AppBar(
     leading: const Icon(Icons.sports_soccer),
     elevation: 4,
     title: const Text(
       "Kickoff",
-      style: TextStyle(color: Colors.white),
+      style: TextStyle(color: secondaryColor),
     ),
     actions: <Widget>[
       IconButton(
@@ -59,6 +60,6 @@ class KickoffAppBar {
         },
       ),
     ],
-    backgroundColor: Colors.green,
+    backgroundColor: courtOwnerColor,
   );
 }

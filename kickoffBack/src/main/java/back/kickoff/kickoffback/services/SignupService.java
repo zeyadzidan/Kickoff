@@ -6,7 +6,6 @@ import back.kickoff.kickoffback.model.PlayerType;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -49,7 +48,7 @@ public class SignupService {
 
         Map<String, Object> res = new HashMap<>();
         res.put("id", newCourtOwner.getId());
-        res.put("userName", newCourtOwner.getUserName());
+        res.put("name", newCourtOwner.getUserName());
         res.put("email", newCourtOwner.getEmail());
         res.put("location", newCourtOwner.getLocation());
         res.put("rating", String.valueOf(newCourtOwner.getRating()));

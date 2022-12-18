@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: PlayerColor),
+                    color: playerColor),
               )),
 
           // Positioned(
@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen>
           ),
 
           Positioned(
-              bottom: -100,
+              bottom: -160,
               left: -100,
               child: Container(
                 width: 290,
@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: PlayerColor),
+                    color: playerColor),
               )),
 
           // Cancel Button
@@ -152,11 +152,14 @@ class _LoginScreenState extends State<LoginScreen>
           ),
 
           // Login Form
-          LoginFormPlayer(
-              isLogin: isLogin,
-              animationDuration: animationDuration,
-              size: size,
-              defaultLoginSize: defaultLoginSize),
+          Padding(
+            padding: EdgeInsets.only(top: size.height *0.1),
+            child: LoginFormPlayer(
+                isLogin: isLogin,
+                animationDuration: animationDuration,
+                size: size,
+                defaultLoginSize: defaultLoginSize),
+          ),
           // Register Container
           AnimatedBuilder(
             animation: animationController!,
@@ -208,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen>
           child: isLogin
               ? const Text(
                   "SignUp",
-                  style: TextStyle(color: PlayerColor, fontSize: 18),
+                  style: TextStyle(color: playerColor, fontSize: 18),
                 )
               : null,
         ),
@@ -273,7 +276,7 @@ class _circleSizerState extends State<circleSizer> with SingleTickerProviderStat
                 blurRadius: 5,
               ),
             ],
-            color: PlayerColor),
+            color: playerColor),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(55, 100, 0, 0),
           child :Text("I am a CourtOwner?!"

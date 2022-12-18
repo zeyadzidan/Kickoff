@@ -14,14 +14,14 @@ import 'package:kickoff_frontend/localFile.dart';
 import '../application/screens/reservations.dart';
 import 'courtsrequests.dart';
 
-class LoginButton extends StatefulWidget {
-  const LoginButton({super.key});
+class LoginButtonCourtOwner extends StatefulWidget {
+  const LoginButtonCourtOwner({super.key});
 
   @override
   RoundedLogin createState() => RoundedLogin();
 }
 
-class RoundedLogin extends State<LoginButton> {
+class RoundedLogin extends State<LoginButtonCourtOwner> {
   static final String _url =
       "http://${KickoffApplication.userIP}:8080/login/courtOwner";
   var resp = 52;
@@ -61,6 +61,7 @@ class RoundedLogin extends State<LoginButton> {
       onTap: () async {
         var Email = RoundedInputLogin.EmailLogin.text;
         var Password = RoundedPasswordInput.Password.text;
+        print(Password);
         if (Email.isEmpty) {
           showAlertDialog(context, 'بيانات حسابك فارغة');
           RoundedInputLogin.EmailLogin.clear();
@@ -89,7 +90,7 @@ class RoundedLogin extends State<LoginButton> {
             await ReservationsHome.buildTickets();
             await AnnouncementsHome.buildAnnouncements();
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
-                RoundedPasswordInput.Password.text);
+                RoundedPasswordInput.Password.text,"0");
             KickoffApplication.Player=false;
             Navigator.pushNamed(context, '/kickoff');
           }
@@ -100,7 +101,13 @@ class RoundedLogin extends State<LoginButton> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: CourtOwnerColor,
+          color: courtOwnerColor,
+          boxShadow: const <BoxShadow>[
+            BoxShadow(
+              color: Colors.black,
+              blurRadius: 2,
+            ),],
+
         ),
         padding: const EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,

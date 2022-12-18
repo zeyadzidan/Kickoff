@@ -2,12 +2,11 @@ package back.kickoff.kickoffback.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.relational.core.sql.In;
 
 import java.sql.Date;
 import java.sql.Time;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ReservationTest {
 
@@ -28,17 +27,15 @@ class ReservationTest {
     }
 
     @Test
-    void getPlayerID() {
-        Long id = 22L;
-        reservation.setPlayerID(id);
-        assertEquals(id, reservation.getPlayerID());
-    }
+    void getMainPlayer() {
+        Long id = 22L ;
+        String name = "Gad" ;
+        Player player = new Player() ;
+        player.setName(name);
+        player.setId(id);
 
-    @Test
-    void getPlayerName() {
-        String name = "Gad";
-        reservation.setPlayerName(name);
-        assertEquals(name, reservation.getPlayerName());
+        reservation.setMainPlayer(player);
+        assertEquals(player, reservation.getMainPlayer());
     }
 
     @Test

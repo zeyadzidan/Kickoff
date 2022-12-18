@@ -23,7 +23,7 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
 
   @override
   Widget build(BuildContext context) => FloatingActionButton(
-      backgroundColor: CourtOwnerColor,
+      backgroundColor: courtOwnerColor,
       child: const Icon(Icons.add_card_rounded, size: 35),
       onPressed: () => showModalBottomSheet(
             elevation: 4,
@@ -37,7 +37,7 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
                 child: Column(
                   children: [
                     const Text("أضف حجزاً",
-                        style: TextStyle(color: CourtOwnerColor, fontSize: 32)),
+                        style: TextStyle(color: courtOwnerColor, fontSize: 32)),
                     _formField('اسم اللاعب صاحب الحجز', Icons.person),
                     _reservationTimePicker(true),
                     _reservationTimePicker(false),
@@ -53,11 +53,11 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
         maxLines: 1,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
-          focusColor: CourtOwnerColor,
+          focusColor: courtOwnerColor,
           floatingLabelAlignment: FloatingLabelAlignment.center,
           labelText: label,
-          suffixIcon: Icon(icon, color: CourtOwnerColor),
-          labelStyle: const TextStyle(color: CourtOwnerColor),
+          suffixIcon: Icon(icon, color: courtOwnerColor),
+          labelStyle: const TextStyle(color: courtOwnerColor),
           border: const UnderlineInputBorder(),
         ),
         validator: (input) =>
@@ -69,10 +69,10 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
         margin: const EdgeInsets.only(top: 10),
         child: ElevatedButton.icon(
           onPressed: _pickTimeReservation(initTime),
-          icon: const Icon(Icons.timer, color: CourtOwnerColor),
+          icon: const Icon(Icons.timer, color: courtOwnerColor),
           label: Text((initTime) ? 'ميعاد بدأ الحجز' : 'ميعاد انتهاء الحجز'),
           style: ElevatedButton.styleFrom(
-              foregroundColor: CourtOwnerColor,
+              foregroundColor: courtOwnerColor,
               backgroundColor: secondaryColor,
               padding:
                   const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
@@ -144,7 +144,7 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
             label: const Text('حفظ'),
             icon: const Icon(Icons.schedule_send),
             style: ElevatedButton.styleFrom(
-                backgroundColor: CourtOwnerColor,
+                backgroundColor: courtOwnerColor,
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
             onPressed: () async {
