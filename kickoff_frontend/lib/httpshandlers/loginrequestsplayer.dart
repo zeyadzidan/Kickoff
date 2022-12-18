@@ -40,6 +40,9 @@ class RoundedLogin extends State<LoginButtonPlayer> {
       //     FieldValue._(FieldValueType.arrayUnion, elements);
       courtsSearch= jsonDecode(res.body) as List<dynamic>;
       print(courtsSearch);
+      print("lol");
+      print(courtsSearch[1]["courtOwnerPicture"]);
+      print("lol");
     });
 
   }
@@ -103,13 +106,9 @@ class RoundedLogin extends State<LoginButtonPlayer> {
           } else {
             print(profileData);
             KickoffApplication.data = profileData;
-            KickoffApplication.ownerId = profileData["id"].toString();
-           //  ProfileBaseScreen.courts =
-           //  //await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
-           // // await ReservationsHome.buildTickets();
-           // //  localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
-           // //      RoundedPasswordInputPlayer.Password.text,"1");
-           //  KickoffApplication.Player=true;
+            localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
+                RoundedPasswordInputPlayer.Password.text,"1");
+            KickoffApplication.Player=true;
             await getCourtsinSearch();
             Navigator.popAndPushNamed(context, '/kickoff');
             // Navigator.pushNamed(context, '/playersearch');
