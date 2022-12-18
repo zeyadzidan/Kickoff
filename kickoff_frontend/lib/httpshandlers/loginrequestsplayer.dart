@@ -32,7 +32,7 @@ class RoundedLogin extends State<LoginButtonPlayer> {
         body: json.encode({
           "keyword":"",
           "xAxis": KickoffApplication.data["xAxis"],
-          "yAxis": KickoffApplication.data["yAxis"],
+          "yAxis": KickoffApplication.data["yAxis"],//TODO: make this dynamic
         }));
     setState(() {
       print(res.body);
@@ -40,8 +40,6 @@ class RoundedLogin extends State<LoginButtonPlayer> {
       //     FieldValue._(FieldValueType.arrayUnion, elements);
       courtsSearch= jsonDecode(res.body) as List<dynamic>;
       print(courtsSearch);
-      print("lol");
-      print(courtsSearch[1]["courtOwnerPicture"]);
       print("lol");
     });
 

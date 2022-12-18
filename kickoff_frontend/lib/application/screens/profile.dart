@@ -29,7 +29,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   double rating = double.parse("${KickoffApplication.data["rating"]}");
   int rating2 = double.parse("${KickoffApplication.data["rating"]}").toInt();
   int subscribers = 0;
-  String name = KickoffApplication.data["userName"];
+  String name = KickoffApplication.data["name"];
   String phone = KickoffApplication.data["phoneNumber"];
   String address = KickoffApplication.data["location"];
   double xaxis = KickoffApplication.data["xAxis"];

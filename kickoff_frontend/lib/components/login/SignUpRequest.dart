@@ -29,7 +29,7 @@ class RoundedButton extends State<SignUpButton> {
         body: json.encode({
           "email": RoundedInput.EmailSignUp.text.toLowerCase(),
           "password": RoundedPasswordSignup.Password.text,
-          "username": RoundedInputUsername.username.text,
+          "name": RoundedInputUsername.username.text,
           "phoneNumber": RoundedPhoneNumber.PhoneNumber.text,
           "location": FindLocation.Locationaddress,
           "xAxis": FindLocation.X_axis,

@@ -4,7 +4,8 @@ import 'package:kickoff_frontend/localFile.dart';
 
 import '../../constants.dart';
 import '../../httpshandlers/courtsrequests.dart';
-import '../../httpshandlers/loginrequests.dart';
+import '../../httpshandlers/loginrequests.dart' as cLogin;
+import '../../httpshandlers/loginrequestsplayer.dart' as pLogin;
 
 String loginData = "";
 bool loading = true;
@@ -29,16 +30,17 @@ class Loading {
       print(email);
       print(pass);
       print(isPlayer);
-      //if(isPlayer=="1"){//the user is player
-      //  KickoffApplication.Player=true;
-      //  data = await RoundedLogin.save2(email, pass);  //get player data //TODO: change the rounded login
-      //}
-      // else{  //The user is court Owner
-      //  KickoffApplication.Player=false;
-      //  data = await RoundedLogin.save2(email, pass);  //get courtOwner data //TODO: change the rounded login
-      //  int id = data["id"];
-      //  ProfileBaseScreen.courts = await CourtsHTTPsHandler.getCourts(id);
-      // }
+      if(isPlayer=="1"){//the user is player
+       KickoffApplication.Player=true;
+       // await pLogin.RoundedLogin.getCourtsinSearch();
+       data = await pLogin.RoundedLogin.save2(email, pass);  //get player data //TODO: change the rounded login
+      }
+      else{  //The user is court Owner
+       KickoffApplication.Player=false;
+       data = await cLogin.RoundedLogin.save2(email, pass);  //get courtOwner data //TODO: change the rounded login
+       int id = data["id"];
+       ProfileBaseScreen.courts = await CourtsHTTPsHandler.getCourts(id);
+      }
     }
     finish = true;
   }
