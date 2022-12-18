@@ -175,7 +175,18 @@ public class BookingAgent {
         //check
         CourtSchedule courtSchedule = court.getCourtSchedule();
         ScheduleAgent scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository);
-        if (timeFrom.before(courtSchedule.getStartWorkingHours()) || timeTo.after(courtSchedule.getEndWorkingHours()))
+        DateTime startWorking = new DateTime(stDate, courtSchedule.getStartWorkingHours()) ;
+        DateTime endWorking ;
+        DateTime startDateTime = new DateTime(stDate,timeFrom) ;
+        DateTime endDateTime = new DateTime(endDate, timeTo) ;
+        if(courtSchedule.getStartWorkingHours().after(courtSchedule.getEndWorkingHours())){
+            Date temp = new Date(stDate.getTime() + (1000 * 60 * 60 * 24)) ;
+            endWorking = new DateTime(temp,courtSchedule.getEndWorkingHours()) ;
+        }else{
+            endWorking = new DateTime(stDate,courtSchedule.getEndWorkingHours()) ;
+        }
+
+        if (startDateTime.compareTo(startWorking)< 0 || endDateTime.compareTo(endWorking)>0)
             return "In that time the court is closed";
 
 
