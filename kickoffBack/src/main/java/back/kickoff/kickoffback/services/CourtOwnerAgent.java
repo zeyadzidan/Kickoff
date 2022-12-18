@@ -135,14 +135,20 @@ public class CourtOwnerAgent {
         Time startWorkingHours, endWorkingHours, endMorning;
         try {
             int startHour = jsonObject.getInt("startWorkingHours");
-            int endMorningHour = jsonObject.getInt("endMorningHours");
             int finishHour = jsonObject.getInt("finishWorkingHours");
             startWorkingHours = new Time(startHour, 0, 0);
-            endMorning = new Time(endMorningHour, 0, 0);
             endWorkingHours = new Time(finishHour, 0, 0);
         } catch (Exception e) {
             return "In valid Time";
         }
+        try {
+            int endMorningHour = jsonObject.getInt("endMorningHours");
+            endMorning = new Time(endMorningHour, 0, 0);
+        } catch (Exception e) {
+            endMorning = endWorkingHours;
+            ;
+        }
+
 
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(ownerId);
         if (courtOwnerOptional.isEmpty())

@@ -121,7 +121,7 @@ class RoundedLogin extends State<LoginButtonPlayer> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: PlayerColor,
+          color: playerColor,
           boxShadow: const <BoxShadow>[
             BoxShadow(
               color: Colors.black,
