@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 class LoginServiceTest {
@@ -52,7 +52,7 @@ class LoginServiceTest {
         when(courtOwnerRepository.findByEmail("nasrClub@gmail.com")).thenReturn(java.util.Optional.of(newCourtOwner));
         String result = loginService.courtOwnerLogin(information);
 
-        Map<String, Object> res = new HashMap<>() ;
+        Map<String, Object> res = new HashMap<>();
         res.put("id", newCourtOwner.getId());
         res.put("userName", newCourtOwner.getUserName());
         res.put("email", newCourtOwner.getEmail());

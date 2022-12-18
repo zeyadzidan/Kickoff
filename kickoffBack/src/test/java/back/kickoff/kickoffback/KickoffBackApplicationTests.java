@@ -1,5 +1,14 @@
 package back.kickoff.kickoffback;
 
+import back.kickoff.kickoffback.model.Court;
+import back.kickoff.kickoffback.model.CourtSchedule;
+import back.kickoff.kickoffback.model.Reservation;
+import back.kickoff.kickoffback.repositories.CourtRepository;
+import back.kickoff.kickoffback.repositories.PlayerRepositry;
+import back.kickoff.kickoffback.repositories.ReservationRepository;
+import back.kickoff.kickoffback.repositories.ScheduleRepository;
+import back.kickoff.kickoffback.services.ReservationService;
+import back.kickoff.kickoffback.services.ScheduleAgent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,11 +18,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 class KickoffBackApplicationTests {
 
-	@Test
-	void contextLoads() {
+    @Test
+    void contextLoads() {
 
-	}
-
+    }
 
 
 //	@Autowired

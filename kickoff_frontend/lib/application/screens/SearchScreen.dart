@@ -59,13 +59,13 @@ class _SearchScreenState extends  State<SearchScreen> {
                   decoration: InputDecoration(
                     filled: true,
                     hintText: "Search",
-                    fillColor: PlayerColor.withAlpha(50),
+                    fillColor: playerColor.withAlpha(50),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide: BorderSide.none,
                     ) ,
                     prefixIcon: Icon(Icons.search),
-                    prefixIconColor:PlayerColor,
+                    prefixIconColor:playerColor,
                   ),
                 ),
                 SizedBox(height: 10.0,),

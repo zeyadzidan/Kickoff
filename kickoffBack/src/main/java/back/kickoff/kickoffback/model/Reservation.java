@@ -5,12 +5,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.cfg.annotations.reflection.internal.XMLContext;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -37,10 +34,14 @@ public class Reservation {
     Player mainPlayer;
     Long courtID;
     Long courtOwnerID;
-    Date startDate ;
+    Date startDate;
     Date endDate;
     Time timeFrom;
     Time timeTo;
+
+    Date dateReserved;
+    Time timeReserved ;
+
     ReservationState state;
     int moneyPayed ;
     int totalCost ;
@@ -62,6 +63,10 @@ public class Reservation {
         this.state = state;
         this.moneyPayed = moneyPayed;
         this.totalCost = totalCost;
+        this.dateReserved = new Date(System.currentTimeMillis());
+        this.timeReserved = new Time(System.currentTimeMillis());
+
+
     }
 }
 

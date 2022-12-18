@@ -1,11 +1,12 @@
 package back.kickoff.kickoffback.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Getter
@@ -13,8 +14,7 @@ import java.util.Set;
 @Entity
 @Table
 @NoArgsConstructor
-public class CourtOwner
-{
+public class CourtOwner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,12 +29,14 @@ public class CourtOwner
     private Double xAxis;
     private Double yAxis;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courtOwner")
-    private List<Court> courts ;
+    private List<Court> courts;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courtOwner")
+    private List<Announcement> announcements;
 
 
     public CourtOwner(String userName, String email, String password, String phoneNumber,
-                      Double xAxis, Double yAxis)
-    {
+                      Double xAxis, Double yAxis) {
         this.userName = userName;
         this.email = email;
         this.password = password;
@@ -43,8 +45,7 @@ public class CourtOwner
         this.yAxis = yAxis;
     }
 
-    public CourtOwner addCourt(Court court)
-    {
+    public CourtOwner addCourt(Court court) {
         court.setCourtOwner(this);
         courts.add(court);
         return this;

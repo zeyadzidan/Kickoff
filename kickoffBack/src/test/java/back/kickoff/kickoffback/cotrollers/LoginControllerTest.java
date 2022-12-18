@@ -3,7 +3,6 @@ package back.kickoff.kickoffback.cotrollers;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.services.LoginService;
-import back.kickoff.kickoffback.services.SignupService;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,18 +16,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 class LoginControllerTest {
     LoginController Controller;
     @Mock
     LoginService loginService;
+
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         Controller = new LoginController(loginService);
     }
+
     @Test
     void courtOwnerLoginRequest() throws JSONException {
         HashMap<String, Object> hm = new HashMap<>();
@@ -43,8 +44,8 @@ class LoginControllerTest {
         List list = new ArrayList();
         newCourtOwner.setCourts(list);
         when(loginService.courtOwnerLogin(information)).thenReturn(new Gson().toJson(newCourtOwner));
-        ResponseEntity<String> res =Controller.courtOwnerLoginRequest(information);
-        assertEquals(res,new ResponseEntity<>(new Gson().toJson(newCourtOwner), HttpStatus.OK));
+        ResponseEntity<String> res = Controller.courtOwnerLoginRequest(information);
+        assertEquals(res, new ResponseEntity<>(new Gson().toJson(newCourtOwner), HttpStatus.OK));
     }
 
     @Test

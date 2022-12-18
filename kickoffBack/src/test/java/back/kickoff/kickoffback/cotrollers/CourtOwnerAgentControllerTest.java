@@ -1,9 +1,8 @@
 package back.kickoff.kickoffback.cotrollers;
 
 import back.kickoff.kickoffback.model.Court;
-import back.kickoff.kickoffback.model.CourtOwner;
+import back.kickoff.kickoffback.services.AnnouncementService;
 import back.kickoff.kickoffback.services.CourtOwnerAgent;
-import back.kickoff.kickoffback.services.SignupService;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,22 +15,25 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CourtOwnerAgentControllerTest {
     CourtOwnerAgentController courtOwnerAgentController;
     @Mock
     CourtOwnerAgent courtOwnerAgent;
+
+    @Mock
+    AnnouncementService announcementService;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        courtOwnerAgentController = new CourtOwnerAgentController(courtOwnerAgent);
+        courtOwnerAgentController = new CourtOwnerAgentController(courtOwnerAgent, announcementService);
     }
 
     @Test
-    void listCourts() {
+    void listCourts() throws JSONException {
         Mockito.when(courtOwnerAgent.findCourtOwnerCourts(1L)).thenReturn(String.valueOf(new ArrayList<Court>()));
         ResponseEntity<String> res = courtOwnerAgentController.listCourts("1");
         assertEquals(res, new ResponseEntity<>("[]", HttpStatus.OK));
@@ -57,8 +59,8 @@ class CourtOwnerAgentControllerTest {
     @Test
     void addImage() throws JSONException {
         HashMap<String, Object> hm = new HashMap<>();
-        hm.put("ownerID", 1L) ;
-        hm.put("imageURL", "thisIsAnImage.com") ;
+        hm.put("ownerID", 1L);
+        hm.put("imageURL", "thisIsAnImage.com");
         String information = new Gson().toJson(hm);
         Mockito.when(courtOwnerAgent.addImage(information)).thenReturn("Success");
 

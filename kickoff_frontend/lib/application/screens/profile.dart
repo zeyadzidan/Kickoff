@@ -69,17 +69,18 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
               decoration: BoxDecoration(
                   boxShadow: const <BoxShadow>[
                     BoxShadow(
-                      color: PlayerColor,
+                      color: playerColor,
                       blurRadius: 3,
                     ),
                   ],
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(5),
-                  color: Colors.green.shade100),
+                  color: courtOwnerColor.shade100),
               child: Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                     padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,7 +88,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                           if (foundPhoto) ...[
                             CircleAvatar(
                               radius: 40,
-                              backgroundColor: Colors.green,
+                              backgroundColor: courtOwnerColor,
                               child: ClipOval(
                                 child: CachedNetworkImage(
                                   imageUrl: utl,
@@ -107,7 +108,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                             if (localPhoto) ...[
                               CircleAvatar(
                                   radius: 40,
-                                  backgroundColor: Colors.green,
+                                  backgroundColor: courtOwnerColor,
                                   backgroundImage:
                                       Image.file(File(ProfileBaseScreen.path!))
                                           .image)
@@ -133,8 +134,8 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                                     });
                                   }
                                 },
-                                color: PlayerColor,
-                                textColor: Colors.white,
+                                color: playerColor,
+                                textColor: secondaryColor,
                                 padding: const EdgeInsets.all(20),
                                 shape: const CircleBorder(),
                                 child: const Icon(
@@ -214,7 +215,8 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 20),
                       child: Column(
                         children: [
                           Align(

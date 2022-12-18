@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
+import 'package:kickoff_frontend/components/announcements/plusannouncementbutton.dart';
 import 'package:kickoff_frontend/components/application/applicationbar.dart';
 import 'package:kickoff_frontend/components/courts/pluscourtbutton.dart';
 import 'package:kickoff_frontend/components/tickets/plusreservationbutton.dart';
@@ -64,34 +66,30 @@ class KickoffApplicationState extends State<KickoffApplication> {
               builder: (context) => Scaffold(
                 appBar: KickoffAppBar().build(context),
                 body: Center(
-                  child: (KickoffApplication._selectedPage == 0)
-                    ? KickoffApplication.Player
-                      ?SearchScreen()
-                      :ProfileBaseScreen()
-                    : (KickoffApplication._selectedPage == 1)
-                      ?KickoffApplication.Player
-                        ?const Center(
-                          child: Text(
-                            "ANNOUNCEMENTS FEATURE IS NOT YET IMPLEMENTED"))
-                        :const Center(
-                          child: Text(
-                            "ANNOUNCEMENTS FEATURE IS NOT YET IMPLEMENTED"))
-                      : KickoffApplication.Player
-                        ?const Center(
-                          child: Text(
-                            "Reservation FEATURE IS NOT YET IMPLEMENTED"))
-                        :ReservationsHome(),
+                // Player Application
+                  child: (KickoffApplication.Player) ?
+                    (KickoffApplication._selectedPage == 0) ?
+                      SearchScreen() :
+                    (KickoffApplication._selectedPage == 1) ?
+                      const Center(child: Text("DUMMY PAGE 1")) :
+                    (KickoffApplication._selectedPage == 2) ?
+                      const Center(child: Text("DUMMY PAGE 2")) :
+                      const Center(child: Text("DUMMY PAGE 3"))
+                // Court Owner Application
+                  : (KickoffApplication._selectedPage == 0) ?
+                      ProfileBaseScreen() :
+                    (KickoffApplication._selectedPage == 1) ?
+                      AnnouncementsHome() : ReservationsHome()
                 ),
-                floatingActionButton:KickoffApplication.Player
-                  ?null
-                  :(KickoffApplication._selectedPage == 0)
-                    ? const PlusCourtButton()
-                    : (KickoffApplication._selectedPage == 2)
-                    ? const PlusReservationButton()
-                    : null,
-                bottomNavigationBar:KickoffApplication.Player
-                    ?_buildPlayerNavBar()
-                    :_buildNavBar(),
+                // Court Owner Floating Buttons
+                floatingActionButton: (!KickoffApplication.Player) ?
+                  (KickoffApplication._selectedPage == 0) ?
+                    const PlusCourtButton() :
+                  (KickoffApplication._selectedPage == 1) ?
+                    const PlusAnnouncementButton() : const PlusReservationButton()
+                : null,
+                bottomNavigationBar:KickoffApplication.Player ?
+                    _buildPlayerNavBar() : _buildNavBar(),
               ),
             )
       },
@@ -119,35 +117,35 @@ class KickoffApplicationState extends State<KickoffApplication> {
       decoration: BoxDecoration(
           boxShadow: const <BoxShadow>[
             BoxShadow(
-              color: PlayerColor,
+              color: playerColor,
               blurRadius: 3,
             ),
           ],
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(100),
-          color: Colors.green.shade100),
+          color: courtOwnerColor.shade100),
       margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
       child: GNav(
           gap: 5,
           activeColor: Colors.white,
-          color: PlayerColor,
+          color: playerColor,
           tabBackgroundColor: Colors.black.withAlpha(25),
           duration: const Duration(milliseconds: 300),
           tabs: const <GButton>[
             GButton(
-              backgroundColor: PlayerColor,
-              text: "Profile",
+              backgroundColor: courtOwnerColor,
+              text: "الملف الشخصي",
               icon: Icons.person,
               onPressed: null,
             ),
             GButton(
-              backgroundColor: PlayerColor,
-              text: "Announcements",
+              backgroundColor: courtOwnerColor,
+              text: "الإعلانات",
               icon: Icons.add,
             ),
             GButton(
-              backgroundColor: PlayerColor,
-              text: "Reservations",
+              backgroundColor: courtOwnerColor,
+              text: "الحجوزات",
               icon: Icons.stadium,
             ),
           ],
@@ -160,33 +158,33 @@ class KickoffApplicationState extends State<KickoffApplication> {
       decoration: BoxDecoration(
           boxShadow: const <BoxShadow>[
             BoxShadow(
-              color: PlayerColor,
+              color: playerColor,
               blurRadius: 3,
             ),
           ],
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(100),
-          color: Colors.green.shade100),
+          color: playerColor.shade100),
       margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
       child: GNav(
           gap: 5,
           activeColor: Colors.white,
-          color: PlayerColor,
+          color: playerColor,
           tabBackgroundColor: Colors.black.withAlpha(25),
           duration: const Duration(milliseconds: 300),
           tabs: const <GButton>[
             GButton(
-              backgroundColor: PlayerColor,
+              backgroundColor: playerColor,
               text: "Search",
               icon: Icons.search,
             ),
             GButton(
-              backgroundColor: PlayerColor,
+              backgroundColor: playerColor,
               text: "News Feed",
               icon: Icons.new_releases_sharp,
             ),
             GButton(
-              backgroundColor: PlayerColor,
+              backgroundColor: playerColor,
               text: "Reservations",
               icon: Icons.stadium,
             ),
