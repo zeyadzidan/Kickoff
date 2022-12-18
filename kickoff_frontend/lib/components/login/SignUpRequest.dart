@@ -87,7 +87,7 @@ class RoundedButton extends State<SignUpButton> {
           } else {
             KickoffApplication.data = profileData;
             localFile.writeLoginData(RoundedInput.EmailSignUp.text,
-                RoundedPasswordSignup.Password.text);
+                RoundedPasswordSignup.Password.text,"0");
 
             KickoffApplication.Player=false;
             Navigator.pushNamed(context, '/kickoff');

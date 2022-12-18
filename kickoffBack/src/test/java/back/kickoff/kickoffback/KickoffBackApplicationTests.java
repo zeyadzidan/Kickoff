@@ -4,7 +4,7 @@ import back.kickoff.kickoffback.model.Court;
 import back.kickoff.kickoffback.model.CourtSchedule;
 import back.kickoff.kickoffback.model.Reservation;
 import back.kickoff.kickoffback.repositories.CourtRepository;
-import back.kickoff.kickoffback.repositories.PlayerRepositry;
+import back.kickoff.kickoffback.repositories.PlayerRepository;
 import back.kickoff.kickoffback.repositories.ReservationRepository;
 import back.kickoff.kickoffback.repositories.ScheduleRepository;
 import back.kickoff.kickoffback.services.ReservationService;

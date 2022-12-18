@@ -22,11 +22,23 @@ class Loading {
     loading = (loginData != "0");
     if (!firstTime) {
       int idx = loginData.indexOf(":");
+      int idy = loginData.indexOf("::");
       String email = loginData.substring(0, idx).trim();
-      String pass = loginData.substring(idx + 1).trim();
-      data = await RoundedLogin.save2(email, pass);
-      int id = data["id"];
-      ProfileBaseScreen.courts = await CourtsHTTPsHandler.getCourts(id);
+      String pass = loginData.substring(idx + 1, idy).trim();
+      String isPlayer = loginData.substring(idy + 2).trim();
+      print(email);
+      print(pass);
+      print(isPlayer);
+      //if(isPlayer=="1"){//the user is player
+      //  KickoffApplication.Player=true;
+      //  data = await RoundedLogin.save2(email, pass);  //get player data //TODO: change the rounded login
+      //}
+      // else{  //The user is court Owner
+      //  KickoffApplication.Player=false;
+      //  data = await RoundedLogin.save2(email, pass);  //get courtOwner data //TODO: change the rounded login
+      //  int id = data["id"];
+      //  ProfileBaseScreen.courts = await CourtsHTTPsHandler.getCourts(id);
+      // }
     }
     finish = true;
   }

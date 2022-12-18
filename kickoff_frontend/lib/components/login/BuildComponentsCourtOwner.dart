@@ -84,7 +84,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
           ),
 
           Positioned(
-              bottom: -100,
+              bottom: -160,
               left: -100,
               child: Container(
                 width: 290,
@@ -118,11 +118,14 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
           ),
 
           // Login Form
-          LoginForm(
-              isLogin: isLogin,
-              animationDuration: animationDuration,
-              size: size,
-              defaultLoginSize: defaultLoginSize),
+          Padding(
+            padding: EdgeInsets.only(top: size.height *0.1),
+            child: LoginForm(
+                isLogin: isLogin,
+                animationDuration: animationDuration,
+                size: size,
+                defaultLoginSize: defaultLoginSize),
+          ),
           // Register Container
           AnimatedBuilder(
             animation: animationController!,

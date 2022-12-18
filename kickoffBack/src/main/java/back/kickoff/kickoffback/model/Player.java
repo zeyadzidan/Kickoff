@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 @Table
 @NoArgsConstructor
-public class Player implements PlayerI{
+public class Player{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
