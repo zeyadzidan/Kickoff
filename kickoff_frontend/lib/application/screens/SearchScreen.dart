@@ -86,7 +86,9 @@ class _SearchScreenState extends  State<SearchScreen> {
                               CircleAvatar(
                                 radius: 30,
                                 child: ClipOval
-                                  (child:Image.network(
+                                  (child:displayList[index]["courtOwnerPicture"]==null
+                                    ?Container()
+                                    :Image.network(
                                   displayList[index]["courtOwnerPicture"],
                                     width: 100,
                                     height: 100,
