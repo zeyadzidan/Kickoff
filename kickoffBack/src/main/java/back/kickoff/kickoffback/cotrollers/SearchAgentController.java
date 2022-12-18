@@ -23,7 +23,7 @@ public class SearchAgentController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/CourtOwner/{courtOwnerId}/")
+    @GetMapping("/CourtOwner/{courtOwnerId}")
     public ResponseEntity<String> getCourtOwner(@PathVariable String courtOwnerId) {
         String responseBody = searchAgent.getCourtOwner(Long.valueOf(courtOwnerId));
         if (responseBody.equals("Not found"))
