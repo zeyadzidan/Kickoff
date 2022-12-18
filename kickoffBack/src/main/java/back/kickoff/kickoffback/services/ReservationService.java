@@ -2,6 +2,12 @@ package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.Court;
 import back.kickoff.kickoffback.model.CourtSchedule;
+import back.kickoff.kickoffback.model.Player;
+import back.kickoff.kickoffback.model.Reservation;
+import back.kickoff.kickoffback.model.ReservationState;
+import back.kickoff.kickoffback.repositories.PlayerRepository;
+import back.kickoff.kickoffback.repositories.ReservationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
