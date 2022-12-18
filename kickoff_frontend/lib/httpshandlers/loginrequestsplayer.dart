@@ -10,6 +10,7 @@ import 'package:kickoff_frontend/components/login/PasswordPlayer.dart';
 import 'package:kickoff_frontend/components/login/SignUpLocation.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
+import 'package:kickoff_frontend/application/screens/login.dart';
 import 'package:kickoff_frontend/components/courts/CourtsInSearch.dart';
 import '../application/screens/reservations.dart';
 import 'courtsrequests.dart';
@@ -38,15 +39,16 @@ class RoundedLogin extends State<LoginButtonPlayer> {
       print(res.body);
       // FieldValue arrayUnion(List<dynamic> elements) =>
       //     FieldValue._(FieldValueType.arrayUnion, elements);
-      courtsSearch= jsonDecode(res.body) as List<dynamic>;
-      print(courtsSearch);
+      // courtsSearch= jsonDecode(res.body) as List<dynamic>;
+      LoginScreen.courtsSearch=jsonDecode(res.body) as List<dynamic>;
+      // print(courtsSearch);
       print("lol");
     });
 
   }
   var resp = 52;
   late Map<String, dynamic> profileData;
-  static List<dynamic> courtsSearch=[];
+  // static List<dynamic> courtsSearch=[];
   Future save(email, pass) async {
     var res = await http.post(Uri.parse(_url),
         headers: {"Content-Type": "application/json"},

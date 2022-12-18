@@ -7,7 +7,7 @@ import '../../components/login/BuildSignUpPlayer.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
+  static List<dynamic> courtsSearch=[];
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }

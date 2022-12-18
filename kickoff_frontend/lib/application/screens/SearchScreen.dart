@@ -6,6 +6,7 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kickoff_frontend/application/screens/login.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/components/courts/CourtsInSearch.dart';
 import 'package:kickoff_frontend/components/login/SignUpRequestPlayer.dart';
@@ -20,11 +21,11 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends  State<SearchScreen> {
  // static List<dynamic> courts= RoundedButton().courts;
-  List<dynamic> displayList =List.from(RoundedLogin.courtsSearch);
+  List<dynamic> displayList =List.from(LoginScreen.courtsSearch);
   void updateList(String value){
     //this function is used to filter out list
     setState(() {
-      displayList =RoundedLogin.courtsSearch.where((element) => element["courtOwnerName"].toLowerCase().contains(value.toLowerCase())).toList();
+      displayList =LoginScreen.courtsSearch.where((element) => element["courtOwnerName"].toLowerCase().contains(value.toLowerCase())).toList();
     });
   }
 @override
