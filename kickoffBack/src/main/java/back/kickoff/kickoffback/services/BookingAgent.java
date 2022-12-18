@@ -159,14 +159,16 @@ public class BookingAgent {
         return "Success";
     }
 
-    public static class ReservationComparitor implements Comparator<Reservation>{
-
+    public static class ReservationComparator implements Comparator<Reservation>{
+        boolean ascending;
+        ReservationComparator(boolean ascending) {
+            this.ascending = ascending;
+        }
         @Override
         public int compare(Reservation o1, Reservation o2) {
             DateTime stR1 = new DateTime(o1.getStartDate(), o1.getTimeFrom()) ;
             DateTime stR2 = new DateTime(o2.getStartDate(), o2.getTimeFrom()) ;
-            return stR1.compareTo(stR2) ;
-
+            return (ascending) ? stR1.compareTo(stR2) : stR2.compareTo(stR1) ;
         }
     }
 
@@ -174,6 +176,7 @@ public class BookingAgent {
         JSONObject jsonObject = new JSONObject(information);
         Long courtId = jsonObject.getLong("courtId");
         Long courtOwnerId = jsonObject.getLong("courtOwnerId");
+        boolean ascending = jsonObject.getBoolean("ascending");
         String strDate = jsonObject.getString("date");
         String[] tempArrS = strDate.split("/");
         if (tempArrS.length != 3)
@@ -198,7 +201,7 @@ public class BookingAgent {
         }
         ScheduleAgent scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository);
         List<Reservation> reservations = scheduleAgent.getScheduleOverlapped(date, date, new Time(0), new Time(23, 59, 0), court.getCourtSchedule());
-        reservations.sort(new ReservationComparitor());
+        reservations.sort(new ReservationComparator(ascending));
         return "S " + new Gson().toJson(reservations);
     }
 
