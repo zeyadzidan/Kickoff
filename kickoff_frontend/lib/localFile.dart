@@ -23,6 +23,7 @@ class localFile {
 
       // Read the file
       final contents = await file.readAsString();
+      print(contents);
       if (contents != "") {
         return (contents);
       } else {
@@ -34,10 +35,10 @@ class localFile {
     }
   }
 
-  static Future<File> writeLoginData(email, pass) async {
+  static Future<File> writeLoginData(email, pass,isPlayer) async {
     final file = await _localFile;
     // Write the file
-    return file.writeAsString("$email:$pass");
+    return file.writeAsString("$email:$pass::$isPlayer");
   }
 
   static Future<File> clearLoginData() async {

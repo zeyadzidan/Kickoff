@@ -1,10 +1,7 @@
 package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.*;
-import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
-import back.kickoff.kickoffback.repositories.CourtRepository;
-import back.kickoff.kickoffback.repositories.ReservationRepository;
-import back.kickoff.kickoffback.repositories.ScheduleRepository;
+import back.kickoff.kickoffback.repositories.*;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,14 +35,17 @@ class BookingAgentTest {
     ReservationService reservationService;
 
     @Mock
+    PlayerRepository playerRepository ;
+
     ScheduleAgent scheduleAgent ;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        bookingAgent = new BookingAgent(courtRepository, scheduleRepository, courtOwnerRepository,
-                reservationRepository, reservationService);
+        bookingAgent = new BookingAgent(courtRepository, scheduleRepository, courtOwnerRepository, reservationRepository,
+                reservationService, playerRepository);
+
         scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository) ;
     }
 

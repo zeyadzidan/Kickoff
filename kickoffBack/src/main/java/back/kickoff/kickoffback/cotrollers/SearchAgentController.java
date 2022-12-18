@@ -17,9 +17,17 @@ public class SearchAgentController {
     public SearchAgentController(SearchAgent searchAgent) {
         this.searchAgent = searchAgent;
     }
-    @GetMapping("/courtOwner/distance")
+    @PostMapping("/courtOwner/distance")
     public ResponseEntity<String>  searchNearestCourtOwner(@RequestBody String information) throws JSONException {
         return new ResponseEntity<>(searchAgent.getNearestCourtOwners(information),
                 HttpStatus.OK);
+    }
+
+    @GetMapping("/CourtOwner/{courtOwnerId}")
+    public ResponseEntity<String> getCourtOwner(@PathVariable String courtOwnerId) {
+        String responseBody = searchAgent.getCourtOwner(Long.valueOf(courtOwnerId));
+        if (responseBody.equals("Not found"))
+            return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 }

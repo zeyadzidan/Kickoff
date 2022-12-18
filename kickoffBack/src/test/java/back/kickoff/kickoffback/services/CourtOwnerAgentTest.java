@@ -70,8 +70,8 @@ class CourtOwnerAgentTest {
         hm.put("morningCost", 100);
         hm.put("nightCost", 150);
         hm.put("minBookingHours", 1);
-        hm.put("startWorkingHours", 1);
-        hm.put("finishWorkingHours", 21);
+        hm.put("startWorkingHours", 9);
+        hm.put("finishWorkingHours", 23);
         String information = new Gson().toJson(hm);
         CourtOwner courtOwner = new CourtOwner();
         courtOwner.setCourts(new ArrayList<Court>());

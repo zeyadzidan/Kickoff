@@ -8,8 +8,6 @@ import '../../constants.dart';
 class AnnouncementsView extends StatefulWidget {
   const AnnouncementsView({super.key});
 
-  // static update() => _currentState.setState(() {});
-
   @override
   State<StatefulWidget> createState() => _AnnouncementsViewState();
 }

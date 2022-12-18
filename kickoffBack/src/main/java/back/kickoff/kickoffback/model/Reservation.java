@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Set;
 
 @Data
 @Setter
@@ -29,9 +30,8 @@ public class Reservation {
     Set<LitePlayer> playersID = new HashSet<>();
 */
 
-    //@OneToOne(fetch = FetchType.EAGER)
-    Long playerID;
-    String playerName;
+    @ManyToOne(fetch = FetchType.EAGER)
+    Player mainPlayer;
     Long courtID;
     Long courtOwnerID;
     Date startDate;
@@ -50,10 +50,10 @@ public class Reservation {
     //Long messageID ;
 
 
-    public Reservation(Long playerID, String playerName, Long courtID, Long courtOwnerID, Date startDate, Date endDate, Time timeFrom,
+
+    public Reservation(Player mainPlayer, Long courtID, Long courtOwnerID, Date startDate, Date endDate, Time timeFrom,
                        Time timeTo, ReservationState state, int moneyPayed, int totalCost) {
-        this.playerID = playerID;
-        this.playerName = playerName;
+        this.mainPlayer = mainPlayer ;
         this.courtID = courtID;
         this.courtOwnerID = courtOwnerID;
         this.startDate = startDate;

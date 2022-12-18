@@ -160,11 +160,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'application/application.dart';
 import 'application/screens/dataloading.dart';
-import 'package:firebase_core/firebase_core.dart';
-
 Future main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await Loading.loadData();
   runApp(KickoffApplication(profileData: data));
 }
