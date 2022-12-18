@@ -69,7 +69,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
               decoration: BoxDecoration(
                   boxShadow: const <BoxShadow>[
                     BoxShadow(
-                      color: playerColor,
+                      color: courtOwnerColor,
                       blurRadius: 3,
                     ),
                   ],
@@ -134,7 +134,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                                     });
                                   }
                                 },
-                                color: playerColor,
+                                color: courtOwnerColor,
                                 textColor: secondaryColor,
                                 padding: const EdgeInsets.all(20),
                                 shape: const CircleBorder(),
