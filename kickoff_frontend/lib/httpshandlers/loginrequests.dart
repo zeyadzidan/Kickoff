@@ -92,7 +92,7 @@ class RoundedLogin extends State<LoginButtonCourtOwner> {
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInput.Password.text,"0");
             KickoffApplication.Player=false;
-            Navigator.pushNamed(context, '/kickoff');
+            Navigator.popAndPushNamed(context, '/kickoff');
           }
         }
       },

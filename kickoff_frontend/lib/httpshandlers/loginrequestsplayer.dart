@@ -106,12 +106,11 @@ class RoundedLogin extends State<LoginButtonPlayer> {
           } else {
             print(profileData);
             KickoffApplication.data = profileData;
-            localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
+              localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInputPlayer.Password.text,"1");
             KickoffApplication.Player=true;
             await getCourtsinSearch();
             Navigator.popAndPushNamed(context, '/kickoff');
-            // Navigator.pushNamed(context, '/playersearch');
           }
         }
       },

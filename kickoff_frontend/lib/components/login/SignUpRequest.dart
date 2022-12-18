@@ -90,7 +90,7 @@ class RoundedButton extends State<SignUpButton> {
                 RoundedPasswordSignup.Password.text,"0");
 
             KickoffApplication.Player=false;
-            Navigator.pushNamed(context, '/kickoff');
+            Navigator.popAndPushNamed(context, '/kickoff');
           }
         }
       },

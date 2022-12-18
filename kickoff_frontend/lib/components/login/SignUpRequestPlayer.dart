@@ -41,7 +41,6 @@ class RoundedButton extends State<SignUpButtonPlayer> {
         // FieldValue arrayUnion(List<dynamic> elements) =>
         //     FieldValue._(FieldValueType.arrayUnion, elements);
         courts= jsonEncode(res.body) as List<CourtModel>  ;
-        print("lol");
         print(courts);
     });
 
@@ -112,9 +111,9 @@ class RoundedButton extends State<SignUpButtonPlayer> {
             KickoffApplication.data = profileData;
             localFile.writeLoginData(RoundedInput.EmailSignUp.text,
                 RoundedPasswordSignupPlayer.Password.text,"1");
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) =>
-                    KickoffApplication(profileData: profileData)));
+            // Navigator.of(context).push(MaterialPageRoute(
+            //     builder: (context) =>
+            //         KickoffApplication(profileData: profileData)));
             KickoffApplication.Player=true;
             await getCourtsinSearch();
             Navigator.popAndPushNamed(context, '/kickoff');
