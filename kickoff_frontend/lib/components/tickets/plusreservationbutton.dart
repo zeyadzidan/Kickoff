@@ -3,8 +3,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/reservations.dart';
+import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
 
+import '../../application/screens/profile.dart';
 import '../../constants.dart';
 
 class PlusReservationButton extends StatefulWidget {
@@ -16,7 +18,7 @@ class PlusReservationButton extends StatefulWidget {
 
 class _PlusReservationButtonState extends State<PlusReservationButton> {
   final GlobalKey<FormState> _key = GlobalKey();
-  late List<String> _ticket = <String>[];
+  final FixtureTicket _fixtureTicket = FixtureTicket();
   TimeOfDay _from = const TimeOfDay(hour: -1, minute: -1);
   TimeOfDay _to = const TimeOfDay(hour: -1, minute: -1);
 
@@ -61,7 +63,7 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
         ),
         validator: (input) =>
             (input!.isEmpty) ? 'لا يمكنك ترك هذا الحقل فارغاً.' : null,
-        onSaved: (value) => _ticket.add(value!),
+        onSaved: (value) => _fixtureTicket.pname = value!,
       );
 
   _reservationTimePicker(initTime) => Container(
@@ -159,34 +161,24 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
               if (_from.hour < _to.hour) {
                 finishDate.add(const Duration(days: 1));
               }
-              _key.currentState!.save();
-              _ticket.add((ReservationsHome.selectedCourt + 1).toString());
-              _ticket.add(KickoffApplication.ownerId);
-              _ticket.add(_formatDate(ReservationsHome.selectedDate));
-              _ticket.add(_formatDate(finishDate));
-              _ticket.add(_formatTime(_from));
-              _ticket.add(_formatTime(_to));
-              await TicketsHTTPsHandler.sendTicket(_ticket);
+              _key.currentState!.save();  // Set name
+              print("Selected: ${ReservationsHome.selectedCourt}");
+              print("CID: ${ProfileBaseScreen.courts[ReservationsHome.selectedCourt].cid}");
+              String cid = ProfileBaseScreen.courts[ReservationsHome.selectedCourt].cid;
+              _fixtureTicket.cid = cid;
+              _fixtureTicket.coid = KickoffApplication.ownerId;
+              _fixtureTicket.startDate = _formatDate(ReservationsHome.selectedDate);
+              _fixtureTicket.endDate = _formatDate(finishDate);
+              _fixtureTicket.startTime = _formatTime(_from);
+              _fixtureTicket.endTime = _formatTime(_to);
+              await TicketsHTTPsHandler.sendTicket(_fixtureTicket);
               ReservationsHome.reservations =
                   await TicketsHTTPsHandler.getCourtReservations(
                       (ReservationsHome.selectedCourt + 1),
                       KickoffApplication.ownerId,
                       _formatDate(ReservationsHome.selectedDate));
-              _ticket = [];
               KickoffApplication.update();
               Navigator.pop(context);
             }),
-      );
-
-  customToast(text) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.0),
-          color: Colors.green,
-        ),
-        child: Text(
-          text,
-          style: const TextStyle(color: secondaryColor),
-        ),
       );
 }
