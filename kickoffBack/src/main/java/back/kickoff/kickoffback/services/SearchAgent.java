@@ -59,7 +59,7 @@ public class SearchAgent {
         Map<String, Object> res = new HashMap<>();
         CourtOwner co = courtOwner.get();
         res.put("id", co.getId());
-        res.put("userName", co.getUserName());
+        res.put("name", co.getUserName());
         res.put("email", co.getEmail());
         res.put("location", co.getLocation());
         res.put("rating", String.valueOf(co.getRating()));
