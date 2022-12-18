@@ -3,6 +3,7 @@ import 'dart:core';
 
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
+import 'package:kickoff_frontend/application/screens/reservations.dart';
 import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 
 class TicketsHTTPsHandler {
@@ -15,11 +16,6 @@ class TicketsHTTPsHandler {
     } else {
       cancellation = '$_url/BookingAgent/cancelPending';
     }
-
-    print(cancellation);
-
-    print("TICKET: ${ticket.ticketId}");
-
     var response = await http.post(Uri.parse(cancellation),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
@@ -28,20 +24,19 @@ class TicketsHTTPsHandler {
     print(response.body);
   }
 
-  static Future sendTicket(List<String> ticket) async {
+  static Future sendTicket(FixtureTicket ticket) async {
     var response = await http.post(Uri.parse('$_url/BookingAgent/setPending'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "playerName": ticket[0],
-          "courtId": ticket[1],
-          "courtOwnerId": ticket[2],
-          "startDate": ticket[3],
-          "endDate": ticket[4],
-          "startHour": ticket[5],
-          "finishHour": ticket[6],
+          "playerName": ticket.pname,
+          "courtId": ticket.cid,
+          "courtOwnerId": ticket.coid,
+          "startDate": ticket.startDate,
+          "endDate": ticket.endDate,
+          "startHour": ticket.startTime,
+          "finishHour": ticket.endTime,
         }));
     print(response.body);
-    return response.body;
   }
 
   static Future bookTicket(FixtureTicket ticket) async {
@@ -52,19 +47,21 @@ class TicketsHTTPsHandler {
           "moneyPaid": ticket.paidAmount
         }));
     print(response.body);
-    return response.body;
   }
 
   static Future<List<FixtureTicket>> getCourtReservations(
       cid, courtOwnerId, date) async {
-    var rsp = await http.post(
-        Uri.parse('$_url/BookingAgent/reservationsOnDate'),
-        headers: {"Content-Type": "application/json"},
-        body: json.encode(
-            {"courtId": cid, "courtOwnerId": courtOwnerId, "date": date}));
-    print(rsp.body);
+    var rsp =
+        await http.post(Uri.parse('$_url/BookingAgent/reservationsOnDate'),
+            headers: {"Content-Type": "application/json"},
+            body: json.encode({
+              "courtId": cid,
+              "courtOwnerId": courtOwnerId,
+              "date": date,
+              "ascending": ReservationsHome.ascendingView
+            }));
     List<FixtureTicket> reservations = [];
-    if (rsp.body != 'Court Not found') {
+    try {
       List<dynamic> fixturesMap = json.decode(rsp.body);
       FixtureTicket ticket; // The court model
       for (Map<String, dynamic> map in fixturesMap) {
@@ -81,6 +78,9 @@ class TicketsHTTPsHandler {
         ticket.totalCost = map['totalCost'].toString();
         reservations.add(ticket);
       }
+    } on Exception catch (_) {
+      print("Reservations GET Error");
+      print(rsp.body);
     }
     return reservations;
   }

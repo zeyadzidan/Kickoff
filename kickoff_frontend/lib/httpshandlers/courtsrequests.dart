@@ -39,6 +39,7 @@ class CourtsHTTPsHandler {
 
   static Future sendCourt(courtInfo) async {
     print(courtInfo);
+    print(KickoffApplication.ownerId);
     var response = await http.post(
         Uri.parse('${_url}courtOwnerAgent/CourtOwner/CreateCourt'),
         headers: {"Content-Type": "application/json"},
