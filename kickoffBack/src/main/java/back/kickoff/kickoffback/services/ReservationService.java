@@ -5,7 +5,7 @@ import back.kickoff.kickoffback.model.CourtSchedule;
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.model.Reservation;
 import back.kickoff.kickoffback.model.ReservationState;
-import back.kickoff.kickoffback.repositories.PlayerRepositry;
+import back.kickoff.kickoffback.repositories.PlayerRepository;
 import back.kickoff.kickoffback.repositories.ReservationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
