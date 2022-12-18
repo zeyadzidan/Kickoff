@@ -22,4 +22,12 @@ public class SearchAgentController {
         return new ResponseEntity<>(searchAgent.getNearestCourtOwners(information),
                 HttpStatus.OK);
     }
+
+    @GetMapping("/CourtOwner/{courtOwnerId}/")
+    public ResponseEntity<String> getCourtOwner(@PathVariable String courtOwnerId) {
+        String responseBody = searchAgent.getCourtOwner(Long.valueOf(courtOwnerId));
+        if (responseBody.equals("Not found"))
+            return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
 }
