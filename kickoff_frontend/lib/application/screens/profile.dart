@@ -14,6 +14,7 @@ import '../../components/classes/court.dart';
 
 class ProfileBaseScreen extends StatefulWidget {
   ProfileBaseScreen({super.key}) {
+    KickoffApplication.ownerId = KickoffApplication.data["id"].toString();
     isExpanded = List<bool>.generate(courts.length, (index) => false);
   }
 
@@ -40,7 +41,6 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   String utl = KickoffApplication.data.containsKey("image")
       ? KickoffApplication.data["image"]
       : "";
-
   bool localPhoto = ProfileBaseScreen.path == "" ? false : true;
 
   void uploadimage(File file, final path) async {
@@ -69,7 +69,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
               decoration: BoxDecoration(
                   boxShadow: const <BoxShadow>[
                     BoxShadow(
-                      color: playerColor,
+                      color: courtOwnerColor,
                       blurRadius: 3,
                     ),
                   ],
@@ -134,7 +134,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                                     });
                                   }
                                 },
-                                color: playerColor,
+                                color: courtOwnerColor,
                                 textColor: secondaryColor,
                                 padding: const EdgeInsets.all(20),
                                 shape: const CircleBorder(),
