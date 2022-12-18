@@ -17,9 +17,8 @@ class PlusReservationButton extends StatefulWidget {
 class _PlusReservationButtonState extends State<PlusReservationButton> {
   final GlobalKey<FormState> _key = GlobalKey();
   late List<String> _ticket = <String>[];
-  TimeOfDay _from = TimeOfDay.now().replacing(minute: 00);
-  late TimeOfDay _to =
-      TimeOfDay.now().replacing(hour: (_from.hour + 1) % 24, minute: 00);
+  TimeOfDay _from = const TimeOfDay(hour: -1, minute: -1);
+  TimeOfDay _to = const TimeOfDay(hour: -1, minute: -1);
 
   @override
   Widget build(BuildContext context) => FloatingActionButton(
@@ -85,7 +84,7 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
         var selected = await showTimePicker(
           helpText: 'اختر الساعة فقط',
           initialEntryMode: TimePickerEntryMode.inputOnly,
-          initialTime: (initTime) ? _from : _to,
+          initialTime: TimeOfDay.now(),
           context: context,
         );
         if (initTime) {
@@ -105,30 +104,21 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
             );
           }
         } else {
-          if (selected!.hour % 24 > _from.hour % 24) {
-            (selected.minute == 0)
-                ? setState(() {
-                    _to = selected;
-                    toast.showToast(
-                      toastDuration: const Duration(seconds: 2),
-                      gravity: ToastGravity.CENTER,
-                      child: customToast("تم اختيار الوقت بنجاح"),
-                    );
-                  })
-                : toast.showToast(
-                    toastDuration: const Duration(seconds: 4),
+          (selected!.minute == 0)
+              ? setState(() {
+                  _to = selected;
+                  toast.showToast(
+                    toastDuration: const Duration(seconds: 2),
                     gravity: ToastGravity.CENTER,
-                    child: customToast(
-                        'من فضلك اختر الساعة فقط. الدقائق غير محسوبة.'),
+                    child: customToast("تم اختيار الوقت بنجاح"),
                   );
-          } else {
-            toast.showToast(
-              toastDuration: const Duration(seconds: 4),
-              gravity: ToastGravity.CENTER,
-              child: customToast(
-                  'أقل عدد ساعات للحجز هو ساعة واحدة. حاول مرة أخرى.'),
-            );
-          }
+                })
+              : toast.showToast(
+                  toastDuration: const Duration(seconds: 4),
+                  gravity: ToastGravity.CENTER,
+                  child: customToast(
+                      'من فضلك اختر الساعة فقط. الدقائق غير محسوبة.'),
+                );
         }
       };
 
@@ -152,11 +142,28 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
               if (!_key.currentState!.validate()) {
                 return;
               }
+              // Validate time constraints
+              if (_from.hour == -1 || _to.hour == -1) {
+                FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  toastDuration: const Duration(seconds: 4),
+                  gravity: ToastGravity.CENTER,
+                  child: customToast(
+                      'لم تقم بتحديد مواعيد الحجز بعناية. حاول مرة أخرى.'),
+                );
+                return;
+              }
+              // Handle the overlapping fixtures reservation.
+              DateTime finishDate = ReservationsHome.selectedDate;
+              if (_from.hour < _to.hour) {
+                finishDate.add(const Duration(days: 1));
+              }
               _key.currentState!.save();
               _ticket.add((ReservationsHome.selectedCourt + 1).toString());
               _ticket.add(KickoffApplication.ownerId);
               _ticket.add(_formatDate(ReservationsHome.selectedDate));
-              _ticket.add(_formatDate(ReservationsHome.selectedDate));
+              _ticket.add(_formatDate(finishDate));
               _ticket.add(_formatTime(_from));
               _ticket.add(_formatTime(_to));
               await TicketsHTTPsHandler.sendTicket(_ticket);
