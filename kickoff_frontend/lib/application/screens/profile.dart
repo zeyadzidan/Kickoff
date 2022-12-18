@@ -146,10 +146,10 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                             ]
                           ],
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 12, 20, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 6, 20, 0),
                             child: Row(children: [
                               SizedBox(
-                                height: 60,
+                                height: 70,
                                 child: TextButton(
                                   onPressed: () {
                                     print("Show Reviews");
@@ -181,7 +181,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                                 width: 20,
                               ),
                               SizedBox(
-                                height: 60,
+                                height: 70,
                                 child: TextButton(
                                   onPressed: () {
                                     print("Show Subscribers");
