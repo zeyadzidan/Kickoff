@@ -3,6 +3,7 @@
 import 'dart:core';
 
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/constants.dart';
@@ -88,11 +89,18 @@ class _SearchScreenState extends  State<SearchScreen> {
                                 child: ClipOval
                                   (child:displayList[index]["courtOwnerPicture"]==null
                                     ?Container()
-                                    :Image.network(
-                                  displayList[index]["courtOwnerPicture"],
+                                    :CachedNetworkImage(
+                                    imageUrl: displayList[index]["courtOwnerPicture"],
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.cover,
+                                  progressIndicatorBuilder:
+                                    (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                                  errorWidget:
+                                    (context, url, error) =>
+                                      Icon(Icons.error),
                                     )),
                               ),
                         ),
