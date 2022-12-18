@@ -1,11 +1,13 @@
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/profile.dart';
+import 'package:kickoff_frontend/application/screens/reservations.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
 import '../../constants.dart';
 import '../../httpshandlers/courtsrequests.dart';
 import '../../httpshandlers/loginrequests.dart' as cLogin;
 import '../../httpshandlers/loginrequestsplayer.dart' as pLogin;
+import 'announcements.dart';
 
 String loginData = "";
 bool loading = true;
@@ -39,7 +41,11 @@ class Loading {
        KickoffApplication.Player=false;
        data = await cLogin.RoundedLogin.save2(email, pass);
        int id = data["id"];
+       KickoffApplication.ownerId ="${data["id"]}";
        ProfileBaseScreen.courts = await CourtsHTTPsHandler.getCourts(id);
+       await ReservationsHome.buildTickets();
+       await AnnouncementsHome.buildAnnouncements();
+
       }
     }
     finish = true;

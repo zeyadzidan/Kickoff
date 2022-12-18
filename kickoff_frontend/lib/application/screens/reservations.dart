@@ -80,12 +80,12 @@ class _ReservationsHomeState extends State<ReservationsHome> {
             onTabChange: _onTabSelect,
             duration: const Duration(milliseconds: 300),
             activeColor: Colors.white,
-            color: playerColor,
+            color: courtOwnerColor,
             tabBackgroundColor: Colors.black.withAlpha(25),
             tabs: List<GButton>.generate(
                 ProfileBaseScreen.courts.length,
                 (index) => GButton(
-                      backgroundColor: playerColor,
+                      backgroundColor: courtOwnerColor,
                       icon: Icons.stadium,
                       text: "   ${ProfileBaseScreen.courts[index].cname}",
                     )),
