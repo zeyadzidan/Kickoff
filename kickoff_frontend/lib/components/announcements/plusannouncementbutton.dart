@@ -26,7 +26,6 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
 
   @override
   Widget build(BuildContext context) {
-    print("plus");
     return FloatingActionButton(
         backgroundColor: courtOwnerColor,
         child: const Icon(Icons.add_comment_rounded, size: 35),
