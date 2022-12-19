@@ -8,7 +8,7 @@ import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
 
-import '../../constants.dart';
+import '../../../constants.dart';
 
 class PlayerReservationsHome extends StatefulWidget {
   const PlayerReservationsHome({super.key});
