@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:kickoff_frontend/application/screens/ProfileappearToPlayer.dart';
 import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
@@ -71,7 +72,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
                     (KickoffApplication._selectedPage == 0) ?
                       SearchScreen() :
                     (KickoffApplication._selectedPage == 1) ?
-                      const Center(child: Text("DUMMY PAGE 1")) :
+                       ProfileBaseScreenPlayer() :
                     (KickoffApplication._selectedPage == 2) ?
                       const Center(child: Text("DUMMY PAGE 2")) :
                       const Center(child: Text("DUMMY PAGE 3"))
