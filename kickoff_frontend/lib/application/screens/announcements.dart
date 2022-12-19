@@ -15,6 +15,7 @@ class AnnouncementsHome extends StatefulWidget {
   static List<bool> isExpanded = [];
 
   static buildAnnouncements() async {
+    // TODO: Test player announcements view.
     AnnouncementsHome.announcements =
         await AnnouncementHTTPsHandler.getAnnouncements(
             KickoffApplication.ownerId);
@@ -26,7 +27,5 @@ class AnnouncementsHome extends StatefulWidget {
 
 class _AnnouncementsHomeState extends State<AnnouncementsHome> {
   @override
-  Widget build(BuildContext context) {
-    return AnnouncementsView();
-  }
+  Widget build(BuildContext context) => AnnouncementsView();
 }
