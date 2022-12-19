@@ -264,7 +264,12 @@ public class BookingAgent {
             return "Court does not belong to the courtOwner";
         }
         ScheduleAgent scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository) ;
-        List<Reservation> reservations = scheduleAgent.getScheduleOverlapped(date, date, new Time(0) , new Time(23,59,0), court.getCourtSchedule());
+        Date endDate = date ;
+        if(court.getCourtSchedule().getEndWorkingHours().before(court.getCourtSchedule().getStartWorkingHours())){
+            endDate = new Date(date.getTime() + (1000 * 60 * 60 * 24)) ;
+        }
+
+        List<Reservation> reservations = scheduleAgent.getScheduleOverlapped(date, endDate, court.getCourtSchedule().getStartWorkingHours() , court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule());
         reservations.sort(new ReservationComparitor()) ;
 
         List<FrontEndReservation> frontEndReservations = new ArrayList<>(reservations.size());

@@ -32,10 +32,19 @@ public class ScheduleAgent {
         ArrayList<Reservation> res = new ArrayList<Reservation>() ;
         DateTime start = new DateTime(fromD, fromT) ;
         DateTime end = new DateTime(toD, toT) ;
+        System.out.println("start " + start.toString());
+        System.out.println("end " + end.toString());
 
         for(Reservation r: schedule.getBookedReservations()){
             DateTime resStart = new DateTime(r.getStartDate(), r.getTimeFrom()) ;
             DateTime resEnd = new DateTime(r.getEndDate(), r.getTimeTo()) ;
+            System.out.println("resStart " + resStart.toString());
+            System.out.println("resEnd " + resEnd.toString());
+            System.out.println("resStart.compareTo(start) " + resStart.compareTo(start));
+            System.out.println("resEnd.compareTo(end) " + resEnd.compareTo(end));
+            System.out.println("resEnd.compareTo(start) " + resEnd.compareTo(start));
+            System.out.println("resStart.compareTo(end) " + resStart.compareTo(end));
+
 
             if((resStart.compareTo(start) >= 0 && resEnd.compareTo(end)<=0)
                     || (resStart.compareTo(start) <= 0 && resEnd.compareTo(start)>0)
@@ -44,24 +53,40 @@ public class ScheduleAgent {
             }
 
         }
+        ArrayList<Reservation> toRemove = new ArrayList<Reservation>() ;
         for(Reservation r: schedule.getPendingReservations()){
             if(!checkPendingConstraint(r)){
-                schedule.getPendingReservations().remove(r) ;
-                schedule.getHistory().add(r) ;
-                rr.save(r) ;
-                sr.save(schedule) ;
-                continue;
+                System.out.println("baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ");
+
+                //toRemove.add(r) ;
+                //continue;
             }
 
             DateTime resStart = new DateTime(r.getStartDate(), r.getTimeFrom()) ;
             DateTime resEnd = new DateTime(r.getEndDate(), r.getTimeTo()) ;
 
+            System.out.println("resStart " + resStart.toString());
+            System.out.println("resEnd " + resEnd.toString());
+            System.out.println("resStart.compareTo(start) " + resStart.compareTo(start));
+            System.out.println("resEnd.compareTo(end) " + resEnd.compareTo(end));
+            System.out.println("resEnd.compareTo(start) " + resEnd.compareTo(start));
+            System.out.println("resStart.compareTo(end) " + resStart.compareTo(end));
+
             if((resStart.compareTo(start) >= 0 && resEnd.compareTo(end)<=0)
                     || (resStart.compareTo(start) <= 0 && resEnd.compareTo(start)>0)
                     || (resStart.compareTo(end) < 0 && resEnd.compareTo(end)>=0) ){
                 res.add(r) ;
             }
         }
+
+        for(Reservation r: toRemove){
+            schedule.getPendingReservations().remove(r) ;
+            schedule.getHistory().add(r) ;
+            rr.save(r) ;
+            sr.save(schedule) ;
+        }
+
+
 
         return res;
 
