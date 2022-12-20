@@ -143,6 +143,21 @@ public class BookingAgent {
         String[] tempArrF = dateStrF.split("/");
         int startHour = jsonObject.getInt("startHour");
         int finishHour = jsonObject.getInt("finishHour");
+        Player player ;
+        try {
+            Long playerID = jsonObject.getLong("playerId");
+            Optional<Player> optionalPlayer= playerRepository.findById(playerID) ;
+            if(optionalPlayer.isPresent()){
+                player = optionalPlayer.get();
+            }else{
+                throw new JSONException("Player ID") ;
+            }
+        }catch (Exception e){
+            player = new Player() ;
+            player.setPlayerType(PlayerType.Lite);
+            player.setName(playerName);
+        }
+
         Date stDate, endDate;
         Time timeFrom, timeTo;
         if (tempArrS.length != 3 || tempArrF.length != 3)
@@ -194,28 +209,7 @@ public class BookingAgent {
         if (!oldReservation.isEmpty())
             return "that time have reservation";
 
-
-        Player player ;
-        try {
-            Long playerID = jsonObject.getLong("playerId");
-            Optional<Player> optionalPlayer= playerRepository.findById(playerID) ;
-            if(optionalPlayer.isPresent()){
-                player = optionalPlayer.get();
-                if(!player.getName().equals(playerName)){
-                    return "Player name do not match the player id" ;
-                }
-            }else{
-                throw new JSONException("Player ID") ;
-            }
-
-        }catch (Exception e){
-            player = new Player() ;
-            player.setPlayerType(PlayerType.Lite);
-            player.setName(playerName);
-        }
-
         this.playerRepository.save(player) ;
-
         Reservation reservation = new Reservation(player,courtId, courtOwnerId, stDate, endDate, timeFrom,
                 timeTo, ReservationState.Pending,0,
                 reservationService.calcTotalCost(stDate, endDate, timeFrom, timeTo, courtOptional.get()));
@@ -270,6 +264,7 @@ public class BookingAgent {
         }
 
         List<Reservation> reservations = scheduleAgent.getScheduleOverlapped(date, endDate, court.getCourtSchedule().getStartWorkingHours() , court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule());
+        reservations.addAll(scheduleAgent.getExpiredOverlapped(date, endDate, court.getCourtSchedule().getStartWorkingHours() , court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule()));
         reservations.sort(new ReservationComparitor()) ;
 
         List<FrontEndReservation> frontEndReservations = new ArrayList<>(reservations.size());
