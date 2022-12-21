@@ -13,7 +13,7 @@ class AnnouncementsView extends StatefulWidget {
 }
 
 class _AnnouncementsViewState extends State<AnnouncementsView> {
-  final bool _isPlayer = KickoffApplication.player;
+  final bool _isPlayer = KickoffApplication.Player;
 
   @override
   Widget build(BuildContext context) {

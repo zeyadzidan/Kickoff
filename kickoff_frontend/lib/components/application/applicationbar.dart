@@ -9,7 +9,7 @@ import '../../application/application.dart';
 import '../../application/screens/profile.dart';
 
 class KickoffAppBar {
-  build(context) => KickoffApplication.player
+  build(context) => KickoffApplication.Player
       ?AppBar(
     leading: IconButton(
       icon: const Icon(Icons.person),

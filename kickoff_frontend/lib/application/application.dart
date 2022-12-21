@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kickoff_frontend/application/screens/ProfileappearToPlayer.dart';
-import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/announcements.dart';
+import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
 import 'package:kickoff_frontend/application/screens/player/player-reservations.dart';
 import 'package:kickoff_frontend/components/announcements/plusannouncementbutton.dart';
@@ -28,10 +28,9 @@ class KickoffApplication extends StatefulWidget {
 
   final Map<String, dynamic> profileData;
   static int _selectedPage = 0;
-  static bool player = true;
+  static bool Player=true;
   static String userIP = '';
   static String ownerId = '';
-  static String playerId = '';
   static List<Court> courts = [];
   static late Map<String, dynamic> data;
   static late Map<String, dynamic> dataPlayer;
@@ -42,6 +41,7 @@ class KickoffApplication extends StatefulWidget {
   State<KickoffApplication> createState() => _currentState;
 
   static update() => _currentState.setState(() {});
+
 
   static onTapSelect(index) =>
       _currentState.setState(() => _selectedPage = index);
@@ -60,44 +60,40 @@ class KickoffApplicationState extends State<KickoffApplication> {
       theme: AppThemes.lightTheme,
       title: "Kickoff",
       debugShowCheckedModeBanner: false,
-      initialRoute: firstTime ? '/loginPlayer' : '/kickoff',
+      initialRoute:firstTime?'/loginPlayer':'/kickoff',
       //initialRoute: firstTime?'/login':'/kickoff',
       routes: {
-        '/loginPlayer': (context) => const LoginScreen(),
+        '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
-        '/profileCourt': (context) => ProfileBaseScreenPlayer(),
+        '/profilePlayer':(context)=>  ProfileBaseScreenPlayer(),
         '/kickoff': (context) => Builder(
               builder: (context) => Scaffold(
                 appBar: KickoffAppBar().build(context),
                 body: Center(
-                    // Player Application
-                    child: (KickoffApplication.player)
-                        ? (KickoffApplication._selectedPage == 0)
-                            ? SearchScreen()
-                            : (KickoffApplication._selectedPage == 1)
-                                ? const Center(child: Text("DUMMY PAGE 1"))
-                                : (KickoffApplication._selectedPage == 2)
-                                    ? const Center(child: Text("DUMMY PAGE 2"))
-                                    : PlayerReservationsHome()
-                        // Court Owner Application
-                        : (KickoffApplication._selectedPage == 0)
-                            ? ProfileBaseScreen()
-                            : (KickoffApplication._selectedPage == 1)
-                                ? AnnouncementsHome()
-                                : ReservationsHome()),
+                // Player Application
+                  child: (KickoffApplication.Player) ?
+                    (KickoffApplication._selectedPage == 0) ?
+                      SearchScreen() :
+                    (KickoffApplication._selectedPage == 1) ?
+                     const Center(child: Text("DUMMY PAGE 1")) :
+                    (KickoffApplication._selectedPage == 2) ?
+                      const Center(child: Text("DUMMY PAGE 2")) :
+                      PlayerReservationsHome()
+                // Court Owner Application
+                  : (KickoffApplication._selectedPage == 0) ?
+                      ProfileBaseScreen() :
+                    (KickoffApplication._selectedPage == 1) ?
+                      AnnouncementsHome() : ReservationsHome()
+                ),
                 // Court Owner Floating Buttons
-                floatingActionButton: (!KickoffApplication.player)
-                    ? (KickoffApplication._selectedPage == 0)
-                        ? const PlusCourtButton()
-                        : (KickoffApplication._selectedPage == 1)
-                            ? const PlusAnnouncementButton()
-                            : const PlusReservationButton()
-                    : null,
-                bottomNavigationBar: KickoffApplication.player
-                    ? (KickoffApplication.ownerId == '')
-                        ? _buildPlayerNavBar()
-                        : _buildNavBar()
-                    : _buildNavBar(),
+                floatingActionButton: (!KickoffApplication.Player) ?
+                  (KickoffApplication._selectedPage == 0) ?
+                    const PlusCourtButton() :
+                  (KickoffApplication._selectedPage == 1) ?
+                    const PlusAnnouncementButton() : const PlusReservationButton()
+                : null,
+                bottomNavigationBar:KickoffApplication.Player ?
+                    _buildPlayerNavBar() : _buildNavBar(),
               ),
             )
       },
@@ -112,9 +108,10 @@ class KickoffApplicationState extends State<KickoffApplication> {
           firstTime = (loginData == "0");
           loading = false;
           _timer.cancel();
-        } else if (loginData == "0") {
+        }else if (loginData=="0"){
           _timer.cancel();
         }
+
       });
     });
   }
@@ -148,7 +145,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
             GButton(
               backgroundColor: courtOwnerColor,
               text: "الإعلانات",
-              icon: Icons.announcement,
+              icon: Icons.add,
             ),
             GButton(
               backgroundColor: courtOwnerColor,
@@ -157,7 +154,8 @@ class KickoffApplicationState extends State<KickoffApplication> {
             ),
           ],
           selectedIndex: KickoffApplication._selectedPage,
-          onTabChange: KickoffApplication.onTapSelect));
+          onTabChange: KickoffApplication.onTapSelect)
+  );
 
   _buildPlayerNavBar() => Container(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
@@ -196,5 +194,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
             ),
           ],
           selectedIndex: KickoffApplication._selectedPage,
-          onTabChange: KickoffApplication.onTapSelect));
+          onTabChange: KickoffApplication.onTapSelect)
+  );
+
 }

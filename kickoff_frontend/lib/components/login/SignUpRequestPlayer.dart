@@ -116,7 +116,7 @@ class RoundedButton extends State<SignUpButtonPlayer> {
             // Navigator.of(context).push(MaterialPageRoute(
             //     builder: (context) =>
             //         KickoffApplication(profileData: profileData)));
-            KickoffApplication.player=true;
+            KickoffApplication.Player=true;
             await getCourtsinSearch();
             Navigator.popAndPushNamed(context, '/kickoff');
             print(resp);
