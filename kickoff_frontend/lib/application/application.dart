@@ -41,8 +41,15 @@ class KickoffApplication extends StatefulWidget {
   static update() => _currentState.setState(() {});
 
 
-  static onTapSelect(index) =>
-      _currentState.setState(() => _selectedPage = index);
+  static onTapSelect(index) async {
+    if(!KickoffApplication.player){
+      await AnnouncementsHome.buildAnnouncements();
+      await ReservationsHome.buildTickets();
+    }
+    _currentState.setState(() => _selectedPage = index);
+  }
+
+
 
   checkData(context) =>
       (loginData == "") ? _currentState.updateCounter(context) : null;
