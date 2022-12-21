@@ -35,8 +35,8 @@ class Loading {
       if (isPlayer == "1") {
         //the user is player
         KickoffApplication.player = true;
-        KickoffApplication.playerId = data["id"];
         data = await pLogin.RoundedLogin.save2(email, pass);
+        KickoffApplication.playerId = "${data["id"]}";
         await pLogin.RoundedLogin.getCourtsinSearch(
             data["xAxis"], data["yAxis"]);
       } else {

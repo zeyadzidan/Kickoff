@@ -56,7 +56,7 @@ class _ReservationsViewState extends State<ReservationsView> {
                                               ? Colors.red.withOpacity(0.5)
                                               : Colors.blue.withOpacity(0.5),
                                 ),
-                          child: (KickoffApplication.player)
+                          child: (!KickoffApplication.player)
                               ? Text(ReservationsHome.reservations[index].pname)
                               : Text(
                                   'Starts - ${ReservationsHome.reservations[index].startTime}, Ends - ${ReservationsHome.reservations[index].endTime}'),
@@ -67,7 +67,7 @@ class _ReservationsViewState extends State<ReservationsView> {
                             child: Column(
                               children: [
                                 Column(
-                                  children: KickoffApplication.player
+                                  children: !KickoffApplication.player
                                       ? List<Text>.generate(
                                           ReservationsHome.reservations[index]
                                               .asView()

@@ -40,7 +40,7 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
                   children: [
                     const Text("أضف حجزاً",
                         style: TextStyle(color: courtOwnerColor, fontSize: 32)),
-                    (KickoffApplication.player) ? _formField('اسم اللاعب صاحب الحجز', Icons.person) : Container(),
+                    (!KickoffApplication.player) ? _formField('اسم اللاعب صاحب الحجز', Icons.person) : Container(),
                     _reservationTimePicker(true),
                     _reservationTimePicker(false),
                     _submitButton()
@@ -164,7 +164,7 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
               }
               _key.currentState!.save();  // Set name
               if (KickoffApplication.player) {
-                _fixtureTicket.pname = KickoffApplication.data["pname"];
+                _fixtureTicket.pname = KickoffApplication.data["name"];
                 _fixtureTicket.pid = KickoffApplication.playerId;
               }
               print("Selected: ${ReservationsHome.selectedCourt}");

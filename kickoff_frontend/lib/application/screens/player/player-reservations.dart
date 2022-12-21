@@ -97,11 +97,11 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
         textSize: 5,
       );
 
-  _getSelectedState() => (_resState().isEqual('Booked'))
+  _getSelectedState() => (_resState()=='Booked')
       ? 0
-      : (_resState().isEqual('Pending'))
+      : (_resState()==('Pending'))
           ? 1
-          : (_resState().isEqual('Expired'))
+          : (_resState()==('Expired'))
               ? 2
               : 3;
 

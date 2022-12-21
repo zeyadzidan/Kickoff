@@ -245,9 +245,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
       floatingActionButton: ProfileBaseScreenPlayer._selectedPage == 2
           ? const PlusReservationButton()
           : null,
-      bottomNavigationBar: (KickoffApplication.ownerId != '')
-          ? _buildNavBar()
-          : _buildPlayerNavBar(),
+      bottomNavigationBar: _buildPlayerNavBar(),
     );
   }
 
