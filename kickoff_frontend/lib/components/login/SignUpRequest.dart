@@ -93,7 +93,7 @@ class RoundedButton extends State<SignUpButton> {
             RoundedInput.EmailSignUp.clear();
             RoundedPasswordSignup.Password.clear();
             RoundedPhoneNumber.PhoneNumber.clear();
-            KickoffApplication.Player=false;
+            KickoffApplication.player=false;
             Navigator.popAndPushNamed(context, '/kickoff');
           }
         }

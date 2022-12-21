@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/application/application.dart';
 
+import '../../application/screens/profile.dart';
 import '../../application/screens/reservations.dart';
 import '../../constants.dart';
 import '../../httpshandlers/ticketsrequests.dart';
@@ -35,24 +36,30 @@ class _ReservationsViewState extends State<ReservationsView> {
                         headerBuilder: (_, isExpanded) => Container(
                           padding: const EdgeInsets.symmetric(
                               vertical: 15, horizontal: 30),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(25),
-                            color: (ReservationsHome
-                                        .reservations[index].state ==
-                                    'Pending')
-                                ? Colors.yellow.withOpacity(0.5)
-                                : (ReservationsHome.reservations[index].state ==
-                                        'Booked')
-                                    ? playerColor.withOpacity(0.5)
-                                    : (ReservationsHome
-                                                .reservations[index].state ==
-                                            'Expired')
-                                        ? Colors.red.withOpacity(0.5)
-                                        : Colors.blue.withOpacity(0.5),
-                          ),
-                          child:
-                              Text(ReservationsHome.reservations[index].pname),
+                          decoration: (KickoffApplication.player)
+                              ? null
+                              : BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: (ReservationsHome
+                                              .reservations[index].state ==
+                                          'Pending')
+                                      ? Colors.yellow.withOpacity(0.5)
+                                      : (ReservationsHome
+                                                  .reservations[index].state ==
+                                              'Booked')
+                                          ? playerColor.withOpacity(0.5)
+                                          : (ReservationsHome
+                                                      .reservations[index]
+                                                      .state ==
+                                                  'Expired')
+                                              ? Colors.red.withOpacity(0.5)
+                                              : Colors.blue.withOpacity(0.5),
+                                ),
+                          child: (!KickoffApplication.player)
+                              ? Text(ReservationsHome.reservations[index].pname)
+                              : Text(
+                                  'Starts - ${ReservationsHome.reservations[index].startTime}, Ends - ${ReservationsHome.reservations[index].endTime}'),
                         ),
                         body: Container(
                             padding: const EdgeInsets.symmetric(
@@ -60,51 +67,68 @@ class _ReservationsViewState extends State<ReservationsView> {
                             child: Column(
                               children: [
                                 Column(
-                                  children: List<Text>.generate(
-                                      ReservationsHome.reservations[index]
-                                          .asView()
-                                          .length,
-                                      (j) => Text(ReservationsHome
-                                          .reservations[index]
-                                          .asView()[j])),
+                                  children: !KickoffApplication.player
+                                      ? List<Text>.generate(
+                                          ReservationsHome.reservations[index]
+                                              .asView()
+                                              .length,
+                                          (j) => Text(ReservationsHome
+                                              .reservations[index]
+                                              .asView()[j]))
+                                      : List<Text>.generate(
+                                          ReservationsHome.reservations[index]
+                                              .asPlayerView()
+                                              .length,
+                                          (j) => Text(ReservationsHome
+                                              .reservations[index]
+                                              .asPlayerView()[j])),
                                 ),
-                                (ReservationsHome.reservations[index].state ==
-                                            'Pending' ||
-                                        ReservationsHome
-                                                .reservations[index].state ==
-                                            'Awaiting Confirmation')
-                                    ? Form(
-                                        key: ReservationsView._keys[index],
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.number,
-                                          decoration: const InputDecoration(
-                                              suffixIcon: Icon(
-                                                  Icons.monetization_on,
-                                                  color: playerColor),
-                                              labelText: "العربون",
-                                              labelStyle:
-                                                  TextStyle(color: playerColor),
-                                              floatingLabelAlignment:
-                                                  FloatingLabelAlignment.center,
-                                              focusColor: playerColor,
-                                              border: UnderlineInputBorder(),
-                                              prefixText: 'جنيهاً مصرياً'),
-                                          validator: (input) {
-                                            if (input! == 0 || input == '') {
-                                              return "لا يمكن ترك هذا الحقل فارغاً.";
-                                            }
-                                          },
-                                          onSaved: (input) {
+                                KickoffApplication.player
+                                    ? Container()
+                                    : (ReservationsHome.reservations[index]
+                                                    .state ==
+                                                'Pending' ||
                                             ReservationsHome.reservations[index]
-                                                .state = 'Booked';
-                                            ReservationsHome.reservations[index]
-                                                .paidAmount = input!;
-                                          },
-                                        ),
-                                      )
-                                    : Container(),
+                                                    .state ==
+                                                'Awaiting')
+                                        ? Form(
+                                            key: ReservationsView._keys[index],
+                                            child: TextFormField(
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              decoration: const InputDecoration(
+                                                  suffixIcon: Icon(
+                                                      Icons.monetization_on,
+                                                      color: playerColor),
+                                                  labelText: "العربون",
+                                                  labelStyle: TextStyle(
+                                                      color: playerColor),
+                                                  floatingLabelAlignment:
+                                                      FloatingLabelAlignment
+                                                          .center,
+                                                  focusColor: playerColor,
+                                                  border:
+                                                      UnderlineInputBorder(),
+                                                  prefixText: 'جنيهاً مصرياً'),
+                                              validator: (input) {
+                                                if (input! == 0 ||
+                                                    input == '') {
+                                                  return "لا يمكن ترك هذا الحقل فارغاً.";
+                                                }
+                                              },
+                                              onSaved: (input) {
+                                                ReservationsHome
+                                                    .reservations[index]
+                                                    .state = 'Booked';
+                                                ReservationsHome
+                                                    .reservations[index]
+                                                    .paidAmount = input!;
+                                              },
+                                            ),
+                                          )
+                                        : Container(),
                                 (ReservationsHome.reservations[index].state ==
-                                            'Awaiting Confirmation' &&
+                                            'Awaiting' &&
                                         ReservationsHome.reservations[index]
                                                 .receiptUrl !=
                                             '')
@@ -139,65 +163,85 @@ class _ReservationsViewState extends State<ReservationsView> {
                                     : Container(
                                         height: 0,
                                       ),
-                                (ReservationsHome.reservations[index].state ==
-                                        'Pending')
-                                    ? Container(
-                                        alignment: Alignment.bottomCenter,
-                                        margin: const EdgeInsets.only(top: 15),
-                                        child: ElevatedButton.icon(
-                                          label: const Text('تأكيد الحجز'),
-                                          icon: const Icon(Icons.schedule_send),
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.green,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
+                                KickoffApplication.player
+                                    ? Container()
+                                    : (ReservationsHome.reservations[index]
+                                                    .state ==
+                                                'Pending' ||
+                                            ReservationsHome.reservations[index]
+                                                    .state ==
+                                                'Awaiting')
+                                        ? Container(
+                                            alignment: Alignment.bottomCenter,
+                                            margin:
+                                                const EdgeInsets.only(top: 15),
+                                            child: ElevatedButton.icon(
+                                              label: const Text('تأكيد الحجز'),
+                                              icon: const Icon(
+                                                  Icons.schedule_send),
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.green,
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
                                                       vertical: 20,
                                                       horizontal: 15)),
-                                          onPressed: () async {
-                                            // Validate name and money constraints
-                                            if (!ReservationsView
-                                                ._keys[index].currentState!
-                                                .validate()) {
-                                              return;
-                                            }
-                                            ReservationsView
-                                                ._keys[index].currentState!
-                                                .save();
-                                            await TicketsHTTPsHandler
-                                                .bookTicket(ReservationsHome
-                                                    .reservations[index]);
-                                            KickoffApplication.update();
-                                          },
+                                              onPressed: () async {
+                                                // Validate name and money constraints
+                                                if (!ReservationsView
+                                                    ._keys[index].currentState!
+                                                    .validate()) {
+                                                  return;
+                                                }
+                                                ReservationsView
+                                                    ._keys[index].currentState!
+                                                    .save();
+                                                await TicketsHTTPsHandler
+                                                    .bookTicket(ReservationsHome
+                                                        .reservations[index]);
+                                                KickoffApplication.update();
+                                              },
+                                            ),
+                                          )
+                                        : Container(),
+                                KickoffApplication.player
+                                    ? Container()
+                                    : Container(
+                                        margin: const EdgeInsets.only(
+                                            top: 10.0),
+                                        child: SizedBox(
+                                          height: 70,
+                                          width: 150,
+                                          child: ElevatedButton.icon(
+                                            icon: const Icon(Icons.delete),
+                                            label: const Text('مسح الحجز'),
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.red,
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 20,
+                                                        horizontal: 15)),
+                                            onPressed: () async {
+                                              await TicketsHTTPsHandler
+                                                  .deleteTicket(ReservationsHome
+                                                      .reservations[index]);
+                                              ReservationsHome.reservations =
+                                                  await TicketsHTTPsHandler
+                                                      .getCourtReservations(
+                                                          ProfileBaseScreen
+                                                              .courts[
+                                                                  ReservationsHome
+                                                                      .selectedCourt]
+                                                              .cid,
+                                                          KickoffApplication
+                                                              .ownerId,
+                                                          DateFormat.yMd().format(
+                                                              ReservationsHome
+                                                                  .selectedDate));
+                                              KickoffApplication.update();
+                                            },
+                                          ),
                                         ),
-                                      )
-                                    : Container(),
-                                Container(
-                                  margin: const EdgeInsets.only(
-                                      top: 70.0, right: 300.0),
-                                  child: ElevatedButton.icon(
-                                    icon: const Icon(Icons.delete),
-                                    label: const Text('مسح الحجز'),
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.red,
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 20, horizontal: 15)),
-                                    onPressed: () async {
-                                      await TicketsHTTPsHandler.deleteTicket(
-                                          ReservationsHome.reservations[index]);
-                                      ReservationsHome.reservations =
-                                          await TicketsHTTPsHandler
-                                              .getCourtReservations(
-                                                  (ReservationsHome
-                                                          .selectedCourt +
-                                                      1),
-                                                  KickoffApplication.ownerId,
-                                                  DateFormat.yMd().format(
-                                                      ReservationsHome
-                                                          .selectedDate));
-                                      KickoffApplication.update();
-                                    },
-                                  ),
-                                ),
+                                      ),
                               ],
                             )),
                         isExpanded: ReservationsHome.isExpanded[index],

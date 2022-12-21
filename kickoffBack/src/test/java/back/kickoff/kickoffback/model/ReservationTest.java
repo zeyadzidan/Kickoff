@@ -110,4 +110,18 @@ class ReservationTest {
         reservation.setReceiptUrl(receiptUrl);
         assertEquals(receiptUrl, reservation.getReceiptUrl());
     }
+
+    @Test
+    void getDateReserved() {
+        Date d = new Date(2022, 12, 20);
+        reservation.setDateReserved(d);
+        assertEquals(d, reservation.getDateReserved());
+    }
+
+    @Test
+    void getTimeReserved() {
+        Time t = new Time(16, 14, 9);
+        reservation.setTimeReserved(t);
+        assertEquals(t, reservation.getTimeReserved());
+    }
 }
