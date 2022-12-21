@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/announcements.dart';
@@ -13,7 +14,7 @@ class AnnouncementsView extends StatefulWidget {
 }
 
 class _AnnouncementsViewState extends State<AnnouncementsView> {
-  final bool _isPlayer = KickoffApplication.Player;
+  final bool _isPlayer = KickoffApplication.player;
 
   @override
   Widget build(BuildContext context) {
@@ -43,27 +44,16 @@ class _AnnouncementsViewState extends State<AnnouncementsView> {
                           children: [
                             Text(AnnouncementsHome.announcements[index].body),
                             AnnouncementsHome.announcements[index].img != ""
-                                ? Image.network(
-                                    AnnouncementsHome.announcements[index].img,
-                                    width: 100,
-                                    height: 100,
+                                ? CachedNetworkImage(
+                                    imageUrl: AnnouncementsHome.announcements[index].img,
+                                    width: double.infinity,
                                     fit: BoxFit.cover,
-                                    frameBuilder: (context, child, frame,
-                                        wasSynchronouslyLoaded) {
-                                      return child;
-                                    },
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) {
-                                        return child;
-                                      } else {
-                                        return const Center(
-                                          child: CircularProgressIndicator(
-                                            color: Colors.white,
-                                          ),
-                                        );
-                                      }
-                                    },
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
                                   )
                                 : Container(
                                     height: 0,
@@ -73,9 +63,9 @@ class _AnnouncementsViewState extends State<AnnouncementsView> {
                                     height: 0,
                                   )
                                 : Container(
-                                    margin: const EdgeInsets.only(top: 70.0),
+                                    margin: const EdgeInsets.only(top: 10.0),
                                     child: SizedBox(
-                                      height: 50,
+                                      height: 70,
                                       width: 150,
                                       child: ElevatedButton.icon(
                                         icon: const Icon(Icons.delete),

@@ -10,7 +10,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.Set;
 
-@Data
 @Setter
 @Getter
 @Table
@@ -43,10 +42,11 @@ public class Reservation {
     Time timeReserved ;
 
     ReservationState state;
+    String receiptUrl;
     int moneyPayed ;
     int totalCost ;
-    @ManyToMany(mappedBy = "reservations")
-    Set<Player> players;
+    //@ManyToMany(mappedBy = "reservations")
+    //Set<Player> players;
     //Long messageID ;
 
 

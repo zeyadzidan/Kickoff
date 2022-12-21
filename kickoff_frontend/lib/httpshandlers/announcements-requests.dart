@@ -37,8 +37,8 @@ class AnnouncementHTTPsHandler {
       announcement.aid = map['id'].toString();
       announcement.title = map['title'].toString();
       announcement.body = map['body'].toString();
-      if (map.containsKey('attachments')) {
-        announcement.img = map['attachments'].toString();
+      if (map.containsKey('cni')) {
+        announcement.img = map['cni'].toString();
       }
       announcement.date = map['date'].toString();
       announcements.add(announcement);

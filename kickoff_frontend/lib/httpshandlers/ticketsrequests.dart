@@ -31,6 +31,8 @@ class TicketsHTTPsHandler {
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "playerName": ticket.pname,
+          if (KickoffApplication.player)
+            "playerId": ticket.pid,
           "courtId": ticket.cid,
           "courtOwnerId": ticket.coid,
           "startDate": ticket.startDate,
@@ -78,6 +80,7 @@ class TicketsHTTPsHandler {
         ticket.state = map['state'].toString();
         ticket.paidAmount = map['moneyPayed'].toString();
         ticket.totalCost = map['totalCost'].toString();
+        ticket.receiptUrl = map['receiptUrl'].toString();
         reservations.add(ticket);
       }
     } on Exception catch (_) {
@@ -110,13 +113,14 @@ class TicketsHTTPsHandler {
         ticket.state = map['state'].toString();
         ticket.paidAmount = map['moneyPayed'].toString();
         ticket.totalCost = map['totalCost'].toString();
+        ticket.receiptUrl = map['receiptUrl'].toString();
         reservations.add(ticket);
       }
     }
     return reservations;
   }
 
-  static Future uploadReceipt(File file, final path) async {
+  static Future uploadReceipt(File file, final path, ) async {
     UploadTask? uploadTask;
     final ref = FirebaseStorage.instance.ref().child(path);
     uploadTask = ref.putFile(file);
@@ -128,7 +132,7 @@ class TicketsHTTPsHandler {
     await http.post(Uri.parse('$_url/courtOwnerAgent/CourtOwner/addImage'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "playerId": 1 /* Player ID */,
+          "reservationId": 1 /* Player ID */,
           "imageURL": imageUrl.toString(),
         }));
     print(response.body);

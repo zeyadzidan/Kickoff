@@ -63,6 +63,11 @@ public class BookingAgentController {
         responseBody = responseBody.substring(2);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
-
-
+    @PostMapping("/sendReceipt")
+    public ResponseEntity<String> sendReceipt(@RequestBody String information) throws JSONException {
+        String  responseBody = bookingAgent.sendReceipt(information);
+        if(responseBody.equals("Not Found"))
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
 }

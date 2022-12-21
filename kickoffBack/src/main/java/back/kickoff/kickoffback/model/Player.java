@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.List;
 import java.util.Set;
 
-@Data
+
 @Getter
 @Setter
 @Entity
@@ -28,9 +28,9 @@ public class Player{
     private String image;
     private Double xAxis;
     private Double yAxis;
-    @ManyToMany
-    @JoinTable(name="player_reservation", joinColumns = @JoinColumn(name="player_id"),
-            inverseJoinColumns = @JoinColumn(name="reservation_id"))
+    //@ManyToMany
+    //@JoinTable(name="player_reservation", joinColumns = @JoinColumn(name="player_id"),inverseJoinColumns = @JoinColumn(name="reservation_id"))
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER , mappedBy = "mainPlayer")
     private Set<Reservation> reservations;
 
     public Player(String name, String email, String phoneNumber, String password, String location, Double xAxis, Double yAxis) {

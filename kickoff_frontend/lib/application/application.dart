@@ -26,9 +26,10 @@ class KickoffApplication extends StatefulWidget {
 
   final Map<String, dynamic> profileData;
   static int _selectedPage = 0;
-  static bool Player=true;
+  static bool player = true;
   static String userIP = '';
   static String ownerId = '';
+  static String playerId = '';
   static late Map<String, dynamic> data;
   static late Map<String, dynamic> dataPlayer;
   static final KickoffApplicationState _currentState =
@@ -68,14 +69,13 @@ class KickoffApplicationState extends State<KickoffApplication> {
                 appBar: KickoffAppBar().build(context),
                 body: Center(
                 // Player Application
-                  child: (KickoffApplication.Player) ?
+                  child: (KickoffApplication.player) ?
                     (KickoffApplication._selectedPage == 0) ?
                       SearchScreen() :
                     (KickoffApplication._selectedPage == 1) ?
-                     const Center(child: Text("DUMMY PAGE 1")) :
+                     const Center(child: Text("NEWS FEED NOT YET FEATURED")) :
                     (KickoffApplication._selectedPage == 2) ?
-                      const Center(child: Text("DUMMY PAGE 2")) :
-                      PlayerReservationsHome()
+                      PlayerReservationsHome() : Container()
                 // Court Owner Application
                   : (KickoffApplication._selectedPage == 0) ?
                       ProfileBaseScreen() :
@@ -83,13 +83,13 @@ class KickoffApplicationState extends State<KickoffApplication> {
                       AnnouncementsHome() : ReservationsHome()
                 ),
                 // Court Owner Floating Buttons
-                floatingActionButton: (!KickoffApplication.Player) ?
+                floatingActionButton: (!KickoffApplication.player) ?
                   (KickoffApplication._selectedPage == 0) ?
                     const PlusCourtButton() :
                   (KickoffApplication._selectedPage == 1) ?
                     const PlusAnnouncementButton() : const PlusReservationButton()
                 : null,
-                bottomNavigationBar:KickoffApplication.Player ?
+                bottomNavigationBar:KickoffApplication.player ?
                     _buildPlayerNavBar() : _buildNavBar(),
               ),
             )
