@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
+import 'package:kickoff_frontend/application/screens/player/ReservationButtonPlayer.dart';
+import 'package:kickoff_frontend/application/screens/player/ReservationHomePlayer.dart';
+import 'package:kickoff_frontend/application/screens/profile.dart';
 import 'package:kickoff_frontend/components/courts/court-view.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -59,7 +62,8 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
         ),
       ),
       body: Center(
-        child: Container(
+        child: ProfileBaseScreenPlayer._selectedPage == 0
+          ?Container(
             margin: const EdgeInsets.all(20),
             child: Column(
               children: [
@@ -225,9 +229,15 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                 ),
                 CourtsView(),
               ],
-            )),
+            )
+        ):ProfileBaseScreenPlayer._selectedPage == 1
+            ?Container()
+            :ReservationsHomePlayer()
 
       ),
+      floatingActionButton: ProfileBaseScreenPlayer._selectedPage == 2
+        ?const PlusReservationButtonPlayer()
+        :null,
       bottomNavigationBar: _buildPlayerNavBar(),
     );
   }
@@ -268,7 +278,8 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
             ),
           ],
           selectedIndex: ProfileBaseScreenPlayer._selectedPage,
-          // onTabChange: ProfileBaseScreenPlayer.onTapSelect
+          onTabChange: (x) => setState(() {ProfileBaseScreenPlayer._selectedPage = x;
+          print(ProfileBaseScreenPlayer._selectedPage);})
           )
   );
 }

@@ -22,35 +22,32 @@ class _PlusReservationButtonPlayerState extends State<PlusReservationButtonPlaye
   TimeOfDay.now().replacing(hour: (_from.hour + 1) % 24, minute: 00);
 
   @override
-  Widget build(BuildContext context) => Visibility(
-    visible: (DateTime.now().difference(ReservationsHome.selectedDate) <= const Duration(seconds: 1)),
-    child: FloatingActionButton(
-        backgroundColor: playerColor,
-        tooltip: "Create Reservation",
-        child: const Icon(Icons.add_card_rounded, size: 35),
-        onPressed: () => showModalBottomSheet(
-          elevation: 4,
-          context: context,
-          builder: (context) => SingleChildScrollView(
-              child: Form(
-                key: _key,
-                child: Container(
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 25.0, horizontal: 25.0),
-                  child: Column(
-                    children: [
-                      const Text("Create new Reservationً",
-                          style: TextStyle(color: playerColor, fontSize: 32)),
-                      _formField('Player name', Icons.person),
-                      _reservationTimePicker(true),
-                      _reservationTimePicker(false),
-                      _submitButton()
-                    ],
-                  ),
+  Widget build(BuildContext context) => FloatingActionButton(
+      backgroundColor: playerColor,
+      tooltip: "Create Reservation",
+      child: const Icon(Icons.add_card_rounded, size: 35),
+      onPressed: () => showModalBottomSheet(
+        elevation: 4,
+        context: context,
+        builder: (context) => SingleChildScrollView(
+            child: Form(
+              key: _key,
+              child: Container(
+                margin: const EdgeInsets.symmetric(
+                    vertical: 25.0, horizontal: 25.0),
+                child: Column(
+                  children: [
+                    const Text("Create new Reservationً",
+                        style: TextStyle(color: playerColor, fontSize: 32)),
+                    _formField('Player name', Icons.person),
+                    _reservationTimePicker(true),
+                    _reservationTimePicker(false),
+                    _submitButton()
+                  ],
                 ),
-              )),
-        )),
-  );
+              ),
+            )),
+      ));
 
   _formField(label, icon) => TextFormField(
     maxLength: 32,
