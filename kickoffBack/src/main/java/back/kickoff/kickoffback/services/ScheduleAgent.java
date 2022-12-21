@@ -108,7 +108,8 @@ public class ScheduleAgent {
 
         DateTime reserved = new DateTime(r.getDateReserved(), r.getTimeReserved()) ;
         DateTime start = new DateTime(r.getStartDate(), r.getTimeFrom()) ;
-        DateTime now = new DateTime(new Date(System.currentTimeMillis()), new Time(System.currentTimeMillis())) ;
+        Time nowTime =  new Time(System.currentTimeMillis()) ;
+        DateTime now = new DateTime(new Date(System.currentTimeMillis()), new Time(nowTime.getHours(), 0,0) ) ;
 
         int diff = start.compareTo(reserved) ;
         int tonow = now.compareTo(reserved) ;
