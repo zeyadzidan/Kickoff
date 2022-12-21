@@ -29,7 +29,7 @@ public class SignupService {
         JSONObject jsonObject = new JSONObject(information);
         String email = jsonObject.getString("email");
         String password = jsonObject.getString("password");
-        String username = jsonObject.getString("username");
+        String username = jsonObject.getString("name");
         String location = jsonObject.getString("location");
         String phoneNumber = jsonObject.getString("phoneNumber");
         Double xAxis = jsonObject.getDouble("xAxis");
@@ -83,7 +83,7 @@ public class SignupService {
         playerRepository.save(newPlayer);
         Map<String, Object> res = new HashMap<>() ;
         res.put("id", newPlayer.getId());
-        res.put("userName", newPlayer.getName());
+        res.put("name", newPlayer.getName());
         res.put("email", newPlayer.getEmail());
         res.put("location", newPlayer.getLocation());
         res.put("image", newPlayer.getImage());

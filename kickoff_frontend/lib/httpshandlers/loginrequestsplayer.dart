@@ -10,6 +10,7 @@ import 'package:kickoff_frontend/components/login/PasswordPlayer.dart';
 import 'package:kickoff_frontend/components/login/SignUpLocation.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
+import 'package:kickoff_frontend/application/screens/login.dart';
 import 'package:kickoff_frontend/components/courts/CourtsInSearch.dart';
 import '../application/screens/reservations.dart';
 import 'courtsrequests.dart';
@@ -24,28 +25,28 @@ class LoginButtonPlayer extends StatefulWidget {
 class RoundedLogin extends State<LoginButtonPlayer> {
   static final String _url =
       "http://${ip}:8080/login/player";
-  String url2 = "http://${ip}:8080/search/courtOwner/distance";
+ static String url2 = "http://${ip}:8080/search/courtOwner/distance";
 
-  Future getCourtsinSearch() async{
+ static Future getCourtsinSearch(xAxis,yAxis) async{
     var res = await http.post(Uri.parse(url2),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "keyword":"",
-          "xAxis": KickoffApplication.data["xAxis"],
-          "yAxis": KickoffApplication.data["yAxis"],
+          "xAxis": xAxis,
+          "yAxis": yAxis,//TODO: make this dynamic
         }));
-    setState(() {
       print(res.body);
       // FieldValue arrayUnion(List<dynamic> elements) =>
       //     FieldValue._(FieldValueType.arrayUnion, elements);
-      courtsSearch= jsonDecode(res.body) as List<dynamic>;
-      print(courtsSearch);
-    });
+      // courtsSearch= jsonDecode(res.body) as List<dynamic>;
+      LoginScreen.courtsSearch=jsonDecode(res.body) as List<dynamic>;
+      // print(courtsSearch);
+      print("lol");
 
   }
   var resp = 52;
   late Map<String, dynamic> profileData;
-  static List<dynamic> courtsSearch=[];
+  // static List<dynamic> courtsSearch=[];
   Future save(email, pass) async {
     var res = await http.post(Uri.parse(_url),
         headers: {"Content-Type": "application/json"},
@@ -103,16 +104,13 @@ class RoundedLogin extends State<LoginButtonPlayer> {
           } else {
             print(profileData);
             KickoffApplication.data = profileData;
-            KickoffApplication.ownerId = profileData["id"].toString();
-           //  ProfileBaseScreen.courts =
-           //  //await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
-           // // await ReservationsHome.buildTickets();
-           // //  localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
-           // //      RoundedPasswordInputPlayer.Password.text,"1");
-           //  KickoffApplication.Player=true;
-            await getCourtsinSearch();
+              localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
+                RoundedPasswordInputPlayer.Password.text,"1");
+            KickoffApplication.Player=true;
+            RoundedInputLogin.EmailLogin.clear();
+            RoundedPasswordInputPlayer.Password.clear();
+            await getCourtsinSearch(KickoffApplication.data["xAxis"],KickoffApplication.data["yAxis"]);
             Navigator.popAndPushNamed(context, '/kickoff');
-            // Navigator.pushNamed(context, '/playersearch');
           }
         }
       },

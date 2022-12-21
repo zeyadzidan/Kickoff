@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:kickoff_frontend/application/screens/ProfileappearToPlayer.dart';
 import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
+import 'package:kickoff_frontend/application/screens/player/player-reservations.dart';
 import 'package:kickoff_frontend/components/announcements/plusannouncementbutton.dart';
 import 'package:kickoff_frontend/components/application/applicationbar.dart';
 import 'package:kickoff_frontend/components/courts/pluscourtbutton.dart';
@@ -28,6 +30,7 @@ class KickoffApplication extends StatefulWidget {
   static String userIP = '';
   static String ownerId = '';
   static late Map<String, dynamic> data;
+  static late Map<String, dynamic> dataPlayer;
   static final KickoffApplicationState _currentState =
       KickoffApplicationState();
 
@@ -59,6 +62,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
       routes: {
         '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
+        '/profilePlayer':(context)=>  ProfileBaseScreenPlayer(),
         '/kickoff': (context) => Builder(
               builder: (context) => Scaffold(
                 appBar: KickoffAppBar().build(context),
@@ -68,10 +72,10 @@ class KickoffApplicationState extends State<KickoffApplication> {
                     (KickoffApplication._selectedPage == 0) ?
                       SearchScreen() :
                     (KickoffApplication._selectedPage == 1) ?
-                      const Center(child: Text("DUMMY PAGE 1")) :
+                     const Center(child: Text("DUMMY PAGE 1")) :
                     (KickoffApplication._selectedPage == 2) ?
                       const Center(child: Text("DUMMY PAGE 2")) :
-                      const Center(child: Text("DUMMY PAGE 3"))
+                      PlayerReservationsHome()
                 // Court Owner Application
                   : (KickoffApplication._selectedPage == 0) ?
                       ProfileBaseScreen() :
@@ -136,7 +140,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
             GButton(
               backgroundColor: courtOwnerColor,
               text: "الإعلانات",
-              icon: Icons.add,
+              icon: Icons.announcement,
             ),
             GButton(
               backgroundColor: courtOwnerColor,

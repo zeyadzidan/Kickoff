@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:core';
+import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/reservations.dart';
@@ -83,5 +85,52 @@ class TicketsHTTPsHandler {
       print(rsp.body);
     }
     return reservations;
+  }
+
+  static Future<List<FixtureTicket>> getPlayerReservations(pid, filter) async {
+    var rsp = await http.post(
+        Uri.parse('$_url/BookingAgent/reservationsOnDate'),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(
+            {"playerId": pid, "filter": filter}));
+    print(rsp.body);
+    List<FixtureTicket> reservations = [];
+    if (rsp.body != 'Player not found!') {
+      List<dynamic> fixturesMap = json.decode(rsp.body);
+      FixtureTicket ticket; // The court model
+      for (Map<String, dynamic> map in fixturesMap) {
+        ticket = FixtureTicket();
+        ticket.ticketId = map['id'].toString();
+        ticket.pname = map['playerName'].toString();
+        ticket.cid = map['courtID'].toString();
+        ticket.startDate = map['startDate'].toString();
+        ticket.endDate = map['endDate'].toString();
+        ticket.startTime = map['timeFrom'].toString();
+        ticket.endTime = map['timeTo'].toString();
+        ticket.state = map['state'].toString();
+        ticket.paidAmount = map['moneyPayed'].toString();
+        ticket.totalCost = map['totalCost'].toString();
+        reservations.add(ticket);
+      }
+    }
+    return reservations;
+  }
+
+  static Future uploadReceipt(File file, final path) async {
+    UploadTask? uploadTask;
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTask = ref.putFile(file);
+    final snapshot = await uploadTask.whenComplete(() {});
+    final imageUrl = await snapshot.ref.getDownloadURL();
+
+    // TODO: Modify this field to accept receipts upload
+    var response =
+    await http.post(Uri.parse('$_url/courtOwnerAgent/CourtOwner/addImage'),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "playerId": 1 /* Player ID */,
+          "imageURL": imageUrl.toString(),
+        }));
+    print(response.body);
   }
 }

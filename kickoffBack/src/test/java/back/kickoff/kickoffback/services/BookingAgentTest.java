@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -67,7 +68,7 @@ class BookingAgentTest {
         court.setCourtSchedule(courtSchedule);
         when(reservationRepository.findById(11L)).thenReturn(Optional.of(reservation));
         when(reservationRepository.save(reservation)).thenReturn(reservation);
-        when(scheduleRepository.findById(121L)).thenReturn(Optional.of(courtSchedule));
+        when(courtRepository.findById(121L)).thenReturn(Optional.of(court));
         String res = bookingAgent.book(information);
         assertEquals(res, "Success");
     }
@@ -106,11 +107,11 @@ class BookingAgentTest {
         HashMap<String, Object> hm = new HashMap<>();
         hm.put("courtId", 11L);
         hm.put("courtOwnerId", 1L);
-        hm.put("startDate", "12/16/2022");
-        hm.put("endDate", "12/16/2022");
+        hm.put("startDate", "12/22/2022");
+        hm.put("endDate", "12/22/2022");
         hm.put("startHour", 14);
         hm.put("finishHour", 16);
-        hm.put("playerId", 44L);
+        //hm.put("playerId", 44L);
         hm.put("playerName", "Abdelrahman Gad");
         Court court = new Court();
         CourtSchedule schedule = new CourtSchedule();
@@ -127,13 +128,19 @@ class BookingAgentTest {
         Date stDate;
         Date endDate ;
         SimpleDateFormat obj = new SimpleDateFormat("MM/dd/yyyy");
-        long date1 = obj.parse("12/16/2022").getTime();
-        long date2 = obj.parse("12/16/2022").getTime();
+        long date1 = obj.parse("12/22/2022").getTime();
+        long date2 = obj.parse("12/22/2022").getTime();
         stDate = new Date(date1);
         endDate = new Date(date2);
+        Player player = new Player();
+        player.setName("Abdelrahman Gad");
+        player.setPlayerType(PlayerType.Lite);
+        player.setReservations(new HashSet<>());
+
         when(reservationService.calcTotalCost(stDate, endDate, new Time(14, 0, 0),new Time(16, 0, 0), court)).thenReturn(300);
         when(scheduleRepository.save(new CourtSchedule())).thenReturn(new CourtSchedule());
         when(courtRepository.save(court)).thenReturn(new Court());
+        when(playerRepository.save(player)).thenReturn(new Player());
         String res = bookingAgent.setPending(information);
         assertEquals(res, "Success");
     }

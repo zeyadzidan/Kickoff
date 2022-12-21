@@ -37,6 +37,7 @@ public class ScheduleAgent {
             DateTime resStart = new DateTime(r.getStartDate(), r.getTimeFrom()) ;
             DateTime resEnd = new DateTime(r.getEndDate(), r.getTimeTo()) ;
 
+
             if((resStart.compareTo(start) >= 0 && resEnd.compareTo(end)<=0)
                     || (resStart.compareTo(start) <= 0 && resEnd.compareTo(start)>0)
                     || (resStart.compareTo(end) < 0 && resEnd.compareTo(end)>=0) ){
@@ -44,12 +45,10 @@ public class ScheduleAgent {
             }
 
         }
+        ArrayList<Reservation> toRemove = new ArrayList<Reservation>() ;
         for(Reservation r: schedule.getPendingReservations()){
             if(!checkPendingConstraint(r)){
-                schedule.getPendingReservations().remove(r) ;
-                schedule.getHistory().add(r) ;
-                rr.save(r) ;
-                sr.save(schedule) ;
+                toRemove.add(r) ;
                 continue;
             }
 
@@ -61,6 +60,41 @@ public class ScheduleAgent {
                     || (resStart.compareTo(end) < 0 && resEnd.compareTo(end)>=0) ){
                 res.add(r) ;
             }
+        }
+
+        for(Reservation r: toRemove){
+            System.out.println("expired: " + r.toString());
+
+            r.setState(ReservationState.Expired);
+            schedule.getPendingReservations().remove(r) ;
+            schedule.getHistory().add(r) ;
+            rr.save(r) ;
+            sr.save(schedule) ;
+        }
+
+
+
+        return res;
+
+    }
+
+
+    public List<Reservation> getExpiredOverlapped(Date fromD, Date toD, Time fromT, Time toT, CourtSchedule schedule){
+        ArrayList<Reservation> res = new ArrayList<Reservation>() ;
+        DateTime start = new DateTime(fromD, fromT) ;
+        DateTime end = new DateTime(toD, toT) ;
+
+        for(Reservation r: schedule.getHistory()){
+            DateTime resStart = new DateTime(r.getStartDate(), r.getTimeFrom()) ;
+            DateTime resEnd = new DateTime(r.getEndDate(), r.getTimeTo()) ;
+
+
+            if((resStart.compareTo(start) >= 0 && resEnd.compareTo(end)<=0)
+                    || (resStart.compareTo(start) <= 0 && resEnd.compareTo(start)>0)
+                    || (resStart.compareTo(end) < 0 && resEnd.compareTo(end)>=0) ){
+                res.add(r) ;
+            }
+
         }
 
         return res;
@@ -79,8 +113,7 @@ public class ScheduleAgent {
         int diff = start.compareTo(reserved) ;
         int tonow = now.compareTo(reserved) ;
 
-        if(tonow > 0.30* diff){
-            r.setState(ReservationState.Expired);
+        if(tonow < 0.30* diff){
             return false ;
         }
         return true ;

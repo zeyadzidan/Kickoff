@@ -5,7 +5,6 @@ import '../../constants.dart';
 
 class CourtsView extends StatefulWidget {
   const CourtsView({super.key});
-
   @override
   State<StatefulWidget> createState() => _CourtsViewState();
 }

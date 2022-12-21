@@ -40,7 +40,7 @@ class SignupServiceTest {
         HashMap<String, Object> hm = new HashMap<>();
         hm.put("email", "nasrClub@gmail.com");
         hm.put("password", "12345678900");
-        hm.put("username", "Nasr CLub");
+        hm.put("name", "Nasr CLub");
         hm.put("location", "Nasr CLub");
         hm.put("phoneNumber", "01206555589");
         hm.put("xAxis", 44.5);
@@ -85,7 +85,7 @@ class SignupServiceTest {
         newPlayer.setPlayerType(PlayerType.Registered);
         Map<String, Object> res = new HashMap<>() ;
         res.put("id", newPlayer.getId());
-        res.put("userName", newPlayer.getName());
+        res.put("name", newPlayer.getName());
         res.put("email", newPlayer.getEmail());
         res.put("location", newPlayer.getLocation());
         res.put("image", newPlayer.getImage());

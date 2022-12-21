@@ -29,4 +29,12 @@ public class DateTime implements Comparable<DateTime> {
         int diffInHours = (int) (this.time.getTime()-o.time.getTime()) / (1000 * 60 * 60);
         return diffInDayesH + diffInHours ;
     }
+
+    @Override
+    public String toString() {
+        return "DateTime{" +
+                "time=" + time +
+                ", data=" + data +
+                '}';
+    }
 }

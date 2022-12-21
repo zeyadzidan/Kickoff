@@ -10,7 +10,6 @@ import 'package:kickoff_frontend/components/classes/announcement.dart';
 
 import '../../constants.dart';
 import '../../httpshandlers/announcements-requests.dart';
-import 'announcement-view.dart';
 
 class PlusAnnouncementButton extends StatefulWidget {
   const PlusAnnouncementButton({super.key});
@@ -26,9 +25,9 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
 
   @override
   Widget build(BuildContext context) {
-    print("plus");
     return FloatingActionButton(
         backgroundColor: courtOwnerColor,
+        tooltip: "إضافة إعلان",
         child: const Icon(Icons.add_comment_rounded, size: 35),
         onPressed: () =>
             showModalBottomSheet(

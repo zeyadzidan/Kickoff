@@ -13,9 +13,10 @@ class AnnouncementsView extends StatefulWidget {
 }
 
 class _AnnouncementsViewState extends State<AnnouncementsView> {
+  final bool _isPlayer = KickoffApplication.Player;
+
   @override
   Widget build(BuildContext context) {
-
     return SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: ExpansionPanelList(
@@ -25,78 +26,85 @@ class _AnnouncementsViewState extends State<AnnouncementsView> {
           elevation: 4,
           children: List<ExpansionPanel>.generate(
               AnnouncementsHome.announcements.length,
-                  (index) =>
-                  ExpansionPanel(
-                    headerBuilder: (_, isExpanded) =>
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 30),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: Text(
-                              AnnouncementsHome.announcements[index].title),
-                        ),
+              (index) => ExpansionPanel(
+                    headerBuilder: (_, isExpanded) => Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 30),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: Text(AnnouncementsHome.announcements[index].title),
+                    ),
                     body: Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: 50, horizontal: 30),
                         child: Column(
                           children: [
                             Text(AnnouncementsHome.announcements[index].body),
-                            AnnouncementsHome.announcements[index].img!=""?
-                            Image.network(
-                              AnnouncementsHome.announcements[index].img,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                              frameBuilder: (context, child, frame,
-                                  wasSynchronouslyLoaded) {
-                                return child;
-                              },
-                              loadingBuilder: (context, child,
-                                  loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child;
-                                } else {
-                                  return const Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
-                                  );
-                                }
-                              },
-                            ):Container(height: 0,),
-                            Container(
-                              margin:
-                              const EdgeInsets.only(top: 70.0),
-                              child: SizedBox(
-                                height: 50,
-                                width: 150,
-                                child: ElevatedButton.icon(
-
-                                  icon: const Icon(Icons.delete),
-                                  label: const Text('مسح الإعلان'),
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10)
+                            AnnouncementsHome.announcements[index].img != ""
+                                ? Image.network(
+                                    AnnouncementsHome.announcements[index].img,
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                    frameBuilder: (context, child, frame,
+                                        wasSynchronouslyLoaded) {
+                                      return child;
+                                    },
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      } else {
+                                        return const Center(
+                                          child: CircularProgressIndicator(
+                                            color: Colors.white,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                  )
+                                : Container(
+                                    height: 0,
                                   ),
-                                  onPressed: () async {
-                                    await AnnouncementHTTPsHandler
-                                        .deleteAnnouncement(AnnouncementsHome
-                                        .announcements[index].aid);
-                                    AnnouncementsHome.announcements =
-                                    await AnnouncementHTTPsHandler
-                                        .getAnnouncements(
-                                        KickoffApplication.ownerId);
-                                    AnnouncementsHome.isExpanded = List<bool>.generate(AnnouncementsHome.announcements.length, (index) => false);
-                                    setState(() {
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
+                            (_isPlayer)
+                                ? Container(
+                                    height: 0,
+                                  )
+                                : Container(
+                                    margin: const EdgeInsets.only(top: 70.0),
+                                    child: SizedBox(
+                                      height: 50,
+                                      width: 150,
+                                      child: ElevatedButton.icon(
+                                        icon: const Icon(Icons.delete),
+                                        label: const Text('مسح الإعلان'),
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.red,
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10)),
+                                        onPressed: () async {
+                                          await AnnouncementHTTPsHandler
+                                              .deleteAnnouncement(
+                                                  AnnouncementsHome
+                                                      .announcements[index]
+                                                      .aid);
+                                          AnnouncementsHome.announcements =
+                                              await AnnouncementHTTPsHandler
+                                                  .getAnnouncements(
+                                                      KickoffApplication
+                                                          .ownerId);
+                                          AnnouncementsHome.isExpanded =
+                                              List<bool>.generate(
+                                                  AnnouncementsHome
+                                                      .announcements.length,
+                                                  (index) => false);
+                                          setState(() {});
+                                        },
+                                      ),
+                                    ),
+                                  ),
                           ],
                         )),
                     isExpanded: AnnouncementsHome.isExpanded[index],

@@ -29,7 +29,7 @@ class RoundedButton extends State<SignUpButton> {
         body: json.encode({
           "email": RoundedInput.EmailSignUp.text.toLowerCase(),
           "password": RoundedPasswordSignup.Password.text,
-          "username": RoundedInputUsername.username.text,
+          "name": RoundedInputUsername.username.text,
           "phoneNumber": RoundedPhoneNumber.PhoneNumber.text,
           "location": FindLocation.Locationaddress,
           "xAxis": FindLocation.X_axis,
@@ -86,11 +86,15 @@ class RoundedButton extends State<SignUpButton> {
             RoundedInput.EmailSignUp.clear();
           } else {
             KickoffApplication.data = profileData;
+            KickoffApplication.ownerId=profileData['id'];
             localFile.writeLoginData(RoundedInput.EmailSignUp.text,
                 RoundedPasswordSignup.Password.text,"0");
-
+            RoundedInputUsername.username.clear();
+            RoundedInput.EmailSignUp.clear();
+            RoundedPasswordSignup.Password.clear();
+            RoundedPhoneNumber.PhoneNumber.clear();
             KickoffApplication.Player=false;
-            Navigator.pushNamed(context, '/kickoff');
+            Navigator.popAndPushNamed(context, '/kickoff');
           }
         }
       },

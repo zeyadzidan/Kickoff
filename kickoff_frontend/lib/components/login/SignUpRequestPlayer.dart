@@ -15,6 +15,7 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
 import '../../../components/login/PasswordSignUpPlayer.dart';
+import '../../application/screens/login.dart';
 
 class SignUpButtonPlayer extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class RoundedButton extends State<SignUpButtonPlayer> {
 
   var resp = "";
   late Map<String, dynamic> profileData;
-  late List<CourtModel> courts;
+  // late List<CourtModel> courts;
   Future getCourtsinSearch() async{
     var res = await http.post(Uri.parse(url2),
         headers: {"Content-Type": "application/json"},
@@ -40,9 +41,9 @@ class RoundedButton extends State<SignUpButtonPlayer> {
         print(res.body);
         // FieldValue arrayUnion(List<dynamic> elements) =>
         //     FieldValue._(FieldValueType.arrayUnion, elements);
-        courts= jsonEncode(res.body) as List<CourtModel>  ;
-        print("lol");
-        print(courts);
+        // courts= jsonEncode(res.body) as List<CourtModel>  ;
+        LoginScreen.courtsSearch=jsonDecode(res.body) as List<dynamic>;
+        // print(courts);
     });
 
   }
@@ -112,9 +113,13 @@ class RoundedButton extends State<SignUpButtonPlayer> {
             KickoffApplication.data = profileData;
             localFile.writeLoginData(RoundedInput.EmailSignUp.text,
                 RoundedPasswordSignupPlayer.Password.text,"1");
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) =>
-                    KickoffApplication(profileData: profileData)));
+            RoundedInput.EmailSignUp.clear();
+            RoundedInputUsername.username.clear();
+            RoundedPhoneNumber.PhoneNumber.clear();
+            RoundedPasswordSignupPlayer.Password.clear();
+            // Navigator.of(context).push(MaterialPageRoute(
+            //     builder: (context) =>
+            //         KickoffApplication(profileData: profileData)));
             KickoffApplication.Player=true;
             await getCourtsinSearch();
             Navigator.popAndPushNamed(context, '/kickoff');
