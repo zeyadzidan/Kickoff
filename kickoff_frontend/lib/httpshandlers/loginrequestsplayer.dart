@@ -107,6 +107,8 @@ class RoundedLogin extends State<LoginButtonPlayer> {
               localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInputPlayer.Password.text,"1");
             KickoffApplication.Player=true;
+            RoundedInputLogin.EmailLogin.clear();
+            RoundedPasswordInputPlayer.Password.clear();
             await getCourtsinSearch(KickoffApplication.data["xAxis"],KickoffApplication.data["yAxis"]);
             Navigator.popAndPushNamed(context, '/kickoff');
           }

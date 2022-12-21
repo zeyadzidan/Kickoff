@@ -145,7 +145,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
             GButton(
               backgroundColor: courtOwnerColor,
               text: "الإعلانات",
-              icon: Icons.add,
+              icon: Icons.announcement,
             ),
             GButton(
               backgroundColor: courtOwnerColor,

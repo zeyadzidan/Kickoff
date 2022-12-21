@@ -13,10 +13,10 @@ public class CourtOwnerSearchCommand {
     private Long id;
     private String courtOwnerName;
     private String courtOwnerPicture;
-    private Double distance;
+    private int distance;
     private Double rating;
 
-    public CourtOwnerSearchCommand(Long id, String courtOwnerName, String courtOwnerPicture, Double distance, Double rating) {
+    public CourtOwnerSearchCommand(Long id, String courtOwnerName, String courtOwnerPicture, int distance, Double rating) {
         this.id = id;
         this.courtOwnerName = courtOwnerName;
         this.courtOwnerPicture = courtOwnerPicture;

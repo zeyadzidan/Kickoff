@@ -104,7 +104,7 @@ class _SearchScreenState extends  State<SearchScreen> {
                             {
                               getListview(displayList[index]["id"].toString());
                             },
-                            subtitle: Text("${displayList[index]["distance"].toString()}km", style: TextStyle(color: Colors.black,),
+                            subtitle: Text("${displayList[index]["distance"].toString()} km", style: TextStyle(color: Colors.black,),
                             ),
                             trailing: Text("${displayList[index]["rating"].toString()} \u{2B50}",style: TextStyle(color: Colors.black),
                             ),

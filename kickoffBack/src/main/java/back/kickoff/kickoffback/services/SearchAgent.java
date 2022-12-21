@@ -19,12 +19,13 @@ public class SearchAgent {
         this.courtOwnerRepository = courtOwnerRepository;
     }
 
-    private Double getDistance(Double a_longitude, Double a_latitude, Double b_longitude, Double b_latitude)
+    private int getDistance(Double a_longitude, Double a_latitude, Double b_longitude, Double b_latitude)
     {
-        Double distance = Math.sqrt(Math.pow(Math.sin((b_latitude -a_latitude)/2), 2) + Math.cos(a_latitude) * Math.cos(b_latitude)
+        double distance = Math.sqrt(Math.pow(Math.sin((b_latitude -a_latitude)/2), 2) + Math.cos(a_latitude) * Math.cos(b_latitude)
         * Math.pow(Math.sin((b_longitude -a_longitude)/2), 2) );
         distance = 2 * 6371 * Math.asin(distance);
-        return distance;
+        int Distance = (int )distance;
+        return Distance;
     }
     public String getNearestCourtOwners(String information) throws JSONException {
         System.out.println(information);
@@ -41,7 +42,7 @@ public class SearchAgent {
         {
             System.out.println(courtOwners.get(i).getEmail() + " " + courtOwners.get(i).getId());
             CourtOwner courtOwner = courtOwners.get(i);
-            Double distance = getDistance(xAxis, yAxis, courtOwner.getXAxis(), courtOwner.getYAxis());
+            int distance = getDistance(xAxis, yAxis, courtOwner.getXAxis(), courtOwner.getYAxis());
             commands.add(new CourtOwnerSearchCommand(courtOwner.getId(), courtOwner.getUserName(),
                     courtOwner.getImage(), distance, Double.valueOf(courtOwner.getRating())));
         }
