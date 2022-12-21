@@ -200,6 +200,7 @@ public class BookingAgent {
                 return "bad request" ;
             }
             player.setName(playerName);
+            player.setReservations(new HashSet<>());
             this.playerRepository.save(player) ;
 
         }
@@ -225,10 +226,7 @@ public class BookingAgent {
         } catch (Exception e) {
             return "Invalid Time";
         }
-        Date now = new Date(System.currentTimeMillis()) ;
-        if(stDate.compareTo(now) < 0 || endDate.compareTo(now)< 0){
-            return "Invalid date3 date in the past" ;
-        }
+
 
 
         Optional<Court> courtOptional = courtRepository.findById(courtId);
@@ -252,7 +250,16 @@ public class BookingAgent {
         DateTime from = new DateTime(stDate,timeFrom) ;
         DateTime to = new DateTime(endDate, timeTo) ;
 
+        DateTime now = new DateTime(new Date(System.currentTimeMillis()), new Time(System.currentTimeMillis()));
+        System.out.println("now " + now.toString());
+        System.out.println("from " + from.toString());
+        System.out.println("to " + to.toString());
+        System.out.println("compare " +from.compareTo(now)+ " " + to.compareTo(now) + " " + to.compareTo(from));
+        //if(from.compareTo(now)<=0 || to.compareTo(now)<=0 ){
+        //    return "Invalid date3 date in the past" ;
+        //}
         //checks
+
         int c = to.compareTo(from) ;
         if(c<=0){
             return "invalid start and end times" ;
