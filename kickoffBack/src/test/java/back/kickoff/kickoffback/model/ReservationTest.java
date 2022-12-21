@@ -103,4 +103,11 @@ class ReservationTest {
         reservation.setTotalCost(c);
         assertEquals(c, reservation.getTotalCost());
     }
+
+    @Test
+    void getReceiptUrl() {
+        String receiptUrl = "receipt.png";
+        reservation.setReceiptUrl(receiptUrl);
+        assertEquals(receiptUrl, reservation.getReceiptUrl());
+    }
 }

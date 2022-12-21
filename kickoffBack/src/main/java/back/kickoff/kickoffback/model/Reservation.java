@@ -42,6 +42,7 @@ public class Reservation {
     Time timeReserved ;
 
     ReservationState state;
+    String receiptUrl;
     int moneyPayed ;
     int totalCost ;
     //@ManyToMany(mappedBy = "reservations")
