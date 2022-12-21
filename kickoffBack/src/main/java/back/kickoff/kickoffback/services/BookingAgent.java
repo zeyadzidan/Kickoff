@@ -362,7 +362,13 @@ public class BookingAgent {
             return "Not Found";
         optionalReservation.get().setReceiptUrl(imageUrl);
         optionalReservation.get().setState(ReservationState.Awaiting);
+        Long courtID = optionalReservation.get().getCourtID();
+        Court court = courtRepository.findById(courtID).get();
+        CourtSchedule courtSchedule = court.getCourtSchedule();
+        courtSchedule.getPendingReservations().remove(optionalReservation.get());
+        courtSchedule.getBookedReservations().add(optionalReservation.get());
         reservationRepository.save(optionalReservation.get());
+        scheduleRepository.save(courtSchedule);
         return "Receipt Sent";
     }
 
