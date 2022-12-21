@@ -361,6 +361,7 @@ public class BookingAgent {
         if(optionalReservation.isEmpty())
             return "Not Found";
         optionalReservation.get().setReceiptUrl(imageUrl);
+        optionalReservation.get().setState(ReservationState.Awaiting);
         reservationRepository.save(optionalReservation.get());
         return "Receipt Sent";
     }
