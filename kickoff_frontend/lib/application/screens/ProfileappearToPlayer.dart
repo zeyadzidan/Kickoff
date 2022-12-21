@@ -15,6 +15,7 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../components/classes/court.dart';
+import 'announcements.dart';
 
 class ProfileBaseScreenPlayer extends StatefulWidget {
   ProfileBaseScreenPlayer({super.key}) {
@@ -231,7 +232,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
               ],
             )
         ):ProfileBaseScreenPlayer._selectedPage == 1
-            ?Container()
+            ?AnnouncementsHome()
             :ReservationsHomePlayer()
 
       ),

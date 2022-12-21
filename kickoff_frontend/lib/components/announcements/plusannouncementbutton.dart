@@ -132,6 +132,7 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
               AnnouncementsHome.isExpanded = List<bool>.generate(AnnouncementsHome.announcements.length, (index) => false);
               _announcement = [];
               Navigator.pop(context);
+              _result=null;
               KickoffApplication.update();
             }),
       );

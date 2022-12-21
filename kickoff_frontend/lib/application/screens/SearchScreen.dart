@@ -46,6 +46,7 @@ class _SearchScreenState extends  State<SearchScreen> {
     var id = profileData["id"].toString();
     ProfileBaseScreen.courts =
     await CourtsHTTPsHandler.getCourts(id);
+    KickoffApplication.ownerId = id;
     ProfileBaseScreen.isExpanded = List<bool>.generate(ProfileBaseScreen.courts.length, (index) => false);
     // await ReservationsHome.buildTickets(); //TODO: to get reservations of court
     // await AnnouncementsHome.buildAnnouncements();//TODO : to get announcment of court
