@@ -14,6 +14,7 @@ import '../../components/classes/court.dart';
 
 class ProfileBaseScreen extends StatefulWidget {
   ProfileBaseScreen({super.key}) {
+    KickoffApplication.ownerId = KickoffApplication.data["id"].toString();
     isExpanded = List<bool>.generate(courts.length, (index) => false);
   }
 
@@ -40,7 +41,6 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   String utl = KickoffApplication.data.containsKey("image")
       ? KickoffApplication.data["image"]
       : "";
-
   bool localPhoto = ProfileBaseScreen.path == "" ? false : true;
 
   void uploadimage(File file, final path) async {

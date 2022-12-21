@@ -18,7 +18,8 @@ class AnnouncementHTTPsHandler {
           "courtOwnerId": announcement.coid,
           "title": announcement.title,
           "body": announcement.body,
-          "date": announcement.date
+          "date": announcement.date,
+          "attachments": announcement.img,
         }));
     print(response.body);
   }
@@ -56,20 +57,12 @@ class AnnouncementHTTPsHandler {
     print(response.body);
   }
 
-  static Future uploadAnnouncementImageFile(File file, final path) async {
+  static Future<String> uploadAnnouncementImageFile(File file, final path) async {
     UploadTask? uploadTask;
     final ref = FirebaseStorage.instance.ref().child(path);
     uploadTask = ref.putFile(file);
     final snapshot = await uploadTask.whenComplete(() {});
     final imageUrl = await snapshot.ref.getDownloadURL();
-
-    var response =
-        await http.post(Uri.parse('$_url/courtOwnerAgent/CourtOwner/addImage'),
-            headers: {"Content-Type": "application/json"},
-            body: json.encode({
-              "ownerID": KickoffApplication.ownerId,
-              "imageURL": imageUrl.toString(),
-            }));
-    print(response.body);
+    return imageUrl;
   }
 }

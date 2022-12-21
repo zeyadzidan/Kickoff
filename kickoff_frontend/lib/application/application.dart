@@ -14,7 +14,6 @@ import 'package:kickoff_frontend/components/tickets/plusreservationbutton.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/themes.dart';
 
-import '../components/classes/court.dart';
 import '../components/login/BuildComponentsCourtOwner.dart';
 import 'screens/login.dart';
 import 'screens/profile.dart';
@@ -23,7 +22,6 @@ import 'screens/reservations.dart';
 class KickoffApplication extends StatefulWidget {
   KickoffApplication({super.key, required this.profileData}) {
     data = profileData;
-    ownerId = profileData["id"].toString();
   }
 
   final Map<String, dynamic> profileData;
@@ -31,7 +29,6 @@ class KickoffApplication extends StatefulWidget {
   static bool Player=true;
   static String userIP = '';
   static String ownerId = '';
-  static List<Court> courts = [];
   static late Map<String, dynamic> data;
   static late Map<String, dynamic> dataPlayer;
   static final KickoffApplicationState _currentState =
@@ -108,10 +105,9 @@ class KickoffApplicationState extends State<KickoffApplication> {
           firstTime = (loginData == "0");
           loading = false;
           _timer.cancel();
-        }else if (loginData=="0"){
+        } else if (loginData=="0"){
           _timer.cancel();
         }
-
       });
     });
   }
@@ -140,7 +136,6 @@ class KickoffApplicationState extends State<KickoffApplication> {
               backgroundColor: courtOwnerColor,
               text: "الملف الشخصي",
               icon: Icons.person,
-              onPressed: null,
             ),
             GButton(
               backgroundColor: courtOwnerColor,

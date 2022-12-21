@@ -289,14 +289,16 @@ public class BookingAgent {
         return "Success";
     }
 
-    public static class ReservationComparitor implements Comparator<Reservation>{
-
+    public static class ReservationComparator implements Comparator<Reservation>{
+        boolean ascending;
+        ReservationComparator(boolean ascending) {
+            this.ascending = ascending;
+        }
         @Override
         public int compare(Reservation o1, Reservation o2) {
             DateTime stR1 = new DateTime(o1.getStartDate(), o1.getTimeFrom()) ;
             DateTime stR2 = new DateTime(o2.getStartDate(), o2.getTimeFrom()) ;
-            return stR1.compareTo(stR2) ;
-
+            return (ascending) ? stR1.compareTo(stR2) : stR2.compareTo(stR1) ;
         }
     }
 
@@ -304,6 +306,7 @@ public class BookingAgent {
         JSONObject jsonObject = new JSONObject(information);
         Long courtId = jsonObject.getLong("courtId");
         Long courtOwnerId = jsonObject.getLong("courtOwnerId");
+        boolean ascending = jsonObject.getBoolean("ascending");
         String strDate = jsonObject.getString("date");
         String[] tempArrS = strDate.split("/");
         if (tempArrS.length != 3)
@@ -335,13 +338,11 @@ public class BookingAgent {
         List<Reservation> reservations = scheduleAgent.getScheduleOverlapped(date, endDate, court.getCourtSchedule().getStartWorkingHours() , court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule());
         reservations.addAll(scheduleAgent.getExpiredOverlapped(date, endDate, court.getCourtSchedule().getStartWorkingHours() , court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule()));
         reservations.sort(new ReservationComparitor()) ;
-
         List<FrontEndReservation> frontEndReservations = new ArrayList<>(reservations.size());
         for(Reservation r: reservations){
             frontEndReservations.add(new FrontEndReservation(r)) ;
         }
         return "S "+  new  Gson().toJson(frontEndReservations);
-
     }
 
 

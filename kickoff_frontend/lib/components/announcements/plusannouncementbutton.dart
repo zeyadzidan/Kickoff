@@ -121,7 +121,7 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
                 File file = File(_result!.files.last.path!);
                 final path =
                     'files/${KickoffApplication.data["id"].toString()}.${random.nextInt(10000000)}.${_result!.files.last.extension}';
-                await AnnouncementHTTPsHandler.uploadAnnouncementImageFile(
+                announcement.img = await AnnouncementHTTPsHandler.uploadAnnouncementImageFile(
                     file, path);
               }
               announcement.date = DateFormat.yMd().format(DateTime.now());
