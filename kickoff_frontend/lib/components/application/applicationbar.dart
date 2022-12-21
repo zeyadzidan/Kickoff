@@ -54,6 +54,7 @@ class KickoffAppBar {
             localFile.clearLoginData();
             KickoffApplication.data.clear();
             ProfileBaseScreen.path = "";
+            ProfileBaseScreen.courts.clear();
             var appDir = (await getTemporaryDirectory()).path;
             Directory(appDir).delete(recursive: true);
             Navigator.popAndPushNamed(context, '/login');
