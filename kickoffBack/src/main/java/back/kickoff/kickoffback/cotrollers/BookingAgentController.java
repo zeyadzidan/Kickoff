@@ -32,7 +32,7 @@ public class BookingAgentController {
     public ResponseEntity<String> book(@RequestBody String information) throws JSONException {
         String responseBody = bookingAgent.book(information);
         if (!responseBody.equals("Success"))
-            return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
