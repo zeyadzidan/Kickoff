@@ -42,13 +42,13 @@ class _SearchScreenState extends  State<SearchScreen> {
         .get(Uri.parse('$_url/search/CourtOwner/${CourtOwnerId}'));
     print(response.body);
     setState(() => profileData = json.decode(response.body));
-    KickoffApplication.data = profileData;
-    KickoffApplication.ownerId = profileData["id"].toString();
-    // ProfileBaseScreen.courts =
-    // await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
-    // await ReservationsHome.buildTickets();
-    // await AnnouncementsHome.buildAnnouncements();
-    Navigator.pushNamed(context, '/kickoff');
+    KickoffApplication.dataPlayer= profileData;
+    var id = profileData["id"].toString();
+    ProfileBaseScreen.courts =
+    await CourtsHTTPsHandler.getCourts(id);
+    // await ReservationsHome.buildTickets(); //TODO: to get reservations of court
+    // await AnnouncementsHome.buildAnnouncements();//TODO : to get announcment of court
+    Navigator.pushNamed(context, '/profilePlayer');
   }
 @override
   Widget build(BuildContext context)

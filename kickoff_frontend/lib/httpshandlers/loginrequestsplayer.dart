@@ -25,9 +25,9 @@ class LoginButtonPlayer extends StatefulWidget {
 class RoundedLogin extends State<LoginButtonPlayer> {
   static final String _url =
       "http://${ip}:8080/login/player";
-  String url2 = "http://${ip}:8080/search/courtOwner/distance";
+ static String url2 = "http://${ip}:8080/search/courtOwner/distance";
 
-  Future getCourtsinSearch() async{
+ static Future getCourtsinSearch() async{
     var res = await http.post(Uri.parse(url2),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
@@ -35,7 +35,6 @@ class RoundedLogin extends State<LoginButtonPlayer> {
           "xAxis": KickoffApplication.data["xAxis"],
           "yAxis": KickoffApplication.data["yAxis"],//TODO: make this dynamic
         }));
-    setState(() {
       print(res.body);
       // FieldValue arrayUnion(List<dynamic> elements) =>
       //     FieldValue._(FieldValueType.arrayUnion, elements);
@@ -43,7 +42,6 @@ class RoundedLogin extends State<LoginButtonPlayer> {
       LoginScreen.courtsSearch=jsonDecode(res.body) as List<dynamic>;
       // print(courtsSearch);
       print("lol");
-    });
 
   }
   var resp = 52;
