@@ -46,6 +46,7 @@ public class SearchAgent {
             commands.add(new CourtOwnerSearchCommand(courtOwner.getId(), courtOwner.getUserName(),
                     courtOwner.getImage(), distance, Double.valueOf(courtOwner.getRating())));
         }
+        Collections.sort(commands);
 //        for(int i = 0; i < commands.size(); i++)
 //            System.out.println(commands.get(i).toString());
         return new Gson().toJson(commands);
