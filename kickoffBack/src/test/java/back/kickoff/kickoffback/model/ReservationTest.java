@@ -105,6 +105,13 @@ class ReservationTest {
     }
 
     @Test
+    void getReceiptUrl() {
+        String receiptUrl = "receipt.png";
+        reservation.setReceiptUrl(receiptUrl);
+        assertEquals(receiptUrl, reservation.getReceiptUrl());
+    }
+
+    @Test
     void getDateReserved() {
         Date d = new Date(2022, 12, 20);
         reservation.setDateReserved(d);
@@ -116,6 +123,5 @@ class ReservationTest {
         Time t = new Time(16, 14, 9);
         reservation.setTimeReserved(t);
         assertEquals(t, reservation.getTimeReserved());
-
     }
 }

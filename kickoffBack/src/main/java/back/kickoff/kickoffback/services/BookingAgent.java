@@ -48,6 +48,7 @@ public class BookingAgent {
         ReservationState state;
         int moneyPayed ;
         int totalCost ;
+        String receiptUrl;
         //Set<Player> players;
 
         public FrontEndReservation(Reservation reservation){
@@ -64,6 +65,7 @@ public class BookingAgent {
             this.state = reservation.getState();
             this.moneyPayed = reservation.getMoneyPayed();
             this.totalCost = reservation.getTotalCost();
+            this.receiptUrl = reservation.getReceiptUrl();
             //this.players = reservation.getPlayers();
         }
     }
@@ -351,6 +353,23 @@ public class BookingAgent {
         }
         return "S "+  new  Gson().toJson(frontEndReservations);
     }
-
+    public String sendReceipt(String information) throws JSONException {
+        JSONObject jsonObject = new JSONObject(information);
+        Long reservationId = jsonObject.getLong("reservationId");
+        String imageUrl = jsonObject.getString("receiptUrl");
+        Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
+        if(optionalReservation.isEmpty())
+            return "Not Found";
+        optionalReservation.get().setReceiptUrl(imageUrl);
+        optionalReservation.get().setState(ReservationState.Awaiting);
+        Long courtID = optionalReservation.get().getCourtID();
+        Court court = courtRepository.findById(courtID).get();
+        CourtSchedule courtSchedule = court.getCourtSchedule();
+        courtSchedule.getPendingReservations().remove(optionalReservation.get());
+        courtSchedule.getBookedReservations().add(optionalReservation.get());
+        reservationRepository.save(optionalReservation.get());
+        scheduleRepository.save(courtSchedule);
+        return "Receipt Sent";
+    }
 
 }
