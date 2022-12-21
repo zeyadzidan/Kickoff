@@ -45,8 +45,7 @@ class _AnnouncementsViewState extends State<AnnouncementsView> {
                             AnnouncementsHome.announcements[index].img != ""
                                 ? Image.network(
                                     AnnouncementsHome.announcements[index].img,
-                                    width: 100,
-                                    height: 100,
+                                    width: double.infinity,
                                     fit: BoxFit.cover,
                                     frameBuilder: (context, child, frame,
                                         wasSynchronouslyLoaded) {

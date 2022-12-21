@@ -89,10 +89,10 @@ class RoundedLogin extends State<LoginButtonCourtOwner> {
                 await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
             await ReservationsHome.buildTickets();
             await AnnouncementsHome.buildAnnouncements();
-            RoundedPasswordInput.Password.clear();
-            RoundedInputLogin.EmailLogin.clear();
             localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInput.Password.text,"0");
+            RoundedPasswordInput.Password.clear();
+            RoundedInputLogin.EmailLogin.clear();
             KickoffApplication.Player=false;
             Navigator.popAndPushNamed(context, '/kickoff');
           }
