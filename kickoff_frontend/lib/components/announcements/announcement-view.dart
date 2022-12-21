@@ -63,9 +63,9 @@ class _AnnouncementsViewState extends State<AnnouncementsView> {
                                     height: 0,
                                   )
                                 : Container(
-                                    margin: const EdgeInsets.only(top: 70.0),
+                                    margin: const EdgeInsets.only(top: 10.0),
                                     child: SizedBox(
-                                      height: 50,
+                                      height: 70,
                                       width: 150,
                                       child: ElevatedButton.icon(
                                         icon: const Icon(Icons.delete),

@@ -24,7 +24,9 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
 
   @override
   Widget build(BuildContext context) => FloatingActionButton(
-      backgroundColor: courtOwnerColor,
+      backgroundColor: KickoffApplication.player
+        ?playerColor
+        :courtOwnerColor,
       tooltip: "إضافة حجز",
       child: const Icon(Icons.add_card_rounded, size: 35),
       onPressed: () => showModalBottomSheet(
