@@ -45,8 +45,11 @@ class _ReservationsViewState extends State<ReservationsView> {
                                 : (ReservationsHome.reservations[index].state ==
                                         'Booked')
                                     ? playerColor.withOpacity(0.5)
-                                    :(ReservationsHome.reservations[index].state ==
-                                'Expired')? Colors.red.withOpacity(0.5):Colors.blue.withOpacity(0.5),
+                                    : (ReservationsHome
+                                                .reservations[index].state ==
+                                            'Expired')
+                                        ? Colors.red.withOpacity(0.5)
+                                        : Colors.blue.withOpacity(0.5),
                           ),
                           child:
                               Text(ReservationsHome.reservations[index].pname),
