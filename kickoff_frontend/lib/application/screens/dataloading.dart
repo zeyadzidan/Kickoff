@@ -34,12 +34,12 @@ class Loading {
       print(isPlayer);
       if(isPlayer=="1"){//the user is player
        KickoffApplication.Player=true;
-       // await pLogin.RoundedLogin.getCourtsinSearch();//TODO: add getCourtsinSearch here
-       data = await pLogin.RoundedLogin.save2(email, pass);
+       KickoffApplication.data = await pLogin.RoundedLogin.save2(email, pass);
+       await pLogin.RoundedLogin.getCourtsinSearch();
       }
       else{  //The user is court Owner
        KickoffApplication.Player=false;
-       data = await cLogin.RoundedLogin.save2(email, pass);
+        KickoffApplication.data = await cLogin.RoundedLogin.save2(email, pass);
        int id = data["id"];
        KickoffApplication.ownerId ="${data["id"]}";
        ProfileBaseScreen.courts = await CourtsHTTPsHandler.getCourts(id);

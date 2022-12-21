@@ -32,6 +32,7 @@ class KickoffApplication extends StatefulWidget {
   static String ownerId = '';
   static List<Court> courts = [];
   static late Map<String, dynamic> data;
+  static late Map<String, dynamic> dataPlayer;
   static final KickoffApplicationState _currentState =
       KickoffApplicationState();
 
@@ -63,6 +64,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
       routes: {
         '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
+        '/profilePlayer':(context)=>  ProfileBaseScreenPlayer(),
         '/kickoff': (context) => Builder(
               builder: (context) => Scaffold(
                 appBar: KickoffAppBar().build(context),
@@ -72,7 +74,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
                     (KickoffApplication._selectedPage == 0) ?
                       SearchScreen() :
                     (KickoffApplication._selectedPage == 1) ?
-                       ProfileBaseScreenPlayer() :
+                     const Center(child: Text("DUMMY PAGE 1")) :
                     (KickoffApplication._selectedPage == 2) ?
                       const Center(child: Text("DUMMY PAGE 2")) :
                       const Center(child: Text("DUMMY PAGE 3"))
