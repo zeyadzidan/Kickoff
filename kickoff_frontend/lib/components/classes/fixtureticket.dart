@@ -19,6 +19,7 @@ class FixtureTicket {
   String endDate = '';
   String startTime = '';
   String endTime = '';
+  String receiptUrl = '';
 
   asView() => [
         'اسم اللاعب صاحب الحجز: $pname',
