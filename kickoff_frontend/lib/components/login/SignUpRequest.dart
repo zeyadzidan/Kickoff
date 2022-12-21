@@ -86,6 +86,7 @@ class RoundedButton extends State<SignUpButton> {
             RoundedInput.EmailSignUp.clear();
           } else {
             KickoffApplication.data = profileData;
+            KickoffApplication.ownerId=profileData['id'];
             localFile.writeLoginData(RoundedInput.EmailSignUp.text,
                 RoundedPasswordSignup.Password.text,"0");
 

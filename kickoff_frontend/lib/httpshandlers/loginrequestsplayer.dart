@@ -27,13 +27,13 @@ class RoundedLogin extends State<LoginButtonPlayer> {
       "http://${ip}:8080/login/player";
  static String url2 = "http://${ip}:8080/search/courtOwner/distance";
 
- static Future getCourtsinSearch() async{
+ static Future getCourtsinSearch(xAxis,yAxis) async{
     var res = await http.post(Uri.parse(url2),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "keyword":"",
-          "xAxis": KickoffApplication.data["xAxis"],
-          "yAxis": KickoffApplication.data["yAxis"],//TODO: make this dynamic
+          "xAxis": xAxis,
+          "yAxis": yAxis,//TODO: make this dynamic
         }));
       print(res.body);
       // FieldValue arrayUnion(List<dynamic> elements) =>
@@ -107,7 +107,7 @@ class RoundedLogin extends State<LoginButtonPlayer> {
               localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
                 RoundedPasswordInputPlayer.Password.text,"1");
             KickoffApplication.Player=true;
-            await getCourtsinSearch();
+            await getCourtsinSearch(KickoffApplication.data["xAxis"],KickoffApplication.data["yAxis"]);
             Navigator.popAndPushNamed(context, '/kickoff');
           }
         }
