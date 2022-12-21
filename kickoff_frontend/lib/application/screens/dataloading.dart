@@ -32,20 +32,22 @@ class Loading {
       print(email);
       print(pass);
       print(isPlayer);
-      if(isPlayer=="1"){//the user is player
-       KickoffApplication.Player=true;
-       data = await pLogin.RoundedLogin.save2(email, pass);
-       await pLogin.RoundedLogin.getCourtsinSearch(data["xAxis"],data["yAxis"]);
-      }
-      else{  //The user is court Owner
-       KickoffApplication.Player=false;
+      if (isPlayer == "1") {
+        //the user is player
+        KickoffApplication.player = true;
+        KickoffApplication.playerId = data["id"];
+        data = await pLogin.RoundedLogin.save2(email, pass);
+        await pLogin.RoundedLogin.getCourtsinSearch(
+            data["xAxis"], data["yAxis"]);
+      } else {
+        //The user is court Owner
+        KickoffApplication.player = false;
         data = await cLogin.RoundedLogin.save2(email, pass);
-       int id = data["id"];
-       KickoffApplication.ownerId ="${data["id"]}";
-       ProfileBaseScreen.courts = await CourtsHTTPsHandler.getCourts(id);
-       await ReservationsHome.buildTickets();
-       await AnnouncementsHome.buildAnnouncements();
-
+        int id = data["id"];
+        KickoffApplication.ownerId = "${data["id"]}";
+        ProfileBaseScreen.courts = await CourtsHTTPsHandler.getCourts(id);
+        await ReservationsHome.buildTickets();
+        await AnnouncementsHome.buildAnnouncements();
       }
     }
     finish = true;

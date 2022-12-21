@@ -43,12 +43,12 @@ class _SearchScreenState extends  State<SearchScreen> {
     print(response.body);
     setState(() => profileData = json.decode(response.body));
     KickoffApplication.dataPlayer= profileData;
-    var id = profileData["id"].toString();
+    KickoffApplication.ownerId = profileData["id"].toString();
     ProfileBaseScreen.courts =
-    await CourtsHTTPsHandler.getCourts(id);
+    await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
     ProfileBaseScreen.isExpanded = List<bool>.generate(ProfileBaseScreen.courts.length, (index) => false);
-    // await ReservationsHome.buildTickets(); //TODO: to get reservations of court
-    // await AnnouncementsHome.buildAnnouncements();//TODO : to get announcment of court
+    await ReservationsHome.buildTickets(); // TODO: to get reservations of court
+    await AnnouncementsHome.buildAnnouncements(); // TODO : to get announcement of court
     Navigator.pushNamed(context, '/profilePlayer');
   }
 @override

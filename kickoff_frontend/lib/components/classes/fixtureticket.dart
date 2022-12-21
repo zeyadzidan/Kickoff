@@ -8,6 +8,7 @@
 class FixtureTicket {
   String ticketId = '';
   String pname = '';
+  String pid = '';
   String coname = '';
   String coid = '';
   String cname = '';

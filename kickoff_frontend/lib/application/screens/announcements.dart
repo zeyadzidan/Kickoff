@@ -15,7 +15,6 @@ class AnnouncementsHome extends StatefulWidget {
   static List<bool> isExpanded = [];
 
   static buildAnnouncements() async {
-    // TODO: Test player announcements view.
     AnnouncementsHome.announcements =
         await AnnouncementHTTPsHandler.getAnnouncements(
             KickoffApplication.ownerId);

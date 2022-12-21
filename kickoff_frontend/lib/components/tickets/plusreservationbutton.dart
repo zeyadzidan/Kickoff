@@ -40,7 +40,7 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
                   children: [
                     const Text("أضف حجزاً",
                         style: TextStyle(color: courtOwnerColor, fontSize: 32)),
-                    _formField('اسم اللاعب صاحب الحجز', Icons.person),
+                    (KickoffApplication.player) ? _formField('اسم اللاعب صاحب الحجز', Icons.person) : Container(),
                     _reservationTimePicker(true),
                     _reservationTimePicker(false),
                     _submitButton()
@@ -163,6 +163,10 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
                 finishDate.add(const Duration(days: 1));
               }
               _key.currentState!.save();  // Set name
+              if (KickoffApplication.player) {
+                _fixtureTicket.pname = KickoffApplication.data["pname"];
+                _fixtureTicket.pid = KickoffApplication.playerId;
+              }
               print("Selected: ${ReservationsHome.selectedCourt}");
               print("CID: ${ProfileBaseScreen.courts[ReservationsHome.selectedCourt].cid}");
               String cid = ProfileBaseScreen.courts[ReservationsHome.selectedCourt].cid;
@@ -175,7 +179,7 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
               await TicketsHTTPsHandler.sendTicket(_fixtureTicket);
               ReservationsHome.reservations =
                   await TicketsHTTPsHandler.getCourtReservations(
-                      (ReservationsHome.selectedCourt + 1),
+                      ProfileBaseScreen.courts[ReservationsHome.selectedCourt].cid,
                       KickoffApplication.ownerId,
                       _formatDate(ReservationsHome.selectedDate));
               KickoffApplication.update();
