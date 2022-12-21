@@ -114,7 +114,7 @@ class _PlusCourtButtonState extends State<PlusCourtButton> {
               'Midday') ? _midday : _close,
           context: context,
         );
-        if (beingPicked == 'Started') {
+        if (beingPicked == 'Starting') {
           if (selected!.minute > 0) {
             toast.showToast(
               toastDuration: const Duration(seconds: 4),

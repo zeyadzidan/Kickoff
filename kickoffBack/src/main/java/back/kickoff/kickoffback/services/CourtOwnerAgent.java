@@ -88,51 +88,41 @@ public class CourtOwnerAgent {
 
     public String createCourt(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
-        Long ownerId;
+        long ownerId;
+        String courtName;
+        String description;
+        int morningCost;
+        int nightCost;
+        int minBookingHours;
+        Time startWorkingHours, endWorkingHours, endMorning;
+
         try {
             ownerId = jsonObject.getLong("ownerID");
-        } catch (Exception e) {
-            return "ownerID is required";
-
-        }
-
-        String courtName;
-        try {
             courtName = jsonObject.getString("courtName");
-            if (courtName == null)
-                throw new NullPointerException();
+            morningCost = jsonObject.getInt("morningCost");
         } catch (Exception e) {
-            return "courtName is required";
+            return "bad request";
+
         }
-        String description;
+
         try {
             description = jsonObject.getString("description");
         } catch (Exception e) {
             description = "";
         }
 
-        Integer morningCost;
-        try {
-            morningCost = jsonObject.getInt("morningCost");
-        } catch (Exception e) {
-            return "morningCost is required";
-        }
-
-        Integer nightCost;
         try {
             nightCost = jsonObject.getInt("nightCost");
         } catch (Exception e) {
             nightCost = morningCost;
         }
 
-        int minBookingHours;
         try {
             minBookingHours = jsonObject.getInt("minBookingHours");
         } catch (Exception e) {
             minBookingHours = 1;
         }
 
-        Time startWorkingHours, endWorkingHours, endMorning;
         try {
             int startHour = jsonObject.getInt("startWorkingHours");
             int finishHour = jsonObject.getInt("finishWorkingHours");
@@ -146,9 +136,7 @@ public class CourtOwnerAgent {
             endMorning = new Time(endMorningHour, 0, 0);
         } catch (Exception e) {
             endMorning = endWorkingHours;
-            ;
         }
-
 
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(ownerId);
         if (courtOwnerOptional.isEmpty())
@@ -164,13 +152,4 @@ public class CourtOwnerAgent {
         return "Success";
     }
 
-    static class FrontEndCourt {
-        Long id;
-        String name;
-
-        FrontEndCourt(Long id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-    }
 }
