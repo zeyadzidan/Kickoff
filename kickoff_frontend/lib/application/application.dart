@@ -6,6 +6,7 @@ import 'package:kickoff_frontend/application/screens/ProfileappearToPlayer.dart'
 import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
+import 'package:kickoff_frontend/application/screens/player/player-reservations.dart';
 import 'package:kickoff_frontend/components/announcements/plusannouncementbutton.dart';
 import 'package:kickoff_frontend/components/application/applicationbar.dart';
 import 'package:kickoff_frontend/components/courts/pluscourtbutton.dart';
@@ -77,7 +78,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
                      const Center(child: Text("DUMMY PAGE 1")) :
                     (KickoffApplication._selectedPage == 2) ?
                       const Center(child: Text("DUMMY PAGE 2")) :
-                      const Center(child: Text("DUMMY PAGE 3"))
+                      PlayerReservationsHome()
                 // Court Owner Application
                   : (KickoffApplication._selectedPage == 0) ?
                       ProfileBaseScreen() :
