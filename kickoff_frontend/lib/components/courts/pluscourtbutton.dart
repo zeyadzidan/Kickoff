@@ -27,6 +27,7 @@ class _PlusCourtButtonState extends State<PlusCourtButton> {
   Widget build(BuildContext context) =>
       FloatingActionButton(
           backgroundColor: courtOwnerColor,
+          tooltip: "إضافة ملعب",
           child: const Icon(Icons.add, size: 35),
           onPressed: () =>
               showModalBottomSheet(
