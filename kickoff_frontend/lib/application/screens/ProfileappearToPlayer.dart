@@ -1,13 +1,11 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
+import 'package:kickoff_frontend/application/screens/announcements.dart';
+import 'package:kickoff_frontend/application/screens/reservations.dart';
 import 'package:kickoff_frontend/components/courts/court-view.dart';
+import 'package:kickoff_frontend/components/tickets/plusreservationbutton.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -17,21 +15,25 @@ class ProfileBaseScreenPlayer extends StatefulWidget {
   ProfileBaseScreenPlayer({super.key}) {
     isExpanded = List<bool>.generate(courts.length, (index) => false);
   }
+
   static String? path = "";
   static List<Court> courts = <Court>[];
   static List<bool> isExpanded = <bool>[];
   static int _selectedPage = 0;
+  static final State<ProfileBaseScreenPlayer> _currentState =
+      _ProfileBaseScreenStatePlayer();
 
   @override
-  State<ProfileBaseScreenPlayer> createState() => _ProfileBaseScreenStatePlayer();
+  State<ProfileBaseScreenPlayer> createState() => _currentState;
 
-  // static onTapSelect(index) =>
-  //     _currentState.setState(() => _selectedPage = index);
+  static onTapSelect(index) =>
+      _currentState.setState(() => _selectedPage = index);
 }
 
 class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
   double rating = double.parse("${KickoffApplication.dataPlayer["rating"]}");
-  int rating2 = double.parse("${KickoffApplication.dataPlayer["rating"]}").toInt();
+  int rating2 =
+      double.parse("${KickoffApplication.dataPlayer["rating"]}").toInt();
   int subscribers = 0;
   String name = KickoffApplication.dataPlayer["name"];
   String phone = KickoffApplication.dataPlayer["phoneNumber"];
@@ -45,6 +47,10 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
       ? KickoffApplication.dataPlayer["image"]
       : "";
 
+  _currentState() => ProfileBaseScreenPlayer._currentState;
+  _currentPage() => ProfileBaseScreenPlayer._selectedPage;
+  _setPage(page) => ProfileBaseScreenPlayer._selectedPage = page;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,14 +58,13 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           tooltip: 'back',
-          onPressed: ()
-          {
+          onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
       body: Center(
-        child: Container(
+        child: (_currentPage() == 0) ? Container(
             margin: const EdgeInsets.all(20),
             child: Column(
               children: [
@@ -77,32 +82,33 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                   child: Column(
                     children: [
                       Container(
-                        margin:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 20),
                         padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                                CircleAvatar(
-                                  radius: 40,
-                                  backgroundColor: playerColor,
-                                  child:
-                                  foundPhoto?
-                                  ClipOval(
-                                    child: CachedNetworkImage(
-                                      imageUrl: utl,
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
-                                      progressIndicatorBuilder:
-                                          (context, url, downloadProgress) =>
-                                          CircularProgressIndicator(
-                                              value: downloadProgress.progress),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                    ),
-                                  ):Container(),
-                                ),
+                              CircleAvatar(
+                                radius: 40,
+                                backgroundColor: playerColor,
+                                child: foundPhoto
+                                    ? ClipOval(
+                                        child: CachedNetworkImage(
+                                          imageUrl: utl,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                          progressIndicatorBuilder: (context,
+                                                  url, downloadProgress) =>
+                                              CircularProgressIndicator(
+                                                  value: downloadProgress
+                                                      .progress),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error),
+                                        ),
+                                      )
+                                    : Container(),
+                              ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 6, 20, 0),
                                 child: Row(children: [
@@ -189,7 +195,8 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: InkWell(
@@ -200,7 +207,8 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                           fontSize: 15,
                                         ),
                                       ),
-                                      onTap: () => launchUrlString("tel://$phone")),
+                                      onTap: () =>
+                                          launchUrlString("tel://$phone")),
                                 ),
                               ),
                               Align(
@@ -225,12 +233,14 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                 ),
                 CourtsView(),
               ],
-            )),
-
+            )
+        ) : (_currentPage() == 1) ? AnnouncementsHome() : ReservationsHome(),
       ),
       bottomNavigationBar: _buildPlayerNavBar(),
+      floatingActionButton: (_currentPage() == 2) ? PlusReservationButton() : null,
     );
   }
+
   _buildPlayerNavBar() => Container(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       decoration: BoxDecoration(
@@ -245,30 +255,29 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
           color: playerColor.shade100),
       margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
       child: GNav(
-          gap: 5,
-          activeColor: Colors.white,
-          color: playerColor,
-          tabBackgroundColor: Colors.black.withAlpha(25),
-          duration: const Duration(milliseconds: 300),
-          tabs: const <GButton>[
-            GButton(
-              backgroundColor: playerColor,
-              text: "Profile",
-              icon: Icons.person,
-            ),
-            GButton(
-              backgroundColor: playerColor,
-              text: "News Feed",
-              icon: Icons.new_releases_sharp,
-            ),
-            GButton(
-              backgroundColor: playerColor,
-              text: "Reservations",
-              icon: Icons.stadium,
-            ),
-          ],
-          selectedIndex: ProfileBaseScreenPlayer._selectedPage,
-          // onTabChange: ProfileBaseScreenPlayer.onTapSelect
-          )
-  );
+        gap: 5,
+        activeColor: Colors.white,
+        color: playerColor,
+        tabBackgroundColor: Colors.black.withAlpha(25),
+        duration: const Duration(milliseconds: 300),
+        tabs: const <GButton>[
+          GButton(
+            backgroundColor: playerColor,
+            text: "Profile",
+            icon: Icons.person,
+          ),
+          GButton(
+            backgroundColor: playerColor,
+            text: "News Feed",
+            icon: Icons.new_releases_sharp,
+          ),
+          GButton(
+            backgroundColor: playerColor,
+            text: "Reservations",
+            icon: Icons.stadium,
+          ),
+        ],
+        selectedIndex: ProfileBaseScreenPlayer._selectedPage,
+        // onTabChange: ProfileBaseScreenPlayer.onTapSelect
+      ));
 }

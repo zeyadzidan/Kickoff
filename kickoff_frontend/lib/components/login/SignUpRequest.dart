@@ -90,7 +90,7 @@ class RoundedButton extends State<SignUpButton> {
             localFile.writeLoginData(RoundedInput.EmailSignUp.text,
                 RoundedPasswordSignup.Password.text,"0");
 
-            KickoffApplication.Player=false;
+            KickoffApplication.player=false;
             Navigator.popAndPushNamed(context, '/kickoff');
           }
         }
