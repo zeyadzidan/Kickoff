@@ -65,7 +65,10 @@ class _ReservationsViewState extends State<ReservationsView> {
                                           .asView()[j])),
                                 ),
                                 (ReservationsHome.reservations[index].state ==
-                                        'Pending')
+                                            'Pending' ||
+                                        ReservationsHome
+                                                .reservations[index].state ==
+                                            'Awaiting Confirmation')
                                     ? Form(
                                         key: ReservationsView._keys[index],
                                         child: TextFormField(
@@ -75,8 +78,8 @@ class _ReservationsViewState extends State<ReservationsView> {
                                                   Icons.monetization_on,
                                                   color: playerColor),
                                               labelText: "العربون",
-                                              labelStyle: TextStyle(
-                                                  color: playerColor),
+                                              labelStyle:
+                                                  TextStyle(color: playerColor),
                                               floatingLabelAlignment:
                                                   FloatingLabelAlignment.center,
                                               focusColor: playerColor,
@@ -96,6 +99,42 @@ class _ReservationsViewState extends State<ReservationsView> {
                                         ),
                                       )
                                     : Container(),
+                                (ReservationsHome.reservations[index].state ==
+                                            'Awaiting Confirmation' &&
+                                        ReservationsHome.reservations[index]
+                                                .receiptUrl !=
+                                            '')
+                                    ? Container(
+                                        margin:
+                                            const EdgeInsets.only(top: 10.0),
+                                        child: Image.network(
+                                          ReservationsHome
+                                              .reservations[index].receiptUrl,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                          frameBuilder: (context, child, frame,
+                                              wasSynchronouslyLoaded) {
+                                            return child;
+                                          },
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null) {
+                                              return child;
+                                            } else {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Colors.white,
+                                                ),
+                                              );
+                                            }
+                                          },
+                                        ),
+                                      )
+                                    : Container(
+                                        height: 0,
+                                      ),
                                 (ReservationsHome.reservations[index].state ==
                                         'Pending')
                                     ? Container(
@@ -128,7 +167,7 @@ class _ReservationsViewState extends State<ReservationsView> {
                                         ),
                                       )
                                     : Container(),
-                                (ReservationsHome.reservations[index].state == 'Expired') ? Container(
+                                Container(
                                   margin: const EdgeInsets.only(
                                       top: 70.0, right: 300.0),
                                   child: ElevatedButton.icon(
@@ -154,7 +193,7 @@ class _ReservationsViewState extends State<ReservationsView> {
                                       KickoffApplication.update();
                                     },
                                   ),
-                                ) : Container(),
+                                ),
                               ],
                             )),
                         isExpanded: ReservationsHome.isExpanded[index],
