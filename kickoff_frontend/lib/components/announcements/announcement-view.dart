@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/announcements.dart';
@@ -43,26 +44,16 @@ class _AnnouncementsViewState extends State<AnnouncementsView> {
                           children: [
                             Text(AnnouncementsHome.announcements[index].body),
                             AnnouncementsHome.announcements[index].img != ""
-                                ? Image.network(
-                                    AnnouncementsHome.announcements[index].img,
+                                ? CachedNetworkImage(
+                                    imageUrl: AnnouncementsHome.announcements[index].img,
                                     width: double.infinity,
                                     fit: BoxFit.cover,
-                                    frameBuilder: (context, child, frame,
-                                        wasSynchronouslyLoaded) {
-                                      return child;
-                                    },
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) {
-                                        return child;
-                                      } else {
-                                        return const Center(
-                                          child: CircularProgressIndicator(
-                                            color: Colors.white,
-                                          ),
-                                        );
-                                      }
-                                    },
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
                                   )
                                 : Container(
                                     height: 0,
