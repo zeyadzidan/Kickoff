@@ -4,6 +4,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
+import 'package:kickoff_frontend/application/screens/profile.dart';
 import 'package:kickoff_frontend/components/login/EmailSignUP.dart';
 import 'package:kickoff_frontend/components/login/PhoneNumberSignUp.dart';
 import 'package:kickoff_frontend/components/login/SignUpLocation.dart';
@@ -94,6 +95,7 @@ class RoundedButton extends State<SignUpButton> {
             RoundedPasswordSignup.Password.clear();
             RoundedPhoneNumber.PhoneNumber.clear();
             KickoffApplication.player=false;
+            ProfileBaseScreen.courts.clear();
             Navigator.popAndPushNamed(context, '/kickoff');
           }
         }
