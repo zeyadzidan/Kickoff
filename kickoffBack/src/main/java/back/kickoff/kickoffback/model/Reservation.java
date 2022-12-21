@@ -10,7 +10,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.Set;
 
-@Data
 @Setter
 @Getter
 @Table
@@ -45,8 +44,8 @@ public class Reservation {
     ReservationState state;
     int moneyPayed ;
     int totalCost ;
-    @ManyToMany(mappedBy = "reservations")
-    Set<Player> players;
+    //@ManyToMany(mappedBy = "reservations")
+    //Set<Player> players;
     //Long messageID ;
 
 

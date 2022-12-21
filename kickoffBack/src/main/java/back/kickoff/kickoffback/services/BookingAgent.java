@@ -38,7 +38,7 @@ public class BookingAgent {
         Long id;
         Long playerID;
         String playerName;
-        Player mainPlayer;
+        //Player mainPlayer;
         Long courtID;
         Long courtOwnerID;
         Date startDate ;
@@ -48,13 +48,13 @@ public class BookingAgent {
         ReservationState state;
         int moneyPayed ;
         int totalCost ;
-        Set<Player> players;
+        //Set<Player> players;
 
         public FrontEndReservation(Reservation reservation){
             this.id = reservation.getId();
             this.playerID = reservation.getMainPlayer().getId();
             this.playerName = reservation.getMainPlayer().getName();
-            this.mainPlayer = reservation.getMainPlayer();
+            //this.mainPlayer = reservation.getMainPlayer();
             this.courtID = reservation.getCourtID();
             this.courtOwnerID = reservation.getCourtOwnerID();
             this.startDate = reservation.getStartDate();
@@ -64,7 +64,7 @@ public class BookingAgent {
             this.state = reservation.getState();
             this.moneyPayed = reservation.getMoneyPayed();
             this.totalCost = reservation.getTotalCost();
-            this.players = reservation.getPlayers();
+            //this.players = reservation.getPlayers();
         }
     }
 
@@ -286,6 +286,7 @@ public class BookingAgent {
         courtSchedule.getPendingReservations().add(reservation);
         scheduleRepository.save(courtSchedule);
         courtRepository.save(court);
+        System.out.println("Success set pending");
         return "Success";
     }
 
@@ -304,10 +305,16 @@ public class BookingAgent {
 
     public String getReservations(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
-        Long courtId = jsonObject.getLong("courtId");
-        Long courtOwnerId = jsonObject.getLong("courtOwnerId");
-        boolean ascending = jsonObject.getBoolean("ascending");
-        String strDate = jsonObject.getString("date");
+        long courtId ;
+        long courtOwnerId;
+        String strDate;
+        try{
+            courtId = jsonObject.getLong("courtId");
+            courtOwnerId = jsonObject.getLong("courtOwnerId");
+            strDate = jsonObject.getString("date");
+        }catch (Exception e){
+            return "bad request" ;
+        }
         String[] tempArrS = strDate.split("/");
         if (tempArrS.length != 3)
             return "In valid date";
@@ -337,7 +344,7 @@ public class BookingAgent {
 
         List<Reservation> reservations = scheduleAgent.getScheduleOverlapped(date, endDate, court.getCourtSchedule().getStartWorkingHours() , court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule());
         reservations.addAll(scheduleAgent.getExpiredOverlapped(date, endDate, court.getCourtSchedule().getStartWorkingHours() , court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule()));
-        reservations.sort(new ReservationComparitor()) ;
+        reservations.sort(new ReservationComparator(true)) ;
         List<FrontEndReservation> frontEndReservations = new ArrayList<>(reservations.size());
         for(Reservation r: reservations){
             frontEndReservations.add(new FrontEndReservation(r)) ;
