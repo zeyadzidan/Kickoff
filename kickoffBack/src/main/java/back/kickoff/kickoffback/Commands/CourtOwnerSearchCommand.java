@@ -28,7 +28,7 @@ public class CourtOwnerSearchCommand implements Comparable<CourtOwnerSearchComma
     public int compareTo(CourtOwnerSearchCommand o) {
         if(this.distance > o.getDistance())
             return 1;
-        else if(this.distance > o.getDistance())
+        else if(this.distance < o.getDistance())
             return -1;
         return  0;
     }
