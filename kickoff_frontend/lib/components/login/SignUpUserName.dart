@@ -3,7 +3,7 @@ import 'package:kickoff_frontend/components/login/InputContainer.dart';
 import 'package:kickoff_frontend/constants.dart';
 
 class RoundedInputUsername extends StatelessWidget {
-  const RoundedInputUsername({Key? key, required this.icon, required this.hint})
+  RoundedInputUsername({Key? key, required this.icon, required this.hint})
       : super(key: key);
 
   final IconData icon;
@@ -12,15 +12,15 @@ class RoundedInputUsername extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return InputContainer(
-        color: courtOwnerColor,
         child: TextField(
-          controller: username,
-          cursorColor: courtOwnerColor,
-          decoration: InputDecoration(
-              icon: Icon(icon, color: courtOwnerColor),
-              hintText: hint,
-              border: InputBorder.none),
-        ));
+      controller: username,
+      cursorColor: primaryColor,
+      decoration: InputDecoration(
+          icon: Icon(icon, color: primaryColor),
+          hintText: hint,
+          border: InputBorder.none),
+    ));
   }
 }

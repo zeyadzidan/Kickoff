@@ -37,7 +37,7 @@ class Loading {
         KickoffApplication.player = true;
         data = await pLogin.RoundedLogin.save2(email, pass);
         KickoffApplication.playerId = "${data["id"]}";
-        await pLogin.RoundedLogin.getCourtsInSearch(
+        await pLogin.RoundedLogin.getCourtsinSearch(
             data["xAxis"], data["yAxis"]);
       } else {
         //The user is court Owner

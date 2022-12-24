@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/components/login/InputContainer.dart';
+import 'package:kickoff_frontend/constants.dart';
 
 class RoundedInputLogin extends StatelessWidget {
-  const RoundedInputLogin({Key? key, required this.icon, required this.hint, required this.materialColor})
+  const RoundedInputLogin({Key? key, required this.icon, required this.hint})
       : super(key: key);
 
   final IconData icon;
   final String hint;
-  final MaterialColor materialColor;
-  static TextEditingController emailLogin = TextEditingController();
+  static TextEditingController EmailLogin = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return InputContainer(
-      color: materialColor,
       child: TextField(
-        cursorColor: materialColor,
-        controller: emailLogin,
+        cursorColor: primaryColor,
+        controller: EmailLogin,
         decoration: InputDecoration(
-            icon: Icon(icon, color: materialColor),
+            icon: Icon(icon, color: primaryColor),
             hintText: hint,
             border: InputBorder.none),
       ),
