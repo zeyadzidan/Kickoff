@@ -13,6 +13,7 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
 import '../../../components/login/PasswordSignUp.dart';
+import '../../application/screens/profile.dart';
 
 class SignUpButton extends StatefulWidget {
   @override
@@ -88,6 +89,7 @@ class RoundedButton extends State<SignUpButton> {
           } else {
             KickoffApplication.data = profileData;
             KickoffApplication.ownerId="${profileData['id']}";
+            ProfileBaseScreen.courts.clear();
             localFile.writeLoginData(RoundedInput.EmailSignUp.text,
                 RoundedPasswordSignup.Password.text,"0");
             RoundedInputUsername.username.clear();
