@@ -37,6 +37,18 @@
       <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/linux/flutter/ephemeral/.plugin_symlinks/path_provider_linux/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/linux/flutter/ephemeral/.plugin_symlinks/path_provider_linux/build" />
       <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/linux/flutter/ephemeral/.plugin_symlinks/path_provider_linux/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/linux/flutter/ephemeral/.plugin_symlinks/network_info_plus/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/linux/flutter/ephemeral/.plugin_symlinks/network_info_plus/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/linux/flutter/ephemeral/.plugin_symlinks/network_info_plus/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/windows/flutter/ephemeral/.plugin_symlinks/network_info_plus/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/windows/flutter/ephemeral/.plugin_symlinks/network_info_plus/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/windows/flutter/ephemeral/.plugin_symlinks/network_info_plus/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/windows/flutter/ephemeral/.plugin_symlinks/network_info_plus/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/windows/flutter/ephemeral/.plugin_symlinks/network_info_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/windows/flutter/ephemeral/.plugin_symlinks/network_info_plus/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/linux/flutter/ephemeral/.plugin_symlinks/network_info_plus/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/linux/flutter/ephemeral/.plugin_symlinks/network_info_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/kickoff_frontend/linux/flutter/ephemeral/.plugin_symlinks/network_info_plus/.pub" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 33, extension level 3 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

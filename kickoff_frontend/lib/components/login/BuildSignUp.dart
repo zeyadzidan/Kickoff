@@ -48,7 +48,7 @@ class RegisterForm extends StatelessWidget {
                       height: 175,
                       width: 175,
                       child:
-                          Image(image: AssetImage('assets/images/pic4.PNG'))),
+                          Image(image: AssetImage('assets/images/ball.jpg'))),
                   SizedBox(height: 40),
                   RoundedInput(icon: Icons.mail, hint: 'البريد الالكتروني'),
                   RoundedInputUsername(icon: Icons.face_rounded, hint: 'الاسم'),

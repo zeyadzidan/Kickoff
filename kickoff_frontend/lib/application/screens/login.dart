@@ -3,10 +3,13 @@ import 'package:kickoff_frontend/components/login/BuildLogin.dart';
 import 'package:kickoff_frontend/components/login/CancelButton.dart';
 import 'package:kickoff_frontend/constants.dart';
 
+import '../../components/login/BuildLoginPlayer.dart';
 import '../../components/login/BuildSignUp.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  static List<dynamic> courtsSearch = [];
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -39,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen>
     double viewInset = MediaQuery.of(context)
         .viewInsets
         .bottom; // we are using this to determine Keyboard is opened or not
-    double defaultLoginSize = size.height - (size.height * 0.2);
+    double defaultLoginSize = size.height - (size.height * 0.3);
     double defaultRegisterSize = size.height - (size.height * 0.1);
 
     containerSize =
@@ -65,9 +68,21 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: primaryColor),
+                    color: playerColor),
               )),
-
+          SizedBox(
+            width: 210,
+            child: InkWell(
+              onTap: () {
+                Navigator.popAndPushNamed(context, '/login');
+              },
+              borderRadius: BorderRadius.circular(100),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: const <Widget>[CircleSizer()],
+              ),
+            ),
+          ),
           Positioned(
               top: -50,
               left: -50,
@@ -82,11 +97,10 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: primaryColor),
+                    color: courtOwnerColor),
               )),
-
           Positioned(
-              bottom: -100,
+              bottom: -160,
               left: -100,
               child: Container(
                 width: 290,
@@ -99,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: primaryColor),
+                    color: playerColor),
               )),
 
           // Cancel Button
@@ -118,14 +132,20 @@ class _LoginScreenState extends State<LoginScreen>
                     });
                   },
           ),
-
           // Login Form
+          Padding(
+            padding: EdgeInsets.only(top: size.height * 0.1),
+            child: LoginFormPlayer(
+                isLogin: isLogin,
+                animationDuration: animationDuration,
+                size: size,
+                defaultLoginSize: defaultLoginSize),
+          ),
           LoginForm(
               isLogin: isLogin,
               animationDuration: animationDuration,
               size: size,
               defaultLoginSize: defaultLoginSize),
-
           // Register Container
           AnimatedBuilder(
             animation: animationController!,
@@ -177,9 +197,85 @@ class _LoginScreenState extends State<LoginScreen>
           child: isLogin
               ? const Text(
                   "لا تملك حساباً؟ قم بالتسجيل الآن.",
-                  style: TextStyle(color: primaryColor, fontSize: 18),
+                  style: TextStyle(color: courtOwnerColor, fontSize: 18),
                 )
               : null,
+        ),
+      ),
+    );
+  }
+}
+
+class CircleSizer extends StatefulWidget {
+  const CircleSizer({Key? key}) : super(key: key);
+
+  @override
+  State<CircleSizer> createState() => _CircleSizerState();
+}
+
+class _CircleSizerState extends State<CircleSizer>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    _animation = Tween(
+      begin: 0.0,
+      end: 10.0,
+    ).animate(_controller)
+      ..addListener(() {
+        setState(() {
+          // The state that has changed here is the animation object’s value.
+        });
+      });
+    _animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _controller.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        _controller.forward();
+      }
+    });
+    _controller.forward();
+    // _controller.reverse();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: -50,
+      left: -50,
+      child: Container(
+        width: 200 + _animation.value,
+        height: 200 + _animation.value,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            boxShadow: const <BoxShadow>[
+              BoxShadow(
+                color: Colors.black,
+                blurRadius: 5,
+              ),
+            ],
+            color: playerColor),
+        child: const Padding(
+          padding: EdgeInsets.fromLTRB(55, 100, 0, 0),
+          child: Text(
+            "I am a CourtOwner?!",
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );

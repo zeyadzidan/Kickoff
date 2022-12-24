@@ -1,8 +1,8 @@
 package back.kickoff.kickoffback.cotrollers;
 
 import back.kickoff.kickoffback.model.CourtOwner;
+import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.services.LoginService;
-import back.kickoff.kickoffback.services.SignupService;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,18 +16,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 class LoginControllerTest {
     LoginController Controller;
     @Mock
     LoginService loginService;
+
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         Controller = new LoginController(loginService);
     }
+
     @Test
     void courtOwnerLoginRequest() throws JSONException {
         HashMap<String, Object> hm = new HashMap<>();
@@ -42,7 +44,20 @@ class LoginControllerTest {
         List list = new ArrayList();
         newCourtOwner.setCourts(list);
         when(loginService.courtOwnerLogin(information)).thenReturn(new Gson().toJson(newCourtOwner));
+        ResponseEntity<String> res = Controller.courtOwnerLoginRequest(information);
+        assertEquals(res, new ResponseEntity<>(new Gson().toJson(newCourtOwner), HttpStatus.OK));
+    }
+
+    @Test
+    void playerLoginRequest() throws JSONException {
+        HashMap<String, Object> hm = new HashMap<>();
+        hm.put("email", "cr7@gmail.com");
+        hm.put("password", "12345678900");
+        String information = new Gson().toJson(hm);
+        Player newPlayer = new Player("Cristiano Ronaldo", "cr7@gmail.com", "01176553539",
+                "12345678900", "Lisbon Portugal",34.5, 24.5);
+        when(loginService.courtOwnerLogin(information)).thenReturn(new Gson().toJson(newPlayer));
         ResponseEntity<String> res =Controller.courtOwnerLoginRequest(information);
-        assertEquals(res,new ResponseEntity<>(new Gson().toJson(newCourtOwner), HttpStatus.OK));
+        assertEquals(res,new ResponseEntity<>(new Gson().toJson(newPlayer), HttpStatus.OK));
     }
 }

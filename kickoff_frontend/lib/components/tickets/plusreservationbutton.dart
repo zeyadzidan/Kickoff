@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/reservations.dart';
 import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
 
+import '../../application/screens/profile.dart';
 import '../../constants.dart';
 
 class PlusReservationButton extends StatefulWidget {
@@ -16,41 +18,38 @@ class PlusReservationButton extends StatefulWidget {
 
 class _PlusReservationButtonState extends State<PlusReservationButton> {
   final GlobalKey<FormState> _key = GlobalKey();
-  late List<String> _ticket = <String>[];
-  TimeOfDay _from = TimeOfDay.now().replacing(minute: 00);
-  late TimeOfDay _to =
-      TimeOfDay.now().replacing(hour: (_from.hour + 1) % 24, minute: 00);
+  final FixtureTicket _fixtureTicket = FixtureTicket();
+  TimeOfDay _from = const TimeOfDay(hour: -1, minute: -1);
+  TimeOfDay _to = const TimeOfDay(hour: -1, minute: -1);
 
   @override
   Widget build(BuildContext context) => FloatingActionButton(
-      backgroundColor: primaryColor,
-      child: const Icon(Icons.add, size: 35),
+      backgroundColor: KickoffApplication.player
+        ?playerColor
+        :courtOwnerColor,
+      tooltip: "إضافة حجز",
+      child: const Icon(Icons.add_card_rounded, size: 35),
       onPressed: () => showModalBottomSheet(
             elevation: 4,
             context: context,
-            builder: (context) => SizedBox(
-                height: MediaQuery.of(context).size.height / 2,
-                child: Expanded(
-                  child: SingleChildScrollView(
-                      child: Form(
-                    key: _key,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 25.0, horizontal: 25.0),
-                      child: Column(
-                        children: [
-                          const Text("أضف حجزاً",
-                              style:
-                                  TextStyle(color: primaryColor, fontSize: 32)),
-                          _formField('اسم اللاعب صاحب الحجز', Icons.person),
-                          _reservationTimePicker(true),
-                          _reservationTimePicker(false),
-                          _submitButton()
-                        ],
-                      ),
-                    ),
-                  )),
-                )),
+            builder: (context) => SingleChildScrollView(
+                child: Form(
+              key: _key,
+              child: Container(
+                margin: const EdgeInsets.symmetric(
+                    vertical: 25.0, horizontal: 25.0),
+                child: Column(
+                  children: [
+                    const Text("أضف حجزاً",
+                        style: TextStyle(color: courtOwnerColor, fontSize: 32)),
+                    (!KickoffApplication.player) ? _formField('اسم اللاعب صاحب الحجز', Icons.person) : Container(),
+                    _reservationTimePicker(true),
+                    _reservationTimePicker(false),
+                    _submitButton()
+                  ],
+                ),
+              ),
+            )),
           ));
 
   _formField(label, icon) => TextFormField(
@@ -58,28 +57,26 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
         maxLines: 1,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
-          focusColor: primaryColor,
+          focusColor: courtOwnerColor,
           floatingLabelAlignment: FloatingLabelAlignment.center,
           labelText: label,
-          suffixIcon: Icon(icon, color: primaryColor),
-          labelStyle: const TextStyle(color: primaryColor),
+          suffixIcon: Icon(icon, color: courtOwnerColor),
+          labelStyle: const TextStyle(color: courtOwnerColor),
           border: const UnderlineInputBorder(),
         ),
         validator: (input) =>
             (input!.isEmpty) ? 'لا يمكنك ترك هذا الحقل فارغاً.' : null,
-        onSaved: (value) => _ticket.add(value!),
+        onSaved: (value) => _fixtureTicket.pname = value!,
       );
 
   _reservationTimePicker(initTime) => Container(
         margin: const EdgeInsets.only(top: 10),
         child: ElevatedButton.icon(
           onPressed: _pickTimeReservation(initTime),
-          icon: const Icon(Icons.timer, color: primaryColor),
-          label: Text((initTime)
-              ? 'ميعاد بدأ الحجز: ${_from.format(context)}'
-              : 'ميعاد انتهاء الحجز: ${_to.format(context)}'),
+          icon: const Icon(Icons.timer, color: courtOwnerColor),
+          label: Text((initTime) ? 'ميعاد بدأ الحجز' : 'ميعاد انتهاء الحجز'),
           style: ElevatedButton.styleFrom(
-              foregroundColor: primaryColor,
+              foregroundColor: courtOwnerColor,
               backgroundColor: secondaryColor,
               padding:
                   const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
@@ -87,41 +84,46 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
       );
 
   _pickTimeReservation(initTime) => () async {
+        FToast toast = FToast();
+        toast.init(context);
         var selected = await showTimePicker(
           helpText: 'اختر الساعة فقط',
           initialEntryMode: TimePickerEntryMode.inputOnly,
-          initialTime: (initTime) ? _from : _to,
+          initialTime: TimeOfDay.now(),
           context: context,
         );
         if (initTime) {
           if (selected!.minute > 0) {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) => const AlertDialog(
-                      title:
-                          Text('من فضلك اختر الساعة فقط.\nالدقائق غير محسوبة.'),
-                    ));
+            toast.showToast(
+              toastDuration: const Duration(seconds: 4),
+              gravity: ToastGravity.CENTER,
+              child:
+                  customToast("من فضلك اختر الساعة فقط. الدقائق غير محسوبة."),
+            );
           } else {
             setState(() => _from = selected);
+            toast.showToast(
+              toastDuration: const Duration(seconds: 2),
+              gravity: ToastGravity.CENTER,
+              child: customToast("تم اختيار الوقت بنجاح"),
+            );
           }
         } else {
-          if (selected!.hour % 24 > _from.hour % 24) {
-            (selected.minute == 0)
-                ? setState(() => _to = selected)
-                : showDialog(
-                    context: context,
-                    builder: (BuildContext context) => const AlertDialog(
-                          title: Text(
-                              'من فضلك اختر الساعة فقط.\nالدقائق غير محسوبة.'),
-                        ));
-          } else {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) => const AlertDialog(
-                      title: Text(
-                          'أقل عدد ساعات للحجز هو ساعة واحدة.\nحاول مرة أخرى.'),
-                    ));
-          }
+          (selected!.minute == 0)
+              ? setState(() {
+                  _to = selected;
+                  toast.showToast(
+                    toastDuration: const Duration(seconds: 2),
+                    gravity: ToastGravity.CENTER,
+                    child: customToast("تم اختيار الوقت بنجاح"),
+                  );
+                })
+              : toast.showToast(
+                  toastDuration: const Duration(seconds: 4),
+                  gravity: ToastGravity.CENTER,
+                  child: customToast(
+                      'من فضلك اختر الساعة فقط. الدقائق غير محسوبة.'),
+                );
         }
       };
 
@@ -137,7 +139,7 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
             label: const Text('حفظ'),
             icon: const Icon(Icons.schedule_send),
             style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
+                backgroundColor: courtOwnerColor,
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
             onPressed: () async {
@@ -145,20 +147,43 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
               if (!_key.currentState!.validate()) {
                 return;
               }
-              _key.currentState!.save();
-              _ticket.add((ReservationsHome.selectedCourt + 1).toString());
-              _ticket.add(KickoffApplication.ownerId);
-              _ticket.add(_formatDate(ReservationsHome.selectedDate));
-              _ticket.add(_formatDate(ReservationsHome.selectedDate));
-              _ticket.add(_formatTime(_from));
-              _ticket.add(_formatTime(_to));
-              await TicketsHTTPsHandler.sendTicket(_ticket);
+              // Validate time constraints
+              if (_from.hour == -1 || _to.hour == -1) {
+                FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  toastDuration: const Duration(seconds: 4),
+                  gravity: ToastGravity.CENTER,
+                  child: customToast(
+                      'لم تقم بتحديد مواعيد الحجز بعناية. حاول مرة أخرى.'),
+                );
+                return;
+              }
+              // Handle the overlapping fixtures reservation.
+              DateTime finishDate = ReservationsHome.selectedDate;
+              if (_from.hour < _to.hour) {
+                finishDate.add(const Duration(days: 1));
+              }
+              _key.currentState!.save();  // Set name
+              if (KickoffApplication.player) {
+                _fixtureTicket.pname = KickoffApplication.data["name"];
+                _fixtureTicket.pid = KickoffApplication.playerId;
+              }
+              print("Selected: ${ReservationsHome.selectedCourt}");
+              print("CID: ${ProfileBaseScreen.courts[ReservationsHome.selectedCourt].cid}");
+              String cid = ProfileBaseScreen.courts[ReservationsHome.selectedCourt].cid;
+              _fixtureTicket.cid = cid;
+              _fixtureTicket.coid = KickoffApplication.ownerId;
+              _fixtureTicket.startDate = _formatDate(ReservationsHome.selectedDate);
+              _fixtureTicket.endDate = _formatDate(finishDate);
+              _fixtureTicket.startTime = _formatTime(_from);
+              _fixtureTicket.endTime = _formatTime(_to);
+              await TicketsHTTPsHandler.sendTicket(_fixtureTicket);
               ReservationsHome.reservations =
                   await TicketsHTTPsHandler.getCourtReservations(
-                      (ReservationsHome.selectedCourt + 1),
+                      ProfileBaseScreen.courts[ReservationsHome.selectedCourt].cid,
                       KickoffApplication.ownerId,
                       _formatDate(ReservationsHome.selectedDate));
-              _ticket = [];
               KickoffApplication.update();
               Navigator.pop(context);
             }),

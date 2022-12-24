@@ -5,7 +5,6 @@ import '../../constants.dart';
 
 class CourtsView extends StatefulWidget {
   const CourtsView({super.key});
-
   @override
   State<StatefulWidget> createState() => _CourtsViewState();
 }
@@ -20,7 +19,7 @@ class _CourtsViewState extends State<CourtsView> {
               child: ExpansionPanelList(
                 animationDuration: const Duration(milliseconds: 300),
                 expandedHeaderPadding: EdgeInsets.zero,
-                dividerColor: primaryColor,
+                dividerColor: playerColor,
                 elevation: 4,
                 children: List<ExpansionPanel>.generate(
                     ProfileBaseScreen.courts.length,

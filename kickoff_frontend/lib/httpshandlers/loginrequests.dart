@@ -4,6 +4,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
+import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/profile.dart';
 import 'package:kickoff_frontend/components/login/EmailLogin.dart';
 import 'package:kickoff_frontend/components/login/PasswordLogin.dart';
@@ -13,14 +14,14 @@ import 'package:kickoff_frontend/localFile.dart';
 import '../application/screens/reservations.dart';
 import 'courtsrequests.dart';
 
-class LoginButton extends StatefulWidget {
-  const LoginButton({super.key});
+class LoginButtonCourtOwner extends StatefulWidget {
+  const LoginButtonCourtOwner({super.key});
 
   @override
   RoundedLogin createState() => RoundedLogin();
 }
 
-class RoundedLogin extends State<LoginButton> {
+class RoundedLogin extends State<LoginButtonCourtOwner> {
   static final String _url =
       "http://${KickoffApplication.userIP}:8080/login/courtOwner";
   var resp = 52;
@@ -58,27 +59,28 @@ class RoundedLogin extends State<LoginButton> {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () async {
-        var Email = RoundedInputLogin.EmailLogin.text;
-        var Password = RoundedPasswordInput.Password.text;
+        var Email = RoundedInputLogin.emailLogin.text;
+        var Password = RoundedPasswordInput.password.text;
+        print(Password);
         if (Email.isEmpty) {
           showAlertDialog(context, 'بيانات حسابك فارغة');
-          RoundedInputLogin.EmailLogin.clear();
+          RoundedInputLogin.emailLogin.clear();
         } else if (Password.length < 6 ||
             Password.length > 15 ||
             Password.isEmpty) {
           showAlertDialog(context,
               'خطأ بكلمة المرور. تأكد من ان عدد الحروف يقع ما بين 6 و 15 حرفاً.');
-          RoundedPasswordInput.Password.clear();
+          RoundedPasswordInput.password.clear();
         } else {
-          await save(RoundedInputLogin.EmailLogin.text,
-              RoundedPasswordInput.Password.text);
+          await save(RoundedInputLogin.emailLogin.text,
+              RoundedPasswordInput.password.text);
           if (profileData.isEmpty) {
             showAlertDialog(context, 'تأكد من بيانات حسابك');
-            RoundedInputLogin.EmailLogin.clear();
+            RoundedInputLogin.emailLogin.clear();
           } else if (profileData.length == 4) {
             showAlertDialog(
                 context, 'خطأ بكلمة المرور (غير مسموح بأقل من 4 حروف)');
-            RoundedPasswordInput.Password.clear();
+            RoundedPasswordInput.password.clear();
           } else {
             print(profileData);
             KickoffApplication.data = profileData;
@@ -86,9 +88,13 @@ class RoundedLogin extends State<LoginButton> {
             ProfileBaseScreen.courts =
                 await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
             await ReservationsHome.buildTickets();
-            localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
-                RoundedPasswordInput.Password.text);
-            Navigator.pushNamed(context, '/kickoff');
+            await AnnouncementsHome.buildAnnouncements();
+            localFile.writeLoginData(RoundedInputLogin.emailLogin.text,
+                RoundedPasswordInput.password.text, "0");
+            RoundedPasswordInput.password.clear();
+            RoundedInputLogin.emailLogin.clear();
+            KickoffApplication.player = false;
+            Navigator.popAndPushNamed(context, '/kickoff');
           }
         }
       },
@@ -97,7 +103,13 @@ class RoundedLogin extends State<LoginButton> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: primaryColor,
+          color: courtOwnerColor,
+          boxShadow: const <BoxShadow>[
+            BoxShadow(
+              color: Colors.black,
+              blurRadius: 2,
+            ),
+          ],
         ),
         padding: const EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,

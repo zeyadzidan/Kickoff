@@ -8,6 +8,7 @@
 class FixtureTicket {
   String ticketId = '';
   String pname = '';
+  String pid = '';
   String coname = '';
   String coid = '';
   String cname = '';
@@ -19,6 +20,7 @@ class FixtureTicket {
   String endDate = '';
   String startTime = '';
   String endTime = '';
+  String receiptUrl = '';
 
   asView() => [
         'اسم اللاعب صاحب الحجز: $pname',
@@ -28,4 +30,11 @@ class FixtureTicket {
         'العربون: $paidAmount جنيهاً مصرياً',
         'التكلفة الإجمالية: $totalCost جنيهاً مصرياً'
       ];
+
+  asPlayerView() => [
+    'Time: $startTime - $endTime',
+    'Date: $startDate',
+    'Paid: $paidAmount EGP',
+    'Total Cost: $totalCost EGP'
+  ];
 }

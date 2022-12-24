@@ -14,13 +14,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static reactor.core.publisher.Mono.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CourtOwnerAgentTest {
     CourtOwnerAgent courtOwnerAgent;
@@ -38,7 +36,7 @@ class CourtOwnerAgentTest {
     }
 
     @Test
-    void findCourtOwnerCourts() {
+    void findCourtOwnerCourts() throws JSONException {
         Long id = 22L;
         CourtOwner courtOwner = new CourtOwner();
         courtOwner.setCourts(new ArrayList<Court>());
@@ -50,10 +48,10 @@ class CourtOwnerAgentTest {
     @Test
     void addImage() throws JSONException {
         HashMap<String, Object> hm = new HashMap<>();
-        hm.put("ownerID", 1L) ;
-        hm.put("imageURL", "thisIsAnImage.com") ;
+        hm.put("ownerID", 1L);
+        hm.put("imageURL", "thisIsAnImage.com");
         String information = new Gson().toJson(hm);
-        CourtOwner courtOwner = new CourtOwner() ;
+        CourtOwner courtOwner = new CourtOwner();
         Mockito.when(courtOwnerRepository.findById(1L)).thenReturn(Optional.of(courtOwner));
         Mockito.when(courtOwnerRepository.save(courtOwner)).thenReturn(courtOwner);
 
@@ -72,8 +70,8 @@ class CourtOwnerAgentTest {
         hm.put("morningCost", 100);
         hm.put("nightCost", 150);
         hm.put("minBookingHours", 1);
-        hm.put("startWorkingHours", 1);
-        hm.put("finishWorkingHours", 21);
+        hm.put("startWorkingHours", 9);
+        hm.put("finishWorkingHours", 23);
         String information = new Gson().toJson(hm);
         CourtOwner courtOwner = new CourtOwner();
         courtOwner.setCourts(new ArrayList<Court>());
