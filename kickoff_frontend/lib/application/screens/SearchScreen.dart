@@ -44,6 +44,7 @@ class _SearchScreenState extends  State<SearchScreen> {
     setState(() => profileData = json.decode(response.body));
     KickoffApplication.dataPlayer= profileData;
     KickoffApplication.ownerId = profileData["id"].toString();
+    ReservationsHome.reservations.clear();
     ProfileBaseScreen.courts =
     await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
     ProfileBaseScreen.isExpanded = List<bool>.generate(ProfileBaseScreen.courts.length, (index) => false);

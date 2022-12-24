@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
-public class CourtOwnerSearchCommand {
+public class CourtOwnerSearchCommand implements Comparable<CourtOwnerSearchCommand>{
     private Long id;
     private String courtOwnerName;
     private String courtOwnerPicture;
@@ -22,5 +22,14 @@ public class CourtOwnerSearchCommand {
         this.courtOwnerPicture = courtOwnerPicture;
         this.distance = distance;
         this.rating = rating;
+    }
+
+    @Override
+    public int compareTo(CourtOwnerSearchCommand o) {
+        if(this.distance > o.getDistance())
+            return 1;
+        else if(this.distance < o.getDistance())
+            return -1;
+        return  0;
     }
 }

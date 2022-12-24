@@ -49,8 +49,6 @@ class KickoffApplication extends StatefulWidget {
     _currentState.setState(() => _selectedPage = index);
   }
 
-
-
   checkData(context) =>
       (loginData == "") ? _currentState.updateCounter(context) : null;
 }
