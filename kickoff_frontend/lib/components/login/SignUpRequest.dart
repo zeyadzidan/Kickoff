@@ -13,16 +13,15 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
 import '../../../components/login/PasswordSignUp.dart';
+import '../../application/screens/profile.dart';
 
 class SignUpButton extends StatefulWidget {
-  const SignUpButton({super.key});
-
   @override
   RoundedButton createState() => RoundedButton();
 }
 
 class RoundedButton extends State<SignUpButton> {
-  String url = "http://$ip:8080/signup/courtOwner";
+  String url = "http://${ip}:8080/signup/courtOwner";
   var resp = "";
   late Map<String, dynamic> profileData;
 
@@ -30,10 +29,10 @@ class RoundedButton extends State<SignUpButton> {
     var res = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "email": RoundedInput.emailSignUp.text.toLowerCase(),
-          "password": RoundedPasswordSignup.password.text,
+          "email": RoundedInput.EmailSignUp.text.toLowerCase(),
+          "password": RoundedPasswordSignup.Password.text,
           "name": RoundedInputUsername.username.text,
-          "phoneNumber": RoundedPhoneNumber.phoneNumber.text,
+          "phoneNumber": RoundedPhoneNumber.PhoneNumber.text,
           "location": FindLocation.Locationaddress,
           "xAxis": FindLocation.X_axis,
           "yAxis": FindLocation.Y_axis,
@@ -55,49 +54,49 @@ class RoundedButton extends State<SignUpButton> {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () async {
-        var email = RoundedInput.emailSignUp.text;
+        var Email = RoundedInput.EmailSignUp.text;
         var username = RoundedInputUsername.username.text;
-        var password = RoundedPasswordSignup.password.text;
-        var phoneNumber = RoundedPhoneNumber.phoneNumber.text;
-        var locationAddress = FindLocation.Locationaddress;
-        if (email.isEmpty) {
+        var Password = RoundedPasswordSignup.Password.text;
+        var phoneNumber = RoundedPhoneNumber.PhoneNumber.text;
+        var Locationaddress = FindLocation.Locationaddress;
+        if (Email.isEmpty) {
           showAlertDialog(context, 'تأكد من بيانات حسابك');
-          RoundedInput.emailSignUp.clear();
+          RoundedInput.EmailSignUp.clear();
         } else if (username.isEmpty) {
           showAlertDialog(context, 'لا يمكنك ترك هذا الحقل فارغاً');
           RoundedInputUsername.username.clear();
         } else if (phoneNumber.isEmpty || phoneNumber.length < 11) {
           showAlertDialog(context, 'تأكد من إدخال رقم هاتف صحيح');
-          RoundedPhoneNumber.phoneNumber.clear();
-        } else if (locationAddress.toString() == 'null') {
+          RoundedPhoneNumber.PhoneNumber.clear();
+        } else if (Locationaddress.toString() == 'null') {
           showAlertDialog(context, 'تأكد من اختيارك لموقع ملعبك');
-        } else if (password.length < 6 ||
-            password.length > 15 ||
-            password.isEmpty) {
+        } else if (Password.length < 6 ||
+            Password.length > 15 ||
+            Password.isEmpty) {
           showAlertDialog(context, 'تأكد من إدخال كلمة مرور صالحة');
-          RoundedPasswordSignup.password.clear();
+          RoundedPasswordSignup.Password.clear();
         } else if (username.length < 3) {
           showAlertDialog(context, 'لا يمكن أن يقل الاسم عن 3 أحرف');
           RoundedInputUsername.username.clear();
         } else {
-          await save();
+          var res = await save();
           if (resp == "invalid") {
             showAlertDialog(context, 'تأكد من بيانات حسابك');
-            RoundedInput.emailSignUp.clear();
+            RoundedInput.EmailSignUp.clear();
           } else if (resp == "Email exist") {
             showAlertDialog(context, 'الحساب موجود بالفعل');
-            RoundedInput.emailSignUp.clear();
+            RoundedInput.EmailSignUp.clear();
           } else {
             KickoffApplication.data = profileData;
-            KickoffApplication.ownerId = "${profileData['id']}";
+            KickoffApplication.ownerId="${profileData['id']}";
             ProfileBaseScreen.courts.clear();
-            localFile.writeLoginData(RoundedInput.emailSignUp.text,
-                RoundedPasswordSignup.password.text, "0");
+            localFile.writeLoginData(RoundedInput.EmailSignUp.text,
+                RoundedPasswordSignup.Password.text,"0");
             RoundedInputUsername.username.clear();
-            RoundedInput.emailSignUp.clear();
-            RoundedPasswordSignup.password.clear();
-            RoundedPhoneNumber.phoneNumber.clear();
-            KickoffApplication.player = false;
+            RoundedInput.EmailSignUp.clear();
+            RoundedPasswordSignup.Password.clear();
+            RoundedPhoneNumber.PhoneNumber.clear();
+            KickoffApplication.player=false;
             ProfileBaseScreen.courts.clear();
             Navigator.popAndPushNamed(context, '/kickoff');
           }
@@ -110,9 +109,9 @@ class RoundedButton extends State<SignUpButton> {
           borderRadius: BorderRadius.circular(30),
           color: courtOwnerColor,
         ),
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
-        child: const Text(
+        child: Text(
           'تسجيل حساب جديد',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
@@ -125,11 +124,11 @@ showAlertDialog(BuildContext context, text3) {
   return showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-            title: const Text("تحذير!"),
+            title: Text("تحذير!"),
             content: Text(text3),
             actions: [
               TextButton(
-                child: const Text("حسناً"),
+                child: Text("حسناً"),
                 onPressed: () {
                   Navigator.of(ctx).pop();
                 },
