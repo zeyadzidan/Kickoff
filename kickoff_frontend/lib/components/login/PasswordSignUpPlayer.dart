@@ -8,29 +8,30 @@ class PasswordInputSignupPlayer extends StatefulWidget {
 }
 
 class RoundedPasswordSignupPlayer extends State<PasswordInputSignupPlayer> {
-  static TextEditingController Password = TextEditingController();
-  var obsecuretext = true;
+  static TextEditingController password = TextEditingController();
+  var obsecureText = true;
 
   @override
   Widget build(BuildContext context) {
     return InputContainer(
-      color: Colors.green,
+        color: Colors.green,
         child: TextField(
           cursorColor: playerColor,
-          controller: Password,
+          controller: password,
           decoration: InputDecoration(
-              icon: Icon(Icons.lock, color: playerColor),
+              icon: const Icon(Icons.lock, color: playerColor),
               suffix: GestureDetector(
                 onTap: () {
                   setState(() {
-                    obsecuretext = !obsecuretext;
+                    obsecureText = !obsecureText;
                   });
                 },
-                child: Icon(obsecuretext ? Icons.visibility : Icons.visibility_off),
+                child: Icon(
+                    obsecureText ? Icons.visibility : Icons.visibility_off),
               ),
               hintText: 'Password',
               border: InputBorder.none),
-          obscureText: obsecuretext,
+          obscureText: obsecureText,
         ));
   }
 }

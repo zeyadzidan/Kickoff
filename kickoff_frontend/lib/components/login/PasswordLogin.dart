@@ -3,35 +3,36 @@ import 'package:kickoff_frontend/components/login/InputContainer.dart';
 import 'package:kickoff_frontend/constants.dart';
 
 class PasswordInput extends StatefulWidget {
+  const PasswordInput({super.key});
+
   @override
   RoundedPasswordInput createState() => RoundedPasswordInput();
 }
 
 class RoundedPasswordInput extends State<PasswordInput> {
-
-  static TextEditingController Password = TextEditingController();
-  var obsecuretext = true;
+  static TextEditingController password = TextEditingController();
+  var obsecureText = true;
 
   @override
   Widget build(BuildContext context) {
     return InputContainer(
-      color: Colors.cyan,
+      color: courtOwnerColor,
         child: TextField(
       cursorColor: playerColor,
-      controller: Password,
+      controller: password,
       decoration: InputDecoration(
-          icon: Icon(Icons.lock, color: courtOwnerColor),
+          icon: const Icon(Icons.lock, color: courtOwnerColor),
           suffix: GestureDetector(
             onTap: () {
               setState(() {
-                obsecuretext = !obsecuretext;
+                obsecureText = !obsecureText;
               });
             },
-            child: Icon(obsecuretext ? Icons.visibility : Icons.visibility_off),
+            child: Icon(obsecureText ? Icons.visibility : Icons.visibility_off),
           ),
-          hintText: 'كلمه مرور',
+          hintText: 'كلمة المرور',
           border: InputBorder.none),
-      obscureText: obsecuretext,
+      obscureText: obsecureText,
     ));
   }
 }

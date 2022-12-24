@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/login/PasswordSignUp.dart';
+import 'package:kickoff_frontend/constants.dart';
 
 import '../../httpshandlers/loginrequests.dart';
 import 'EmailLogin.dart';
@@ -26,7 +26,7 @@ class LoginForm extends StatelessWidget {
       duration: animationDuration * 4,
       child: Align(
         alignment: Alignment.center,
-        child: Container(
+        child: SizedBox(
           width: size.width,
           height: defaultLoginSize,
           child: SingleChildScrollView(
@@ -38,18 +38,21 @@ class LoginForm extends StatelessWidget {
                   'Court Owner',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
-                SizedBox(height: 40),
-                Container(
+                const SizedBox(height: 40),
+                const SizedBox(
                     height: 175,
                     width: 175,
-                    child: const Image(
+                    child: Image(
                         image: AssetImage('assets/images/football court.png'))),
-                SizedBox(height: 40),
-                RoundedInputLogin(icon: Icons.mail,color:Colors.cyan , hint: 'البريد الالكتروني'),
+                const SizedBox(height: 40),
+                const RoundedInputLogin(
+                    icon: Icons.mail,
+                    materialColor: courtOwnerColor,
+                    hint: 'البريد الالكتروني'),
                 PasswordInput(),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 LoginButtonCourtOwner(),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
               ],
             ),
           ),

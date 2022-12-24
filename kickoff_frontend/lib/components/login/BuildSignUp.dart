@@ -50,14 +50,14 @@ class RegisterForm extends StatelessWidget {
                       child:
                           Image(image: AssetImage('assets/images/ball.jpg'))),
                   SizedBox(height: 40),
-                  RoundedInput(icon: Icons.mail,color: Colors.cyan, hint: 'البريد الالكتروني'),
-                  RoundedInputUsername(icon: Icons.face_rounded,color: Colors.cyan, hint: 'الاسم'),
+                  RoundedInput(icon: Icons.mail, hint: 'البريد الالكتروني'),
+                  RoundedInputUsername(icon: Icons.face_rounded, hint: 'الاسم'),
                   PasswordInputSignup(),
-                  RoundedPhoneNumber(icon: Icons.phone,color: Colors.cyan, hint: 'رقم الهاتف'),
+                  RoundedPhoneNumber(icon: Icons.phone, hint: 'رقم الهاتف'),
                   Container(
                     height: 450,
                     width: size.width * 0.8,
-                    child: FindLocation(title: 'اختر المكان',color: Colors.cyan),
+                    child: FindLocation(title: 'المكان'),
                   ),
                   SizedBox(height: 30),
                   SignUpButton(),

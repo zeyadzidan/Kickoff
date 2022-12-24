@@ -59,28 +59,28 @@ class RoundedLogin extends State<LoginButtonCourtOwner> {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () async {
-        var Email = RoundedInputLogin.EmailLogin.text;
-        var Password = RoundedPasswordInput.Password.text;
+        var Email = RoundedInputLogin.emailLogin.text;
+        var Password = RoundedPasswordInput.password.text;
         print(Password);
         if (Email.isEmpty) {
           showAlertDialog(context, 'بيانات حسابك فارغة');
-          RoundedInputLogin.EmailLogin.clear();
+          RoundedInputLogin.emailLogin.clear();
         } else if (Password.length < 6 ||
             Password.length > 15 ||
             Password.isEmpty) {
           showAlertDialog(context,
               'خطأ بكلمة المرور. تأكد من ان عدد الحروف يقع ما بين 6 و 15 حرفاً.');
-          RoundedPasswordInput.Password.clear();
+          RoundedPasswordInput.password.clear();
         } else {
-          await save(RoundedInputLogin.EmailLogin.text,
-              RoundedPasswordInput.Password.text);
+          await save(RoundedInputLogin.emailLogin.text,
+              RoundedPasswordInput.password.text);
           if (profileData.isEmpty) {
             showAlertDialog(context, 'تأكد من بيانات حسابك');
-            RoundedInputLogin.EmailLogin.clear();
+            RoundedInputLogin.emailLogin.clear();
           } else if (profileData.length == 4) {
             showAlertDialog(
                 context, 'خطأ بكلمة المرور (غير مسموح بأقل من 4 حروف)');
-            RoundedPasswordInput.Password.clear();
+            RoundedPasswordInput.password.clear();
           } else {
             print(profileData);
             KickoffApplication.data = profileData;
@@ -89,11 +89,11 @@ class RoundedLogin extends State<LoginButtonCourtOwner> {
                 await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
             await ReservationsHome.buildTickets();
             await AnnouncementsHome.buildAnnouncements();
-            localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
-                RoundedPasswordInput.Password.text,"0");
-            RoundedPasswordInput.Password.clear();
-            RoundedInputLogin.EmailLogin.clear();
-            KickoffApplication.player=false;
+            localFile.writeLoginData(RoundedInputLogin.emailLogin.text,
+                RoundedPasswordInput.password.text, "0");
+            RoundedPasswordInput.password.clear();
+            RoundedInputLogin.emailLogin.clear();
+            KickoffApplication.player = false;
             Navigator.popAndPushNamed(context, '/kickoff');
           }
         }
@@ -108,13 +108,13 @@ class RoundedLogin extends State<LoginButtonCourtOwner> {
             BoxShadow(
               color: Colors.black,
               blurRadius: 2,
-            ),],
-
+            ),
+          ],
         ),
         padding: const EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
         child: const Text(
-          'تسجيل الدخول',
+          'تسجيل دخول',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),

@@ -4,16 +4,11 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
-import 'package:kickoff_frontend/application/screens/profile.dart';
+import 'package:kickoff_frontend/application/screens/login.dart';
 import 'package:kickoff_frontend/components/login/EmailLogin.dart';
 import 'package:kickoff_frontend/components/login/PasswordPlayer.dart';
-import 'package:kickoff_frontend/components/login/SignUpLocation.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
-import 'package:kickoff_frontend/application/screens/login.dart';
-import 'package:kickoff_frontend/components/courts/CourtsInSearch.dart';
-import '../application/screens/reservations.dart';
-import 'courtsrequests.dart';
 
 class LoginButtonPlayer extends StatefulWidget {
   const LoginButtonPlayer({super.key});
@@ -23,29 +18,25 @@ class LoginButtonPlayer extends StatefulWidget {
 }
 
 class RoundedLogin extends State<LoginButtonPlayer> {
-  static final String _url =
-      "http://${ip}:8080/login/player";
- static String url2 = "http://${ip}:8080/search/courtOwner/distance";
+  static const String _url = "http://$ip:8080/login/player";
+  static String url2 = "http://$ip:8080/search/courtOwner/distance";
 
- static Future getCourtsinSearch(xAxis,yAxis) async{
+  static Future getCourtsInSearch(xAxis, yAxis) async {
     var res = await http.post(Uri.parse(url2),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "keyword":"",
+          "keyword": "",
           "xAxis": xAxis,
-          "yAxis": yAxis,//TODO: make this dynamic
+          "yAxis": yAxis, //TODO: make this dynamic
         }));
-      print(res.body);
-      // FieldValue arrayUnion(List<dynamic> elements) =>
-      //     FieldValue._(FieldValueType.arrayUnion, elements);
-      // courtsSearch= jsonDecode(res.body) as List<dynamic>;
-      LoginScreen.courtsSearch=jsonDecode(res.body) as List<dynamic>;
-      // print(courtsSearch);
-      print("lol");
-
+    print(res.body);
+    LoginScreen.courtsSearch = jsonDecode(res.body) as List<dynamic>;
+    print("lol");
   }
+
   var resp = 52;
   late Map<String, dynamic> profileData;
+
   // static List<dynamic> courtsSearch=[];
   Future save(email, pass) async {
     var res = await http.post(Uri.parse(_url),
@@ -54,7 +45,7 @@ class RoundedLogin extends State<LoginButtonPlayer> {
           "email": email.toLowerCase(),
           "password": pass,
         }));
-     // print(res.body);
+    // print(res.body);
     setState(() => profileData = json.decode(res.body));
   }
 
@@ -64,7 +55,7 @@ class RoundedLogin extends State<LoginButtonPlayer> {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Credentials": "true",
           "Access-Control-Allow-Headers":
-          "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+              "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
           "Access-Control-Allow-Methods": "POST, OPTIONS"
         },
         body: json.encode({
@@ -79,37 +70,37 @@ class RoundedLogin extends State<LoginButtonPlayer> {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () async {
-        var Email = RoundedInputLogin.EmailLogin.text;
-        var Password = RoundedPasswordInputPlayer.Password.text;
-        if (Email.isEmpty) {
+        var email = RoundedInputLogin.emailLogin.text;
+        var password = RoundedPasswordInputPlayer.password.text;
+        if (email.isEmpty) {
           showAlertDialog(context, 'Empty Email Address');
-          RoundedInputLogin.EmailLogin.clear();
-        } else if (Password.length < 6 ||
-            Password.length > 15 ||
-            Password.isEmpty) {
-          showAlertDialog(context,
-              'Wrong Password');
-          RoundedPasswordInputPlayer.Password.clear();
+          RoundedInputLogin.emailLogin.clear();
+        } else if (password.length < 6 ||
+            password.length > 15 ||
+            password.isEmpty) {
+          showAlertDialog(context, 'Wrong Password');
+          RoundedPasswordInputPlayer.password.clear();
         } else {
-          print(RoundedPasswordInputPlayer.Password.text);
-          await save(RoundedInputLogin.EmailLogin.text,
-              RoundedPasswordInputPlayer.Password.text);
+          print(RoundedPasswordInputPlayer.password.text);
+          await save(RoundedInputLogin.emailLogin.text,
+              RoundedPasswordInputPlayer.password.text);
           if (profileData.isEmpty) {
             showAlertDialog(context, 'Check your Information');
-            RoundedInputLogin.EmailLogin.clear();
+            RoundedInputLogin.emailLogin.clear();
           } else if (profileData.length == 4) {
-            showAlertDialog(
-                context, 'Wrong password password less than 4 character not accepted ');
-            RoundedPasswordInputPlayer.Password.clear();
+            showAlertDialog(context,
+                'Wrong password password less than 4 character not accepted ');
+            RoundedPasswordInputPlayer.password.clear();
           } else {
             print(profileData);
             KickoffApplication.data = profileData;
-              localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
-                RoundedPasswordInputPlayer.Password.text,"1");
-            KickoffApplication.player=true;
-            RoundedInputLogin.EmailLogin.clear();
-            RoundedPasswordInputPlayer.Password.clear();
-            await getCourtsinSearch(KickoffApplication.data["xAxis"],KickoffApplication.data["yAxis"]);
+            localFile.writeLoginData(RoundedInputLogin.emailLogin.text,
+                RoundedPasswordInputPlayer.password.text, "1");
+            KickoffApplication.player = true;
+            RoundedInputLogin.emailLogin.clear();
+            RoundedPasswordInputPlayer.password.clear();
+            await getCourtsInSearch(KickoffApplication.data["xAxis"],
+                KickoffApplication.data["yAxis"]);
             Navigator.popAndPushNamed(context, '/kickoff');
           }
         }
@@ -124,7 +115,8 @@ class RoundedLogin extends State<LoginButtonPlayer> {
             BoxShadow(
               color: Colors.black,
               blurRadius: 2,
-            ),],
+            ),
+          ],
         ),
         padding: const EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
@@ -141,15 +133,15 @@ showAlertDialog(BuildContext context, text3) {
   return showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text("Alert!"),
-        content: Text(text3),
-        actions: [
-          TextButton(
-            child: const Text("OK"),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
-          ),
-        ],
-      ));
+            title: const Text("Alert!"),
+            content: Text(text3),
+            actions: [
+              TextButton(
+                child: const Text("OK"),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              ),
+            ],
+          ));
 }
