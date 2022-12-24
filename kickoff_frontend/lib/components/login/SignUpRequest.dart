@@ -34,9 +34,9 @@ class RoundedButton extends State<SignUpButton> {
           "password": RoundedPasswordSignup.password.text,
           "name": RoundedInputUsername.username.text,
           "phoneNumber": RoundedPhoneNumber.phoneNumber.text,
-          "location": FindLocation.Locationaddress,
-          "xAxis": FindLocation.X_axis,
-          "yAxis": FindLocation.Y_axis,
+          "location": FindLocation.locationAddress,
+          "xAxis": FindLocation.xAxis,
+          "yAxis": FindLocation.yAxis,
         }));
     setState(() {
       if (res.body == "invalid") {
@@ -59,7 +59,7 @@ class RoundedButton extends State<SignUpButton> {
         var username = RoundedInputUsername.username.text;
         var password = RoundedPasswordSignup.password.text;
         var phoneNumber = RoundedPhoneNumber.phoneNumber.text;
-        var locationAddress = FindLocation.Locationaddress;
+        var locationAddress = FindLocation.locationAddress;
         if (email.isEmpty) {
           showAlertDialog(context, 'تأكد من بيانات حسابك');
           RoundedInput.emailSignUp.clear();

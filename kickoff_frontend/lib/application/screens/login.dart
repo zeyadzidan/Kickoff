@@ -97,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: primaryColor),
+                    color: courtOwnerColor),
               )),
           Positioned(
               bottom: -160,
@@ -197,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen>
           child: isLogin
               ? const Text(
                   "لا تملك حساباً؟ قم بالتسجيل الآن.",
-                  style: TextStyle(color: primaryColor, fontSize: 18),
+                  style: TextStyle(color: courtOwnerColor, fontSize: 18),
                 )
               : null,
         ),
