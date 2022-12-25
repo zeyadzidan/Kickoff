@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kickoff_frontend/application/screens/ProfileappearToPlayer.dart';
-import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/announcements.dart';
+import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
 import 'package:kickoff_frontend/application/screens/player/player-reservations.dart';
 import 'package:kickoff_frontend/components/announcements/plusannouncementbutton.dart';
@@ -40,8 +40,9 @@ class KickoffApplication extends StatefulWidget {
 
   static update() => _currentState.setState(() {});
 
+
   static onTapSelect(index) async {
-    if (!KickoffApplication.player) {
+    if(!KickoffApplication.player){
       await AnnouncementsHome.buildAnnouncements();
       await ReservationsHome.buildTickets();
     }
@@ -62,43 +63,39 @@ class KickoffApplicationState extends State<KickoffApplication> {
       theme: AppThemes.lightTheme,
       title: "Kickoff",
       debugShowCheckedModeBanner: false,
-      initialRoute: firstTime ? '/loginPlayer' : '/kickoff',
+      initialRoute:firstTime?'/loginPlayer':'/kickoff',
       //initialRoute: firstTime?'/login':'/kickoff',
       routes: {
-        '/loginPlayer': (context) => const LoginScreen(),
+        '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
-        '/profilePlayer': (context) => ProfileBaseScreenPlayer(),
+        '/profilePlayer':(context)=>  ProfileBaseScreenPlayer(),
         '/kickoff': (context) => Builder(
               builder: (context) => Scaffold(
                 appBar: KickoffAppBar().build(context),
                 body: Center(
-                    // Player Application
-                    child: (KickoffApplication.player)
-                        ? (KickoffApplication._selectedPage == 0)
-                            ? SearchScreen()
-                            : (KickoffApplication._selectedPage == 1)
-                                ? const Center(
-                                    child: Text("NEWS FEED NOT YET FEATURED"))
-                                : (KickoffApplication._selectedPage == 2)
-                                    ? PlayerReservationsHome()
-                                    : Container()
-                        // Court Owner Application
-                        : (KickoffApplication._selectedPage == 0)
-                            ? ProfileBaseScreen()
-                            : (KickoffApplication._selectedPage == 1)
-                                ? AnnouncementsHome()
-                                : ReservationsHome()),
+                // Player Application
+                  child: (KickoffApplication.player) ?
+                    (KickoffApplication._selectedPage == 0) ?
+                      SearchScreen() :
+                    (KickoffApplication._selectedPage == 1) ?
+                     const Center(child: Text("NEWS FEED NOT YET FEATURED")) :
+                    (KickoffApplication._selectedPage == 2) ?
+                      PlayerReservationsHome() : Container()
+                // Court Owner Application
+                  : (KickoffApplication._selectedPage == 0) ?
+                      ProfileBaseScreen() :
+                    (KickoffApplication._selectedPage == 1) ?
+                      AnnouncementsHome() : ReservationsHome()
+                ),
                 // Court Owner Floating Buttons
-                floatingActionButton: (!KickoffApplication.player)
-                    ? (KickoffApplication._selectedPage == 0)
-                        ? const PlusCourtButton()
-                        : (KickoffApplication._selectedPage == 1)
-                            ? const PlusAnnouncementButton()
-                            : const PlusReservationButton()
-                    : null,
-                bottomNavigationBar: KickoffApplication.player
-                    ? _buildPlayerNavBar()
-                    : _buildNavBar(),
+                floatingActionButton: (!KickoffApplication.player) ?
+                  (KickoffApplication._selectedPage == 0) ?
+                    const PlusCourtButton() :
+                  (KickoffApplication._selectedPage == 1) ?
+                    const PlusAnnouncementButton() : const PlusReservationButton()
+                : null,
+                bottomNavigationBar:KickoffApplication.player ?
+                    _buildPlayerNavBar() : _buildNavBar(),
               ),
             )
       },
@@ -113,7 +110,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
           firstTime = (loginData == "0");
           loading = false;
           _timer.cancel();
-        } else if (loginData == "0") {
+        } else if (loginData=="0"){
           _timer.cancel();
         }
       });
@@ -157,7 +154,8 @@ class KickoffApplicationState extends State<KickoffApplication> {
             ),
           ],
           selectedIndex: KickoffApplication._selectedPage,
-          onTabChange: KickoffApplication.onTapSelect));
+          onTabChange: KickoffApplication.onTapSelect)
+  );
 
   _buildPlayerNavBar() => Container(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
@@ -196,5 +194,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
             ),
           ],
           selectedIndex: KickoffApplication._selectedPage,
-          onTabChange: KickoffApplication.onTapSelect));
+          onTabChange: KickoffApplication.onTapSelect)
+  );
+
 }

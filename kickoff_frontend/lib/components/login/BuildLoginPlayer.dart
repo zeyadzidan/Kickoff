@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/components/login/PasswordPlayer.dart';
-import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/httpshandlers/loginrequestsplayer.dart';
 
+import '../../httpshandlers/loginrequests.dart';
 import 'EmailLogin.dart';
+import 'PasswordLogin.dart';
 
 class LoginFormPlayer extends StatelessWidget {
   const LoginFormPlayer({
@@ -26,7 +27,7 @@ class LoginFormPlayer extends StatelessWidget {
       duration: animationDuration * 4,
       child: Align(
         alignment: Alignment.center,
-        child: SizedBox(
+        child: Container(
           width: size.width,
           height: defaultLoginSize,
           child: SingleChildScrollView(
@@ -38,21 +39,18 @@ class LoginFormPlayer extends StatelessWidget {
                   'Player',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
-                const SizedBox(height: 40),
-                const SizedBox(
+                SizedBox(height: 40),
+                Container(
                     height: 175,
                     width: 175,
-                    child:
-                        Image(image: AssetImage('assets/images/player.png'))),
-                const SizedBox(height: 40),
-                const RoundedInputLogin(
-                    icon: Icons.mail,
-                    materialColor: playerColor,
-                    hint: 'Email Address'),
+                    child: const Image(
+                        image: AssetImage('assets/images/player.png'))),
+                SizedBox(height: 40),
+                RoundedInputLogin(icon: Icons.mail,color: Colors.green, hint: 'Email Address'),
                 PasswordInputPlayer(),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 LoginButtonPlayer(),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
               ],
             ),
           ),
