@@ -2,6 +2,7 @@ package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.Announcement;
 import back.kickoff.kickoffback.model.CourtOwner;
+import back.kickoff.kickoffback.model.Subscription;
 import back.kickoff.kickoffback.repositories.AnnouncementRepository;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import com.google.gson.Gson;
@@ -104,6 +105,13 @@ public class AnnouncementService {
             announcmentFrontends.add(new AnnouncmentFrontend(a.getId(), a.getCourtOwner().getId(), a.getTitle(), a.getBody(), a.getImg(), strDate));
         }
         return new Gson().toJson(announcmentFrontends);
+    }
+
+
+    public String getSubscriptionAnnouncements(Subscription subscription) {
+        Optional<CourtOwner> optionalCourtOwner = courtOwnerRepository.findById(subscription.getCoid());
+        List<Announcement> announcements = optionalCourtOwner.get().getAnnouncements();
+        return new Gson().toJson(announcements);
     }
 
     static class AnnouncmentFrontend {
