@@ -23,9 +23,9 @@ public class AnnouncementService {
     private final CourtOwnerRepository courtOwnerRepository;
     private final AnnouncementRepository announcementRepository;
 
-    public AnnouncementService(CourtOwnerRepository courtOwnerRepository, AnnouncementRepository announcementRepository, AnnouncementRepository announcementRepository1) {
+    public AnnouncementService(CourtOwnerRepository courtOwnerRepository, AnnouncementRepository announcementRepository) {
         this.courtOwnerRepository = courtOwnerRepository;
-        this.announcementRepository = announcementRepository1;
+        this.announcementRepository = announcementRepository;
     }
 
     public String addAnnouncement(String information) throws JSONException {
@@ -107,10 +107,15 @@ public class AnnouncementService {
         return new Gson().toJson(announcmentFrontends);
     }
 
-
-    public String getSubscriptionAnnouncements(Subscription subscription) {
-        Optional<CourtOwner> optionalCourtOwner = courtOwnerRepository.findById(subscription.getCoid());
-        List<Announcement> announcements = optionalCourtOwner.get().getAnnouncements();
+    public String getSubscriptionAnnouncements(List<Subscription> subscriptions) {
+        if (subscriptions.isEmpty())
+            return "No subscriptions";
+        Optional<CourtOwner> optionalCourtOwner;
+        List<Announcement> announcements = new ArrayList<>();
+        for (Subscription subscription : subscriptions) {
+            optionalCourtOwner = courtOwnerRepository.findById(subscription.getCoid());
+            optionalCourtOwner.ifPresent(courtOwner -> announcements.addAll(courtOwner.getAnnouncements()));
+        }
         return new Gson().toJson(announcements);
     }
 
