@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/components/login/InputContainer.dart';
-import 'package:kickoff_frontend/constants.dart';
 
-class RoundedPhoneNumber extends StatelessWidget {
-  const RoundedPhoneNumber({Key? key, required this.icon,required this.color, required this.hint})
+
+class BuildEmailSignUp extends StatelessWidget {
+  const BuildEmailSignUp({Key? key, required this.icon,required this.color, required this.hint})
       : super(key: key);
-  final Color color;
+
   final IconData icon;
+  final Color color;
   final String hint;
-  static TextEditingController PhoneNumber = TextEditingController();
+  static TextEditingController EmailSignUp = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return InputContainer(
+    return BuildContainer(
       color: color,
       child: TextField(
         cursorColor: color,
-        controller: PhoneNumber,
+        controller: EmailSignUp,
         decoration: InputDecoration(
             icon: Icon(icon, color: color),
             hintText: hint,
             border: InputBorder.none),
-        keyboardType: TextInputType.number,
       ),
     );
   }

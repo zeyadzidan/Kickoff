@@ -5,7 +5,7 @@ import 'package:kickoff_frontend/localFile.dart';
 
 import '../../constants.dart';
 import '../../httpshandlers/courtsrequests.dart';
-import '../../httpshandlers/loginrequests.dart' as cLogin;
+import '../../httpshandlers/loginrequestsCourtOwner.dart' as cLogin;
 import '../../httpshandlers/loginrequestsplayer.dart' as pLogin;
 import 'announcements.dart';
 

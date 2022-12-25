@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/components/login/InputContainer.dart';
 import 'package:kickoff_frontend/constants.dart';
 
-class PasswordInputPlayer extends StatefulWidget {
+class PasswordLoginPlayer extends StatefulWidget {
   @override
-  RoundedPasswordInputPlayer createState() => RoundedPasswordInputPlayer();
+  Build_Password_Player createState() => Build_Password_Player();
 }
 
-class RoundedPasswordInputPlayer extends State<PasswordInputPlayer> {
+class Build_Password_Player extends State<PasswordLoginPlayer> {
 
   static TextEditingController Password = TextEditingController();
   var obsecuretext = true;
 
   @override
   Widget build(BuildContext context) {
-    return InputContainer(
+    return BuildContainer(
       color: Colors.green,
         child: TextField(
           cursorColor: playerColor,

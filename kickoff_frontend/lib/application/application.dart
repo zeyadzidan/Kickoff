@@ -14,8 +14,8 @@ import 'package:kickoff_frontend/components/tickets/plusreservationbutton.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/themes.dart';
 
-import '../components/login/BuildComponentsCourtOwner.dart';
-import 'screens/login.dart';
+import 'screens/BuildComponentsCourtOwner.dart';
+import 'screens/BuildComponentsPlayer.dart';
 import 'screens/profile.dart';
 import 'screens/reservations.dart';
 

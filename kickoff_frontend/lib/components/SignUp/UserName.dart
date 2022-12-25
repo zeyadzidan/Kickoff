@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/components/login/InputContainer.dart';
-import 'package:kickoff_frontend/constants.dart';
 
-class RoundedInputUsername extends StatelessWidget {
-  RoundedInputUsername({Key? key, required this.icon,required this.color, required this.hint})
+
+class UsernameSignUp extends StatelessWidget {
+  UsernameSignUp({Key? key, required this.icon,required this.color, required this.hint})
       : super(key: key);
 
   final IconData icon;
@@ -14,7 +14,7 @@ class RoundedInputUsername extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return InputContainer(
+    return BuildContainer(
       color: color,
         child: TextField(
       controller: username,
