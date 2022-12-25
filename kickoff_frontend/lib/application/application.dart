@@ -8,12 +8,15 @@ import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
 import 'package:kickoff_frontend/application/screens/player/player-reservations.dart';
 import 'package:kickoff_frontend/components/announcements/plusannouncementbutton.dart';
+import 'package:kickoff_frontend/components/announcements/view.dart';
 import 'package:kickoff_frontend/components/application/applicationbar.dart';
 import 'package:kickoff_frontend/components/courts/pluscourtbutton.dart';
 import 'package:kickoff_frontend/components/tickets/plusreservationbutton.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/themes.dart';
 
+import '../components/announcements/viewbutton.dart';
+import '../components/announcements/viewposts.dart';
 import 'screens/BuildComponentsCourtOwner.dart';
 import 'screens/BuildComponentsPlayer.dart';
 import 'screens/profile.dart';
@@ -69,6 +72,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
         '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
         '/profilePlayer':(context)=>  ProfileBaseScreenPlayer(),
+        '/writepost':(context)=> Writing(),
         '/kickoff': (context) => Builder(
               builder: (context) => Scaffold(
                 appBar: KickoffAppBar().build(context),
@@ -85,7 +89,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
                   : (KickoffApplication._selectedPage == 0) ?
                       ProfileBaseScreen() :
                     (KickoffApplication._selectedPage == 1) ?
-                      AnnouncementsHome() : ReservationsHome()
+                    PlusAnnouncementButton3() : ReservationsHome()
                 ),
                 // Court Owner Floating Buttons
                 floatingActionButton: (!KickoffApplication.player) ?
