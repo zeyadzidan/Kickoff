@@ -45,6 +45,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
   String utl = KickoffApplication.dataPlayer.containsKey("image")
       ? KickoffApplication.dataPlayer["image"]
       : "";
+  bool isSubscribed=false;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +59,10 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
             Navigator.pop(context);
             KickoffApplication.update();
           },
+        ),
+        title: Text(
+          name,
+          style: TextStyle(color: secondaryColor),
         ),
       ),
       body: Center(
@@ -189,14 +194,48 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                   children: [
                                     Align(
                                       alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        name,
-                                        style: const TextStyle(
-                                          letterSpacing: 0.4,
-                                          fontSize: 20,
-                                          color: Colors.black,
+                                      child: !isSubscribed
+                                        ?ElevatedButton.icon(
+                                        label:const Text("Subscribe"),
+                                        icon: const Icon(Icons.add),
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green,
+                                            fixedSize: Size(150, 25),
                                         ),
-                                      ),
+                                        onPressed: () {
+                                          //send subscribe request
+                                          setState(() {
+                                            isSubscribed=true;
+                                            subscribers+=1;
+                                          });
+                                        },
+                                        )
+                                        :OutlinedButton.icon(
+                                        label:const Text("Unsubscribe"),
+                                        icon: const Icon(Icons.add),
+                                        style: OutlinedButton.styleFrom(
+                                          foregroundColor: playerColor,
+                                          backgroundColor: Colors.white.withAlpha(70),
+                                          side: BorderSide(color: playerColor),
+                                          fixedSize: Size(150, 25),
+                                        ),
+
+                                        onPressed: () {
+                                          //send unsubscribe request
+                                          setState(() {
+                                            isSubscribed=false;
+                                            subscribers-=1;
+                                          });
+                                        },
+                                      )
+                                      // Text(
+                                      //   name,
+                                      //   style: const TextStyle(
+                                      //     letterSpacing: 0.4,
+                                      //     fontSize: 20,
+                                      //     color: Colors.black,
+                                      //   ),
+                                      // ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
