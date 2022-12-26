@@ -33,6 +33,10 @@ public class SubscriberService {
     public boolean unsubscribe(String jsonSubscription) {
         try {
             Subscription subscription = new ObjectMapper().readValue(jsonSubscription, Subscription.class);
+            List<Subscription> subscriptionsPid = subscriptionsRepository.findByPid(subscription.getPid());
+            List<Subscription> subscriptionsCoid = subscriptionsRepository.findByCoid(subscription.getCoid());
+            System.out.println(subscriptionsPid);
+            System.out.println(subscriptionsCoid);
             // Checking whether a subscription is present or not.
             if (subscriptionsRepository.findByPid(subscription.getPid()).contains(subscription) &&
                     subscriptionsRepository.findByCoid(subscription.getCoid()).contains(subscription)) {
