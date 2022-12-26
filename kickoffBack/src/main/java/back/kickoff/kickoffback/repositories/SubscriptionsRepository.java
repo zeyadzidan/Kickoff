@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SubscriptionsRepository extends CrudRepository<Subscription, Long> {
@@ -18,8 +19,8 @@ public interface SubscriptionsRepository extends CrudRepository<Subscription, Lo
     List<Subscription> findByCoid(@Param("coid") Long coid);
 
     @Query("SELECT S FROM Subscriptions S WHERE S.coid =: coid AND S.pid =: pid")
-    Subscription findByCoidAndPid(@Param("coid") Long coid, @Param("pid") Long pid);
+    Optional<Subscription> findByCoidAndPid(@Param("coid") Long coid, @Param("pid") Long pid);
 
-    @Query("SELECT EXISTS(SELECT S FROM Subscriptions S WHERE S.coid =: coid AND S.pid =: pid)")
-    Boolean existsByCoidAndPid(@Param("coid") Long coid, @Param("pid") Long pid);
+    @Query("SELECT S.id FROM Subscriptions S WHERE S.coid =: coid AND S.pid =: pid")
+    Long findId(@Param("coid") Long coid, @Param("pid") Long pid);
 }

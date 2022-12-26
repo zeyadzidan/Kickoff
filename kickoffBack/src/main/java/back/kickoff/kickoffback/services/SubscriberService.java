@@ -33,9 +33,10 @@ public class SubscriberService {
     public boolean unsubscribe(String jsonSubscription) {
         try {
             Subscription subscription = new ObjectMapper().readValue(jsonSubscription, Subscription.class);
+            Long id = subscriptionsRepository.findId(subscription.getCoid(), subscription.getPid());
             // Checking whether a subscription is present or not.
-            if (subscriptionsRepository.existsByCoidAndPid(subscription.getPid(), subscription.getCoid())) {
-                subscriptionsRepository.deleteById(subscription.getId());
+            if (subscriptionsRepository.findById(id).isPresent()) {
+                subscriptionsRepository.deleteById(id);
                 return true;
             } else return false;
         } catch (Exception ignored) {
@@ -52,6 +53,6 @@ public class SubscriberService {
     }
 
     public Boolean isSubscriber(Long coid, Long pid) {
-        return subscriptionsRepository.existsByCoidAndPid(coid, pid);
+        return subscriptionsRepository.findByCoidAndPid(coid, pid).isPresent();
     }
 }

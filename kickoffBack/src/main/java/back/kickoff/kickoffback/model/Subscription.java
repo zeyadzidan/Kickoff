@@ -1,5 +1,6 @@
 package back.kickoff.kickoffback.model;
 
+import back.kickoff.kickoffback.repositories.SubscriptionsRepository;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
