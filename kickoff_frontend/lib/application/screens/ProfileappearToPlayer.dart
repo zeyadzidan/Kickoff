@@ -10,6 +10,7 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../components/classes/court.dart';
+import '../../httpshandlers/Subscription.dart';
 
 class ProfileBaseScreenPlayer extends StatefulWidget {
   ProfileBaseScreenPlayer({super.key}) {
@@ -203,7 +204,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                             fixedSize: Size(150, 25),
                                         ),
                                         onPressed: () {
-                                          //send subscribe request
+                                          SubscriptionHTTPsHandler.subscribe(KickoffApplication.playerId,KickoffApplication.ownerId);
                                           setState(() {
                                             isSubscribed=true;
                                             subscribers+=1;
@@ -221,7 +222,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                         ),
 
                                         onPressed: () {
-                                          //send unsubscribe request
+                                          SubscriptionHTTPsHandler.unsubscribe(KickoffApplication.playerId,KickoffApplication.ownerId);
                                           setState(() {
                                             isSubscribed=false;
                                             subscribers-=1;
