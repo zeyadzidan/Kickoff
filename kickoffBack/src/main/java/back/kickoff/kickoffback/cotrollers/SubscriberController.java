@@ -49,7 +49,7 @@ public class SubscriberController {
     }
 
     @PostMapping("/isSubscriber")
-    public ResponseEntity<Boolean> isSubscriber(String sub) {
+    public ResponseEntity<Boolean> isSubscriber(@RequestBody String sub) {
         try {
             Subscription subscription = new ObjectMapper().readValue(sub, Subscription.class);
             return new ResponseEntity<>(subscriberService.isSubscriber(subscription.getCoid(), subscription.getPid()), HttpStatus.OK);
