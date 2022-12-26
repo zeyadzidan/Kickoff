@@ -12,12 +12,13 @@ import java.util.Optional;
 @Repository
 public interface SubscriptionsRepository extends CrudRepository<Subscription, Long> {
 
-    @Query("SELECT S FROM Subscriptions S WHERE S.pid =: pid")
     List<Subscription> findByPid(@Param("pid") Long pid);
 
-    @Query("SELECT S FROM Subscriptions S WHERE S.coid =: coid")
     List<Subscription> findByCoid(@Param("coid") Long coid);
 
-    @Query("SELECT S FROM Subscriptions S WHERE S.coid =: coid AND S.pid =: pid")
     Optional<Subscription> findByCoidAndPid(@Param("coid") Long coid, @Param("pid") Long pid);
+
+    Boolean existsByCoidAndPid(@Param("coid") Long coid, @Param("pid") Long pid);
+
+    Integer countByCoid(@Param("coid") Long coid);
 }

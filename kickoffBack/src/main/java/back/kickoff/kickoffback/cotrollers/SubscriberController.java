@@ -40,14 +40,6 @@ public class SubscriberController {
                 : new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/playerSubscriptions/{pid}")
-    public ResponseEntity<Object> getPlayerSubscriptions(@PathVariable Long pid) {
-        String subscriptions = subscriberService.getPlayerSubscriptions(pid);
-        return (subscriberService.getPlayerSubscriptions(pid) != null)
-                ? new ResponseEntity<>(new Gson().toJson(subscriptions), HttpStatus.CREATED)
-                : new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
-    }
-
     @PostMapping("/isSubscriber")
     public ResponseEntity<Boolean> isSubscriber(@RequestBody String sub) {
         try {
@@ -56,6 +48,19 @@ public class SubscriberController {
         } catch (JsonProcessingException ignored) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/playerSubscriptions/{pid}")
+    public ResponseEntity<Object> getPlayerSubscriptions(@PathVariable Long pid) {
+        String subscriptions = subscriberService.getPlayerSubscriptions(pid);
+        return (subscriberService.getPlayerSubscriptions(pid) != null)
+                ? new ResponseEntity<>(new Gson().toJson(subscriptions), HttpStatus.CREATED)
+                : new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/getSubscribersCount/{coid}")
+    public ResponseEntity<Integer> getSubscribersCount(@PathVariable Long coid) {
+        return new ResponseEntity<>(subscriberService.getSubscribersCount(coid), HttpStatus.OK);
     }
 
     @PostMapping("/getAnnouncementsBySubscriptions/{pid}")

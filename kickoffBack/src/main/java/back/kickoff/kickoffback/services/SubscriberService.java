@@ -60,9 +60,14 @@ public class SubscriberService {
 
     public List<Subscription> getSubscriptionAnnouncements(Long pid) {
         return subscriptionsRepository.findByPid(pid);
+
+    }
+
+    public Integer getSubscribersCount(Long coid) {
+        return subscriptionsRepository.countByCoid(coid);
     }
 
     public Boolean isSubscriber(Long coid, Long pid) {
-        return subscriptionsRepository.findByCoidAndPid(coid, pid).isPresent();
+        return subscriptionsRepository.existsByCoidAndPid(coid, pid);
     }
 }
