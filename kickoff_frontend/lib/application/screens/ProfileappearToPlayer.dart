@@ -21,7 +21,8 @@ class ProfileBaseScreenPlayer extends StatefulWidget {
   static List<Court> courts = <Court>[];
   static List<bool> isExpanded = <bool>[];
   static int _selectedPage = 0;
-
+  static bool isSubscribed =false;
+  static int subscribersCount =0;
   @override
   State<ProfileBaseScreenPlayer> createState() =>
       _ProfileBaseScreenStatePlayer();
@@ -34,7 +35,6 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
   double rating = double.parse("${KickoffApplication.dataPlayer["rating"]}");
   int rating2 =
       double.parse("${KickoffApplication.dataPlayer["rating"]}").toInt();
-  int subscribers = 0;
   String name = KickoffApplication.dataPlayer["name"];
   String phone = KickoffApplication.dataPlayer["phoneNumber"];
   String address = KickoffApplication.dataPlayer["location"];
@@ -46,7 +46,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
   String utl = KickoffApplication.dataPlayer.containsKey("image")
       ? KickoffApplication.dataPlayer["image"]
       : "";
-  bool isSubscribed=false;
+  // bool isSubscribed= false;
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +162,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  "$subscribers \u{1F464}",
+                                                  "${ProfileBaseScreenPlayer.subscribersCount} \u{1F464}",
                                                   style: const TextStyle(
                                                       letterSpacing: 0.4,
                                                       fontSize: 20,
@@ -195,7 +195,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                   children: [
                                     Align(
                                       alignment: Alignment.centerLeft,
-                                      child: !isSubscribed
+                                      child: !ProfileBaseScreenPlayer.isSubscribed
                                         ?ElevatedButton.icon(
                                         label:const Text("Subscribe"),
                                         icon: const Icon(Icons.add),
@@ -206,8 +206,8 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                         onPressed: () {
                                           SubscriptionHTTPsHandler.subscribe(KickoffApplication.playerId,KickoffApplication.ownerId);
                                           setState(() {
-                                            isSubscribed=true;
-                                            subscribers+=1;
+                                            ProfileBaseScreenPlayer.isSubscribed=true;
+                                            ProfileBaseScreenPlayer.subscribersCount+=1;
                                           });
                                         },
                                         )
@@ -224,8 +224,8 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                         onPressed: () {
                                           SubscriptionHTTPsHandler.unsubscribe(KickoffApplication.playerId,KickoffApplication.ownerId);
                                           setState(() {
-                                            isSubscribed=false;
-                                            subscribers-=1;
+                                            ProfileBaseScreenPlayer.isSubscribed=false;
+                                            ProfileBaseScreenPlayer.subscribersCount-=1;
                                           });
                                         },
                                       )
