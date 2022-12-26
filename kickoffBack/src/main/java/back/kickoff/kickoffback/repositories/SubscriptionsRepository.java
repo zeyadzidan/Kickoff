@@ -20,7 +20,4 @@ public interface SubscriptionsRepository extends CrudRepository<Subscription, Lo
 
     @Query("SELECT S FROM Subscriptions S WHERE S.coid =: coid AND S.pid =: pid")
     Optional<Subscription> findByCoidAndPid(@Param("coid") Long coid, @Param("pid") Long pid);
-
-    @Query("SELECT S.id FROM Subscriptions S WHERE S.coid =: coid AND S.pid =: pid")
-    Long findId(@Param("coid") Long coid, @Param("pid") Long pid);
 }
