@@ -1,8 +1,7 @@
-package back.kickoff.kickoffback.services;
+package back.kickoff.kickoffback.model;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.Comparator;
 import java.util.Objects;
 
 public class DateTime implements Comparable<DateTime> {
