@@ -16,4 +16,9 @@ public class Subscription {
     private Long id;
     private Long pid;
     private Long coid;
+
+    @Override
+    public String toString() {
+        return "id: " + id + ", pid: " + pid + ", coid: " + coid;
+    }
 }

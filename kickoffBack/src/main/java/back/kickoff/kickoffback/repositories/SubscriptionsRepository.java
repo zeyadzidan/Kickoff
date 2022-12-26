@@ -12,11 +12,11 @@ import java.util.List;
 public interface SubscriptionsRepository extends CrudRepository<Subscription, Long> {
 
     @Query("SELECT S FROM Subscriptions S WHERE S.pid =: pid")
-    List<Subscription> findByPid(@Param("pid") String pid);
+    List<Subscription> findByPid(@Param("pid") Long pid);
 
     @Query("SELECT S FROM Subscriptions S WHERE S.coid =: coid")
-    List<Subscription> findByCoid(@Param("coid") String coid);
+    List<Subscription> findByCoid(@Param("coid") Long coid);
 
     @Query("SELECT EXISTS(SELECT S FROM Subscriptions S WHERE S.coid =: coid AND S.pid =: pid)")
-    Boolean isSubscriber(@Param("coid") String coid, @Param("pid") String pid);
+    Boolean findByCoidAndPid(@Param("coid") Long coid, @Param("pid") Long pid);
 }
