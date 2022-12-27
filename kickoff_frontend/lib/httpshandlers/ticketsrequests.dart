@@ -92,7 +92,7 @@ class TicketsHTTPsHandler {
 
   static Future<List<FixtureTicket>> getPlayerReservations(pid, filter, ascending) async {
     var rsp = await http.post(
-        Uri.parse('$_url/BookingAgent/reservationsOnDate'),
+        Uri.parse('$_url/BookingAgent/playerBookings'),
         headers: {"Content-Type": "application/json"},
         body: json.encode(
             {"playerId": pid, "filter": filter, "ascending": ascending}));
