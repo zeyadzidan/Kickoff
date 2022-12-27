@@ -203,7 +203,7 @@ public class BookingAgent {
                 return "bad request";
             }
             player.setName(playerName);
-            player.setReservations(new HashSet<>());
+//            player.setReservations(new HashSet<>());
             this.playerRepository.save(player);
 
         }
@@ -281,7 +281,7 @@ public class BookingAgent {
                 timeTo, ReservationState.Pending, 0,
                 reservationService.calcTotalCost(stDate, endDate, timeFrom, timeTo, courtOptional.get()));
 
-        player.getReservations().add(reservation);
+//        player.getReservations().add(reservation);
         reservationRepository.save(reservation);
         playerRepository.save(player);
         courtSchedule.getPendingReservations().add(reservation);
@@ -311,10 +311,14 @@ public class BookingAgent {
         Long pid = object.has("pid") ? object.getLong("pid") : -1L;
         String filter = object.has("filter") ? object.getString("filter") : "Booked";
         boolean ascending = !object.has("ascending") || object.getBoolean("ascending");
+        System.out.println(pid);
+        System.out.println(filter);
+        System.out.println(ascending);
         try {
             List<Reservation> reservations = reservationRepository.findAllByPid(pid);
             reservations.sort(new ReservationComparator(ascending));
             List<FrontEndReservation> frontEndReservations = new ArrayList<>();
+            System.out.println(reservations.get(0).getState().toString());
             for (Reservation r : reservations) {
                 if (r.getState().toString().equals(filter))
                     frontEndReservations.add(new FrontEndReservation(r));

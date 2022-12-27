@@ -135,7 +135,7 @@ class BookingAgentTest {
         Player player = new Player();
         player.setName("Abdelrahman Gad");
         player.setPlayerType(PlayerType.Lite);
-        player.setReservations(new HashSet<>());
+//        player.setReservations(new HashSet<>());
 
         when(reservationService.calcTotalCost(stDate, endDate, new Time(14, 0, 0),new Time(16, 0, 0), court)).thenReturn(300);
         when(scheduleRepository.save(new CourtSchedule())).thenReturn(new CourtSchedule());

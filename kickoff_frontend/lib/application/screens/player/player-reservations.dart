@@ -157,7 +157,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
                                 ),
                                 (_reservations()[index]
                                         .state
-                                        .Equals('Pending)'))
+                                        ==('Pending'))
                                     ? Column(children: [
                                         _uploadReceipt(index),
                                         _sendReceipt(index)

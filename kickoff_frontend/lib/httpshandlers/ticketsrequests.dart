@@ -95,7 +95,7 @@ class TicketsHTTPsHandler {
         Uri.parse('$_url/BookingAgent/playerBookings'),
         headers: {"Content-Type": "application/json"},
         body: json.encode(
-            {"playerId": pid, "filter": filter, "ascending": ascending}));
+            {"pid": pid, "filter": filter, "ascending": ascending}));
     print(rsp.body);
     List<FixtureTicket> reservations = [];
     if (rsp.body != 'Player not found!') {

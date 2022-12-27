@@ -42,7 +42,7 @@ class ScheduleAgentTest {
         Time timeFrom = new Time(10,0,0) ;
         Time timeTo = new Time(12,0,0) ;
 
-        return new Reservation(player, 0L, 0L, stDate, endDate, timeFrom, timeTo, ReservationState.Pending , 0, 300);
+        return new Reservation(player.getId(),player.getName(), 0L, 0L, stDate, endDate, timeFrom, timeTo, ReservationState.Pending , 0, 300);
     }
 
     Reservation createBooked(Date stDate, Date endDate){
@@ -52,7 +52,7 @@ class ScheduleAgentTest {
         Time timeFrom = new Time(16,0,0) ;
         Time timeTo = new Time(14,0,0) ;
 
-        return new Reservation(player, 0L, 0L, stDate, endDate, timeFrom, timeTo, ReservationState.Booked , 100, 300);
+        return new Reservation(player.getId(),player.getName(), 0L, 0L, stDate, endDate, timeFrom, timeTo, ReservationState.Booked , 100, 300);
     }
 
     @Test
