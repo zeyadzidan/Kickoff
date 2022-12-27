@@ -6,8 +6,13 @@ import '../../components/classes/announcement.dart';
 import '../application.dart';
 
 class AnnouncementsHome extends StatefulWidget {
-  AnnouncementsHome({super.key}) {
-    buildAnnouncements();
+  AnnouncementsHome({super.key,required full}) {
+    if(full){
+      buildFullAnnouncements();
+    }
+    else{
+      buildAnnouncements();
+    }
     isExpanded = List<bool>.generate(announcements.length, (index) => false);
   }
 
@@ -18,6 +23,13 @@ class AnnouncementsHome extends StatefulWidget {
     AnnouncementsHome.announcements =
         await AnnouncementHTTPsHandler.getAnnouncements(
             KickoffApplication.ownerId);
+  }
+
+  static buildFullAnnouncements() async {
+    AnnouncementsHome.announcements =
+    await AnnouncementHTTPsHandler.getAnnouncementsbySubscriptions(
+        KickoffApplication.playerId);
+
   }
 
   @override

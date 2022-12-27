@@ -14,9 +14,11 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/components/courts/CourtsInSearch.dart';
 import 'package:kickoff_frontend/components/login/SignUpRequestPlayer.dart';
 import 'package:http/http.dart' as http;
+import '../../httpshandlers/Subscription.dart';
 import '../../httpshandlers/courtsrequests.dart';
 import '../../httpshandlers/loginrequestsplayer.dart';
 import '../application.dart';
+import 'ProfileappearToPlayer.dart';
 import 'announcements.dart';
 class SearchScreen extends StatefulWidget {
 
@@ -48,8 +50,10 @@ class _SearchScreenState extends  State<SearchScreen> {
     ProfileBaseScreen.courts =
     await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
     ProfileBaseScreen.isExpanded = List<bool>.generate(ProfileBaseScreen.courts.length, (index) => false);
-    await ReservationsHome.buildTickets(); // TODO: to get reservations of court
-    await AnnouncementsHome.buildAnnouncements(); // TODO : to get announcement of court
+    await ReservationsHome.buildTickets();
+    await AnnouncementsHome.buildAnnouncements();
+    ProfileBaseScreenPlayer.isSubscribed= await SubscriptionHTTPsHandler.issubscriber(KickoffApplication.playerId,KickoffApplication.ownerId);
+    ProfileBaseScreenPlayer.subscribersCount= await SubscriptionHTTPsHandler.getSubscribersCount(KickoffApplication.ownerId);
     Navigator.pushNamed(context, '/profilePlayer');
   }
 @override

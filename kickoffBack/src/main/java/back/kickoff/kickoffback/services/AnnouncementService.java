@@ -2,6 +2,7 @@ package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.model.Announcement;
 import back.kickoff.kickoffback.model.CourtOwner;
+import back.kickoff.kickoffback.model.Subscription;
 import back.kickoff.kickoffback.repositories.AnnouncementRepository;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import com.google.gson.Gson;
@@ -22,9 +23,9 @@ public class AnnouncementService {
     private final CourtOwnerRepository courtOwnerRepository;
     private final AnnouncementRepository announcementRepository;
 
-    public AnnouncementService(CourtOwnerRepository courtOwnerRepository, AnnouncementRepository announcementRepository, AnnouncementRepository announcementRepository1) {
+    public AnnouncementService(CourtOwnerRepository courtOwnerRepository, AnnouncementRepository announcementRepository) {
         this.courtOwnerRepository = courtOwnerRepository;
-        this.announcementRepository = announcementRepository1;
+        this.announcementRepository = announcementRepository;
     }
 
     public String addAnnouncement(String information) throws JSONException {
@@ -104,6 +105,30 @@ public class AnnouncementService {
             announcmentFrontends.add(new AnnouncmentFrontend(a.getId(), a.getCourtOwner().getId(), a.getTitle(), a.getBody(), a.getImg(), strDate));
         }
         return new Gson().toJson(announcmentFrontends);
+    }
+
+    public String getSubscriptionAnnouncements(List<Subscription> subscriptions) {
+        if (subscriptions.isEmpty())
+            return "No subscriptions";
+        Optional<CourtOwner> optionalCourtOwner;
+        List<AnnouncmentFrontend> announcements = new ArrayList<>();
+        for (Subscription subscription : subscriptions) {
+            optionalCourtOwner = courtOwnerRepository.findById(subscription.getCoid());
+            if (optionalCourtOwner.isPresent()) {
+                List<Announcement> announcementsBackEnd = optionalCourtOwner.get().getAnnouncements();
+                for (Announcement announcement : announcementsBackEnd) {
+                    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                    String strDate = dateFormat.format(announcement.getDate());
+                    announcements.add(new AnnouncmentFrontend(
+                            announcement.getId(),
+                            announcement.getCourtOwner().getId(),
+                            announcement.getTitle(),
+                            announcement.getBody(),
+                            announcement.getImg(), strDate));
+                }
+            }
+        }
+        return new Gson().toJson(announcements);
     }
 
     static class AnnouncmentFrontend {
