@@ -70,4 +70,9 @@ public class BookingAgentController {
             return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
+
+    @PostMapping("/playerBookings")
+    public ResponseEntity<Object> getPlayerReservations(@RequestBody String information) throws JSONException {
+        return new ResponseEntity<>(bookingAgent.getPlayerReservations(information), HttpStatus.OK);
+    }
 }

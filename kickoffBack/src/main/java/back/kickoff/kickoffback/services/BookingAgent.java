@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -53,9 +55,8 @@ public class BookingAgent {
 
         public FrontEndReservation(Reservation reservation) {
             this.id = reservation.getId();
-            this.playerID = reservation.getMainPlayer().getId();
-            this.playerName = reservation.getMainPlayer().getName();
-            //this.mainPlayer = reservation.getMainPlayer();
+            this.playerID = reservation.getPid();
+            this.playerName = reservation.getPname();
             this.courtID = reservation.getCourtID();
             this.courtOwnerID = reservation.getCourtOwnerID();
             this.startDate = reservation.getStartDate();
@@ -276,7 +277,7 @@ public class BookingAgent {
         if (!oldReservation.isEmpty())
             return "that time have reservation";
 
-        Reservation reservation = new Reservation(player, courtId, courtOwnerId, stDate, endDate, timeFrom,
+        Reservation reservation = new Reservation(player.getId(), player.getName(), courtId, courtOwnerId, stDate, endDate, timeFrom,
                 timeTo, ReservationState.Pending, 0,
                 reservationService.calcTotalCost(stDate, endDate, timeFrom, timeTo, courtOptional.get()));
 
@@ -302,6 +303,25 @@ public class BookingAgent {
             DateTime stR1 = new DateTime(o1.getStartDate(), o1.getTimeFrom());
             DateTime stR2 = new DateTime(o2.getStartDate(), o2.getTimeFrom());
             return (ascending) ? stR1.compareTo(stR2) : stR2.compareTo(stR1);
+        }
+    }
+
+    public Object getPlayerReservations(String information) throws JSONException {
+        JSONObject object = new JSONObject(information);
+        Long pid = object.has("pid") ? object.getLong("pid") : -1L;
+        String filter = object.has("filter") ? object.getString("filter") : "Booked";
+        boolean ascending = !object.has("ascending") || object.getBoolean("ascending");
+        try {
+            List<Reservation> reservations = reservationRepository.findAllByPid(pid);
+            reservations.sort(new ReservationComparator(ascending));
+            List<FrontEndReservation> frontEndReservations = new ArrayList<>();
+            for (Reservation r : reservations) {
+                if (r.getState().toString().equals(filter))
+                    frontEndReservations.add(new FrontEndReservation(r));
+            }
+            return new Gson().toJson(frontEndReservations);
+        } catch (Exception ignored) {
+            return false;
         }
     }
 
