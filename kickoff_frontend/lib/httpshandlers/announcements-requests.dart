@@ -48,22 +48,27 @@ class AnnouncementHTTPsHandler {
 
   static Future<List<Announcement>> getAnnouncementsbySubscriptions(pid) async {
     var response = await http
-        .get(Uri.parse('$_url/subscriber/playerSubscriptions/$pid'));
-    List<dynamic> announcementsMap = json.decode(response.body);
+        .get(Uri.parse('$_url/subscriber/getAnnouncementsBySubscriptions/$pid'));
     Announcement announcement;
     List<Announcement> announcements = <Announcement>[];
-    print(response.body);
-    for (Map<String, dynamic> map in announcementsMap) {
-      announcement = Announcement();
-      announcement.coid = map['courtOwnerId'].toString();
-      announcement.aid = map['id'].toString();
-      announcement.title = map['title'].toString();
-      announcement.body = map['body'].toString();
-      if (map.containsKey('cni')) {
-        announcement.img = map['cni'].toString();
+    try {
+      List<dynamic> announcementsMap = json.decode(response.body);
+      print(response.body);
+      for (Map<String, dynamic> map in announcementsMap) {
+        announcement = Announcement();
+        announcement.coid = map['courtOwnerId'].toString();
+        announcement.aid = map['id'].toString();
+        announcement.title = map['title'].toString();
+        announcement.body = map['body'].toString();
+        if (map.containsKey('cni')) {
+          announcement.img = map['cni'].toString();
+        }
+        announcement.date = map['date'].toString();
+        announcements.add(announcement);
       }
-      announcement.date = map['date'].toString();
-      announcements.add(announcement);
+    }on Exception catch(_){
+      print("Reservations GET Error");
+      print(response.body);
     }
     return announcements;
   }

@@ -78,14 +78,14 @@ class KickoffApplicationState extends State<KickoffApplication> {
                     (KickoffApplication._selectedPage == 0) ?
                       SearchScreen() :
                     (KickoffApplication._selectedPage == 1) ?
-                     const Center(child: Text("NEWS FEED NOT YET FEATURED")) :
+                      AnnouncementsHome(full: true,) :
                     (KickoffApplication._selectedPage == 2) ?
                       PlayerReservationsHome() : Container()
                 // Court Owner Application
                   : (KickoffApplication._selectedPage == 0) ?
                       ProfileBaseScreen() :
                     (KickoffApplication._selectedPage == 1) ?
-                      AnnouncementsHome() : ReservationsHome()
+                      AnnouncementsHome(full: false,) : ReservationsHome()
                 ),
                 // Court Owner Floating Buttons
                 floatingActionButton: (!KickoffApplication.player) ?

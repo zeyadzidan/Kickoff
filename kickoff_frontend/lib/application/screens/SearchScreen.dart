@@ -52,8 +52,6 @@ class _SearchScreenState extends  State<SearchScreen> {
     ProfileBaseScreen.isExpanded = List<bool>.generate(ProfileBaseScreen.courts.length, (index) => false);
     await ReservationsHome.buildTickets();
     await AnnouncementsHome.buildAnnouncements();
-    print(KickoffApplication.playerId);
-    print(KickoffApplication.ownerId);
     ProfileBaseScreenPlayer.isSubscribed= await SubscriptionHTTPsHandler.issubscriber(KickoffApplication.playerId,KickoffApplication.ownerId);
     ProfileBaseScreenPlayer.subscribersCount= await SubscriptionHTTPsHandler.getSubscribersCount(KickoffApplication.ownerId);
     Navigator.pushNamed(context, '/profilePlayer');

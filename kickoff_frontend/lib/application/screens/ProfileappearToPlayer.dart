@@ -57,6 +57,8 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
           tooltip: 'back',
           onPressed: () {
             KickoffApplication.ownerId = '';
+            AnnouncementsHome.buildFullAnnouncements();
+            AnnouncementsHome.isExpanded = List<bool>.generate(AnnouncementsHome.announcements.length, (index) => false);
             Navigator.pop(context);
             KickoffApplication.update();
           },
@@ -279,7 +281,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                     ],
                   ))
               : (ProfileBaseScreenPlayer._selectedPage == 1)
-                  ? AnnouncementsHome()
+                  ? AnnouncementsHome(full: false,)
                   : ReservationsHome()
       ),
       floatingActionButton: ProfileBaseScreenPlayer._selectedPage == 2
