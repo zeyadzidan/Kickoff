@@ -13,14 +13,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../components/classes/court.dart';
 
 class playerProfile extends StatefulWidget {
-  playerProfile({super.key}) {
-    KickoffApplication.ownerId = KickoffApplication.data["id"].toString();
-    isExpanded = List<bool>.generate(courts.length, (index) => false);
-  }
-
-  static String? path = "";
-  static List<Court> courts = <Court>[];
-  static List<bool> isExpanded = <bool>[];
 
   @override
   State<playerProfile> createState() => _playerProfileState();
@@ -29,12 +21,8 @@ class playerProfile extends StatefulWidget {
 class _playerProfileState extends State<playerProfile> {
   String name = KickoffApplication.data["name"];
   String phone = KickoffApplication.data["phoneNumber"];
-  String address = KickoffApplication.data["location"];
-  double xaxis = KickoffApplication.data["xAxis"];
-  double yaxis = KickoffApplication.data["yAxis"];
   int id = KickoffApplication.data["id"];
   bool foundPhoto = KickoffApplication.data.containsKey("image");
-  String tempUrl = "";
   String utl = KickoffApplication.data.containsKey("image")
       ? KickoffApplication.data["image"]
       : "";
