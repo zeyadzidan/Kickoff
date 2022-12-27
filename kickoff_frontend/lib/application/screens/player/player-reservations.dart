@@ -26,10 +26,8 @@ class PlayerReservationsHome extends StatefulWidget {
     _reservations = await TicketsHTTPsHandler.getPlayerReservations(
         KickoffApplication.playerId, _resState, _ascending); // PlayerID.
     _expanded = List.generate(_reservations.length, (index) => false);
-  }
-  static _generate(){
-    _expanded = List.generate(_reservations.length, (index) => false);
-    _results = List.generate(_reservations.length, (index) => FilePickerResult(<PlatformFile>[]));
+    _results = List.generate(_reservations.length,
+        (index) => const FilePickerResult(<PlatformFile>[]));
   }
 }
 
@@ -42,8 +40,6 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
   _reservations() => PlayerReservationsHome._reservations;
 
   FilePickerResult _getResult(index) => PlayerReservationsHome._results[index];
-
-  List _getResults() => PlayerReservationsHome._results;
 
   // A setState method can be used here.
   _setResult(index, result) => PlayerReservationsHome._results[index] = result;
@@ -124,12 +120,11 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
     _setResState((index == 0)
         ? 'Booked'
         : (index == 1)
-        ? 'Pending'
-        : (index == 2)
-        ? 'Expired'
-        : 'Awaiting Confirmation');
+            ? 'Pending'
+            : (index == 2)
+                ? 'Expired'
+                : 'Awaiting Confirmation');
     await PlayerReservationsHome._buildReservations();
-    PlayerReservationsHome._generate();
     setState(() {});
   }
 
@@ -163,9 +158,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
                                       (j) => Text(_reservations()[index]
                                           .asPlayerView()[j])),
                                 ),
-                                (_reservations()[index]
-                                        .state
-                                        ==('Pending'))
+                                (_reservations()[index].state == ('Pending'))
                                     ? Column(children: [
                                         _uploadReceipt(index),
                                         _sendReceipt(index)
@@ -198,9 +191,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
               await FilePicker.platform.pickFiles(
                   type: FileType.custom,
                   allowedExtensions: ['png', 'jpg', 'jpeg']));
-          if (_getResult(index) != null) {
-            KickoffApplication.update();
-          }
+          KickoffApplication.update();
         },
       ),
     );
@@ -217,13 +208,11 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
               padding:
                   const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
           onPressed: () async {
-            if (_getResult(index) != null) {
-              Random random = Random();
-              File file = File(_getResult(index)!.files.last.path!);
-              final path =
-                  'files/${KickoffApplication.data["id"].toString()}.${random.nextInt(10000000)}.${_getResult(index)!.files.last.extension}';
-              await TicketsHTTPsHandler.uploadReceipt(file, path);
-            }
+            Random random = Random();
+            File file = File(_getResult(index).files.last.path!);
+            final path =
+                'files/${KickoffApplication.data["id"].toString()}.${random.nextInt(10000000)}.${_getResult(index).files.last.extension}';
+            await TicketsHTTPsHandler.uploadReceipt(file, path);
             KickoffApplication.update();
           },
         ),

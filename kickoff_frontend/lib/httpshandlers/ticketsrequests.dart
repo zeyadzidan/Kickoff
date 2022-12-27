@@ -131,13 +131,12 @@ class TicketsHTTPsHandler {
     final imageUrl = await snapshot.ref.getDownloadURL();
     print(imageUrl);
     // TODO: Modify this field to accept receipts upload
-    var response =
-        await http.post(Uri.parse('$_url/BookingAgent/sendReceipt'),
-            headers: {"Content-Type": "application/json"},
-            body: json.encode({
-              "reservationId": KickoffApplication.playerId /* Player ID */,
-              "receiptUrl": imageUrl.toString(),
-            }));
+    var response = await http.post(Uri.parse('$_url/BookingAgent/sendReceipt'),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "reservationId": KickoffApplication.playerId /* Player ID */,
+          "receiptUrl": imageUrl.toString(),
+        }));
     print(response.body);
   }
 }
