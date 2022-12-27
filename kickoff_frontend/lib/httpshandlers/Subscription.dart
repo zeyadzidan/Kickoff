@@ -44,6 +44,12 @@ class SubscriptionHTTPsHandler {
     return json.decode(response.body);
   }
 
+  static Future<int> getSubscribersCount( coid ) async {
+      var response = await http
+          .get(Uri.parse('$_url/getSubscribersCount/$coid'));
+    print(response.body);
+    return json.decode(response.body);
+  }
 
   //
   // static Future<List<Announcement>> getAnnouncements(coid) async {

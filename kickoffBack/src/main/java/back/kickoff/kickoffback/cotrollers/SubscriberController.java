@@ -50,7 +50,7 @@ public class SubscriberController {
         }
     }
 
-    @PostMapping("/playerSubscriptions/{pid}")
+    @GetMapping("/playerSubscriptions/{pid}")
     public ResponseEntity<Object> getPlayerSubscriptions(@PathVariable Long pid) {
         String subscriptions = subscriberService.getPlayerSubscriptions(pid);
         return (subscriberService.getPlayerSubscriptions(pid) != null)
@@ -58,12 +58,12 @@ public class SubscriberController {
                 : new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/getSubscribersCount/{coid}")
+    @GetMapping("/getSubscribersCount/{coid}")
     public ResponseEntity<Integer> getSubscribersCount(@PathVariable Long coid) {
         return new ResponseEntity<>(subscriberService.getSubscribersCount(coid), HttpStatus.OK);
     }
 
-    @PostMapping("/getAnnouncementsBySubscriptions/{pid}")
+    @GetMapping("/getAnnouncementsBySubscriptions/{pid}")
     public ResponseEntity<Object> getSubscriptionAnnouncements(@PathVariable Long pid) {
         List<Subscription> subscriptions = subscriberService.getSubscriptionAnnouncements(pid);
         String body = announcementService.getSubscriptionAnnouncements(subscriptions);
