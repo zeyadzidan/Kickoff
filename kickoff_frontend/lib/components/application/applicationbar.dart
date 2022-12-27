@@ -9,12 +9,13 @@ import '../../application/application.dart';
 import '../../application/screens/profile.dart';
 
 class KickoffAppBar {
-  build(context) => KickoffApplication.player
+  build(context, globalKey) => KickoffApplication.player
       ?AppBar(
     leading: IconButton(
       icon: const Icon(Icons.person),
       tooltip: 'تعديل البيانات',
       onPressed: () async {
+        globalKey.currentState?.openDrawer();
         //to be implemented
       },
     ),

@@ -7,6 +7,7 @@ import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
 import 'package:kickoff_frontend/application/screens/player/player-reservations.dart';
+import 'package:kickoff_frontend/application/screens/playerprofile.dart';
 import 'package:kickoff_frontend/components/announcements/plusannouncementbutton.dart';
 import 'package:kickoff_frontend/components/application/applicationbar.dart';
 import 'package:kickoff_frontend/components/courts/pluscourtbutton.dart';
@@ -56,6 +57,7 @@ class KickoffApplication extends StatefulWidget {
 class KickoffApplicationState extends State<KickoffApplication> {
   int counter = 0;
   late Timer _timer;
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +66,15 @@ class KickoffApplicationState extends State<KickoffApplication> {
       title: "Kickoff",
       debugShowCheckedModeBanner: false,
       initialRoute:firstTime?'/loginPlayer':'/kickoff',
-      //initialRoute: firstTime?'/login':'/kickoff',
       routes: {
         '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
         '/profilePlayer':(context)=>  ProfileBaseScreenPlayer(),
         '/kickoff': (context) => Builder(
               builder: (context) => Scaffold(
-                appBar: KickoffAppBar().build(context),
+                key: _key,
+                appBar: KickoffAppBar().build(context,_key),
+                drawer: playerProfile(),
                 body: Center(
                 // Player Application
                   child: (KickoffApplication.player) ?
