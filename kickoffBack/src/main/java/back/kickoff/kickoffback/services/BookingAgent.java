@@ -325,7 +325,7 @@ public class BookingAgent {
             }
             return new Gson().toJson(frontEndReservations);
         } catch (Exception ignored) {
-            return false;
+            return new ArrayList<>();
         }
     }
 

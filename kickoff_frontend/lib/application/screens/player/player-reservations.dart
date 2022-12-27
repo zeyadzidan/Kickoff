@@ -27,6 +27,10 @@ class PlayerReservationsHome extends StatefulWidget {
         KickoffApplication.playerId, _resState, _ascending); // PlayerID.
     _expanded = List.generate(_reservations.length, (index) => false);
   }
+  static _generate(){
+    _expanded = List.generate(_reservations.length, (index) => false);
+    _results = List.generate(_reservations.length, (index) => FilePickerResult(<PlatformFile>[]));
+  }
 }
 
 class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
@@ -37,7 +41,9 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
 
   _reservations() => PlayerReservationsHome._reservations;
 
-  _getResult(index) => PlayerReservationsHome._results[index];
+  FilePickerResult _getResult(index) => PlayerReservationsHome._results[index];
+
+  List _getResults() => PlayerReservationsHome._results;
 
   // A setState method can be used here.
   _setResult(index, result) => PlayerReservationsHome._results[index] = result;
@@ -52,7 +58,6 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
 
   @override
   Widget build(BuildContext context) {
-    PlayerReservationsHome._buildReservations();
     return Column(
       children: [
         Container(
@@ -115,15 +120,18 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
               ? 2
               : 3;
 
-  _select(index) => setState(() {
-        _setResState((index == 0)
-            ? 'Booked'
-            : (index == 1)
-                ? 'Pending'
-                : (index == 2)
-                    ? 'Expired'
-                    : 'Awaiting Confirmation');
-      });
+  _select(index) async {
+    _setResState((index == 0)
+        ? 'Booked'
+        : (index == 1)
+        ? 'Pending'
+        : (index == 2)
+        ? 'Expired'
+        : 'Awaiting Confirmation');
+    await PlayerReservationsHome._buildReservations();
+    PlayerReservationsHome._generate();
+    setState(() {});
+  }
 
   _viewReservations() => Expanded(
         child: SingleChildScrollView(
@@ -177,7 +185,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
     return Container(
       margin: const EdgeInsets.only(top: 15),
       child: ElevatedButton.icon(
-        label: Text((_getResult(index) == null)
+        label: Text((_getResult(index).files.isEmpty)
             ? 'Upload Receipt'
             : _getResult(index).names[0]!),
         icon: const Icon(Icons.add_a_photo),
