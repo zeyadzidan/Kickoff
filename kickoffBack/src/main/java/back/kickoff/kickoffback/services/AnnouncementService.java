@@ -111,11 +111,22 @@ public class AnnouncementService {
         if (subscriptions.isEmpty())
             return "No subscriptions";
         Optional<CourtOwner> optionalCourtOwner;
-        List<Announcement> announcements = new ArrayList<>();
+        List<AnnouncmentFrontend> announcements = new ArrayList<>();
         for (Subscription subscription : subscriptions) {
             optionalCourtOwner = courtOwnerRepository.findById(subscription.getCoid());
-            if (optionalCourtOwner.isPresent())
-                announcements.addAll(optionalCourtOwner.get().getAnnouncements());
+            if (optionalCourtOwner.isPresent()) {
+                List<Announcement> announcementsBackEnd = optionalCourtOwner.get().getAnnouncements();
+                for (Announcement announcement : announcementsBackEnd) {
+                    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                    String strDate = dateFormat.format(announcement.getDate());
+                    announcements.add(new AnnouncmentFrontend(
+                            announcement.getId(),
+                            announcement.getCourtOwner().getId(),
+                            announcement.getTitle(),
+                            announcement.getBody(),
+                            announcement.getImg(), strDate));
+                }
+            }
         }
         return new Gson().toJson(announcements);
     }
