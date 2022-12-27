@@ -33,7 +33,7 @@ public class BookingAgent {
         this.playerRepository = playerRepository;
     }
 
-    static class FrontEndReservation{
+    static class FrontEndReservation {
 
         Long id;
         Long playerID;
@@ -41,17 +41,17 @@ public class BookingAgent {
         //Player mainPlayer;
         Long courtID;
         Long courtOwnerID;
-        Date startDate ;
+        Date startDate;
         Date endDate;
         Time timeFrom;
         Time timeTo;
         ReservationState state;
-        int moneyPayed ;
-        int totalCost ;
+        int moneyPayed;
+        int totalCost;
         String receiptUrl;
         //Set<Player> players;
 
-        public FrontEndReservation(Reservation reservation){
+        public FrontEndReservation(Reservation reservation) {
             this.id = reservation.getId();
             this.playerID = reservation.getMainPlayer().getId();
             this.playerName = reservation.getMainPlayer().getName();
@@ -72,23 +72,23 @@ public class BookingAgent {
 
     /**
      * checked till 21/12/2022 by gad
+     *
      * @param information JSON
-     * {
-     *    reservationId: long,
-     *    moneyPaid: int
-     * }
+     *                    {
+     *                    reservationId: long,
+     *                    moneyPaid: int
+     *                    }
      * @return response messege
      */
-    public String book(String information)  throws JSONException
-    {
+    public String book(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
-        long reservationId ;
-        int moneyPaid ;
-        try{
+        long reservationId;
+        int moneyPaid;
+        try {
             reservationId = jsonObject.getLong("reservationId");
             moneyPaid = jsonObject.getInt("moneyPaid");
-        }catch (Exception e){
-            return "bad request" ;
+        } catch (Exception e) {
+            return "bad request";
         }
 
         Optional<Reservation> reservationOptional = reservationRepository.findById(reservationId);
@@ -113,10 +113,10 @@ public class BookingAgent {
         JSONObject jsonObject = new JSONObject(information);
         Long id;
 
-        try{
+        try {
             id = jsonObject.getLong("id");
-        }catch (Exception e){
-            return "bad request" ;
+        } catch (Exception e) {
+            return "bad request";
         }
 
         Optional<Reservation> reservationOptional = reservationRepository.findById(id);
@@ -138,11 +138,11 @@ public class BookingAgent {
 
     public String cancelPendingReservation(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
-        Long id ;
-        try{
+        Long id;
+        try {
             id = jsonObject.getLong("id");
-        }catch (Exception e){
-            return "bad request" ;
+        } catch (Exception e) {
+            return "bad request";
         }
 
         Optional<Reservation> reservationOptional = reservationRepository.findById(id);
@@ -154,8 +154,8 @@ public class BookingAgent {
         if (!reservation.getState().equals(ReservationState.Pending)) {
             return "Reservation is not pending";
         }
-        CourtSchedule courtSchedule = optionalCourt.get().getCourtSchedule() ;
-        courtSchedule.getPendingReservations().remove(reservation) ;
+        CourtSchedule courtSchedule = optionalCourt.get().getCourtSchedule();
+        courtSchedule.getPendingReservations().remove(reservation);
         scheduleRepository.save(courtSchedule);
         reservationRepository.deleteById(id);
         return "Success";
@@ -165,45 +165,45 @@ public class BookingAgent {
     public String setPending(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
         Long courtId;
-        Long courtOwnerId ;
-        String dateStrS ;
-        String dateStrF ;
-        int startHour ;
+        Long courtOwnerId;
+        String dateStrS;
+        String dateStrF;
+        int startHour;
         int finishHour;
-        long playerID ;
-        Player player ;
+        long playerID;
+        Player player;
 
-        try{
+        try {
             courtId = jsonObject.getLong("courtId");
             courtOwnerId = jsonObject.getLong("courtOwnerId");
             dateStrS = jsonObject.getString("startDate");
             dateStrF = jsonObject.getString("endDate");
             startHour = jsonObject.getInt("startHour");
             finishHour = jsonObject.getInt("finishHour");
-        }catch (Exception e){
-            return "bad request" ;
+        } catch (Exception e) {
+            return "bad request";
         }
 
         try {
             playerID = jsonObject.getLong("playerId");
-            Optional<Player> optionalPlayer= playerRepository.findById(playerID) ;
-            if(optionalPlayer.isPresent()){
+            Optional<Player> optionalPlayer = playerRepository.findById(playerID);
+            if (optionalPlayer.isPresent()) {
                 player = optionalPlayer.get();
-            }else{
-                throw new JSONException("Player ID") ;
+            } else {
+                throw new JSONException("Player ID");
             }
-        }catch (Exception e){
-            player = new Player() ;
+        } catch (Exception e) {
+            player = new Player();
             player.setPlayerType(PlayerType.Lite);
-            String playerName ;
-            try{
+            String playerName;
+            try {
                 playerName = jsonObject.getString("playerName");
-            }catch (Exception e2){
-                return "bad request" ;
+            } catch (Exception e2) {
+                return "bad request";
             }
             player.setName(playerName);
             player.setReservations(new HashSet<>());
-            this.playerRepository.save(player) ;
+            this.playerRepository.save(player);
 
         }
         String[] tempArrS = dateStrS.split("/");
@@ -212,8 +212,7 @@ public class BookingAgent {
         Time timeFrom, timeTo;
         if (tempArrS.length != 3 || tempArrF.length != 3)
             return "In valid date1";
-        try
-        {
+        try {
             SimpleDateFormat obj = new SimpleDateFormat("MM/dd/yyyy");
             long date1 = obj.parse(dateStrS).getTime();
             long date2 = obj.parse(dateStrF).getTime();
@@ -230,7 +229,6 @@ public class BookingAgent {
         }
 
 
-
         Optional<Court> courtOptional = courtRepository.findById(courtId);
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(courtOwnerId);
         if (courtOptional.isEmpty() || courtOwnerOptional.isEmpty())
@@ -241,36 +239,36 @@ public class BookingAgent {
         }
         CourtSchedule courtSchedule = court.getCourtSchedule();
         ScheduleAgent scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository);
-        DateTime startWorking = new DateTime(stDate, courtSchedule.getStartWorkingHours()) ;
-        DateTime endWorking ;
-        if(courtSchedule.getStartWorkingHours().after(courtSchedule.getEndWorkingHours())){
-            Date temp = new Date(stDate.getTime() + (1000 * 60 * 60 * 24)) ;
-            endWorking = new DateTime(temp,courtSchedule.getEndWorkingHours()) ;
-        }else{
-            endWorking = new DateTime(stDate,courtSchedule.getEndWorkingHours()) ;
+        DateTime startWorking = new DateTime(stDate, courtSchedule.getStartWorkingHours());
+        DateTime endWorking;
+        if (courtSchedule.getStartWorkingHours().after(courtSchedule.getEndWorkingHours())) {
+            Date temp = new Date(stDate.getTime() + (1000 * 60 * 60 * 24));
+            endWorking = new DateTime(temp, courtSchedule.getEndWorkingHours());
+        } else {
+            endWorking = new DateTime(stDate, courtSchedule.getEndWorkingHours());
         }
-        DateTime from = new DateTime(stDate,timeFrom) ;
-        DateTime to = new DateTime(endDate, timeTo) ;
+        DateTime from = new DateTime(stDate, timeFrom);
+        DateTime to = new DateTime(endDate, timeTo);
 
         DateTime now = new DateTime(new Date(System.currentTimeMillis()), new Time(System.currentTimeMillis()));
         System.out.println("now " + now.toString());
         System.out.println("from " + from.toString());
         System.out.println("to " + to.toString());
-        System.out.println("compare " +from.compareTo(now)+ " " + to.compareTo(now) + " " + to.compareTo(from));
+        System.out.println("compare " + from.compareTo(now) + " " + to.compareTo(now) + " " + to.compareTo(from));
         //if(from.compareTo(now)<=0 || to.compareTo(now)<=0 ){
         //    return "Invalid date3 date in the past" ;
         //}
         //checks
 
-        int c = to.compareTo(from) ;
-        if(c<=0){
-            return "invalid start and end times" ;
+        int c = to.compareTo(from);
+        if (c <= 0) {
+            return "invalid start and end times";
         }
-        if(c < courtSchedule.getMinBookingHours()){
-            return "must be more than or equal the minimum booking hours" ;
+        if (c < courtSchedule.getMinBookingHours()) {
+            return "must be more than or equal the minimum booking hours";
         }
 
-        if (from.compareTo(startWorking)< 0 || to.compareTo(endWorking)>0)
+        if (from.compareTo(startWorking) < 0 || to.compareTo(endWorking) > 0)
             return "In that time the court is closed";
 
 
@@ -278,13 +276,13 @@ public class BookingAgent {
         if (!oldReservation.isEmpty())
             return "that time have reservation";
 
-        Reservation reservation = new Reservation(player,courtId, courtOwnerId, stDate, endDate, timeFrom,
-                timeTo, ReservationState.Pending,0,
+        Reservation reservation = new Reservation(player, courtId, courtOwnerId, stDate, endDate, timeFrom,
+                timeTo, ReservationState.Pending, 0,
                 reservationService.calcTotalCost(stDate, endDate, timeFrom, timeTo, courtOptional.get()));
 
-        player.getReservations().add(reservation) ;
+        player.getReservations().add(reservation);
         reservationRepository.save(reservation);
-        playerRepository.save(player) ;
+        playerRepository.save(player);
         courtSchedule.getPendingReservations().add(reservation);
         scheduleRepository.save(courtSchedule);
         courtRepository.save(court);
@@ -292,38 +290,41 @@ public class BookingAgent {
         return "Success";
     }
 
-    public static class ReservationComparator implements Comparator<Reservation>{
+    public static class ReservationComparator implements Comparator<Reservation> {
         boolean ascending;
+
         ReservationComparator(boolean ascending) {
             this.ascending = ascending;
         }
+
         @Override
         public int compare(Reservation o1, Reservation o2) {
-            DateTime stR1 = new DateTime(o1.getStartDate(), o1.getTimeFrom()) ;
-            DateTime stR2 = new DateTime(o2.getStartDate(), o2.getTimeFrom()) ;
-            return (ascending) ? stR1.compareTo(stR2) : stR2.compareTo(stR1) ;
+            DateTime stR1 = new DateTime(o1.getStartDate(), o1.getTimeFrom());
+            DateTime stR2 = new DateTime(o2.getStartDate(), o2.getTimeFrom());
+            return (ascending) ? stR1.compareTo(stR2) : stR2.compareTo(stR1);
         }
     }
 
     public String getReservations(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
-        long courtId ;
+        String filter = (jsonObject.has("filter")) ? jsonObject.getString("filter") : "";
+        Boolean ascending = (jsonObject.has("ascending")) ? jsonObject.getBoolean("ascending") : Boolean.TRUE;
+        long courtId;
         long courtOwnerId;
         String strDate;
-        try{
+        try {
             courtId = jsonObject.getLong("courtId");
             courtOwnerId = jsonObject.getLong("courtOwnerId");
             strDate = jsonObject.getString("date");
-        }catch (Exception e){
-            return "bad request" ;
+        } catch (Exception e) {
+            return "bad request";
         }
         String[] tempArrS = strDate.split("/");
         if (tempArrS.length != 3)
             return "In valid date";
 
-        Date date ;
-        try
-        {
+        Date date;
+        try {
             SimpleDateFormat obj = new SimpleDateFormat("MM/dd/yyyy");
             long date1 = obj.parse(strDate).getTime();
             date = new Date(date1);
@@ -338,27 +339,29 @@ public class BookingAgent {
         if (!court.getCourtOwner().equals(courtOwnerOptional.get())) {
             return "Court does not belong to the courtOwner";
         }
-        ScheduleAgent scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository) ;
-        Date endDate = date ;
-        if(court.getCourtSchedule().getEndWorkingHours().before(court.getCourtSchedule().getStartWorkingHours())){
-            endDate = new Date(date.getTime() + (1000 * 60 * 60 * 24)) ;
+        ScheduleAgent scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository);
+        Date endDate = date;
+        if (court.getCourtSchedule().getEndWorkingHours().before(court.getCourtSchedule().getStartWorkingHours())) {
+            endDate = new Date(date.getTime() + (1000 * 60 * 60 * 24));
         }
 
-        List<Reservation> reservations = scheduleAgent.getScheduleOverlapped(date, endDate, court.getCourtSchedule().getStartWorkingHours() , court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule());
-        reservations.addAll(scheduleAgent.getExpiredOverlapped(date, endDate, court.getCourtSchedule().getStartWorkingHours() , court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule()));
-        reservations.sort(new ReservationComparator(true)) ;
+        System.out.println(filter);
+        List<Reservation> reservations = scheduleAgent.getScheduleOverlapped(date, endDate, court.getCourtSchedule().getStartWorkingHours(), court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule());
+        reservations.addAll(scheduleAgent.getExpiredOverlapped(date, endDate, court.getCourtSchedule().getStartWorkingHours(), court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule()));
+        reservations.sort(new ReservationComparator(ascending));
         List<FrontEndReservation> frontEndReservations = new ArrayList<>(reservations.size());
-        for(Reservation r: reservations){
-            frontEndReservations.add(new FrontEndReservation(r)) ;
+        for (Reservation r : reservations) {
+            frontEndReservations.add(new FrontEndReservation(r));
         }
-        return "S "+  new  Gson().toJson(frontEndReservations);
+        return "S " + new Gson().toJson(frontEndReservations);
     }
+
     public String sendReceipt(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
         Long reservationId = jsonObject.getLong("reservationId");
         String imageUrl = jsonObject.getString("receiptUrl");
         Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
-        if(optionalReservation.isEmpty())
+        if (optionalReservation.isEmpty())
             return "Not Found";
         optionalReservation.get().setReceiptUrl(imageUrl);
         optionalReservation.get().setState(ReservationState.Awaiting);
