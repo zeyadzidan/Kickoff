@@ -90,12 +90,12 @@ class TicketsHTTPsHandler {
     return reservations;
   }
 
-  static Future<List<FixtureTicket>> getPlayerReservations(pid, filter) async {
+  static Future<List<FixtureTicket>> getPlayerReservations(pid, filter, ascending) async {
     var rsp = await http.post(
         Uri.parse('$_url/BookingAgent/reservationsOnDate'),
         headers: {"Content-Type": "application/json"},
         body: json.encode(
-            {"playerId": pid, "filter": filter}));
+            {"playerId": pid, "filter": filter, "ascending": ascending}));
     print(rsp.body);
     List<FixtureTicket> reservations = [];
     if (rsp.body != 'Player not found!') {
