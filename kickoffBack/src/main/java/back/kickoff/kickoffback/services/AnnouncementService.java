@@ -114,7 +114,8 @@ public class AnnouncementService {
         List<Announcement> announcements = new ArrayList<>();
         for (Subscription subscription : subscriptions) {
             optionalCourtOwner = courtOwnerRepository.findById(subscription.getCoid());
-            optionalCourtOwner.ifPresent(courtOwner -> announcements.addAll(courtOwner.getAnnouncements()));
+            if (optionalCourtOwner.isPresent())
+                announcements.addAll(optionalCourtOwner.get().getAnnouncements());
         }
         return new Gson().toJson(announcements);
     }
