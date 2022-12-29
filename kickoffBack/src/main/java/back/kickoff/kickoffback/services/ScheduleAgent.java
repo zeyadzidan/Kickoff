@@ -28,15 +28,25 @@ public class ScheduleAgent {
     }
 
 
-    public List<Reservation> getScheduleOverlapped(Date fromD, Date toD, Time fromT, Time toT, CourtSchedule schedule){
+    public List<Reservation> getAllOverlapped(Date fromD, Date toD, Time fromT, Time toT, CourtSchedule schedule){
+        List<Reservation> all = getScheduleOverlapped(fromD, toD, fromT, toT, schedule, "") ;
+        all.addAll(getExpiredOverlapped(fromD, toD, fromT, toT, schedule) ) ;
+        return all ;
+    }
+
+    /**
+     * get the reservation active on the schedule (Booked, Pending, Awaiting) with the filter
+     */
+    public List<Reservation> getScheduleOverlapped(Date fromD, Date toD, Time fromT, Time toT, CourtSchedule schedule, String filter){
         ArrayList<Reservation> res = new ArrayList<Reservation>() ;
         DateTime start = new DateTime(fromD, fromT) ;
         DateTime end = new DateTime(toD, toT) ;
 
         for(Reservation r: schedule.getBookedReservations()){
+            if(!r.getState().toString().equals(filter) || !filter.equals(""))
+                continue;
             DateTime resStart = new DateTime(r.getStartDate(), r.getTimeFrom()) ;
             DateTime resEnd = new DateTime(r.getEndDate(), r.getTimeTo()) ;
-
 
             if((resStart.compareTo(start) >= 0 && resEnd.compareTo(end)<=0)
                     || (resStart.compareTo(start) <= 0 && resEnd.compareTo(start)>0)
@@ -51,6 +61,9 @@ public class ScheduleAgent {
                 toRemove.add(r) ;
                 continue;
             }
+
+            if(!r.getState().toString().equals(filter) || !filter.equals(""))
+                continue;
 
             DateTime resStart = new DateTime(r.getStartDate(), r.getTimeFrom()) ;
             DateTime resEnd = new DateTime(r.getEndDate(), r.getTimeTo()) ;
@@ -71,8 +84,6 @@ public class ScheduleAgent {
             rr.save(r) ;
             sr.save(schedule) ;
         }
-
-
 
         return res;
 

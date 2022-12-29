@@ -1,9 +1,6 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.Commands.BookCommand;
-import back.kickoff.kickoffback.Commands.FrontEndReservation;
-import back.kickoff.kickoffback.Commands.GetReservationCommand;
-import back.kickoff.kickoffback.Commands.SetPendingCommand;
+import back.kickoff.kickoffback.Commands.*;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import back.kickoff.kickoffback.services.BookingAgent;
 import com.google.gson.Gson;
@@ -88,15 +85,25 @@ public class BookingAgentController {
         }
     }
     @PostMapping("/sendReceipt")
-    public ResponseEntity<String> sendReceipt(@RequestBody String information) throws JSONException {
-        String  responseBody = bookingAgent.sendReceipt(information);
-        if(responseBody.equals("Not Found"))
-            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    public ResponseEntity<String> sendReceipt(@RequestBody String information) {
+        try {
+            ReceiptCommand receiptCommand= new ReceiptCommand(information) ;
+            bookingAgent.sendReceipt(receiptCommand) ;
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Receipt Sent", HttpStatus.OK);
     }
 
     @PostMapping("/playerBookings")
     public ResponseEntity<Object> getPlayerReservations(@RequestBody String information) throws JSONException {
-        return new ResponseEntity<>(bookingAgent.getPlayerReservations(information), HttpStatus.OK);
+        try {
+            GetPlayerReservationCommand command = new GetPlayerReservationCommand(information) ;
+            List<FrontEndReservation> reservations = bookingAgent.getPlayerReservations(command);
+            return new ResponseEntity<>(new Gson().toJson(reservations), HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

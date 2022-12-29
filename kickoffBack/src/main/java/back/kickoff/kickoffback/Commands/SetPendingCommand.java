@@ -2,6 +2,7 @@ package back.kickoff.kickoffback.Commands;
 
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.model.PlayerType;
+import back.kickoff.kickoffback.model.Reservation;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import lombok.Getter;
 import org.json.JSONException;
@@ -11,6 +12,8 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 
 @Getter
@@ -81,6 +84,7 @@ public class SetPendingCommand {
                 player = new Player() ;
                 player.setPlayerType(PlayerType.Lite);
                 player.setName(playerName);
+                player.setReservations(new ArrayList<>());
                 playerRepository.save(player);
             }catch (Exception e2){
                 throw new Exception("one of 'playerId' or 'playerName' must be exist") ;

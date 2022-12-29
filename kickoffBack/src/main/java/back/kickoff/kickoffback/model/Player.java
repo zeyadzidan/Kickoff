@@ -30,8 +30,8 @@ public class Player{
     private Double yAxis;
     //@ManyToMany
     //@JoinTable(name="player_reservation", joinColumns = @JoinColumn(name="player_id"),inverseJoinColumns = @JoinColumn(name="reservation_id"))
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER , mappedBy = "mainPlayer")
-//    private Set<Reservation> reservations;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER , mappedBy = "mainPlayer")
+    private List<Reservation> reservations;
 
     public Player(String name, String email, String phoneNumber, String password, String location, Double xAxis, Double yAxis) {
         Name = name;

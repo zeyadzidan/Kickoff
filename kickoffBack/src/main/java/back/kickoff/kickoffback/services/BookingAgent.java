@@ -1,9 +1,6 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.BookCommand;
-import back.kickoff.kickoffback.Commands.FrontEndReservation;
-import back.kickoff.kickoffback.Commands.GetReservationCommand;
-import back.kickoff.kickoffback.Commands.SetPendingCommand;
+import back.kickoff.kickoffback.Commands.*;
 import back.kickoff.kickoffback.model.*;
 import back.kickoff.kickoffback.repositories.*;
 import com.google.gson.Gson;
@@ -131,8 +128,6 @@ public class BookingAgent {
         ScheduleAgent scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository);
         DateTime startWorking = new DateTime(command.getStDate(), courtSchedule.getStartWorkingHours()) ;
         DateTime endWorking ;
-        DateTime startDateTime = new DateTime(command.getStDate(),command.getTimeFrom()) ;
-        DateTime endDateTime = new DateTime(command.getEndDate(), command.getTimeTo()) ;
         if(courtSchedule.getStartWorkingHours().after(courtSchedule.getEndWorkingHours())){
             Date temp = new Date(command.getStDate().getTime() + (1000 * 60 * 60 * 24)) ;
             endWorking = new DateTime(temp,courtSchedule.getEndWorkingHours()) ;
@@ -165,20 +160,14 @@ public class BookingAgent {
             throw new Exception("In that time the court is closed");
 
         List<Reservation> oldReservation = scheduleAgent.getScheduleOverlapped(command.getStDate(), command.getEndDate(),
-                command.getTimeFrom(), command.getTimeTo(), courtSchedule);
+                command.getTimeFrom(), command.getTimeTo(), courtSchedule, "");
         if (!oldReservation.isEmpty())
             throw new Exception("that time have reservation") ;
 
-        /*
-        Reservation reservation = new Reservation(player.getId(), player.getName(), courtId, courtOwnerId, stDate, endDate, timeFrom,
-                timeTo, ReservationState.Pending, 0,
-                reservationService.calcTotalCost(stDate, endDate, timeFrom, timeTo, courtOptional.get()));
-
-//        player.getReservations().add(reservation);
-*/
         Reservation reservation = new Reservation(command.getPlayer(), command.getCourtId(), command.getCourtOwnerId(), command.getStDate(),
                 command.getEndDate(), command.getTimeFrom(), command.getTimeTo(), ReservationState.Pending, 0,
                 reservationService.calcTotalCost(command.getStDate(), command.getEndDate(), command.getTimeFrom(), command.getTimeTo(), courtOptional.get()));
+        command.getPlayer().getReservations().add(reservation);
 
         reservationRepository.save(reservation);
         playerRepository.save(command.getPlayer());
@@ -202,32 +191,29 @@ public class BookingAgent {
         }
     }
 
-    public Object getPlayerReservations(String information) throws JSONException {
-        JSONObject object = new JSONObject(information);
-        Long pid = object.has("pid") ? object.getLong("pid") : -1L;
-        String filter = object.has("filter") ? object.getString("filter") : "Booked";
-        boolean ascending = !object.has("ascending") || object.getBoolean("ascending");
-        System.out.println(pid);
-        System.out.println(filter);
-        System.out.println(ascending);
-        try {
-            List<Reservation> reservations = reservationRepository.findAllByPid(pid);
-            reservations.sort(new ReservationComparator(ascending));
-            List<FrontEndReservation> frontEndReservations = new ArrayList<>();
-            System.out.println(reservations.get(0).getState().toString());
-            for (Reservation r : reservations) {
-                if (r.getState().toString().equals(filter))
-                    frontEndReservations.add(new FrontEndReservation(r));
-            }
-            return new Gson().toJson(frontEndReservations);
-        } catch (Exception ignored) {
+    public List<FrontEndReservation> getPlayerReservations(GetPlayerReservationCommand command) {
+
+        System.out.println(command.pid);
+        System.out.println(command.filter);
+        System.out.println(command.ascending);
+        Optional<Player> playerOptional = playerRepository.findById(command.pid) ;
+        if (playerOptional.isEmpty()){
             return new ArrayList<>();
         }
+        Player player = playerOptional.get() ;
+        List<Reservation> reservations = player.getReservations() ;
+        reservations.sort(new ReservationComparator(command.ascending));
+        //System.out.println(reservations.get(0).getState().toString());
+        ArrayList<FrontEndReservation> frontEndReservations = new ArrayList<>() ;
+        for (Reservation r : reservations) {
+            if (r.getState().toString().equals(command.filter))
+                frontEndReservations.add(new FrontEndReservation(r));
+        }
+        return frontEndReservations ;
     }
 
 
     public List<FrontEndReservation> getReservations(GetReservationCommand command) throws Exception{
-
 
         Optional<Court> courtOptional = courtRepository.findById(command.getCourtId());
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(command.getCourtOwnerId());
@@ -245,26 +231,34 @@ public class BookingAgent {
         }
 
         System.out.println(command.getFilter());
-        List<Reservation> reservations = scheduleAgent.getScheduleOverlapped(command.getDate(), endDate, court.getCourtSchedule().getStartWorkingHours(), court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule());
-        reservations.addAll(scheduleAgent.getExpiredOverlapped(command.getDate(), endDate, court.getCourtSchedule().getStartWorkingHours(), court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule()));
+
+        List<Reservation> reservations;
+        if(!command.getFilter().equals("")){
+            reservations = scheduleAgent.getAllOverlapped(command.getDate(), endDate, court.getCourtSchedule().getStartWorkingHours(),
+                    court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule());
+
+        }else if(!command.getFilter().equals("Expired")){
+        reservations = scheduleAgent.getScheduleOverlapped(command.getDate(), endDate, court.getCourtSchedule().getStartWorkingHours(),
+                court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule(), command.getFilter());
+        }else {
+            reservations = scheduleAgent.getExpiredOverlapped(command.getDate(), endDate, court.getCourtSchedule().getStartWorkingHours(),
+                    court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule());
+        }
+
         reservations.sort(new ReservationComparator(command.isAscending()));
 
         List<FrontEndReservation> frontEndReservations = new ArrayList<>(reservations.size());
         for (Reservation r : reservations) {
             frontEndReservations.add(new FrontEndReservation(r));
         }
-
         return frontEndReservations;
     }
 
-    public String sendReceipt(String information) throws JSONException {
-        JSONObject jsonObject = new JSONObject(information);
-        Long reservationId = jsonObject.getLong("reservationId");
-        String imageUrl = jsonObject.getString("receiptUrl");
-        Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
+    public void sendReceipt(ReceiptCommand command) throws Exception {
+        Optional<Reservation> optionalReservation = reservationRepository.findById(command.reservationId);
         if (optionalReservation.isEmpty())
-            return "Not Found";
-        optionalReservation.get().setReceiptUrl(imageUrl);
+            throw new Exception("Not Found");
+        optionalReservation.get().setReceiptUrl(command.receiptUrl);
         optionalReservation.get().setState(ReservationState.Awaiting);
         Long courtID = optionalReservation.get().getCourtID();
         Court court = courtRepository.findById(courtID).get();
@@ -273,7 +267,6 @@ public class BookingAgent {
         courtSchedule.getBookedReservations().add(optionalReservation.get());
         reservationRepository.save(optionalReservation.get());
         scheduleRepository.save(courtSchedule);
-        return "Receipt Sent";
     }
 
 }
