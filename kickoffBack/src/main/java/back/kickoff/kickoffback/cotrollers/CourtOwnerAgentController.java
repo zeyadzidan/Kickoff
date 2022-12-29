@@ -1,12 +1,16 @@
 package back.kickoff.kickoffback.cotrollers;
 
+import back.kickoff.kickoffback.Commands.*;
 import back.kickoff.kickoffback.services.AnnouncementService;
 import back.kickoff.kickoffback.services.CourtOwnerAgent;
+import com.google.gson.Gson;
 import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @CrossOrigin
@@ -22,47 +26,65 @@ public class CourtOwnerAgentController {
 
 
     @GetMapping("/CourtOwner/{courtOwnerId}/Courts")
-    public ResponseEntity<String> listCourts(@PathVariable String courtOwnerId) throws JSONException {
-        return new ResponseEntity<>(courtOwnerAgent.
-                findCourtOwnerCourts(Long.valueOf(courtOwnerId)),
-                HttpStatus.OK);
+    public ResponseEntity<String> listCourts(@PathVariable String courtOwnerId) {
+        try {
+            List<CourtFrontEnd> list = courtOwnerAgent.findCourtOwnerCourts(Long.valueOf(courtOwnerId)) ;
+            return new ResponseEntity<>(new  Gson().toJson(list),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/CourtOwner/CreateCourt")
-    public ResponseEntity<String> createCourt(@RequestBody String information) throws JSONException {
+    public ResponseEntity<String> createCourt(@RequestBody String information) {
+        try {
+            CreateCourtCommand command = new CreateCourtCommand(information) ;
+            courtOwnerAgent.createCourt(command);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>("Success", HttpStatus.CREATED);
 
-        String response = courtOwnerAgent.createCourt(information);
-        if (response.equals("Success"))
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/CourtOwner/addImage")
-    public ResponseEntity<String> addImage(@RequestBody String information) throws JSONException {
-        String responseBody = courtOwnerAgent.addImage(information);
+    public ResponseEntity<String> addImage(@RequestBody String information) {
+        try {
+            AddImageCommand command = new AddImageCommand(information) ;
+            courtOwnerAgent.addImage(command);
 
-        if (responseBody.equals("Success"))
-            return new ResponseEntity<>(responseBody, HttpStatus.OK);
-        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
 
     @PostMapping("/CourtOwner/CreateAnnouncement")
-    public ResponseEntity<String> CreateAnnouncement(@RequestBody String information) throws JSONException {
-        String responseBody = announcementService.addAnnouncement(information);
+    public ResponseEntity<String> CreateAnnouncement(@RequestBody String information) {
+        AddAnnouncmentCommand command ;
+        try{
+            command = new AddAnnouncmentCommand(information) ;
+            announcementService.addAnnouncement(command);
 
-        if (responseBody.equals("Success"))
-            return new ResponseEntity<>(responseBody, HttpStatus.OK);
-        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+
+        }
+        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
 
     @GetMapping("/CourtOwner/{courtOwnerId}/Announcements")
     public ResponseEntity<String> getAnnouncements(@PathVariable String courtOwnerId) {
-        String responseBody = announcementService.getAnnouncement(Long.valueOf(courtOwnerId));
-        if (responseBody.equals("CourtOwner do not exist"))
-            return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        List<AnnouncmentFrontend> responseBody ;
+        try {
+            responseBody = announcementService.getAnnouncement(Long.valueOf(courtOwnerId));
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new Gson().toJson(responseBody), HttpStatus.OK);
     }
 
 
