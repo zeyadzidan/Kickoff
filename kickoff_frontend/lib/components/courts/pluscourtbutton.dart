@@ -26,7 +26,7 @@ class _PlusCourtButtonState extends State<PlusCourtButton> {
   @override
   Widget build(BuildContext context) =>
       FloatingActionButton(
-          backgroundColor: courtOwnerColor,
+          backgroundColor: mainSwatch,
           tooltip: "إضافة ملعب",
           child: const Icon(Icons.add, size: 35),
           onPressed: () =>
@@ -42,9 +42,9 @@ class _PlusCourtButtonState extends State<PlusCourtButton> {
                                 vertical: 25.0, horizontal: 25.0),
                             child: Column(
                               children: [
-                                const Text("أضف ملعباً جديداً",
+                                Text("أضف ملعباً جديداً",
                                     style: TextStyle(
-                                        color: courtOwnerColor, fontSize: 32)),
+                                        color: mainSwatch, fontSize: 32)),
                                 _formField('اسم الملعب', Icons.stadium, false),
                                 _formField(
                                     'وصف الملعب', Icons.description, false),
@@ -72,11 +72,11 @@ class _PlusCourtButtonState extends State<PlusCourtButton> {
         inputFormatters:
         (digits) ? [FilteringTextInputFormatter.digitsOnly] : null,
         decoration: InputDecoration(
-          focusColor: courtOwnerColor,
+          focusColor: mainSwatch,
           floatingLabelAlignment: FloatingLabelAlignment.center,
           labelText: label,
-          suffixIcon: Icon(icon, color: courtOwnerColor),
-          labelStyle: const TextStyle(color: courtOwnerColor),
+          suffixIcon: Icon(icon, color: mainSwatch),
+          labelStyle: TextStyle(color: mainSwatch),
           border: const UnderlineInputBorder(),
         ),
         validator: (input) =>
@@ -89,14 +89,14 @@ class _PlusCourtButtonState extends State<PlusCourtButton> {
         margin: const EdgeInsets.only(top: 10),
         child: ElevatedButton.icon(
           onPressed: _pickTimeCourt(beingPicked),
-          icon: const Icon(Icons.timer, color: courtOwnerColor),
+          icon: Icon(Icons.timer, color: mainSwatch),
           label: Text((beingPicked == 'Starting')
               ? 'اختر موعد فتح الملعب'
               : (beingPicked == 'Midday')
               ? 'اختر موعد بداية الساعات الليلية'
               : 'اختر موعد غلق الملعب'),
           style: ElevatedButton.styleFrom(
-              foregroundColor: courtOwnerColor,
+              foregroundColor: mainSwatch,
               backgroundColor: secondaryColor,
               padding:
               const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
@@ -176,7 +176,7 @@ class _PlusCourtButtonState extends State<PlusCourtButton> {
             label: const Text('حفظ'),
             icon: const Icon(Icons.schedule_send),
             style: ElevatedButton.styleFrom(
-                backgroundColor: courtOwnerColor,
+                backgroundColor: mainSwatch,
                 padding:
                 const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
             onPressed: () async {

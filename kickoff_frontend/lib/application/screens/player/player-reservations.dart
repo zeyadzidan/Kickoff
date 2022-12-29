@@ -62,7 +62,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(100),
-              color: courtOwnerColor.withOpacity(0.3)),
+              color: mainSwatch.withOpacity(0.3)),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Container(
@@ -96,7 +96,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
         selectedIndex: _getSelectedState(),
         onTabChange: _select,
         duration: const Duration(seconds: 1),
-        color: playerColor,
+        color: mainSwatch,
         activeColor: secondaryColor,
         tabBackgroundColor: Colors.black.withAlpha(25),
       );
@@ -134,7 +134,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
             child: ExpansionPanelList(
               animationDuration: const Duration(milliseconds: 300),
               expandedHeaderPadding: EdgeInsets.zero,
-              dividerColor: playerColor,
+              dividerColor: mainSwatch,
               elevation: 4,
               children: List<ExpansionPanel>.generate(
                   PlayerReservationsHome._reservations.length,
@@ -183,7 +183,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
             : _getResult(index).names[0]!),
         icon: const Icon(Icons.add_a_photo),
         style: ElevatedButton.styleFrom(
-            backgroundColor: courtOwnerColor,
+            backgroundColor: mainSwatch,
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
         onPressed: () async {
           _setResult(
@@ -204,7 +204,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
           label: const Text('Send Receipt'),
           icon: const Icon(Icons.schedule_send),
           style: ElevatedButton.styleFrom(
-              backgroundColor: playerColor,
+              backgroundColor: mainSwatch,
               padding:
                   const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
           onPressed: () async {

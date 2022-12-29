@@ -107,7 +107,7 @@ class RoundedButton extends State<SignUpButton> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: courtOwnerColor,
+          color: mainSwatch,
         ),
         padding: EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,

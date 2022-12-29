@@ -103,7 +103,7 @@ class RoundedLogin extends State<LoginButtonCourtOwner> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: courtOwnerColor,
+          color: mainSwatch,
           boxShadow: const <BoxShadow>[
             BoxShadow(
               color: Colors.black,

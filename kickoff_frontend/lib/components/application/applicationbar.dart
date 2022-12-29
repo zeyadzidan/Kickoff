@@ -38,7 +38,7 @@ class KickoffAppBar {
         },
       ),
     ],
-    backgroundColor: playerColor,
+    backgroundColor: mainSwatch,
   )
   :AppBar(
     leading: const Icon(Icons.sports_soccer),
@@ -62,6 +62,6 @@ class KickoffAppBar {
         },
       ),
     ],
-    backgroundColor: courtOwnerColor,
+    backgroundColor: mainSwatch,
   );
 }

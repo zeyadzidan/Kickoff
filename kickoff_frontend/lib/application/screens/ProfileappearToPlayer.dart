@@ -76,15 +76,15 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            boxShadow: const <BoxShadow>[
+                            boxShadow: <BoxShadow>[
                               BoxShadow(
-                                color: playerColor,
+                                color: mainSwatch,
                                 blurRadius: 3,
                               ),
                             ],
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(5),
-                            color: playerColor.shade100),
+                            color: mainSwatch.shade100),
                         child: Column(
                           children: [
                             Container(
@@ -97,7 +97,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                   children: [
                                     CircleAvatar(
                                       radius: 40,
-                                      backgroundColor: playerColor,
+                                      backgroundColor: mainSwatch,
                                       child: foundPhoto
                                           ? ClipOval(
                                               child: CachedNetworkImage(
@@ -217,9 +217,9 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                         label:const Text("Unsubscribe"),
                                         icon: const Icon(Icons.add),
                                         style: OutlinedButton.styleFrom(
-                                          foregroundColor: playerColor,
+                                          foregroundColor: mainSwatch,
                                           backgroundColor: Colors.white.withAlpha(70),
-                                          side: BorderSide(color: playerColor),
+                                          side: BorderSide(color: mainSwatch),
                                           fixedSize: Size(150, 25),
                                         ),
 
@@ -291,77 +291,38 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
     );
   }
 
-  _buildNavBar() => Container(
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-      decoration: BoxDecoration(
-          boxShadow: const <BoxShadow>[
-            BoxShadow(
-              color: courtOwnerColor,
-              blurRadius: 3,
-            ),
-          ],
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(100),
-          color: courtOwnerColor.shade100),
-      margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-      child: GNav(
-          gap: 5,
-          activeColor: Colors.white,
-          color: courtOwnerColor,
-          tabBackgroundColor: Colors.black.withAlpha(25),
-          duration: const Duration(milliseconds: 300),
-          tabs: const <GButton>[
-            GButton(
-              backgroundColor: courtOwnerColor,
-              text: "الملف الشخصي",
-              icon: Icons.person,
-            ),
-            GButton(
-              backgroundColor: courtOwnerColor,
-              text: "الإعلانات",
-              icon: Icons.announcement,
-            ),
-            GButton(
-              backgroundColor: courtOwnerColor,
-              text: "الحجوزات",
-              icon: Icons.stadium,
-            ),
-          ],
-          selectedIndex: ProfileBaseScreenPlayer._selectedPage,
-          onTabChange: KickoffApplication.onTapSelect));
-
   _buildPlayerNavBar() => Container(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       decoration: BoxDecoration(
-          boxShadow: const <BoxShadow>[
+          boxShadow: <BoxShadow>[
             BoxShadow(
-              color: playerColor,
+              color: mainSwatch,
               blurRadius: 3,
             ),
           ],
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(100),
-          color: playerColor.shade100),
+          color: mainSwatch.shade100),
       margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
       child: GNav(
           gap: 5,
           activeColor: Colors.white,
-          color: playerColor,
+          color: mainSwatch,
           tabBackgroundColor: Colors.black.withAlpha(25),
           duration: const Duration(milliseconds: 300),
-          tabs: const <GButton>[
+          tabs: <GButton>[
             GButton(
-              backgroundColor: playerColor,
+              backgroundColor: mainSwatch,
               text: "Profile",
               icon: Icons.person,
             ),
             GButton(
-              backgroundColor: playerColor,
+              backgroundColor: mainSwatch,
               text: "News Feed",
               icon: Icons.new_releases_sharp,
             ),
             GButton(
-              backgroundColor: playerColor,
+              backgroundColor: mainSwatch,
               text: "Reservations",
               icon: Icons.stadium,
             ),
