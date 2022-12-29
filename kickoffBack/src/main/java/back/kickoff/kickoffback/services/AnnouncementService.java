@@ -16,6 +16,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,7 +52,8 @@ public class AnnouncementService {
             throw  new Exception("");
         }
         newAnnouncement.setDate(date);
-        Time time = new Time(System.currentTimeMillis()) ;
+        LocalTime lt = LocalTime.now() ;
+        Time time =  Time.valueOf (lt) ;
         newAnnouncement.setTime(time);
 
         newAnnouncement.setCourtOwner(courtOwner);

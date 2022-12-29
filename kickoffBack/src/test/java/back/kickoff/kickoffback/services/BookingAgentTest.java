@@ -49,7 +49,7 @@ class BookingAgentTest {
 
         scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository) ;
     }
-
+/*
     @Test
     void book() throws JSONException {
         HashMap<String, Object> hm = new HashMap<>();
@@ -144,4 +144,6 @@ class BookingAgentTest {
         String res = bookingAgent.setPending(information);
         assertEquals(res, "Success");
     }
+
+ */
 }

@@ -18,7 +18,7 @@ class FrontEndReservation{
     Long id;
     Long playerID;
     String playerName;
-    Player mainPlayer;
+    //Player mainPlayer;
     Long courtID;
     Long courtOwnerID;
     Date startDate ;
@@ -28,13 +28,13 @@ class FrontEndReservation{
     ReservationState state;
     int moneyPayed ;
     int totalCost ;
-    Set<Player> players;
+    //Set<Player> players;
 
     public FrontEndReservation(Reservation reservation){
         this.id = reservation.getId();
         this.playerID = reservation.getMainPlayer().getId();
         this.playerName = reservation.getMainPlayer().getName();
-        this.mainPlayer = reservation.getMainPlayer();
+        //this.mainPlayer = reservation.getMainPlayer();
         this.courtID = reservation.getCourtID();
         this.courtOwnerID = reservation.getCourtOwnerID();
         this.startDate = reservation.getStartDate();
@@ -44,6 +44,6 @@ class FrontEndReservation{
         this.state = reservation.getState();
         this.moneyPayed = reservation.getMoneyPayed();
         this.totalCost = reservation.getTotalCost();
-        this.players = reservation.getPlayers();
+        //this.players = reservation.getPlayers();
     }
 }

@@ -34,7 +34,7 @@ class ScheduleAgentTest {
         MockitoAnnotations.openMocks(this);
         scheduleAgent = new ScheduleAgent(sr, rr);
     }
-
+/*
     Reservation createPending(Date stDate, Date endDate){
         Player player = new Player();
         player.setName("Abdelrahman Gad");
@@ -121,5 +121,5 @@ class ScheduleAgentTest {
         assertFalse(scheduleAgent.checkPendingConstraint(pending));
 
     }
-
+*/
 }

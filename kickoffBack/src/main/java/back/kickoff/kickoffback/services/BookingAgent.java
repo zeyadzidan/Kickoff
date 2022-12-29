@@ -16,6 +16,7 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -126,27 +127,34 @@ public class BookingAgent {
         //check
         CourtSchedule courtSchedule = court.getCourtSchedule();
         ScheduleAgent scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository);
-        DateTime startWorking = new DateTime(command.getStDate(), courtSchedule.getStartWorkingHours()) ;
+
+        LocalDate stDate = command.getStDate().toLocalDate() ;
+        LocalDate endDate = command.getEndDate().toLocalDate();
+        LocalTime timeFrom = command.getTimeFrom().toLocalTime() ;
+        LocalTime timeTo = command.getTimeTo().toLocalTime() ;
+
+        DateTime startWorking = new DateTime(stDate, courtSchedule.getStartWorkingHours().toLocalTime()) ;
         DateTime endWorking ;
         if(courtSchedule.getStartWorkingHours().after(courtSchedule.getEndWorkingHours())){
-            Date temp = new Date(command.getStDate().getTime() + (1000 * 60 * 60 * 24)) ;
-            endWorking = new DateTime(temp,courtSchedule.getEndWorkingHours()) ;
+            LocalDate temp = stDate ;
+            temp = temp.plusDays(1L) ;
+            endWorking = new DateTime(temp,courtSchedule.getEndWorkingHours().toLocalTime()) ;
         }else{
-            endWorking = new DateTime(command.getStDate(),courtSchedule.getEndWorkingHours()) ;
+            endWorking = new DateTime(stDate,courtSchedule.getEndWorkingHours().toLocalTime()) ;
         }
-        DateTime from = new DateTime(command.getStDate(), command.getTimeFrom());
-        DateTime to = new DateTime(command.getEndDate(), command.getTimeTo());
+        DateTime from = new DateTime(stDate, timeFrom);
+        DateTime to = new DateTime(endDate, timeTo);
 
-        DateTime now = new DateTime(new Date(System.currentTimeMillis()), new Time(System.currentTimeMillis()));
+        LocalDateTime now = LocalDateTime.now() ;
         System.out.println("now " + now.toString());
         System.out.println("from " + from.toString());
         System.out.println("to " + to.toString());
-        System.out.println("compare " + from.compareTo(now) + " " + to.compareTo(now) + " " + to.compareTo(from));
+        System.out.println("compare " + from.dateTime.compareTo(now) + " " + to.dateTime.compareTo(now) + " " + to.compareTo(from));
 
-        //if(from.compareTo(now)<=0 || to.compareTo(now)<=0 ){
-        //    return "Invalid date3 date in the past" ;
-        //}
         //checks
+        if(from.dateTime.compareTo(now)<=0 || to.dateTime.compareTo(now)<=0 ){
+            throw new Exception("Invalid date3 date in the past") ;
+        }
 
         int c = to.compareTo(from);
         if (c <= 0) {
@@ -159,14 +167,14 @@ public class BookingAgent {
         if (from.compareTo(startWorking) < 0 || to.compareTo(endWorking) > 0)
             throw new Exception("In that time the court is closed");
 
-        List<Reservation> oldReservation = scheduleAgent.getScheduleOverlapped(command.getStDate(), command.getEndDate(),
-                command.getTimeFrom(), command.getTimeTo(), courtSchedule, "");
+        List<Reservation> oldReservation = scheduleAgent.getScheduleOverlapped(stDate, endDate, timeFrom, timeTo,
+                courtSchedule, "");
         if (!oldReservation.isEmpty())
             throw new Exception("that time have reservation") ;
 
         Reservation reservation = new Reservation(command.getPlayer(), command.getCourtId(), command.getCourtOwnerId(), command.getStDate(),
                 command.getEndDate(), command.getTimeFrom(), command.getTimeTo(), ReservationState.Pending, 0,
-                reservationService.calcTotalCost(command.getStDate(), command.getEndDate(), command.getTimeFrom(), command.getTimeTo(), courtOptional.get()));
+                reservationService.calcTotalCost(stDate, endDate, timeFrom, timeTo, courtOptional.get()));
         command.getPlayer().getReservations().add(reservation);
 
         reservationRepository.save(reservation);
@@ -185,8 +193,8 @@ public class BookingAgent {
 
         @Override
         public int compare(Reservation o1, Reservation o2) {
-            DateTime stR1 = new DateTime(o1.getStartDate(), o1.getTimeFrom());
-            DateTime stR2 = new DateTime(o2.getStartDate(), o2.getTimeFrom());
+            LocalDateTime stR1 = LocalDateTime.of(o1.getStartDate().toLocalDate(), o1.getTimeFrom().toLocalTime());
+            LocalDateTime stR2 = LocalDateTime.of(o2.getStartDate().toLocalDate(), o2.getTimeFrom().toLocalTime());
             return (ascending) ? stR1.compareTo(stR2) : stR2.compareTo(stR1);
         }
     }
@@ -225,25 +233,38 @@ public class BookingAgent {
         }
 
         ScheduleAgent scheduleAgent = new ScheduleAgent(scheduleRepository, reservationRepository);
-        Date endDate = command.getDate();
-        if (court.getCourtSchedule().getEndWorkingHours().before(court.getCourtSchedule().getStartWorkingHours())) {
-            endDate = new Date(command.getDate().getTime() + (1000 * 60 * 60 * 24));
+
+        LocalTime swh = court.getCourtSchedule().getStartWorkingHours().toLocalTime() ;
+        LocalTime ewh = court.getCourtSchedule().getEndWorkingHours().toLocalTime() ;
+        LocalDate stDate = command.getDate().toLocalDate() ;
+        LocalDate endDate = command.getDate().toLocalDate();
+        if (ewh.isBefore(swh)) {
+            endDate = endDate.plusDays(1L);
         }
+
+        System.out.println(swh.toString());
+        System.out.println(ewh.toString());
+        System.out.println(stDate.toString());
+        System.out.println(endDate.toString());
 
         System.out.println(command.getFilter());
 
         List<Reservation> reservations;
-        if(!command.getFilter().equals("")){
-            reservations = scheduleAgent.getAllOverlapped(command.getDate(), endDate, court.getCourtSchedule().getStartWorkingHours(),
-                    court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule());
+        System.out.println("aaaaaaaaaaaaaaaaa");
+
+        if(command.getFilter().equals("")){
+            System.out.println("1");
+
+            reservations = scheduleAgent.getScheduleOverlapped(stDate, endDate, swh, ewh, court.getCourtSchedule(), "");
 
         }else if(!command.getFilter().equals("Expired")){
-        reservations = scheduleAgent.getScheduleOverlapped(command.getDate(), endDate, court.getCourtSchedule().getStartWorkingHours(),
-                court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule(), command.getFilter());
+            System.out.println("2");
+            reservations = scheduleAgent.getScheduleOverlapped(stDate, endDate, swh, ewh, court.getCourtSchedule(), command.getFilter());
         }else {
-            reservations = scheduleAgent.getExpiredOverlapped(command.getDate(), endDate, court.getCourtSchedule().getStartWorkingHours(),
-                    court.getCourtSchedule().getEndWorkingHours(), court.getCourtSchedule());
+            System.out.println("3");
+            reservations = scheduleAgent.getExpiredOverlapped(stDate, endDate, swh, ewh, court.getCourtSchedule());
         }
+        System.out.println(reservations.toString());
 
         reservations.sort(new ReservationComparator(command.isAscending()));
 
