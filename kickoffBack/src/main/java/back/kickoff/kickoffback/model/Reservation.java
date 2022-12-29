@@ -29,8 +29,8 @@ public class Reservation {
     Set<LitePlayer> playersID = new HashSet<>();
 */
 
-    Long pid;
-    String pname;
+    @ManyToOne(fetch = FetchType.EAGER)
+    Player mainPlayer;
     Long courtID;
     Long courtOwnerID;
     Date startDate;
@@ -51,10 +51,9 @@ public class Reservation {
 
 
 
-    public Reservation(Long pid, String pname, Long courtID, Long courtOwnerID, Date startDate, Date endDate, Time timeFrom,
+    public Reservation(Player mainPlayer, Long courtID, Long courtOwnerID, Date startDate, Date endDate, Time timeFrom,
                        Time timeTo, ReservationState state, int moneyPayed, int totalCost) {
-        this.pid = pid;
-        this.pname = pname;
+        this.mainPlayer = mainPlayer ;
         this.courtID = courtID;
         this.courtOwnerID = courtOwnerID;
         this.startDate = startDate;
@@ -66,6 +65,8 @@ public class Reservation {
         this.totalCost = totalCost;
         this.dateReserved = new Date(System.currentTimeMillis());
         this.timeReserved = new Time(System.currentTimeMillis());
+
+
     }
 }
 
