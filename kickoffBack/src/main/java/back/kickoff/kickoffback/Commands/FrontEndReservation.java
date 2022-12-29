@@ -28,6 +28,7 @@ class FrontEndReservation{
     ReservationState state;
     int moneyPayed ;
     int totalCost ;
+    String receiptUrl;
     //Set<Player> players;
 
     public FrontEndReservation(Reservation reservation){
@@ -44,6 +45,7 @@ class FrontEndReservation{
         this.state = reservation.getState();
         this.moneyPayed = reservation.getMoneyPayed();
         this.totalCost = reservation.getTotalCost();
+        this.receiptUrl = reservation.getReceiptUrl();
         //this.players = reservation.getPlayers();
     }
 }
