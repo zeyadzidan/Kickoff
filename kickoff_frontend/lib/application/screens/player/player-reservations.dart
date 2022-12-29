@@ -123,7 +123,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
             ? 'Pending'
             : (index == 2)
                 ? 'Expired'
-                : 'Awaiting Confirmation');
+                : 'Awaiting');
     await PlayerReservationsHome._buildReservations();
     setState(() {});
   }

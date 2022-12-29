@@ -14,7 +14,7 @@ class RoundedPasswordSignupPlayer extends State<PasswordInputSignupPlayer> {
   @override
   Widget build(BuildContext context) {
     return InputContainer(
-      color: Colors.green,
+      color: mainSwatch,
         child: TextField(
           cursorColor: mainSwatch,
           controller: Password,

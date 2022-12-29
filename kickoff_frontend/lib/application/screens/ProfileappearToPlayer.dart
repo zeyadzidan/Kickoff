@@ -202,8 +202,8 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                         label:const Text("Subscribe"),
                                         icon: const Icon(Icons.add),
                                         style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.green,
-                                            fixedSize: Size(150, 25),
+                                            backgroundColor: mainSwatch,
+                                            fixedSize: const Size(150, 25),
                                         ),
                                         onPressed: () {
                                           SubscriptionHTTPsHandler.subscribe(KickoffApplication.playerId,KickoffApplication.ownerId);

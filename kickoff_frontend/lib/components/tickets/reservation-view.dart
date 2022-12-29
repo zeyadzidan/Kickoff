@@ -177,9 +177,6 @@ class _ReservationsViewState extends State<ReservationsView> {
                                                 CircularProgressIndicator(
                                                     value: downloadProgress
                                                         .progress),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    const Icon(Icons.error),
                                           )
                                         : Container(
                                             height: 0,
@@ -201,7 +198,7 @@ class _ReservationsViewState extends State<ReservationsView> {
                                               icon: const Icon(
                                                   Icons.schedule_send),
                                               style: ElevatedButton.styleFrom(
-                                                  backgroundColor: Colors.green,
+                                                  backgroundColor: mainSwatch,
                                                   padding: const EdgeInsets
                                                           .symmetric(
                                                       vertical: 20,

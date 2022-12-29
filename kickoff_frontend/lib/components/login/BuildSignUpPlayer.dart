@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/components/login/SignUpRequestPlayer.dart';
+import 'package:kickoff_frontend/constants.dart';
 
 import 'EmailSignUP.dart';
-import 'PasswordLogin.dart';
-import 'PasswordSignUp.dart';
 import 'PasswordSignUpPlayer.dart';
 import 'PhoneNumberSignUp.dart';
 import 'SignUpLocation.dart';
-import 'SignUpRequest.dart';
 import 'SignUpUserName.dart';
 
 class RegisterFormPlayer extends StatelessWidget {
@@ -51,16 +49,26 @@ class RegisterFormPlayer extends StatelessWidget {
                       height: 175,
                       width: 175,
                       child:
-                      Image(image: AssetImage('assets/images/pic4.PNG'))),
+                          Image(image: AssetImage('assets/images/pic4.PNG'))),
                   SizedBox(height: 40),
-                  RoundedInput(icon: Icons.mail,color: Colors.green, hint: 'Email Address'),
-                  RoundedInputUsername(icon: Icons.face_rounded,color: Colors.green, hint: 'Name'),
+                  RoundedInput(
+                      icon: Icons.mail,
+                      color: mainSwatch,
+                      hint: 'Email Address'),
+                  RoundedInputUsername(
+                      icon: Icons.face_rounded,
+                      color: mainSwatch,
+                      hint: 'Name'),
                   PasswordInputSignupPlayer(),
-                  RoundedPhoneNumber(icon: Icons.phone,color: Colors.green, hint: 'Phone Number'),
+                  RoundedPhoneNumber(
+                      icon: Icons.phone,
+                      color: mainSwatch,
+                      hint: 'Phone Number'),
                   Container(
                     height: 450,
                     width: size.width * 0.8,
-                    child: FindLocation(title: 'Choose Location',color: Colors.green),
+                    child: FindLocation(
+                        title: 'Choose Location', color: mainSwatch),
                   ),
                   SizedBox(height: 30),
                   SignUpButtonPlayer(),
