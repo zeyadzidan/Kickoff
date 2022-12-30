@@ -4,12 +4,17 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class Ratings extends StatefulWidget {
   Ratings({super.key});
-
   @override
   State<Ratings> createState() => _RatingsState();
 }
 
 class _RatingsState extends State<Ratings> {
+  List<dynamic> displayList = [
+    {"stars": 4, "review": "The cour is ver good", "player": "7amo"},
+    {"stars": 2, "review": "The cour is ver good", "player": "7amo"},
+    {"stars": 5, "review": "", "player": "7amo"},
+    {"stars": 1, "review": "The cour is ver good", "player": "7amo"}
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,31 +23,39 @@ class _RatingsState extends State<Ratings> {
           backgroundColor: playerColor,
           centerTitle: true,
         ),
-      body: SingleChildScrollView(
-        child: Column(
+      body: Container(
+        padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
+        child:Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 180,
-              color: Colors.yellow,
+            const SizedBox(
+              height: 5.0,
             ),
-            Container(
-              height: 180,
-              color: Colors.red,
-            ),
-            Container(
-              height: 180,
-              color: Colors.greenAccent,
-            ),
-            Container(
-              height: 180,
-              color: Colors.orangeAccent,
-            ),
-            Container(
-              height: 180,
-              color: Colors.blue,
+            // SizedBox(height: 10.0,),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: displayList.length ,
+                  itemBuilder: (context,index)=> Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+
+                    child: ListTile(
+                      title: Text("${displayList[index]["player"].toString()}",style: TextStyle(color: Colors.green,fontWeight: FontWeight.bold,),
+                      ),
+                      onTap: ()
+                      {
+                        print("Review");
+                      },
+                      subtitle: Text("${displayList[index]["review"].toString()}", style: TextStyle(color: Colors.black,),
+                      ),
+                      trailing: Text("${displayList[index]["stars"].toString()} \u{2B50}",style: TextStyle(color: Colors.green),
+                      ),
+                    ),
+                  )
+              ),
             ),
           ],
-        ),
+        ) ,
       ),
         floatingActionButton:  FloatingActionButton(
             onPressed: () => showModalBottomSheet(
@@ -56,6 +69,7 @@ class _RatingsState extends State<Ratings> {
                         physics: const ScrollPhysics(),
                         child: Column(
                           children: [
+                            const SizedBox(height: 10),
                             RatingBar.builder(
                               initialRating: 0,
                               itemSize: 40,
@@ -88,7 +102,21 @@ class _RatingsState extends State<Ratings> {
                                           borderSide: BorderSide(color: Colors.green),
                                         ))
                                 )
+                            ),
+                            Container(
+                             margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green
+                                ),
+                                onPressed: () {
+                                  print("Submit");
+                                },
+                                child: const Text('Submit',
+                                style: TextStyle(fontWeight: FontWeight.bold),),
+                              ),
                             )
+
                           ],
                         ),
                       ),
