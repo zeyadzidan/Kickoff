@@ -29,7 +29,7 @@ class AnnouncmentFrontend {
         this.cni = announcement.getImg();
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         date = dateFormat.format(announcement.getDate());
-        this.time = announcement.getTime().toString();
+        this.time = announcement.getTime().toLocalTime().toString();
         this.courtPic = announcement.getCourtOwner().getImage() ;
         this.name = announcement.getCourtOwner().getUserName();
     }

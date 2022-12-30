@@ -93,7 +93,7 @@ class postbutton extends State<PlusAnnouncementButton3> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 6.0),
-                                child: Text(AnnouncementsHome.announcements[index].date,
+                                child: Text("${AnnouncementsHome.announcements[index].time} ${AnnouncementsHome.announcements[index].date}",
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: Colors.black.withAlpha(100),

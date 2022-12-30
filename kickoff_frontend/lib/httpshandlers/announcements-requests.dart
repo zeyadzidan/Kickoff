@@ -43,7 +43,7 @@ class AnnouncementHTTPsHandler {
         announcement.Pimg = map['courtPic'].toString();
       }
       announcement.date = map['date'].toString();
-      // announcement.time = map['time'].toString();
+      announcement.time = map['time'].toString().substring(0,(map['time'].toString().lastIndexOf(":")));
       announcement.name = map['name'].toString();
       announcements.add(announcement);
     }
@@ -69,6 +69,7 @@ class AnnouncementHTTPsHandler {
         announcement.Pimg = map['courtPic'].toString();
       }
       announcement.date = map['date'].toString();
+      announcement.time = map['time'].toString().substring(0,(map['time'].toString().lastIndexOf(":")));
       announcement.name = map['name'].toString();
       announcements.add(announcement);
     }
