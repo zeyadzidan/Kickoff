@@ -101,7 +101,7 @@ class BookingAgentTest {
         courtSchedule.setEndWorkingHours(Time.valueOf(LocalTime.of(23,0,0)));
         courtSchedule.setEndMorning(Time.valueOf(LocalTime.of(16,0,0)));
         courtSchedule.setMorningCost(150);
-        courtSchedule.setNightCost(400);
+        courtSchedule.setNightCost(200);
 
         court.setCourtSchedule(courtSchedule);
         court.setState(CourtState.Active);
