@@ -50,6 +50,7 @@ class _RatingsState extends State<Ratings> {
                 context: context,
                 builder: (context) =>
                     SingleChildScrollView(
+                      physics: const ScrollPhysics(),
                       child: Column(
                         children: [
                           RatingBar.builder(
@@ -74,11 +75,11 @@ class _RatingsState extends State<Ratings> {
                               child: const TextField(
                                   keyboardType: TextInputType.multiline,
                                   maxLines: 3,
-                                  cursorColor: Colors.grey,
+                                  cursorColor: Colors.green,
                                   maxLength: 255,
                                   decoration: InputDecoration(
                                       enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.yellow),
+                                        borderSide: BorderSide(color: Colors.grey),
                                       ),
                                       focusedBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(color: Colors.green),
