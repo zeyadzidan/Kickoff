@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/login/SignUpRequestPlayer.dart';
-import 'package:kickoff_frontend/constants.dart';
 
-import 'EmailSignUP.dart';
-import 'PasswordSignUpPlayer.dart';
-import 'PhoneNumberSignUp.dart';
-import 'SignUpLocation.dart';
-import 'SignUpUserName.dart';
+import 'package:kickoff_frontend/httpshandlers/SignUpRequestPlayer.dart';
 
-class RegisterFormPlayer extends StatelessWidget {
-  const RegisterFormPlayer({
+import 'Email.dart';
+import 'PasswordPlayer.dart';
+import 'PhoneNumber.dart';
+import 'Location.dart';
+import 'UserName.dart';
+
+class BuildRegisterFormPlayer extends StatelessWidget {
+  const BuildRegisterFormPlayer({
     Key? key,
     required this.isLogin,
     required this.animationDuration,
@@ -51,24 +51,14 @@ class RegisterFormPlayer extends StatelessWidget {
                       child:
                           Image(image: AssetImage('assets/images/pic4.PNG'))),
                   SizedBox(height: 40),
-                  RoundedInput(
-                      icon: Icons.mail,
-                      color: mainSwatch,
-                      hint: 'Email Address'),
-                  RoundedInputUsername(
-                      icon: Icons.face_rounded,
-                      color: mainSwatch,
-                      hint: 'Name'),
-                  PasswordInputSignupPlayer(),
-                  RoundedPhoneNumber(
-                      icon: Icons.phone,
-                      color: mainSwatch,
-                      hint: 'Phone Number'),
+                  BuildEmailSignUp(icon: Icons.mail,color: Colors.green, hint: 'Email Address'),
+                  UsernameSignUp(icon: Icons.face_rounded,color: Colors.green, hint: 'Name'),
+                  PasswordSignupPlayer(),
+                  PhoneNumberSignUp(icon: Icons.phone,color: Colors.green, hint: 'Phone Number'),
                   Container(
                     height: 450,
                     width: size.width * 0.8,
-                    child: FindLocation(
-                        title: 'Choose Location', color: mainSwatch),
+                    child: BuildLocation(title: 'Choose Location',color: Colors.green,x: 31.2160786,y: 29.9469253),
                   ),
                   SizedBox(height: 30),
                   SignUpButtonPlayer(),
