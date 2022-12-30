@@ -93,7 +93,7 @@ class PenaltyServiceTest {
 
         assertTrue(res);
         assertTrue(player.isRestricted());
-        assertEquals(player.getPenaltyDays(),7-5 + Math.ceil(7*6/5.0));
+        assertEquals(player.getPenaltyDays(),7-6 + Math.ceil(7*6/5.0));
     }
     @Test
     void checkAndAddRestrictionTest2() {
