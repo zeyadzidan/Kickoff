@@ -33,6 +33,12 @@ public class Player{
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER , mappedBy = "mainPlayer")
     private List<Reservation> reservations;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "playerCreated")
+    private List<Party> partiesCreated;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "playerJoined")
+    private List<Party> partiesJoined;
+
     public Player(String name, String email, String phoneNumber, String password, String location, Double xAxis, Double yAxis) {
         Name = name;
         this.email = email;

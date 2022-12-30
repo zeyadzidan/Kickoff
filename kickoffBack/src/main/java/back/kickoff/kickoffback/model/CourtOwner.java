@@ -34,6 +34,8 @@ public class CourtOwner {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courtOwner")
     private List<Announcement> announcements;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courtOwner")
+    private List<Party> parties;
 
     public CourtOwner(String userName, String email, String password, String phoneNumber,
                       Double xAxis, Double yAxis) {
