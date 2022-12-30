@@ -50,44 +50,47 @@ class _RatingsState extends State<Ratings> {
                 isScrollControlled: true,
                 context: context,
                 builder: (context) =>
-                    SingleChildScrollView(
-                      physics: const ScrollPhysics(),
-                      child: Column(
-                        children: [
-                          RatingBar.builder(
-                            initialRating: 0,
-                            itemSize: 40,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: false,
-                            itemCount: 5,
-                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => const Icon(
-                              Icons.star,
-                              color: Colors.green,
+                    Padding(
+                      padding: MediaQuery.of(context).viewInsets,
+                      child: SingleChildScrollView(
+                        physics: const ScrollPhysics(),
+                        child: Column(
+                          children: [
+                            RatingBar.builder(
+                              initialRating: 0,
+                              itemSize: 40,
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: false,
+                              itemCount: 5,
+                              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: Colors.green,
+                              ),
+                              onRatingUpdate: (rating) {
+                                print(rating);
+                              },
                             ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
-                          ),
-                          Container(
-                              width: 500,
-                              margin: EdgeInsets.fromLTRB(20.0, 20.0, 40.0, 50.0),
-                              child: const TextField(
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: 3,
-                                  cursorColor: Colors.green,
-                                  maxLength: 255,
-                                  decoration: InputDecoration(
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.grey),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.green),
-                                      ))
-                              )
-                          )
-                        ],
+                            Container(
+                                width: 500,
+                                margin: EdgeInsets.fromLTRB(20.0, 20.0, 40.0, 50.0),
+                                child: const TextField(
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: 3,
+                                    cursorColor: Colors.green,
+                                    maxLength: 255,
+                                    decoration: InputDecoration(
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.grey),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.green),
+                                        ))
+                                )
+                            )
+                          ],
+                        ),
                       ),
                     )
             ),
