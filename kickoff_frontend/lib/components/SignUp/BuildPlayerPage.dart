@@ -57,7 +57,7 @@ class BuildRegisterFormPlayer extends StatelessWidget {
                   Container(
                     height: 450,
                     width: size.width * 0.8,
-                    child: BuildLocation(title: 'Choose Location',color: Colors.green),
+                    child: BuildLocation(title: 'Choose Location',color: Colors.green,x: 31.2160786,y: 29.9469253),
                   ),
                   SizedBox(height: 30),
                   SignUpButtonPlayer(),

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:kickoff_frontend/application/screens/Account.dart';
 import 'package:kickoff_frontend/application/screens/ProfileappearToPlayer.dart';
 import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
@@ -72,6 +73,8 @@ class KickoffApplicationState extends State<KickoffApplication> {
         '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
         '/profilePlayer':(context)=>  ProfileBaseScreenPlayer(),
+        '/account' : (context) => Account(),
+        // '/search' : (context) => SearchScreen(),
         '/writepost':(context)=> Writing(),
         '/kickoff': (context) => Builder(
               builder: (context) => Scaffold(

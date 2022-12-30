@@ -6,9 +6,13 @@ class BuildLocation extends StatelessWidget {
     Key? key,
     required this.title,
     required this.color,
+    required this.x,
+    required this.y,
   }) : super(key: key);
   final String title;
   final Color color;
+  final double x;
+  final double y;
   static var Locationaddress;
   static var X_axis;
   static var Y_axis;

@@ -56,7 +56,7 @@ class BuildRegisterFormCourtOwner extends StatelessWidget {
                   Container(
                     height: 450,
                     width: size.width * 0.8,
-                    child: BuildLocation(title: 'اختر المكان',color: Colors.cyan),
+                    child: BuildLocation(title: 'اختر المكان',color: Colors.cyan,x: 31.2160786,y: 29.9469253),
                   ),
                   SizedBox(height: 30),
                   SignUpButton(),

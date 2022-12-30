@@ -15,7 +15,7 @@ class KickoffAppBar {
       icon: const Icon(Icons.person),
       tooltip: 'تعديل البيانات',
       onPressed: () async {
-        //to be implemented
+        Navigator.pushNamed(context, '/account');
       },
     ),
     elevation: 4,
