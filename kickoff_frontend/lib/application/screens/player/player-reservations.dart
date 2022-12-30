@@ -232,7 +232,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
           const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
       onPressed: () async {
         showModalBottomSheet(context: context,
-            builder: (context)=>makePartyButton());
+            builder: (context)=>makePartyButton(id: PlayerReservationsHome._reservations[index].ticketId));
         KickoffApplication.update();
       },
     ),

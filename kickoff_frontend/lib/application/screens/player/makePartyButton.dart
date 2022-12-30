@@ -9,10 +9,13 @@ import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/components/classes/announcement.dart';
 
 import '../../../constants.dart';
+import '../../../httpshandlers/Parties Requests.dart';
 
 class makePartyButton extends StatefulWidget {
-  const makePartyButton({super.key});
-
+  makePartyButton( {required id,super.key}){
+    ID = id;
+  }
+  static String ID="";
   @override
   State<StatefulWidget> createState() => _makePartyButtonState();
 }
@@ -37,7 +40,7 @@ class _makePartyButtonState extends State<makePartyButton> {
                                       color: mainSwatch , fontSize: 32 , fontWeight: FontWeight.bold,)),
                               _formField('Number of wanted players', Icons.person_add_sharp),
                               _formField('Number of all players', Icons.person),
-                              _submitButton()
+                              _submitButton(makePartyButton.ID)
                             ],
                           ),
                         ),
@@ -62,7 +65,7 @@ class _makePartyButtonState extends State<makePartyButton> {
         onSaved: (value) => textFields.add(value!),
       );
 
-  _submitButton() => Container(
+  _submitButton(id) => Container(
         alignment: Alignment.bottomCenter,
         margin: const EdgeInsets.only(top: 15),
         child: ElevatedButton.icon(
@@ -78,7 +81,10 @@ class _makePartyButtonState extends State<makePartyButton> {
                 return;
               }
               _key.currentState!.save();
-              //TODO : send create party request here
+              print(id);
+              print(textFields[0]);
+              print(textFields[1]);
+              PartiesHTTPsHandler.createParty(id,textFields[0],textFields[1]);
               Navigator.pop(context);
               KickoffApplication.update();
             }),
