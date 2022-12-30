@@ -28,9 +28,9 @@ public class SubscriberController {
     @PostMapping("/subscribe")
     public ResponseEntity<Boolean> subscribe(@RequestBody String request) {
         Subscription subscription = SubscriptionsCommands.constructSubscription(request);
-        return (subscriberService.subscribe(subscription))
-                ? new ResponseEntity<>(Boolean.TRUE, HttpStatus.CREATED)
-                : new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
+        if (subscriberService.subscribe(subscription))
+                return new ResponseEntity<>(Boolean.TRUE, HttpStatus.CREATED);
+        return new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/unsubscribe")
