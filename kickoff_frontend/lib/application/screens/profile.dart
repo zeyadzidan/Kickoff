@@ -67,15 +67,15 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
           children: [
             Container(
               decoration: BoxDecoration(
-                  boxShadow: const <BoxShadow>[
+                  boxShadow: <BoxShadow>[
                     BoxShadow(
-                      color: courtOwnerColor,
+                      color: mainSwatch,
                       blurRadius: 3,
                     ),
                   ],
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(5),
-                  color: courtOwnerColor.shade100),
+                  color: mainSwatch.shade100),
               child: Column(
                 children: [
                   Container(
@@ -88,7 +88,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                           if (foundPhoto) ...[
                             CircleAvatar(
                               radius: 40,
-                              backgroundColor: courtOwnerColor,
+                              backgroundColor: mainSwatch,
                               child: ClipOval(
                                 child: CachedNetworkImage(
                                   imageUrl: utl,
@@ -108,7 +108,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                             if (localPhoto) ...[
                               CircleAvatar(
                                   radius: 40,
-                                  backgroundColor: courtOwnerColor,
+                                  backgroundColor: mainSwatch,
                                   backgroundImage:
                                       Image.file(File(ProfileBaseScreen.path!))
                                           .image)
@@ -134,7 +134,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                                     });
                                   }
                                 },
-                                color: courtOwnerColor,
+                                color: mainSwatch,
                                 textColor: secondaryColor,
                                 padding: const EdgeInsets.all(20),
                                 shape: const CircleBorder(),

@@ -2,25 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/components/login/InputContainer.dart';
 import 'package:kickoff_frontend/constants.dart';
 
-class PasswordInput extends StatefulWidget {
+class Password_SignUp_CourtOwner extends StatefulWidget {
   @override
-  RoundedPasswordInput createState() => RoundedPasswordInput();
+  BuildPassword_CourtOwnerSignUp createState() => BuildPassword_CourtOwnerSignUp();
 }
 
-class RoundedPasswordInput extends State<PasswordInput> {
-
+class BuildPassword_CourtOwnerSignUp extends State<Password_SignUp_CourtOwner> {
   static TextEditingController Password = TextEditingController();
   var obsecuretext = true;
 
   @override
   Widget build(BuildContext context) {
-    return InputContainer(
+    return BuildContainer(
       color: Colors.cyan,
         child: TextField(
-      cursorColor: playerColor,
+      cursorColor: mainSwatch,
       controller: Password,
       decoration: InputDecoration(
-          icon: Icon(Icons.lock, color: courtOwnerColor),
+          icon: Icon(Icons.lock, color: mainSwatch),
           suffix: GestureDetector(
             onTap: () {
               setState(() {
@@ -29,7 +28,7 @@ class RoundedPasswordInput extends State<PasswordInput> {
             },
             child: Icon(obsecuretext ? Icons.visibility : Icons.visibility_off),
           ),
-          hintText: 'كلمه مرور',
+          hintText: 'كلمة المرور',
           border: InputBorder.none),
       obscureText: obsecuretext,
     ));

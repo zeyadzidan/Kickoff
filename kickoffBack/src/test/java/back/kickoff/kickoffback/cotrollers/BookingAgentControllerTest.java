@@ -19,7 +19,7 @@ class BookingAgentControllerTest {
     BookingAgentController bookingAgentController;
     @Mock
     BookingAgent bookingAgent;
-
+/*
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
@@ -66,4 +66,6 @@ class BookingAgentControllerTest {
         ResponseEntity<String> res = bookingAgentController.cancelPending(information);
         assertEquals(res, new ResponseEntity<>("Success", HttpStatus.OK));
     }
+
+ */
 }

@@ -26,17 +26,17 @@ class ReservationTest {
 
     }
 
-    @Test
-    void getMainPlayer() {
-        Long id = 22L ;
-        String name = "Gad" ;
-        Player player = new Player() ;
-        player.setName(name);
-        player.setId(id);
-
-        reservation.setMainPlayer(player);
-        assertEquals(player, reservation.getMainPlayer());
-    }
+//    @Test
+//    void getMainPlayer() {
+//        Long id = 22L ;
+//        String name = "Gad" ;
+//        Player player = new Player() ;
+//        player.setName(name);
+//        player.setId(id);
+//
+//
+//        assertEquals(player, reservation.getMainPlayer());
+//    }
 
     @Test
     void getCourtID() {

@@ -18,6 +18,7 @@ class ReservationServiceTest {
         reservationService = new ReservationService();
     }
 
+    /*
     @Test
     void calcTotalCost() {
         Time startWorkingHours = new Time(9, 0, 0);
@@ -36,4 +37,6 @@ class ReservationServiceTest {
 
         assertEquals(cost, 150 + 200);
     }
+
+     */
 }

@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/components/courts/CourtsInSearch.dart';
-import 'package:kickoff_frontend/components/login/EmailSignUP.dart';
-import 'package:kickoff_frontend/components/login/PasswordSignUpPlayer.dart';
-import 'package:kickoff_frontend/components/login/PhoneNumberSignUp.dart';
-import 'package:kickoff_frontend/components/login/SignUpLocation.dart';
-import 'package:kickoff_frontend/components/login/SignUpUserName.dart';
+import 'package:kickoff_frontend/components/SignUp/Email.dart';
+import 'package:kickoff_frontend/components/SignUp/PasswordPlayer.dart';
+import 'package:kickoff_frontend/components/SignUp/PhoneNumber.dart';
+import 'package:kickoff_frontend/components/SignUp/Location.dart';
+import 'package:kickoff_frontend/components/SignUp/UserName.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
-import '../../../components/login/PasswordSignUpPlayer.dart';
-import '../../application/screens/login.dart';
+import '../components/SignUp/PasswordPlayer.dart';
+import '../application/screens/BuildComponentsPlayer.dart';
 
 class SignUpButtonPlayer extends StatefulWidget {
   @override
@@ -34,8 +34,8 @@ class RoundedButton extends State<SignUpButtonPlayer> {
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "keyword":"",
-          "xAxis": FindLocation.X_axis,
-          "yAxis": FindLocation.Y_axis,
+          "xAxis": BuildLocation.X_axis,
+          "yAxis": BuildLocation.Y_axis,
         }));
     setState(() {
         print(res.body);
@@ -51,13 +51,13 @@ class RoundedButton extends State<SignUpButtonPlayer> {
     var res = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "email": RoundedInput.EmailSignUp.text.toLowerCase(),
-          "password": RoundedPasswordSignupPlayer.Password.text,
-          "name": RoundedInputUsername.username.text,
-          "phoneNumber": RoundedPhoneNumber.PhoneNumber.text,
-          "location": FindLocation.Locationaddress,
-          "xAxis": FindLocation.X_axis,
-          "yAxis": FindLocation.Y_axis,
+          "email": BuildEmailSignUp.EmailSignUp.text.toLowerCase(),
+          "password": BuildPasswordSignupPlayer.Password.text,
+          "name": UsernameSignUp.username.text,
+          "phoneNumber": PhoneNumberSignUp.PhoneNumber.text,
+          "location": BuildLocation.Locationaddress,
+          "xAxis": BuildLocation.X_axis,
+          "yAxis": BuildLocation.Y_axis,
         }));
     setState(() {
       if (res.body == "invalid") {
@@ -77,46 +77,46 @@ class RoundedButton extends State<SignUpButtonPlayer> {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () async {
-        var Email = RoundedInput.EmailSignUp.text;
-        var username = RoundedInputUsername.username.text;
-        var Password = RoundedPasswordSignupPlayer.Password.text;
-        var phoneNumber = RoundedPhoneNumber.PhoneNumber.text;
-        var Locationaddress = FindLocation.Locationaddress;
+        var Email = BuildEmailSignUp.EmailSignUp.text;
+        var username = UsernameSignUp.username.text;
+        var Password = BuildPasswordSignupPlayer.Password.text;
+        var phoneNumber = PhoneNumberSignUp.PhoneNumber.text;
+        var Locationaddress = BuildLocation.Locationaddress;
         if (Email.isEmpty) {
           showAlertDialog(context, 'Check your Email');
-          RoundedInput.EmailSignUp.clear();
+          BuildEmailSignUp.EmailSignUp.clear();
         } else if (username.isEmpty) {
           showAlertDialog(context, 'Name can not be emptyً');
-          RoundedInputUsername.username.clear();
+          UsernameSignUp.username.clear();
         } else if (phoneNumber.isEmpty || phoneNumber.length < 11) {
           showAlertDialog(context, 'Check your phone number');
-          RoundedPhoneNumber.PhoneNumber.clear();
+          PhoneNumberSignUp.PhoneNumber.clear();
         } else if (Locationaddress.toString() == 'null') {
           showAlertDialog(context, 'Check your Location');
         } else if (Password.length < 6 ||
             Password.length > 15 ||
             Password.isEmpty) {
           showAlertDialog(context, 'Check your password');
-          RoundedPasswordSignupPlayer.Password.clear();
+          BuildPasswordSignupPlayer.Password.clear();
         } else if (username.length < 3) {
           showAlertDialog(context, 'UserName cannot be less than 3');
-          RoundedInputUsername.username.clear();
+          UsernameSignUp.username.clear();
         } else {
           var res = await save();
           if (resp == "invalid") {
             showAlertDialog(context, 'Check your Email');
-            RoundedInput.EmailSignUp.clear();
+            BuildEmailSignUp.EmailSignUp.clear();
           } else if (resp == "Email exist") {
             showAlertDialog(context, 'Email Already Exist');
-            RoundedInput.EmailSignUp.clear();
+            BuildEmailSignUp.EmailSignUp.clear();
           } else {
             KickoffApplication.data = profileData;
-            localFile.writeLoginData(RoundedInput.EmailSignUp.text,
-                RoundedPasswordSignupPlayer.Password.text,"1");
-            RoundedInput.EmailSignUp.clear();
-            RoundedInputUsername.username.clear();
-            RoundedPhoneNumber.PhoneNumber.clear();
-            RoundedPasswordSignupPlayer.Password.clear();
+            localFile.writeLoginData(BuildEmailSignUp.EmailSignUp.text,
+                BuildPasswordSignupPlayer.Password.text,"1");
+            BuildEmailSignUp.EmailSignUp.clear();
+            UsernameSignUp.username.clear();
+            PhoneNumberSignUp.PhoneNumber.clear();
+            BuildPasswordSignupPlayer.Password.clear();
             // Navigator.of(context).push(MaterialPageRoute(
             //     builder: (context) =>
             //         KickoffApplication(profileData: profileData)));
@@ -132,7 +132,7 @@ class RoundedButton extends State<SignUpButtonPlayer> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: playerColor,
+          color: mainSwatch,
         ),
         padding: EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,

@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/profile.dart';
-import 'package:kickoff_frontend/components/login/EmailLogin.dart';
-import 'package:kickoff_frontend/components/login/PasswordLogin.dart';
+import 'package:kickoff_frontend/components/login/Email.dart';
+import 'package:kickoff_frontend/components/login/PasswordCourtOwner.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 
@@ -59,28 +59,28 @@ class RoundedLogin extends State<LoginButtonCourtOwner> {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () async {
-        var Email = RoundedInputLogin.EmailLogin.text;
-        var Password = RoundedPasswordInput.Password.text;
+        var Email = BuildLoginEmail.EmailLogin.text;
+        var Password = Build_Password_CourtOwner.Password.text;
         print(Password);
         if (Email.isEmpty) {
           showAlertDialog(context, 'بيانات حسابك فارغة');
-          RoundedInputLogin.EmailLogin.clear();
+          BuildLoginEmail.EmailLogin.clear();
         } else if (Password.length < 6 ||
             Password.length > 15 ||
             Password.isEmpty) {
           showAlertDialog(context,
               'خطأ بكلمة المرور. تأكد من ان عدد الحروف يقع ما بين 6 و 15 حرفاً.');
-          RoundedPasswordInput.Password.clear();
+          Build_Password_CourtOwner.Password.clear();
         } else {
-          await save(RoundedInputLogin.EmailLogin.text,
-              RoundedPasswordInput.Password.text);
+          await save(BuildLoginEmail.EmailLogin.text,
+              Build_Password_CourtOwner.Password.text);
           if (profileData.isEmpty) {
             showAlertDialog(context, 'تأكد من بيانات حسابك');
-            RoundedInputLogin.EmailLogin.clear();
+            BuildLoginEmail.EmailLogin.clear();
           } else if (profileData.length == 4) {
             showAlertDialog(
                 context, 'خطأ بكلمة المرور (غير مسموح بأقل من 4 حروف)');
-            RoundedPasswordInput.Password.clear();
+            Build_Password_CourtOwner.Password.clear();
           } else {
             print(profileData);
             KickoffApplication.data = profileData;
@@ -89,10 +89,10 @@ class RoundedLogin extends State<LoginButtonCourtOwner> {
                 await CourtsHTTPsHandler.getCourts(KickoffApplication.ownerId);
             await ReservationsHome.buildTickets();
             await AnnouncementsHome.buildAnnouncements();
-            localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
-                RoundedPasswordInput.Password.text,"0");
-            RoundedPasswordInput.Password.clear();
-            RoundedInputLogin.EmailLogin.clear();
+            localFile.writeLoginData(BuildLoginEmail.EmailLogin.text,
+                Build_Password_CourtOwner.Password.text,"0");
+            Build_Password_CourtOwner.Password.clear();
+            BuildLoginEmail.EmailLogin.clear();
             KickoffApplication.player=false;
             Navigator.popAndPushNamed(context, '/kickoff');
           }
@@ -103,7 +103,7 @@ class RoundedLogin extends State<LoginButtonCourtOwner> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: courtOwnerColor,
+          color: mainSwatch,
           boxShadow: const <BoxShadow>[
             BoxShadow(
               color: Colors.black,

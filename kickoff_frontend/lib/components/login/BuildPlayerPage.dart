@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/components/login/PasswordPlayer.dart';
 import 'package:kickoff_frontend/httpshandlers/loginrequestsplayer.dart';
+import 'Email.dart';
 
-import '../../httpshandlers/loginrequests.dart';
-import 'EmailLogin.dart';
-import 'PasswordLogin.dart';
 
-class LoginFormPlayer extends StatelessWidget {
-  const LoginFormPlayer({
+class BuildLoginFormPlayer extends StatelessWidget {
+  const BuildLoginFormPlayer({
     Key? key,
     required this.isLogin,
     required this.animationDuration,
@@ -46,8 +44,8 @@ class LoginFormPlayer extends StatelessWidget {
                     child: const Image(
                         image: AssetImage('assets/images/player.png'))),
                 SizedBox(height: 40),
-                RoundedInputLogin(icon: Icons.mail,color: Colors.green, hint: 'Email Address'),
-                PasswordInputPlayer(),
+                BuildLoginEmail(icon: Icons.mail,color: Colors.green, hint: 'Email Address'),
+                PasswordLoginPlayer(),
                 SizedBox(height: 10),
                 LoginButtonPlayer(),
                 SizedBox(height: 10),

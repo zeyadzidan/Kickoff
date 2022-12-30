@@ -5,7 +5,7 @@ import 'package:kickoff_frontend/localFile.dart';
 
 import '../../constants.dart';
 import '../../httpshandlers/courtsrequests.dart';
-import '../../httpshandlers/loginrequests.dart' as cLogin;
+import '../../httpshandlers/loginrequestsCourtOwner.dart' as cLogin;
 import '../../httpshandlers/loginrequestsplayer.dart' as pLogin;
 import 'announcements.dart';
 
@@ -39,6 +39,10 @@ class Loading {
         KickoffApplication.playerId = "${data["id"]}";
         await pLogin.RoundedLogin.getCourtsinSearch(
             data["xAxis"], data["yAxis"]);
+        AnnouncementsHome.buildFullAnnouncements();
+        AnnouncementsHome.isExpanded = List<bool>.generate(AnnouncementsHome.announcements.length, (index) => false);
+        print(AnnouncementsHome.announcements.length);
+
       } else {
         //The user is court Owner
         KickoffApplication.player = false;
