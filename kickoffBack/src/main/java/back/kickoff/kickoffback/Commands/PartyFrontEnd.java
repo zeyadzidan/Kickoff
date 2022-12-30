@@ -22,8 +22,8 @@ public class PartyFrontEnd {
         courtOnwer = new CourtOwnerFrontEnd(party.getCourtOwner());
         court = new CourtFrontEnd(party.getCourt());
         emptyplaces = party.getNeededNumbers();
-        int diff = Math.abs(Integer.parseInt(party.getNeededNumbers())-Integer.parseInt(party.getAvailableNumbers()));
-        fullplaces = diff+"/"+party.getAvailableNumbers();
+//        int diff = Math.abs(Integer.parseInt(party.getNeededNumbers())-Integer.parseInt(party.getAvailableNumbers()));
+        fullplaces = party.getAvailableNumbers();
         playerCreated = new PlayerFrontEnd(party.getPlayerCreated());
         playerJoined = new ArrayList<>();
         for(Player p : party.getPlayerJoined())
