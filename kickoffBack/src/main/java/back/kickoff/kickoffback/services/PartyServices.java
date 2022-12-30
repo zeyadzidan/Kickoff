@@ -124,16 +124,37 @@ public class PartyServices {
 
         JSONObject jsonObject = new JSONObject(information);
         Long CourtOwnerid = jsonObject.getLong("id");
+        Long playerid = jsonObject.getLong("pid");
 
 
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(CourtOwnerid);
         if (courtOwnerOptional.isEmpty())
             throw new RuntimeException("CourtOwner Not Found");
         CourtOwner source = courtOwnerOptional.get();
+        Optional<Player> playerOptional = playerRepository.findById(playerid);
+         Player source2 = playerOptional.get();
         List<Party> parties = source.getParties();
+        boolean check =false;
         List<PartyFrontEnd> data = new ArrayList<>();
         for (Party p : parties) {
-            data.add(new PartyFrontEnd(p));
+            List<Player> playerss = p.getPlayerJoined();
+            for(Player p2 :playerss)
+            {
+                if(p2.getId() ==source2.getId())
+                {
+                    check = true;
+                    break;
+                }
+            }
+            if(!check)
+            {
+                data.add(new PartyFrontEnd(p));
+
+            }
+            else
+            {
+                check = false;
+            }
         }
         System.out.println(data);
         return data;

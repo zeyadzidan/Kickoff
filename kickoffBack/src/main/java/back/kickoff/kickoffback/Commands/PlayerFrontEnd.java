@@ -13,8 +13,8 @@ public class PlayerFrontEnd {
     private String Pimg;
 
     public PlayerFrontEnd(Player player) {
-        Pname = player.getName();
-        
+          Pname = player.getName();
+
           Pimg = player.getImage();
 
     }
