@@ -8,6 +8,7 @@ import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
 import 'package:kickoff_frontend/application/screens/player/player-reservations.dart';
+import 'package:kickoff_frontend/application/screens/rating.dart';
 import 'package:kickoff_frontend/components/announcements/plusannouncementbutton.dart';
 import 'package:kickoff_frontend/components/announcements/view.dart';
 import 'package:kickoff_frontend/components/application/applicationbar.dart';
@@ -67,9 +68,10 @@ class KickoffApplicationState extends State<KickoffApplication> {
       theme: AppThemes.lightTheme,
       title: "Kickoff",
       debugShowCheckedModeBanner: false,
-      initialRoute:firstTime?'/loginPlayer':'/kickoff',
-      //initialRoute: firstTime?'/login':'/kickoff',
+      initialRoute:firstTime?'/Ratings':'/kickoff',
+      // initialRoute: firstTime?'/login':'/kickoff',
       routes: {
+        '/Ratings': (context)=> Ratings(),
         '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
         '/profilePlayer':(context)=>  ProfileBaseScreenPlayer(),

@@ -6,7 +6,7 @@ const playerColor = Colors.green;
 const courtOwnerColor = Colors.cyan;
 const secondaryColor = Colors.white;
 const alternativeColor = Colors.black87;
-const ip = "192.168.1.2";
+const ip = "192.168.1.123";
 
 customToast(text) => Container(
   padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
