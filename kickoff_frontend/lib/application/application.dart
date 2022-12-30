@@ -92,8 +92,8 @@ class KickoffApplicationState extends State<KickoffApplication> {
                   : (KickoffApplication._selectedPage == 0) ?
                       ProfileBaseScreen() :
                     (KickoffApplication._selectedPage == 1) ?
-                    PlusAnnouncementButton3() : ReservationsHome()
-                      // AnnouncementsHome(full: false,) : ReservationsHome()
+                    // PlusAnnouncementButton3() : ReservationsHome()
+                      AnnouncementsHome(full: false,) : ReservationsHome()
 
                 ),
                 // Court Owner Floating Buttons

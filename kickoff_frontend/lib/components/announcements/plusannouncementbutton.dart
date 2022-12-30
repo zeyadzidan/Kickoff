@@ -116,8 +116,7 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
               _key.currentState!.save();
               Announcement announcement = Announcement();
               announcement.coid = KickoffApplication.ownerId;
-              announcement.title = _announcement[0];
-              announcement.body = _announcement[1];
+              announcement.body = _announcement[0];
               if (_result != null) {
                 Random random = Random();
                 File file = File(_result!.files.last.path!);
