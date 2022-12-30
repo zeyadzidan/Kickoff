@@ -1,13 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
+import 'package:kickoff_frontend/application/screens/profile.dart';
+import 'package:http/http.dart' as http;
 import '../../components/SignUp/Location.dart';
 import '../../constants.dart';
 import '../application.dart';
 
 class Account extends StatefulWidget {
-
+  static String? path = "";
   @override
   _AccountState  createState() => _AccountState ();
 }
@@ -17,8 +21,32 @@ class _AccountState extends State<Account> {
   String name = KickoffApplication.data["name"];
   // String password = KickoffApplication.data["password"];
   String phone = KickoffApplication.data["phoneNumber"];
+  int id =  KickoffApplication.data["id"];
   double xaxis = KickoffApplication.data["xAxis"];
   double yaxis = KickoffApplication.data["yAxis"];
+  bool foundPhoto = KickoffApplication.data.containsKey("image");
+  String tempUrl = "";
+  String utl = KickoffApplication.data.containsKey("image")
+      ? KickoffApplication.data["image"]
+      : "";
+  bool localPhoto = ProfileBaseScreen.path == "" ? false : true;
+
+  void uploadimage(File file, final path) async {
+    UploadTask? uploadTask;
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTask = ref.putFile(file);
+    final snapshot = await uploadTask.whenComplete(() {});
+    final Url = await snapshot.ref.getDownloadURL();
+    String url = "http://$ip:8080/player/addImage";
+
+    await http.post(Uri.parse(url),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "playerId": id,
+          "imageURL": Url.toString(),
+        }));
+    KickoffApplication.data["image"] = Url;
+  }
   @override
   Widget build(BuildContext context) {
     final  size  = MediaQuery.of(context).size;
@@ -34,7 +62,7 @@ class _AccountState extends State<Account> {
         },
         ),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.book))
+          // IconButton(onPressed: (){}, icon: Icon(Icons.book))
         ],
       ),
 
@@ -61,14 +89,72 @@ class _AccountState extends State<Account> {
                           )
                           ],
                           shape: BoxShape.circle,
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                  'https://wvnpa.org/content/uploads/blank-profile-picture-973460_1280-768x768.png'
+                      ),
+                          child:(foundPhoto)? CircleAvatar(
+                              child: CachedNetworkImage(
+                                   imageUrl: utl,
                               )
+                          ):(localPhoto)?
+                      CircleAvatar(
+                          radius: 40,
+              backgroundColor: mainSwatch,
+              backgroundImage:
+                      Image.file(File(Account.path!))
+                  .image):
+                             CircleAvatar(
+                              child:ClipOval(
+                                child: CachedNetworkImage (
+                                    imageUrl:  'https://wvnpa.org/content/uploads/blank-profile-picture-973460_1280-768x768.png',
+                                ),
+                              ),
                           )
                       ),
-                    )
+                    Positioned(
+                        bottom: 0,
+                        right: 0,
+
+                        child: Container(
+                         height: 40,
+                           width: 40 ,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              width: 4,
+                              color: Colors.white,
+                            ),
+                            color: playerColor,
+
+                          ),
+                          child: IconButton(
+                            onPressed: () async {
+                              FilePickerResult? result =
+                              await FilePicker.platform.pickFiles(
+                                  type: FileType.custom,
+                                  allowedExtensions: ['png', 'jpg']);
+
+                              if (result != null) {
+                                File file = File(result.files.last.path!);
+                                final path2 =
+                                    'files/${KickoffApplication.data["id"].toString()}.${result.files.last.extension}';
+                                print(result);
+                                print(result.files.last.path);
+                                uploadimage(file, path2);
+                                setState(() {
+                                  Account.path =
+                                      result.files.last.path;
+                                  localPhoto = true;
+                                });
+                              }
+                            },
+                             icon: Icon(
+                              Icons.edit,
+                              color: Colors.white,
+
+                            ),
+                          ),
+
+                        )
+    )
                   ],
                 ),
               ),
