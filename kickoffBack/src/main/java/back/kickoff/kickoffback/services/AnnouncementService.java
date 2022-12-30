@@ -6,6 +6,7 @@ import back.kickoff.kickoffback.model.Subscription;
 import back.kickoff.kickoffback.repositories.AnnouncementRepository;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import com.google.gson.Gson;
+import lombok.NoArgsConstructor;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -107,9 +108,9 @@ public class AnnouncementService {
         return new Gson().toJson(announcmentFrontends);
     }
 
-    public String getSubscriptionAnnouncements(List<Subscription> subscriptions) {
+    public List<AnnouncmentFrontend> getSubscriptionAnnouncements(List<Subscription> subscriptions) {
         if (subscriptions.isEmpty())
-            return "No subscriptions";
+            return new ArrayList<>();
         Optional<CourtOwner> optionalCourtOwner;
         List<AnnouncmentFrontend> announcements = new ArrayList<>();
         for (Subscription subscription : subscriptions) {
@@ -128,10 +129,11 @@ public class AnnouncementService {
                 }
             }
         }
-        return new Gson().toJson(announcements);
+        return announcements;
     }
 
-    static class AnnouncmentFrontend {
+    @NoArgsConstructor
+    public static class AnnouncmentFrontend {
         Long id;
         Long courtOwnerId;
         String title;
