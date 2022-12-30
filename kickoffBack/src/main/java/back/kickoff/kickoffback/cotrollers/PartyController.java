@@ -1,7 +1,9 @@
 package back.kickoff.kickoffback.cotrollers;
 
 
+import back.kickoff.kickoffback.Commands.CreateParty;
 import back.kickoff.kickoffback.services.PartyServices;
+import com.google.gson.Gson;
 import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +25,15 @@ public class PartyController {
 
     @PostMapping("/createparty")
     public ResponseEntity<Boolean> CreateParty(@RequestBody String jsonParty) throws JSONException {
-        return (partyServices.CreateParty(jsonParty))
-                ? new ResponseEntity<>(Boolean.TRUE, HttpStatus.CREATED)
-                : new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
+        try {
+            CreateParty command = new CreateParty(jsonParty);
+            return (partyServices.CreateParty(command))
+                    ? new ResponseEntity<>(Boolean.TRUE, HttpStatus.CREATED)
+                    : new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
+        }catch (Exception e)
+        {
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
+        }
     }
     @PostMapping("/joinparty")
     public ResponseEntity<Boolean> JoinParty(@RequestBody String jsonParty) throws JSONException {
@@ -47,17 +55,15 @@ public class PartyController {
     }
     @PostMapping("/get_parties_of_courtOwner")
     public ResponseEntity<String> GetPartiesCourtowner(@RequestBody String jsonParty) throws JSONException {
-        return new ResponseEntity<>(partyServices.getCourtOwnerParties(jsonParty),
-                HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson(partyServices.getCourtOwnerParties(jsonParty)), HttpStatus.OK);
     }
     @PostMapping("/get_parties_created_by_player")
     public ResponseEntity<String> PartiesCreatedbyPlayer(@RequestBody String jsonParty) throws JSONException {
-        return new ResponseEntity<>(partyServices.getPlayerCreatedParties(jsonParty),
-                HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson(partyServices.getPlayerCreatedParties(jsonParty)), HttpStatus.OK);
+
     }
     @PostMapping("/get_parties_joined_by_player")
     public ResponseEntity<String> PartiesJoinedbyPlayer(@RequestBody String jsonParty) throws JSONException {
-        return new ResponseEntity<>(partyServices. getPlayerJoinedParties(jsonParty),
-                HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson(partyServices. getPlayerJoinedParties(jsonParty)), HttpStatus.OK);
     }
 }
