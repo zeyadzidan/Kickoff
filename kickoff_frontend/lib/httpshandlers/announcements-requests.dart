@@ -51,10 +51,6 @@ class AnnouncementHTTPsHandler {
         Uri.parse('$_url/subscriber/getAnnouncementsBySubscriptions/$pid'));
     Announcement announcement;
     List<Announcement> announcements = <Announcement>[];
-    var resp = json.decode(response.body);
-    if (!resp) {
-      return announcements;
-    }
     List<dynamic> announcementsMap = json.decode(response.body);
     print(response.body);
     for (Map<String, dynamic> map in announcementsMap) {
