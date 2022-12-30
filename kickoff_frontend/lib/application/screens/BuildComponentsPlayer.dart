@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/login/BuildLoginPlayer.dart';
+import 'package:kickoff_frontend/components/login/BuildPlayerPage.dart';
 import 'package:kickoff_frontend/components/login/CancelButton.dart';
 import 'package:kickoff_frontend/constants.dart';
 
-import '../../components/login/BuildSignUpPlayer.dart';
+import '../../components/SignUp/BuildPlayerPage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -65,9 +65,8 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: playerColor),
+                    color: mainSwatch),
               )),
-
           SizedBox(
             width: 210,
             child: InkWell(
@@ -97,11 +96,11 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: playerColor),
+                    color: mainSwatch),
               )),
 
           // Cancel Button
-          CancelButton(
+          BuildCancelButton(
             isLogin: isLogin,
             animationDuration: animationDuration,
             size: size,
@@ -120,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen>
           // Login Form
           Padding(
             padding: EdgeInsets.only(top: size.height *0.1),
-            child: LoginFormPlayer(
+            child: BuildLoginFormPlayer(
                 isLogin: isLogin,
                 animationDuration: animationDuration,
                 size: size,
@@ -142,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen>
           ),
 
           // Register Form
-          RegisterFormPlayer(
+          BuildRegisterFormPlayer(
               isLogin: isLogin,
               animationDuration: animationDuration,
               size: size,
@@ -175,9 +174,9 @@ class _LoginScreenState extends State<LoginScreen>
                   });
                 },
           child: isLogin
-              ? const Text(
+              ? Text(
                   "SignUp",
-                  style: TextStyle(color: playerColor, fontSize: 18),
+                  style: TextStyle(color: mainSwatch, fontSize: 18),
                 )
               : null,
         ),
@@ -201,7 +200,7 @@ class _circleSizerState extends State<circleSizer> with SingleTickerProviderStat
   void initState() {
     super.initState();
     _controller =
-        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+        AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     _animation = Tween(begin: 0.0,end: 10.0,).animate(_controller)
       ..addListener(() {
         setState(() {
@@ -242,7 +241,7 @@ class _circleSizerState extends State<circleSizer> with SingleTickerProviderStat
                 blurRadius: 5,
               ),
             ],
-            color: playerColor),
+            color: mainSwatch),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(55, 100, 0, 0),
           child :Text("I am a CourtOwner?!"

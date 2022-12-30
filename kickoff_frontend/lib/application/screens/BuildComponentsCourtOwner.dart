@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/login/BuildLogin.dart';
+import 'package:kickoff_frontend/components/login/BulidCourtOwnerPage.dart';
 import 'package:kickoff_frontend/components/login/CancelButton.dart';
 import 'package:kickoff_frontend/constants.dart';
 
-import '../../components/login/BuildSignUp.dart';
+import '../../components/SignUp/BuildCourtOwnerPage.dart';
 
 class LoginScreenCourtOwner extends StatefulWidget {
   const LoginScreenCourtOwner({super.key});
@@ -65,7 +65,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
                         blurRadius: 5,
                       ),
                     ],
-                    color: courtOwnerColor),
+                    color: mainSwatch),
               )),
 
           SizedBox(
@@ -97,11 +97,11 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
                         blurRadius: 5,
                       ),
                     ],
-                    color: courtOwnerColor),
+                    color: mainSwatch),
               )),
 
           // Cancel Button
-          CancelButton(
+          BuildCancelButton(
             isLogin: isLogin,
             animationDuration: animationDuration,
             size: size,
@@ -120,7 +120,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
           // Login Form
           Padding(
             padding: EdgeInsets.only(top: size.height *0.1),
-            child: LoginForm(
+            child: BuildLoginFormCourtOwner(
                 isLogin: isLogin,
                 animationDuration: animationDuration,
                 size: size,
@@ -142,7 +142,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
           ),
 
           // Register Form
-          RegisterForm(
+          BuildRegisterFormCourtOwner(
               isLogin: isLogin,
               animationDuration: animationDuration,
               size: size,
@@ -175,9 +175,9 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
             });
           },
           child: isLogin
-              ? const Text(
+              ? Text(
             "انشاء حساب جديد",
-            style: TextStyle(color: courtOwnerColor, fontSize:20),
+            style: TextStyle(color: mainSwatch, fontSize:20),
           )
               : null,
         ),
@@ -202,7 +202,7 @@ class _circleSizerState extends State<circleSizer> with SingleTickerProviderStat
   void initState() {
       super.initState();
       _controller =
-          AnimationController(duration: const Duration(seconds: 2), vsync: this);
+          AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
       _animation = Tween(begin: 0.0,end: 10.0,).animate(_controller)
         ..addListener(() {
           setState(() {
@@ -243,7 +243,7 @@ class _circleSizerState extends State<circleSizer> with SingleTickerProviderStat
                 blurRadius: 5,
               ),
             ],
-            color: courtOwnerColor),
+            color: mainSwatch),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(55, 108, 0, 0),
           child :Text("I am a Player?!"

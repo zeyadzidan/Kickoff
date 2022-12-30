@@ -6,22 +6,30 @@ import 'package:kickoff_frontend/localFile.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../application/application.dart';
+import '../../application/screens/announcements.dart';
 import '../../application/screens/profile.dart';
 
 class KickoffAppBar {
-  build(context) => KickoffApplication.player
+  build(context, globalKey) => KickoffApplication.player
       ?AppBar(
+    centerTitle: true,
     leading: IconButton(
       icon: const Icon(Icons.person),
       tooltip: 'تعديل البيانات',
       onPressed: () async {
+
+        // globalKey.currentState?.openDrawer();
         //to be implemented
+
+        Navigator.pushNamed(context, '/account');
+
       },
     ),
     elevation: 4,
     title: const Text(
       "Kickoff",
       style: TextStyle(color: secondaryColor),
+
     ),
     actions: <Widget>[
       IconButton(
@@ -34,11 +42,12 @@ class KickoffAppBar {
             var appDir = (await getTemporaryDirectory()).path;
             Directory(appDir).delete(recursive: true);
             ProfileBaseScreen.courts.clear();
+            AnnouncementsHome.announcements.clear();
             Navigator.popAndPushNamed(context, '/loginPlayer');
         },
       ),
     ],
-    backgroundColor: playerColor,
+    backgroundColor: mainSwatch,
   )
   :AppBar(
     leading: const Icon(Icons.sports_soccer),
@@ -62,6 +71,6 @@ class KickoffAppBar {
         },
       ),
     ],
-    backgroundColor: courtOwnerColor,
+    backgroundColor: mainSwatch,
   );
 }

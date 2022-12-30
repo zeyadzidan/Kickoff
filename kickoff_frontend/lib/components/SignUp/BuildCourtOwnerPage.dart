@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/login/SignUpRequestPlayer.dart';
+import 'Email.dart';
+import 'PasswordCourtOwner.dart';
+import 'PhoneNumber.dart';
+import 'Location.dart';
+import '../../httpshandlers/SignUpRequestCourtOwner.dart';
+import 'UserName.dart';
 
-import 'EmailSignUP.dart';
-import 'PasswordLogin.dart';
-import 'PasswordSignUp.dart';
-import 'PasswordSignUpPlayer.dart';
-import 'PhoneNumberSignUp.dart';
-import 'SignUpLocation.dart';
-import 'SignUpRequest.dart';
-import 'SignUpUserName.dart';
-
-class RegisterFormPlayer extends StatelessWidget {
-  const RegisterFormPlayer({
+class BuildRegisterFormCourtOwner extends StatelessWidget {
+  const BuildRegisterFormCourtOwner({
     Key? key,
     required this.isLogin,
     required this.animationDuration,
@@ -51,19 +47,19 @@ class RegisterFormPlayer extends StatelessWidget {
                       height: 175,
                       width: 175,
                       child:
-                      Image(image: AssetImage('assets/images/pic4.PNG'))),
+                          Image(image: AssetImage('assets/images/ball.jpg'))),
                   SizedBox(height: 40),
-                  RoundedInput(icon: Icons.mail,color: Colors.green, hint: 'Email Address'),
-                  RoundedInputUsername(icon: Icons.face_rounded,color: Colors.green, hint: 'Name'),
-                  PasswordInputSignupPlayer(),
-                  RoundedPhoneNumber(icon: Icons.phone,color: Colors.green, hint: 'Phone Number'),
+                  BuildEmailSignUp(icon: Icons.mail,color: Colors.cyan, hint: 'البريد الالكتروني'),
+                  UsernameSignUp(icon: Icons.face_rounded,color: Colors.cyan, hint: 'الاسم'),
+                  Password_SignUp_CourtOwner(),
+                  PhoneNumberSignUp(icon: Icons.phone,color: Colors.cyan, hint: 'رقم الهاتف'),
                   Container(
                     height: 450,
                     width: size.width * 0.8,
-                    child: FindLocation(title: 'Choose Location',color: Colors.green),
+                    child: BuildLocation(title: 'اختر المكان',color: Colors.cyan,x: 31.2160786,y: 29.9469253),
                   ),
                   SizedBox(height: 30),
-                  SignUpButtonPlayer(),
+                  SignUpButton(),
                   SizedBox(height: 10),
                 ],
               ),

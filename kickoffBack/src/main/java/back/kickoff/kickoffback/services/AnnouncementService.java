@@ -1,6 +1,6 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.AddAnnouncmentCommand;
+import back.kickoff.kickoffback.Commands.AddAnnouncementCommand;
 import back.kickoff.kickoffback.Commands.AnnouncmentFrontend;
 import back.kickoff.kickoffback.model.Announcement;
 import back.kickoff.kickoffback.model.CourtOwner;
@@ -32,15 +32,14 @@ public class AnnouncementService {
         this.announcementRepository = announcementRepository;
     }
 
-    public void addAnnouncement(AddAnnouncmentCommand command) throws Exception {
+    public void addAnnouncement(AddAnnouncementCommand command) throws Exception {
 
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(command.getCourtOwnerId());
         if (courtOwnerOptional.isEmpty()) {
-            throw  new Exception("Court Owner does not exist");
+            throw new Exception("Court Owner does not exist");
         }
         CourtOwner courtOwner = courtOwnerOptional.get();
         Announcement newAnnouncement = new Announcement();
-        newAnnouncement.setTitle(command.getTitle());
         newAnnouncement.setBody(command.getBody());
         newAnnouncement.setImg(command.getAttachmentsURL());
         Date date;
@@ -49,7 +48,7 @@ public class AnnouncementService {
             long date2 = obj.parse(command.getDateString()).getTime();
             date = new Date(date2);
         } catch (Exception e) {
-            throw  new Exception("");
+            throw new Exception("");
         }
         newAnnouncement.setDate(date);
         LocalTime lt = LocalTime.now() ;
@@ -99,7 +98,7 @@ public class AnnouncementService {
         for (Announcement a : announcements) {
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             String strDate = dateFormat.format(a.getDate());
-            announcmentFrontends.add(new AnnouncmentFrontend(a.getId(), a.getCourtOwner().getId(), a.getTitle(), a.getBody(), a.getImg(), strDate));
+            announcmentFrontends.add(new AnnouncmentFrontend(a.getId(), a.getCourtOwner().getId(), a.getBody(), a.getImg(), strDate));
         }
         return announcmentFrontends;
     }
@@ -119,7 +118,6 @@ public class AnnouncementService {
                     announcements.add(new AnnouncmentFrontend(
                             announcement.getId(),
                             announcement.getCourtOwner().getId(),
-                            announcement.getTitle(),
                             announcement.getBody(),
                             announcement.getImg(), strDate));
                 }

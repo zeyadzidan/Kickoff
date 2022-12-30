@@ -32,6 +32,7 @@ class TicketsHTTPsHandler {
         body: json.encode({
           "playerName": ticket.pname,
           if (KickoffApplication.player) "playerId": ticket.pid,
+          "phoneNumber": ticket.pnumber,
           "courtId": ticket.cid,
           "courtOwnerId": ticket.coid,
           "startDate": ticket.startDate,
@@ -97,7 +98,7 @@ class TicketsHTTPsHandler {
             .encode({"pid": pid, "filter": filter, "ascending": ascending}));
     print(rsp.body);
     List<FixtureTicket> reservations = [];
-    var temp = json.decode(rsp.body);
+    json.decode(rsp.body);
     if (rsp.body != 'Player not found!') {
       List<dynamic> fixturesMap = json.decode(rsp.body);
       FixtureTicket ticket; // The court model
@@ -130,7 +131,6 @@ class TicketsHTTPsHandler {
     final snapshot = await uploadTask.whenComplete(() {});
     final imageUrl = await snapshot.ref.getDownloadURL();
     print(imageUrl);
-    // TODO: Modify this field to accept receipts upload
     var response = await http.post(Uri.parse('$_url/BookingAgent/sendReceipt'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({

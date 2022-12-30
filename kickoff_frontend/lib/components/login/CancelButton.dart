@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/constants.dart';
 
-class CancelButton extends StatelessWidget {
-  const CancelButton(
+class BuildCancelButton extends StatelessWidget {
+  const BuildCancelButton(
       {Key? key,
       required this.isLogin,
       required this.animationDuration,
@@ -31,7 +31,7 @@ class CancelButton extends StatelessWidget {
           child: IconButton(
             icon: Icon(Icons.close),
             onPressed: tapEvent,
-            color: playerColor,
+            color: mainSwatch,
           ),
         ),
       ),
