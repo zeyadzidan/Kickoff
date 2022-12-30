@@ -9,6 +9,7 @@ import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
 
 import '../../../constants.dart';
+import 'makePartyButton.dart';
 
 class PlayerReservationsHome extends StatefulWidget {
   const PlayerReservationsHome({super.key});
@@ -161,7 +162,8 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
                                 (_reservations()[index].state == ('Pending'))
                                     ? Column(children: [
                                         _uploadReceipt(index),
-                                        _sendReceipt(index)
+                                        _sendReceipt(index),
+                                        _makeParty(index)
                                       ])
                                     : Container(),
                               ],
@@ -217,4 +219,22 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
           },
         ),
       );
+
+  _makeParty(index) => Container(
+    alignment: Alignment.bottomCenter,
+    margin: const EdgeInsets.only(top: 15),
+    child: ElevatedButton.icon(
+      label: const Text('Make Party'),
+      icon: const Icon(Icons.person_add_sharp),
+      style: ElevatedButton.styleFrom(
+          backgroundColor: mainSwatch,
+          padding:
+          const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
+      onPressed: () async {
+        showModalBottomSheet(context: context,
+            builder: (context)=>makePartyButton(id: PlayerReservationsHome._reservations[index].ticketId));
+        KickoffApplication.update();
+      },
+    ),
+  );
 }

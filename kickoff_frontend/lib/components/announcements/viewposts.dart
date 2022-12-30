@@ -16,13 +16,7 @@ class PlusAnnouncementButton3 extends StatefulWidget {
 }
 
 class postbutton extends State<PlusAnnouncementButton3> {
-  String name = KickoffApplication.data["name"];
   final bool _isPlayer = KickoffApplication.player;
-  bool foundPhoto = KickoffApplication.data.containsKey("image");
-  String utl = KickoffApplication.data.containsKey("image")
-      ? KickoffApplication.data["image"]
-      : "";
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -36,7 +30,7 @@ class postbutton extends State<PlusAnnouncementButton3> {
                       padding: const EdgeInsets.fromLTRB(2.0, 2.0, 2.0, 6),
                       child: Card(
                         elevation: 2.0,
-                        shape: (_isPlayer)
+                        shape: (!_isPlayer)
                             ? RoundedRectangleBorder(
                                 side: BorderSide(
                                     // border color
@@ -65,8 +59,8 @@ class postbutton extends State<PlusAnnouncementButton3> {
                                         height: 40,
                                         //   child: Image.asset(utl),
                                         child: ClipOval(
-                                          child: CachedNetworkImage(
-                                            imageUrl: utl,
+                                          child: AnnouncementsHome.announcements[index].Pimg!=""?CachedNetworkImage(
+                                            imageUrl: AnnouncementsHome.announcements[index].Pimg,
                                             width: 100,
                                             height: 100,
                                             fit: BoxFit.cover,
@@ -78,7 +72,7 @@ class postbutton extends State<PlusAnnouncementButton3> {
                                             errorWidget:
                                                 (context, url, error) =>
                                                     Icon(Icons.error),
-                                          ),
+                                          ):Container(),
                                         ),
                                       ),
                                     ),
@@ -87,7 +81,7 @@ class postbutton extends State<PlusAnnouncementButton3> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          name,
+                                          AnnouncementsHome.announcements[index].name,
                                           style: TextStyle(
                                               fontSize: 22,
                                               fontWeight: FontWeight.bold),
@@ -96,6 +90,14 @@ class postbutton extends State<PlusAnnouncementButton3> {
                                     ),
                                   ],
                                 ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 6.0),
+                                child: Text("${AnnouncementsHome.announcements[index].time} ${AnnouncementsHome.announcements[index].date}",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black.withAlpha(100),
+                                  ),),
                               ),
                               GestureDetector(
                                 child: Padding(
