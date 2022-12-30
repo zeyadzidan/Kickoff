@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -90,7 +91,7 @@ public class SubscriberController {
             List<AnnouncementService.AnnouncmentFrontend> announcements = announcementService.getSubscriptionAnnouncements(subscriptions);
             return (!announcements.isEmpty())
                     ? new ResponseEntity<>(new Gson().toJson(announcements), HttpStatus.OK)
-                    : new ResponseEntity<>(Boolean.FALSE, HttpStatus.NOT_FOUND);
+                    : new ResponseEntity<>(new Gson().toJson(announcements), HttpStatus.NOT_FOUND);
         } catch (Exception ignored) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

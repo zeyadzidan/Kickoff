@@ -262,6 +262,9 @@ class SubscriberControllerTest {
      * getAnnouncementsBySubscriptions Tests ---------------------------------------------------------------------------
      * */
 
+    /**
+     * Test an empty get-subscriptions-by-announcements request response
+     */
     @Test
     void getAnnouncementsSuccessfulTest() {
         Long pid = 77L;
@@ -273,14 +276,20 @@ class SubscriberControllerTest {
         assertEquals(new ResponseEntity<>(new Gson().toJson(announcements), HttpStatus.OK), response);
     }
 
+    /**
+     * Test an empty get-subscriptions-by-announcements request response
+     */
     @Test
     void getAnnouncementsEmptyTest() {
         Long pid = 77L;
         Mockito.when(announcementService.getSubscriptionAnnouncements(new ArrayList<>())).thenReturn(new ArrayList<>());
         ResponseEntity<Object> response = subscriberController.getSubscriptionAnnouncements(pid);
-        assertEquals(new ResponseEntity<>(Boolean.FALSE, HttpStatus.NOT_FOUND), response);
+        assertEquals(new ResponseEntity<>(new Gson().toJson(new ArrayList<>()), HttpStatus.NOT_FOUND), response);
     }
 
+    /**
+     * Test a malicious get-subscriptions-by-announcements request
+     */
     @Test
     void getAnnouncementsMaliciousTest() {
         Long pid = null;

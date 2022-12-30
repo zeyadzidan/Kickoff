@@ -17,8 +17,7 @@ public class SubscriberService {
 
     public boolean subscribe(Subscription subscription) {
         // Checking whether a subscription is present or not.
-        if (subscriptionsRepository.findByPid(subscription.getPid()).contains(subscription) &&
-                subscriptionsRepository.findByCoid(subscription.getCoid()).contains(subscription))
+        if (subscriptionsRepository.findByCoidAndPid(subscription.getCoid(), subscription.getPid()).isPresent())
             return false;
         subscriptionsRepository.save(subscription);
         return true;
