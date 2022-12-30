@@ -24,6 +24,7 @@ class ProfileBaseScreenPlayer extends StatefulWidget {
   static int _selectedPage = 0;
   static bool isSubscribed =false;
   static int subscribersCount =0;
+  static double rating =0;
   static List<dynamic> ratings=[];
   @override
   State<ProfileBaseScreenPlayer> createState() =>
@@ -34,9 +35,8 @@ class ProfileBaseScreenPlayer extends StatefulWidget {
 }
 
 class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
-  double rating = double.parse("${KickoffApplication.dataPlayer["rating"]}");
-  int rating2 =
-      double.parse("${KickoffApplication.dataPlayer["rating"]}").toInt();
+  // double rating = double.parse("${KickoffApplication.dataPlayer["rating"]}");
+
   String name = KickoffApplication.dataPlayer["name"];
   String phone = KickoffApplication.dataPlayer["phoneNumber"];
   String address = KickoffApplication.dataPlayer["location"];
@@ -52,6 +52,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    ProfileBaseScreenPlayer.rating=double.parse("${KickoffApplication.dataPlayer["rating"]}");
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -136,7 +137,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  "$rating2 \u{2B50} ",
+                                                  "${ProfileBaseScreenPlayer.rating} \u{2B50} ",
                                                   //remember to remove the 2 in milestone 2
                                                   style: const TextStyle(
                                                     fontSize: 20,

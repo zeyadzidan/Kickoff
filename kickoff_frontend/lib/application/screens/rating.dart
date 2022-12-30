@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/profile.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:kickoff_frontend/httpshandlers/ratingrequests.dart';
+import 'package:http/http.dart' as http;
 
 import 'ProfileappearToPlayer.dart';
 
@@ -118,8 +121,11 @@ class _RatingsState extends State<Ratings> {
                                  /// to do
                                   await Rating.getratings(KickoffApplication.ownerId);
                                   // KickoffApplication.dataPlayer ["rating"] = await http.get(Uri.parse('$_url/search/CourtOwner/${CourtOwnerId}'));
-                                      KickoffApplication.update();
-
+                                  var response= await http
+                                      .get(Uri.parse('http://${KickoffApplication.userIP}:8080/search/CourtOwner/${KickoffApplication.ownerId}'));
+                                  Map<String, dynamic> temp = json.decode(response.body) ;
+                                  KickoffApplication.dataPlayer["rating"] = double.parse(temp['rating']);
+                                  KickoffApplication.update();
                                   Navigator.pop(context);
 
                                 },
