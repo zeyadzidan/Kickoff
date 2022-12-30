@@ -32,14 +32,8 @@ public class PartyFrontEnd {
 //        int diff = Math.abs(Integer.parseInt(party.getNeededNumbers())-Integer.parseInt(party.getAvailableNumbers()));
         fullplaces = party.getAvailableNumbers();
         Pname =  party.getPlayerCreated().getName();
-        if(Pimg == null)
-        {
-           Pimg ="";
-        }
-        else
-        {
+
             Pimg = party.getPlayerCreated().getImage();
-        }
         System.out.println(Pimg);
 //        playerJoined = new ArrayList<>();
 //        for(Player p : party.getPlayerJoined())

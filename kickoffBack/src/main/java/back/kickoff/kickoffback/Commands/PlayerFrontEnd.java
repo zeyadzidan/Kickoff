@@ -14,15 +14,8 @@ public class PlayerFrontEnd {
 
     public PlayerFrontEnd(Player player) {
         Pname = player.getName();
-
-      if( player.getImage()==null)
-      {
-          Pimg ="";
-      }
-      else
-      {
+        
           Pimg = player.getImage();
-      }
 
     }
 }
