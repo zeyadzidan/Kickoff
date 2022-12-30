@@ -96,9 +96,7 @@ public class AnnouncementService {
         List<Announcement> announcements = courtOwner.getAnnouncements();
         List<AnnouncmentFrontend> announcmentFrontends = new ArrayList<AnnouncmentFrontend>(announcements.size());
         for (Announcement a : announcements) {
-            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-            String strDate = dateFormat.format(a.getDate());
-            announcmentFrontends.add(new AnnouncmentFrontend(a.getId(), a.getCourtOwner().getId(), a.getBody(), a.getImg(), strDate));
+            announcmentFrontends.add(new AnnouncmentFrontend(a));
         }
         return announcmentFrontends;
     }
@@ -113,13 +111,7 @@ public class AnnouncementService {
             if (optionalCourtOwner.isPresent()) {
                 List<Announcement> announcementsBackEnd = optionalCourtOwner.get().getAnnouncements();
                 for (Announcement announcement : announcementsBackEnd) {
-                    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                    String strDate = dateFormat.format(announcement.getDate());
-                    announcements.add(new AnnouncmentFrontend(
-                            announcement.getId(),
-                            announcement.getCourtOwner().getId(),
-                            announcement.getBody(),
-                            announcement.getImg(), strDate));
+                    announcements.add(new AnnouncmentFrontend(announcement));
                 }
             }
         }
