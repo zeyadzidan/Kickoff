@@ -2,7 +2,7 @@ package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.Commands.CreateParty;
 import back.kickoff.kickoffback.Commands.PartyFrontEnd;
-import back.kickoff.kickoffback.Commands.PlayerFrontEnd;
+import back.kickoff.kickoffback.Commands.PlayerFrontEndParty;
 import back.kickoff.kickoffback.model.*;
 import back.kickoff.kickoffback.repositories.*;
 import org.json.JSONException;
@@ -174,7 +174,7 @@ public class PartyServices {
         System.out.println(data);
         return data;
     }
-    public  List<PlayerFrontEnd> getplayersofParties(String information) throws JSONException{
+    public  List<PlayerFrontEndParty> getplayersofParties(String information) throws JSONException{
         JSONObject jsonObject = new JSONObject(information);
         Long partyid = jsonObject.getLong("id");
 
@@ -183,9 +183,9 @@ public class PartyServices {
             throw new RuntimeException("Player Not Found");
         Party source = PartyOptional.get();
         List<Player> parties = source.getPlayerJoined();
-        List<PlayerFrontEnd> data = new ArrayList<>();
+        List<PlayerFrontEndParty> data = new ArrayList<>();
         for (Player p : parties) {
-            data.add(new PlayerFrontEnd(p));
+            data.add(new PlayerFrontEndParty(p));
         }
         System.out.println(data);
         return data;

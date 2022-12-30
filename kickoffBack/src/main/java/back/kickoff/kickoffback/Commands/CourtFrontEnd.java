@@ -10,28 +10,28 @@ import java.sql.Time;
 @Setter
 public class CourtFrontEnd {
 
-//    public long id ;
+    public long id ;
     public String cname ;
-//    public String state ;
-//    public String description ;
-//    public Time swh ;
-//    public Time ewh ;
-//    public int minBookingHours ;
-//    public int morningCost ;
-//    public int nightCost ;
-//    public Time endMorning ;
+    public String state ;
+    public String description ;
+    public Time swh ;
+    public Time ewh ;
+    public int minBookingHours ;
+    public int morningCost ;
+    public int nightCost ;
+    public Time endMorning ;
 
     public CourtFrontEnd(Court c){
-//        id = c.getId() ;
+        id = c.getId() ;
         cname = c.getCourtName() ;
-//        state = c.getState().toString() ;
-//        description = c.getDescription() ;
-//        swh = c.getCourtSchedule().getStartWorkingHours();
-//        ewh = c.getCourtSchedule().getEndWorkingHours();
-//        minBookingHours = c.getCourtSchedule().getMinBookingHours();
-//        morningCost = c.getCourtSchedule().getMorningCost();
-//        nightCost = c.getCourtSchedule().getNightCost();
-//        endMorning = c.getCourtSchedule().getEndMorning();
+        state = c.getState().toString() ;
+        description = c.getDescription() ;
+        swh = c.getCourtSchedule().getStartWorkingHours();
+        ewh = c.getCourtSchedule().getEndWorkingHours();
+        minBookingHours = c.getCourtSchedule().getMinBookingHours();
+        morningCost = c.getCourtSchedule().getMorningCost();
+        nightCost = c.getCourtSchedule().getNightCost();
+        endMorning = c.getCourtSchedule().getEndMorning();
     }
 
 }
