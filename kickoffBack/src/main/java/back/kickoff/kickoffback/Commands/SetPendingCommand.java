@@ -28,6 +28,7 @@ public class SetPendingCommand {
     Long playerID ;
     // or
     String playerName;
+    String phoneNumber;
     // <<<<
 
     // not in the JSON
@@ -81,9 +82,11 @@ public class SetPendingCommand {
         }catch (Exception e){
             try {
                 playerName = jsonObject.getString("playerName");
+                phoneNumber = jsonObject.getString("phoneNumber");
                 player = new Player() ;
                 player.setPlayerType(PlayerType.Lite);
                 player.setName(playerName);
+                player.setPhoneNumber(phoneNumber);
                 player.setReservations(new ArrayList<>());
                 playerRepository.save(player);
             }catch (Exception e2){
