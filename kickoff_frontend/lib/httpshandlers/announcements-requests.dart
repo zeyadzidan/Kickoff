@@ -35,12 +35,16 @@ class AnnouncementHTTPsHandler {
       announcement = Announcement();
       announcement.coid = map['courtOwnerId'].toString();
       announcement.aid = map['id'].toString();
-      announcement.title = map['title'].toString();
       announcement.body = map['body'].toString();
       if (map.containsKey('cni')) {
         announcement.img = map['cni'].toString();
       }
+      if (map.containsKey('courtPic ')) {
+        announcement.Pimg = map['courtPic'].toString();
+      }
       announcement.date = map['date'].toString();
+      announcement.time = map['time'].toString();
+      announcement.name = map['name'].toString();
       announcements.add(announcement);
     }
     return announcements;
@@ -57,12 +61,15 @@ class AnnouncementHTTPsHandler {
       announcement = Announcement();
       announcement.coid = map['courtOwnerId'].toString();
       announcement.aid = map['id'].toString();
-      announcement.title = map['title'].toString();
       announcement.body = map['body'].toString();
       if (map.containsKey('cni')) {
         announcement.img = map['cni'].toString();
       }
+      if (map.containsKey('courtPic')) {
+        announcement.Pimg = map['courtPic'].toString();
+      }
       announcement.date = map['date'].toString();
+      announcement.name = map['name'].toString();
       announcements.add(announcement);
     }
 
