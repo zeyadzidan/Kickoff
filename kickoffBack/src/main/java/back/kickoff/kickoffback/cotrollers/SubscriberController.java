@@ -27,47 +27,72 @@ public class SubscriberController {
 
     @PostMapping("/subscribe")
     public ResponseEntity<Boolean> subscribe(@RequestBody String request) {
-        Subscription subscription = SubscriptionsCommands.constructSubscription(request);
-        if (subscriberService.subscribe(subscription))
-                return new ResponseEntity<>(Boolean.TRUE, HttpStatus.CREATED);
-        return new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
+        try {
+            Subscription subscription = SubscriptionsCommands.constructSubscription(request);
+            assert subscription != null;
+            return subscriberService.subscribe(subscription)
+                    ? new ResponseEntity<>(Boolean.TRUE, HttpStatus.CREATED)
+                    : new ResponseEntity<>(Boolean.FALSE, HttpStatus.CONFLICT);
+        } catch (Exception ignored) {
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/unsubscribe")
     public ResponseEntity<Boolean> unsubscribe(@RequestBody String request) {
-        Subscription subscription = SubscriptionsCommands.constructSubscription(request);
-        assert subscription != null;
-        return (subscriberService.unsubscribe(subscription))
-                ? new ResponseEntity<>(Boolean.TRUE, HttpStatus.CREATED)
-                : new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
+        try {
+            Subscription subscription = SubscriptionsCommands.constructSubscription(request);
+            assert subscription != null;
+            return (subscriberService.unsubscribe(subscription))
+                    ? new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK)
+                    : new ResponseEntity<>(Boolean.FALSE, HttpStatus.NOT_FOUND);
+        } catch (Exception ignored) {
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/isSubscriber")
     public ResponseEntity<Boolean> isSubscriber(@RequestBody String request) {
-        Subscription subscription = SubscriptionsCommands.constructSubscription(request);
-        assert subscription != null;
-        return new ResponseEntity<>(subscriberService.isSubscriber(subscription), HttpStatus.OK);
+        try {
+            Subscription subscription = SubscriptionsCommands.constructSubscription(request);
+            assert subscription != null;
+            return new ResponseEntity<>(subscriberService.isSubscriber(subscription), HttpStatus.OK);
+        } catch (Exception ignored) {
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/playerSubscriptions/{pid}")
     public ResponseEntity<Object> getPlayerSubscriptions(@PathVariable Long pid) {
-        String subscriptions = subscriberService.getPlayerSubscriptions(pid);
-        return (subscriberService.getPlayerSubscriptions(pid) != null)
-                ? new ResponseEntity<>(new Gson().toJson(subscriptions), HttpStatus.CREATED)
-                : new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
+        try {
+            List<Subscription> subscriptions = subscriberService.getPlayerSubscriptions(pid);
+            return (!subscriptions.isEmpty())
+                    ? new ResponseEntity<>(new Gson().toJson(subscriptions), HttpStatus.OK)
+                    : new ResponseEntity<>(Boolean.FALSE, HttpStatus.NOT_FOUND);
+        } catch (Exception ignored) {
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/getSubscribersCount/{coid}")
     public ResponseEntity<Integer> getSubscribersCount(@PathVariable Long coid) {
-        return new ResponseEntity<>(subscriberService.getSubscribersCount(coid), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(subscriberService.getSubscribersCount(coid), HttpStatus.OK);
+        } catch (Exception ignored) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/getAnnouncementsBySubscriptions/{pid}")
     public ResponseEntity<Object> getSubscriptionAnnouncements(@PathVariable Long pid) {
-        List<Subscription> subscriptions = subscriberService.getSubscriptionAnnouncements(pid);
-        String body = announcementService.getSubscriptionAnnouncements(subscriptions);
-        return (!body.equals("No subscriptions"))
-                ? new ResponseEntity<>(body, HttpStatus.OK)
-                : new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
+        try {
+            List<Subscription> subscriptions = subscriberService.getPlayerSubscriptions(pid);
+            List<AnnouncementService.AnnouncmentFrontend> announcements = announcementService.getSubscriptionAnnouncements(subscriptions);
+            return (!announcements.isEmpty())
+                    ? new ResponseEntity<>(new Gson().toJson(announcements), HttpStatus.OK)
+                    : new ResponseEntity<>(Boolean.FALSE, HttpStatus.NOT_FOUND);
+        } catch (Exception ignored) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
