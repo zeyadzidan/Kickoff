@@ -31,13 +31,15 @@ class CourtOwnerAgentControllerTest {
         MockitoAnnotations.openMocks(this);
         courtOwnerAgentController = new CourtOwnerAgentController(courtOwnerAgent, announcementService);
     }
-
+/*
     @Test
     void listCourts() throws JSONException {
         Mockito.when(courtOwnerAgent.findCourtOwnerCourts(1L)).thenReturn(String.valueOf(new ArrayList<Court>()));
         ResponseEntity<String> res = courtOwnerAgentController.listCourts("1");
         assertEquals(res, new ResponseEntity<>("[]", HttpStatus.OK));
     }
+
+
 
     @Test
     void createCourt() throws JSONException {
@@ -68,4 +70,6 @@ class CourtOwnerAgentControllerTest {
 
         assertEquals(res, new ResponseEntity<>("Success", HttpStatus.OK));
     }
+
+ */
 }

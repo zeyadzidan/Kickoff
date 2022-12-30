@@ -1,5 +1,7 @@
 package back.kickoff.kickoffback.services;
 
+import back.kickoff.kickoffback.Commands.AddAnnouncementCommand;
+import back.kickoff.kickoffback.Commands.AnnouncmentFrontend;
 import back.kickoff.kickoffback.model.Announcement;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Subscription;
@@ -11,8 +13,10 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,42 +32,34 @@ public class AnnouncementService {
         this.announcementRepository = announcementRepository;
     }
 
-    public String addAnnouncement(String information) throws JSONException {
-        JSONObject jsonObject = new JSONObject(information);
-        Long courtOwnerId = jsonObject.getLong("courtOwnerId");
-        String title = jsonObject.getString("title");
-        String body = jsonObject.getString("body");
-        String attachmentsURL = null;
-        if (jsonObject.has("attachments")) {
-            attachmentsURL = jsonObject.getString("attachments");
-        }
-        String dateString = jsonObject.getString("date");
+    public void addAnnouncement(AddAnnouncementCommand command) throws Exception {
 
-        Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(courtOwnerId);
+        Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(command.getCourtOwnerId());
         if (courtOwnerOptional.isEmpty()) {
-            return "CourtOwner do not exist";
+            throw new Exception("Court Owner does not exist");
         }
         CourtOwner courtOwner = courtOwnerOptional.get();
         Announcement newAnnouncement = new Announcement();
-        newAnnouncement.setTitle(title);
-        newAnnouncement.setBody(body);
-        newAnnouncement.setImg(attachmentsURL);
+        newAnnouncement.setBody(command.getBody());
+        newAnnouncement.setImg(command.getAttachmentsURL());
         Date date;
         try {
             SimpleDateFormat obj = new SimpleDateFormat("MM/dd/yyyy");
-            long date2 = obj.parse(dateString).getTime();
+            long date2 = obj.parse(command.getDateString()).getTime();
             date = new Date(date2);
         } catch (Exception e) {
-            return "In valid date2";
+            throw new Exception("");
         }
         newAnnouncement.setDate(date);
+        LocalTime lt = LocalTime.now() ;
+        Time time =  Time.valueOf (lt) ;
+        newAnnouncement.setTime(time);
+
         newAnnouncement.setCourtOwner(courtOwner);
         courtOwner.getAnnouncements().add(newAnnouncement);
 
         announcementRepository.save(newAnnouncement);
         courtOwnerRepository.save(courtOwner);
-
-        return new Gson().toJson("Success");
     }
 
     public String deleteAnnouncement(Long courtOwnerId, String information) throws JSONException {
@@ -91,10 +87,10 @@ public class AnnouncementService {
         return "Success";
     }
 
-    public String getAnnouncement(Long courtOwnerId) {
+    public List<AnnouncmentFrontend> getAnnouncement(Long courtOwnerId) throws Exception {
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(courtOwnerId);
         if (courtOwnerOptional.isEmpty()) {
-            return "CourtOwner do not exist";
+            throw new Exception("CourtOwner do not exist");
         }
         CourtOwner courtOwner = courtOwnerOptional.get();
         List<Announcement> announcements = courtOwner.getAnnouncements();
@@ -102,9 +98,9 @@ public class AnnouncementService {
         for (Announcement a : announcements) {
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             String strDate = dateFormat.format(a.getDate());
-            announcmentFrontends.add(new AnnouncmentFrontend(a.getId(), a.getCourtOwner().getId(), a.getTitle(), a.getBody(), a.getImg(), strDate));
+            announcmentFrontends.add(new AnnouncmentFrontend(a.getId(), a.getCourtOwner().getId(), a.getBody(), a.getImg(), strDate));
         }
-        return new Gson().toJson(announcmentFrontends);
+        return announcmentFrontends;
     }
 
     public String getSubscriptionAnnouncements(List<Subscription> subscriptions) {
@@ -122,7 +118,6 @@ public class AnnouncementService {
                     announcements.add(new AnnouncmentFrontend(
                             announcement.getId(),
                             announcement.getCourtOwner().getId(),
-                            announcement.getTitle(),
                             announcement.getBody(),
                             announcement.getImg(), strDate));
                 }
@@ -131,21 +126,4 @@ public class AnnouncementService {
         return new Gson().toJson(announcements);
     }
 
-    static class AnnouncmentFrontend {
-        Long id;
-        Long courtOwnerId;
-        String title;
-        String body;
-        String cni; // Attachments
-        String date;
-
-        public AnnouncmentFrontend(Long id, Long courtOwnerId, String title, String body, String cni, String date) {
-            this.id = id;
-            this.courtOwnerId = courtOwnerId;
-            this.title = title;
-            this.body = body;
-            this.cni = cni;
-            this.date = date;
-        }
-    }
 }

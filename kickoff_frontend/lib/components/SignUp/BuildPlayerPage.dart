@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:kickoff_frontend/httpshandlers/SignUpRequestPlayer.dart';
 
 import 'Email.dart';
@@ -48,7 +49,7 @@ class BuildRegisterFormPlayer extends StatelessWidget {
                       height: 175,
                       width: 175,
                       child:
-                      Image(image: AssetImage('assets/images/pic4.PNG'))),
+                          Image(image: AssetImage('assets/images/pic4.PNG'))),
                   SizedBox(height: 40),
                   BuildEmailSignUp(icon: Icons.mail,color: Colors.green, hint: 'Email Address'),
                   UsernameSignUp(icon: Icons.face_rounded,color: Colors.green, hint: 'Name'),

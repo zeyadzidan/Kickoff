@@ -17,9 +17,8 @@ public class SubscriberService {
         this.subscriptionsRepository = subscriptionsRepository;
     }
 
-    public boolean subscribe(String jsonSubscription) {
+    public boolean subscribe(Subscription subscription) {
         try {
-            Subscription subscription = new ObjectMapper().readValue(jsonSubscription, Subscription.class);
             // Checking whether a subscription is present or not.
             if (subscriptionsRepository.findByPid(subscription.getPid()).contains(subscription) &&
                     subscriptionsRepository.findByCoid(subscription.getCoid()).contains(subscription))
@@ -31,27 +30,15 @@ public class SubscriberService {
         }
     }
 
-    public boolean unsubscribe(String jsonSubscription) {
-        Subscription subscription = getSubscription(jsonSubscription);
+    public boolean unsubscribe(Subscription subscription) {
+        Long coid = subscription.getCoid();
+        Long pid = subscription.getPid();
+        Optional<Subscription> optional = subscriptionsRepository.findByCoidAndPid(coid, pid);
         // Checking whether a subscription is present or not.
-        if (subscription != null) {
-            subscriptionsRepository.deleteById(subscription.getId());
+        if (optional.isPresent()) {
+            subscriptionsRepository.deleteById(optional.get().getId());
             return true;
         } else return false;
-    }
-
-    private Subscription getSubscription(String json) {
-        try {
-            Subscription subscription = new ObjectMapper().readValue(json, Subscription.class);
-            Long coid = subscription.getCoid();
-            Long pid = subscription.getPid();
-            Optional<Subscription> optional = subscriptionsRepository.findByCoidAndPid(coid, pid);
-            if (optional.isPresent())
-                return optional.get();
-        } catch (Exception ignored) {
-            return null;
-        }
-        return null;
     }
 
     public String getPlayerSubscriptions(Long pid) {
@@ -67,7 +54,7 @@ public class SubscriberService {
         return subscriptionsRepository.countByCoid(coid);
     }
 
-    public Boolean isSubscriber(Long coid, Long pid) {
-        return subscriptionsRepository.existsByCoidAndPid(coid, pid);
+    public Boolean isSubscriber(Subscription subscription) {
+        return subscriptionsRepository.existsByCoidAndPid(subscription.getCoid(), subscription.getPid());
     }
 }

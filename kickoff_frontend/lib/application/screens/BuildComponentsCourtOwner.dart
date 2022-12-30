@@ -65,7 +65,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
                         blurRadius: 5,
                       ),
                     ],
-                    color: courtOwnerColor),
+                    color: mainSwatch),
               )),
 
           SizedBox(
@@ -97,7 +97,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
                         blurRadius: 5,
                       ),
                     ],
-                    color: courtOwnerColor),
+                    color: mainSwatch),
               )),
 
           // Cancel Button
@@ -175,9 +175,9 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
             });
           },
           child: isLogin
-              ? const Text(
+              ? Text(
             "انشاء حساب جديد",
-            style: TextStyle(color: courtOwnerColor, fontSize:20),
+            style: TextStyle(color: mainSwatch, fontSize:20),
           )
               : null,
         ),
@@ -243,7 +243,7 @@ class _circleSizerState extends State<circleSizer> with SingleTickerProviderStat
                 blurRadius: 5,
               ),
             ],
-            color: courtOwnerColor),
+            color: mainSwatch),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(55, 108, 0, 0),
           child :Text("I am a Player?!"

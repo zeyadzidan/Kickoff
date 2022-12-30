@@ -16,10 +16,10 @@ class BuildPassword_CourtOwnerSignUp extends State<Password_SignUp_CourtOwner> {
     return BuildContainer(
       color: Colors.cyan,
         child: TextField(
-      cursorColor: courtOwnerColor,
+      cursorColor: mainSwatch,
       controller: Password,
       decoration: InputDecoration(
-          icon: Icon(Icons.lock, color: courtOwnerColor),
+          icon: Icon(Icons.lock, color: mainSwatch),
           suffix: GestureDetector(
             onTap: () {
               setState(() {

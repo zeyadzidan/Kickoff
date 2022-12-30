@@ -1,10 +1,9 @@
 package back.kickoff.kickoffback.cotrollers;
 
+import back.kickoff.kickoffback.Commands.SubscriptionsCommands;
 import back.kickoff.kickoffback.model.Subscription;
 import back.kickoff.kickoffback.services.AnnouncementService;
 import back.kickoff.kickoffback.services.SubscriberService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,27 +26,27 @@ public class SubscriberController {
     }
 
     @PostMapping("/subscribe")
-    public ResponseEntity<Boolean> subscribe(@RequestBody String jsonSubscription) {
-        return (subscriberService.subscribe(jsonSubscription))
+    public ResponseEntity<Boolean> subscribe(@RequestBody String request) {
+        Subscription subscription = SubscriptionsCommands.constructSubscription(request);
+        return (subscriberService.subscribe(subscription))
                 ? new ResponseEntity<>(Boolean.TRUE, HttpStatus.CREATED)
                 : new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/unsubscribe")
-    public ResponseEntity<Boolean> unsubscribe(@RequestBody String jsonSubscription) {
-        return (subscriberService.unsubscribe(jsonSubscription))
+    public ResponseEntity<Boolean> unsubscribe(@RequestBody String request) {
+        Subscription subscription = SubscriptionsCommands.constructSubscription(request);
+        assert subscription != null;
+        return (subscriberService.unsubscribe(subscription))
                 ? new ResponseEntity<>(Boolean.TRUE, HttpStatus.CREATED)
                 : new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/isSubscriber")
-    public ResponseEntity<Boolean> isSubscriber(@RequestBody String sub) {
-        try {
-            Subscription subscription = new ObjectMapper().readValue(sub, Subscription.class);
-            return new ResponseEntity<>(subscriberService.isSubscriber(subscription.getCoid(), subscription.getPid()), HttpStatus.OK);
-        } catch (JsonProcessingException ignored) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Boolean> isSubscriber(@RequestBody String request) {
+        Subscription subscription = SubscriptionsCommands.constructSubscription(request);
+        assert subscription != null;
+        return new ResponseEntity<>(subscriberService.isSubscriber(subscription), HttpStatus.OK);
     }
 
     @GetMapping("/playerSubscriptions/{pid}")

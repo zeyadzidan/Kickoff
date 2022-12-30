@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/application/application.dart';
 
+import '/../myexpansionpanels.dart' as my_panel;
 import '../../application/screens/profile.dart';
 import '../../application/screens/reservations.dart';
 import '../../constants.dart';
@@ -25,19 +27,22 @@ class _ReservationsViewState extends State<ReservationsView> {
   Widget build(BuildContext context) => Expanded(
         child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            child: ExpansionPanelList(
+            child: my_panel.ExpansionPanelList(
               animationDuration: const Duration(milliseconds: 300),
-              expandedHeaderPadding: EdgeInsets.zero,
-              dividerColor: playerColor,
+              dividerColor: mainSwatch,
               elevation: 4,
-              children: List<ExpansionPanel>.generate(
+              children: List<my_panel.ExpansionPanel>.generate(
                   ReservationsHome.reservations.length,
-                  (index) => ExpansionPanel(
+                  (index) => my_panel.ExpansionPanel(
+                        hasArrow: !KickoffApplication.player,
                         headerBuilder: (_, isExpanded) => Container(
                           padding: const EdgeInsets.symmetric(
                               vertical: 15, horizontal: 30),
                           decoration: (KickoffApplication.player)
-                              ? null
+                              ? BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: mainSwatch.withOpacity(0.5))
                               : BoxDecoration(
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(25),
@@ -48,7 +53,7 @@ class _ReservationsViewState extends State<ReservationsView> {
                                       : (ReservationsHome
                                                   .reservations[index].state ==
                                               'Booked')
-                                          ? playerColor.withOpacity(0.5)
+                                          ? mainSwatch.withOpacity(0.5)
                                           : (ReservationsHome
                                                       .reservations[index]
                                                       .state ==
@@ -67,22 +72,13 @@ class _ReservationsViewState extends State<ReservationsView> {
                             child: Column(
                               children: [
                                 Column(
-                                  children: !KickoffApplication.player
-                                      ? List<Text>.generate(
-                                          ReservationsHome.reservations[index]
-                                              .asView()
-                                              .length,
-                                          (j) => Text(ReservationsHome
-                                              .reservations[index]
-                                              .asView()[j]))
-                                      : List<Text>.generate(
-                                          ReservationsHome.reservations[index]
-                                              .asPlayerView()
-                                              .length,
-                                          (j) => Text(ReservationsHome
-                                              .reservations[index]
-                                              .asPlayerView()[j])),
-                                ),
+                                    children: List<Widget>.generate(
+                                        ReservationsHome.reservations[index]
+                                            .asView()
+                                            .length,
+                                        (j) => ReservationsHome
+                                            .reservations[index]
+                                            .asView()[j])),
                                 KickoffApplication.player
                                     ? Container()
                                     : (ReservationsHome.reservations[index]
@@ -96,19 +92,19 @@ class _ReservationsViewState extends State<ReservationsView> {
                                             child: TextFormField(
                                               keyboardType:
                                                   TextInputType.number,
-                                              decoration: const InputDecoration(
+                                              decoration: InputDecoration(
                                                   suffixIcon: Icon(
                                                       Icons.monetization_on,
-                                                      color: playerColor),
+                                                      color: mainSwatch),
                                                   labelText: "العربون",
                                                   labelStyle: TextStyle(
-                                                      color: playerColor),
+                                                      color: mainSwatch),
                                                   floatingLabelAlignment:
                                                       FloatingLabelAlignment
                                                           .center,
-                                                  focusColor: playerColor,
+                                                  focusColor: mainSwatch,
                                                   border:
-                                                      UnderlineInputBorder(),
+                                                      const UnderlineInputBorder(),
                                                   prefixText: 'جنيهاً مصرياً'),
                                               validator: (input) {
                                                 if (input! == 0 ||
@@ -163,6 +159,28 @@ class _ReservationsViewState extends State<ReservationsView> {
                                     : Container(
                                         height: 0,
                                       ),
+                                KickoffApplication.player &&
+                                        ReservationsHome
+                                                .reservations[index].state ==
+                                            'Awaiting'
+                                    ? Container()
+                                    : ReservationsHome.reservations[index]
+                                                .receiptUrl !=
+                                            ""
+                                        ? CachedNetworkImage(
+                                            imageUrl: ReservationsHome
+                                                .reservations[index].receiptUrl,
+                                            width: double.infinity,
+                                            fit: BoxFit.cover,
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                CircularProgressIndicator(
+                                                    value: downloadProgress
+                                                        .progress),
+                                          )
+                                        : Container(
+                                            height: 0,
+                                          ),
                                 KickoffApplication.player
                                     ? Container()
                                     : (ReservationsHome.reservations[index]
@@ -180,7 +198,7 @@ class _ReservationsViewState extends State<ReservationsView> {
                                               icon: const Icon(
                                                   Icons.schedule_send),
                                               style: ElevatedButton.styleFrom(
-                                                  backgroundColor: Colors.green,
+                                                  backgroundColor: mainSwatch,
                                                   padding: const EdgeInsets
                                                           .symmetric(
                                                       vertical: 20,
@@ -206,8 +224,8 @@ class _ReservationsViewState extends State<ReservationsView> {
                                 KickoffApplication.player
                                     ? Container()
                                     : Container(
-                                        margin: const EdgeInsets.only(
-                                            top: 10.0),
+                                        margin:
+                                            const EdgeInsets.only(top: 10.0),
                                         child: SizedBox(
                                           height: 70,
                                           width: 150,
@@ -228,9 +246,8 @@ class _ReservationsViewState extends State<ReservationsView> {
                                                   await TicketsHTTPsHandler
                                                       .getCourtReservations(
                                                           ProfileBaseScreen
-                                                              .courts[
-                                                                  ReservationsHome
-                                                                      .selectedCourt]
+                                                              .courts[ReservationsHome
+                                                                  .selectedCourt]
                                                               .cid,
                                                           KickoffApplication
                                                               .ownerId,
@@ -245,10 +262,12 @@ class _ReservationsViewState extends State<ReservationsView> {
                               ],
                             )),
                         isExpanded: ReservationsHome.isExpanded[index],
-                        canTapOnHeader: true,
+                        canTapOnHeader: (!KickoffApplication.player),
                       )),
-              expansionCallback: (i, isExpanded) =>
-                  setState(() => ReservationsHome.isExpanded[i] = !isExpanded),
+              expansionCallback: !KickoffApplication.player
+                  ? (i, isExpanded) => setState(
+                      () => ReservationsHome.isExpanded[i] = !isExpanded)
+                  : null,
             )),
       );
 }

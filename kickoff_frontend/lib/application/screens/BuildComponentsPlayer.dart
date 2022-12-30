@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: playerColor),
+                    color: mainSwatch),
               )),
 
           // Positioned(
@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen>
           //                 blurRadius: 5,
           //               ),
           //             ],
-          //             color: PlayerColor),
+          //             color: mainSwatch),
           //          child: Padding(
           //            padding: const EdgeInsets.fromLTRB(55, 100, 0, 0),
           //              child :InkWell(
@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen>
                         blurRadius: 5,
                       ),
                     ],
-                    color: playerColor),
+                    color: mainSwatch),
               )),
 
           // Cancel Button
@@ -209,9 +209,9 @@ class _LoginScreenState extends State<LoginScreen>
                   });
                 },
           child: isLogin
-              ? const Text(
+              ? Text(
                   "SignUp",
-                  style: TextStyle(color: playerColor, fontSize: 18),
+                  style: TextStyle(color: mainSwatch, fontSize: 18),
                 )
               : null,
         ),
@@ -276,7 +276,7 @@ class _circleSizerState extends State<circleSizer> with SingleTickerProviderStat
                 blurRadius: 5,
               ),
             ],
-            color: playerColor),
+            color: mainSwatch),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(55, 100, 0, 0),
           child :Text("I am a CourtOwner?!"
