@@ -47,6 +47,7 @@ class _RatingsState extends State<Ratings> {
         floatingActionButton:  FloatingActionButton(
             onPressed: () => showModalBottomSheet(
                 elevation: 4,
+                isScrollControlled: true,
                 context: context,
                 builder: (context) =>
                     SingleChildScrollView(
