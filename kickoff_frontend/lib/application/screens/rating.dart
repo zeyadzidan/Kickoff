@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kickoff_frontend/application/application.dart';
+import 'package:kickoff_frontend/application/screens/profile.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:kickoff_frontend/httpshandlers/ratingrequests.dart';
+
+import 'ProfileappearToPlayer.dart';
 
 class Ratings extends StatefulWidget {
   Ratings({super.key});
@@ -9,18 +14,17 @@ class Ratings extends StatefulWidget {
 }
 
 class _RatingsState extends State<Ratings> {
-  List<dynamic> displayList = [
-    {"stars": 4, "review": "The cour is ver good", "player": "7amo"},
-    {"stars": 2, "review": "The cour is ver good", "player": "7amo"},
-    {"stars": 5, "review": "", "player": "7amo"},
-    {"stars": 1, "review": "The cour is ver good", "player": "7amo"}
-  ];
+
+  double stars =0;
+
+  static TextEditingController review = TextEditingController();
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Reviews"),
-          backgroundColor: playerColor,
+          backgroundColor:(KickoffApplication.player)? playerColor:courtOwnerColor,
           centerTitle: true,
         ),
       body: Container(
@@ -29,26 +33,22 @@ class _RatingsState extends State<Ratings> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 5.0,
-            ),
             // SizedBox(height: 10.0,),
             Expanded(
               child: ListView.builder(
-                  itemCount: displayList.length ,
+                  itemCount: ProfileBaseScreenPlayer.ratings.length ,
                   itemBuilder: (context,index)=> Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-
                     child: ListTile(
-                      title: Text("${displayList[index]["player"].toString()}",style: TextStyle(color: Colors.green,fontWeight: FontWeight.bold,),
+                      title: Text("${ProfileBaseScreenPlayer.ratings[index]["playerName"].toString()}",style: TextStyle(color: (KickoffApplication.player)? playerColor:courtOwnerColor,fontWeight: FontWeight.bold,),
                       ),
                       onTap: ()
                       {
                         print("Review");
                       },
-                      subtitle: Text("${displayList[index]["review"].toString()}", style: TextStyle(color: Colors.black,),
+                      subtitle: Text("${ProfileBaseScreenPlayer.ratings[index]["review"].toString()}", style: TextStyle(color: Colors.black,),
                       ),
-                      trailing: Text("${displayList[index]["stars"].toString()} \u{2B50}",style: TextStyle(color: Colors.green),
+                      trailing: Text("${ProfileBaseScreenPlayer.ratings[index]["stars"].toString()} \u{2B50}",style: TextStyle(color: Colors.amber),
                       ),
                     ),
                   )
@@ -57,7 +57,7 @@ class _RatingsState extends State<Ratings> {
           ],
         ) ,
       ),
-        floatingActionButton:  FloatingActionButton(
+         floatingActionButton:(KickoffApplication.player)?  FloatingActionButton(
             onPressed: () => showModalBottomSheet(
                 elevation: 4,
                 isScrollControlled: true,
@@ -80,20 +80,22 @@ class _RatingsState extends State<Ratings> {
                               itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
                               itemBuilder: (context, _) => const Icon(
                                 Icons.star,
-                                color: Colors.green,
+                                color: Colors.amber,
                               ),
                               onRatingUpdate: (rating) {
                                 print(rating);
+                                stars = rating as double;
                               },
                             ),
                             Container(
                                 width: 500,
                                 margin: EdgeInsets.fromLTRB(20.0, 20.0, 40.0, 50.0),
-                                child: const TextField(
+                                child: TextField(
                                     keyboardType: TextInputType.multiline,
                                     maxLines: 3,
                                     cursorColor: Colors.green,
                                     maxLength: 255,
+                                    controller: review,
                                     decoration: InputDecoration(
                                         enabledBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(color: Colors.grey),
@@ -101,6 +103,7 @@ class _RatingsState extends State<Ratings> {
                                         focusedBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(color: Colors.green),
                                         ))
+
                                 )
                             ),
                             Container(
@@ -109,8 +112,16 @@ class _RatingsState extends State<Ratings> {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green
                                 ),
-                                onPressed: () {
+                                onPressed: () async {
                                   print("Submit");
+                                 await Rating.postrating(KickoffApplication.ownerId, KickoffApplication.playerId, review.text, stars);
+                                 /// to do
+                                  await Rating.getratings(KickoffApplication.ownerId);
+                                  // KickoffApplication.dataPlayer ["rating"] = await http.get(Uri.parse('$_url/search/CourtOwner/${CourtOwnerId}'));
+                                      KickoffApplication.update();
+
+                                  Navigator.pop(context);
+
                                 },
                                 child: const Text('Submit',
                                 style: TextStyle(fontWeight: FontWeight.bold),),
@@ -123,7 +134,7 @@ class _RatingsState extends State<Ratings> {
                     )
             ),
             child: const Icon(Icons.star)
-        )
+        ):null,
     );
   }
 }

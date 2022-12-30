@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../components/classes/court.dart';
 import '../../httpshandlers/Subscription.dart';
+import '../../httpshandlers/ratingrequests.dart';
 
 class ProfileBaseScreenPlayer extends StatefulWidget {
   ProfileBaseScreenPlayer({super.key}) {
@@ -23,6 +24,7 @@ class ProfileBaseScreenPlayer extends StatefulWidget {
   static int _selectedPage = 0;
   static bool isSubscribed =false;
   static int subscribersCount =0;
+  static List<dynamic> ratings=[];
   @override
   State<ProfileBaseScreenPlayer> createState() =>
       _ProfileBaseScreenStatePlayer();
@@ -126,8 +128,10 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                         SizedBox(
                                           height: 70,
                                           child: TextButton(
-                                            onPressed: () {
+                                            onPressed: () async {
                                               print("Show Reviews");
+                                              await Rating.getratings(id);
+                                              Navigator.pushNamed(context,'/Ratings');
                                             },
                                             child: Column(
                                               children: [
