@@ -18,6 +18,7 @@ class FrontEndReservation{
     Long id;
     Long playerID;
     String playerName;
+    String phoneNumber;
     //Player mainPlayer;
     Long courtID;
     Long courtOwnerID;
@@ -46,6 +47,7 @@ class FrontEndReservation{
         this.moneyPayed = reservation.getMoneyPayed();
         this.totalCost = reservation.getTotalCost();
         this.receiptUrl = reservation.getReceiptUrl();
+        this.phoneNumber = reservation.getMainPlayer().getPhoneNumber();
         //this.players = reservation.getPlayers();
     }
 }
