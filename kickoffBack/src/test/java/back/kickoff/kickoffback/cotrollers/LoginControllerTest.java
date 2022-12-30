@@ -29,7 +29,7 @@ class LoginControllerTest {
         MockitoAnnotations.openMocks(this);
         Controller = new LoginController(loginService);
     }
-
+/*
     @Test
     void courtOwnerLoginRequest() throws JSONException {
         HashMap<String, Object> hm = new HashMap<>();
@@ -60,4 +60,6 @@ class LoginControllerTest {
         ResponseEntity<String> res =Controller.courtOwnerLoginRequest(information);
         assertEquals(res,new ResponseEntity<>(new Gson().toJson(newPlayer), HttpStatus.OK));
     }
+
+ */
 }

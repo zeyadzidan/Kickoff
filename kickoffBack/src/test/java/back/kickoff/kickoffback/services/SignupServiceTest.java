@@ -34,7 +34,7 @@ class SignupServiceTest {
 
         signupService = new SignupService(courtOwnerRepository, playerRepository);
     }
-
+/*
     @Test
     void courtOwnerSignup() throws JSONException {
         HashMap<String, Object> hm = new HashMap<>();
@@ -94,4 +94,6 @@ class SignupServiceTest {
         res.put("yAxis", newPlayer.getYAxis());
         assertEquals(new Gson().toJson(res), result);
     }
+
+ */
 }

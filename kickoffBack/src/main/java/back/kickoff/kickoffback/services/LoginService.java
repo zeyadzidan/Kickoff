@@ -7,23 +7,20 @@ import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
-import com.google.gson.Gson;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class LoginService {
     private final CourtOwnerRepository courtOwnerRepository;
     private final PlayerRepository playerRepository;
+    private final PenaltyService penaltyService ;
 
-    public LoginService(CourtOwnerRepository courtOwnerRepository, PlayerRepository playerRepository) {
+    public LoginService(CourtOwnerRepository courtOwnerRepository, PlayerRepository playerRepository, PenaltyService penaltyService) {
         this.courtOwnerRepository = courtOwnerRepository;
         this.playerRepository = playerRepository;
+        this.penaltyService = penaltyService;
     }
 
     public CourtOwnerFrontEnd courtOwnerLogin(LoginCommand command) throws Exception {
@@ -49,6 +46,7 @@ public class LoginService {
             throw new Exception("Incorrect Password");
         }
         Player player = optionalPlayer.get();
+        penaltyService.updatePenalty(player);
 
         return new PlayerFrontEnd(player);
     }

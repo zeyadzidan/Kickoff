@@ -57,11 +57,46 @@ public class PenaltyService {
             }
         }
         if(player.getWarnings()>=5){
-            old += Math.ceilDiv(7*player.getWarnings(),5) ;
+            old += Math.ceil(7*player.getWarnings()/5.0) ;
         }
         player.setPenaltyDays((int) old);
         player.setLastWarning(Date.valueOf(LocalDate.now()));
         return (old>0) ;
+    }
+
+    void updatePenalty(Player player){
+        LocalDate lastWarning = player.getLastWarning().toLocalDate() ;
+        LocalDate now = LocalDate.now();
+        long days  = now.until(lastWarning, ChronoUnit.DAYS);
+        if(player.isRestricted()){
+            if(player.getPenaltyDays()< days){ // passed the penalty time
+                lastWarning = lastWarning.plusDays(player.getPenaltyDays());
+                days -= player.getPenaltyDays() ;
+                player.setPenaltyDays(0);
+                player.setRestricted(false);
+            }else{
+                return;
+            }
+        }else if(player.getWarnings()==0){
+            return;
+        }
+
+        int down = (int) Math.floorDiv(days,14);
+        if(down>= player.getWarnings()){
+            int noWarnings = player.getWarnings()-down ;
+            lastWarning = lastWarning.plusDays(down* 14L);
+            player.setWarnings(noWarnings);
+        }else {
+            down = player.getWarnings() ;
+            int noWarnings = 0 ;
+            lastWarning = lastWarning.plusDays(down* 14L);
+            player.setWarnings(noWarnings);
+        }
+
+
+        player.setLastWarning(Date.valueOf(lastWarning));
+        playerRepository.save(player) ;
+
     }
 
 }

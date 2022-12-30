@@ -3,6 +3,12 @@ package back.kickoff.kickoffback.Commands;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Player;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 public class PlayerFrontEnd {
     public Long id;
     public String name;
@@ -13,6 +19,11 @@ public class PlayerFrontEnd {
     public Double xAxis ;
     public Double yAxis;
 
+    public boolean restricted;
+    public int warnings;
+    public String lastWarning  ;
+    public int penaltyDaysLeft ;
+
     public PlayerFrontEnd(Player player){
         id = player.getId();
         name = player.getName();
@@ -21,6 +32,20 @@ public class PlayerFrontEnd {
         phoneNumber = player.getPhoneNumber();
         xAxis = player.getXAxis();
         yAxis = player.getYAxis();
+
+        restricted = player.isRestricted();
+        warnings = player.getWarnings();
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        lastWarning = dateFormat.format(player.getLastWarning());
+
+        LocalDate lastWarning = player.getLastWarning().toLocalDate() ;
+        LocalDate now = LocalDate.now();
+        int days  = (int) now.until(lastWarning, ChronoUnit.DAYS);
+        penaltyDaysLeft = 0 ;
+        if(player.getPenaltyDays()> days){
+            penaltyDaysLeft = player.getPenaltyDays()-days ;
+        }
+
     }
 
 
