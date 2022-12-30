@@ -3,6 +3,7 @@ package back.kickoff.kickoffback.Commands;
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.model.Reservation;
 import back.kickoff.kickoffback.model.ReservationState;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,8 +13,8 @@ import java.util.Set;
 
 @Setter
 @Getter
-public
-class FrontEndReservation{
+@Data
+public class FrontEndReservation{
 
     Long id;
     Long playerID;

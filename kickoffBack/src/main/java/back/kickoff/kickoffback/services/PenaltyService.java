@@ -42,8 +42,11 @@ public class PenaltyService {
             throw new Exception("Player reported does not exist");
         }
         Player player = playerOptionalReported.get() ;
+        updatePenalty(player);
         player.setWarnings(player.getWarnings()+1);
-        return checkAndAddRestriction(player) ;
+        boolean res = checkAndAddRestriction(player) ;
+        playerRepository.save(player) ;
+        return res;
     }
 
     boolean checkAndAddRestriction(Player player){
@@ -51,38 +54,45 @@ public class PenaltyService {
         if(player.isRestricted()){
             LocalDate lastWarning = player.getLastWarning().toLocalDate() ;
             LocalDate now = LocalDate.now();
-            long days  = now.until(lastWarning, ChronoUnit.DAYS);
+            long days  = lastWarning.until(now, ChronoUnit.DAYS);
             if(player.getPenaltyDays()> days){
                 old = player.getPenaltyDays()-days ;
             }
+            System.out.println("old + "+ old + " + days +" + days);
         }
         if(player.getWarnings()>=5){
             old += Math.ceil(7*player.getWarnings()/5.0) ;
         }
         player.setPenaltyDays((int) old);
         player.setLastWarning(Date.valueOf(LocalDate.now()));
+        player.setRestricted(old>0);
         return (old>0) ;
     }
 
     void updatePenalty(Player player){
+        if(player.getWarnings()==0){
+            return;
+        }
         LocalDate lastWarning = player.getLastWarning().toLocalDate() ;
         LocalDate now = LocalDate.now();
-        long days  = now.until(lastWarning, ChronoUnit.DAYS);
+        long days  = lastWarning.until(now, ChronoUnit.DAYS);
+        System.out.println("days " + days);
+        System.out.println("lastWarning " + lastWarning);
         if(player.isRestricted()){
             if(player.getPenaltyDays()< days){ // passed the penalty time
                 lastWarning = lastWarning.plusDays(player.getPenaltyDays());
+                System.out.println("lastWarning " + lastWarning);
+
                 days -= player.getPenaltyDays() ;
                 player.setPenaltyDays(0);
                 player.setRestricted(false);
             }else{
                 return;
             }
-        }else if(player.getWarnings()==0){
-            return;
         }
 
-        int down = (int) Math.floorDiv(days,14);
-        if(down>= player.getWarnings()){
+        int down = (int) Math.floor(days/14.0);
+        if(down <= player.getWarnings()){
             int noWarnings = player.getWarnings()-down ;
             lastWarning = lastWarning.plusDays(down* 14L);
             player.setWarnings(noWarnings);
@@ -95,6 +105,8 @@ public class PenaltyService {
 
 
         player.setLastWarning(Date.valueOf(lastWarning));
+        System.out.println("lastWarning " + lastWarning);
+
         playerRepository.save(player) ;
 
     }
