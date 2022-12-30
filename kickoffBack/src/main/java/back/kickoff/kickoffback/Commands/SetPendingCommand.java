@@ -5,6 +5,8 @@ import back.kickoff.kickoffback.model.PlayerType;
 import back.kickoff.kickoffback.model.Reservation;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
