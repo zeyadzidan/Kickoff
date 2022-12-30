@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/components/login/BuildLogin.dart';
+import 'package:kickoff_frontend/components/login/BulidCourtOwnerPage.dart';
 import 'package:kickoff_frontend/components/login/CancelButton.dart';
 import 'package:kickoff_frontend/constants.dart';
 
-import '../../components/login/BuildSignUp.dart';
+import '../../components/SignUp/BuildCourtOwnerPage.dart';
 
 class LoginScreenCourtOwner extends StatefulWidget {
   const LoginScreenCourtOwner({super.key});
@@ -101,7 +101,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
               )),
 
           // Cancel Button
-          CancelButton(
+          BuildCancelButton(
             isLogin: isLogin,
             animationDuration: animationDuration,
             size: size,
@@ -120,7 +120,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
           // Login Form
           Padding(
             padding: EdgeInsets.only(top: size.height *0.1),
-            child: LoginForm(
+            child: BuildLoginFormCourtOwner(
                 isLogin: isLogin,
                 animationDuration: animationDuration,
                 size: size,
@@ -142,7 +142,7 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
           ),
 
           // Register Form
-          RegisterForm(
+          BuildRegisterFormCourtOwner(
               isLogin: isLogin,
               animationDuration: animationDuration,
               size: size,

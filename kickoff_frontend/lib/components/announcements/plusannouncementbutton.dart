@@ -28,7 +28,7 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
     return FloatingActionButton(
         backgroundColor: courtOwnerColor,
         tooltip: "إضافة إعلان",
-        child: const Icon(Icons.add_comment_rounded, size: 35),
+        child: const Icon(Icons.create, size: 35),
         onPressed: () =>
             showModalBottomSheet(
               elevation: 4,
@@ -45,7 +45,7 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
                               const Text("أضف إعلاناً",
                                   style: TextStyle(
                                       color: courtOwnerColor, fontSize: 32)),
-                              _formField('العنوان', Icons.title),
+                              // _formField('العنوان', Icons.title),
                               _formField('وصف الإعلان', Icons.announcement),
                               Container(
                                 margin: const EdgeInsets.only(top: 15),
@@ -81,8 +81,8 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
             ));
   }
   _formField(label, icon) => TextFormField(
-        maxLength: (label == 'وصف الإعلان') ? 150 : 32,
-        maxLines: (label == 'وصف الإعلان') ? 3 : 1,
+        // maxLength: (label == 'وصف الإعلان') ? 150 : 32,
+        // maxLines: (label == 'وصف الإعلان') ? 3 : 1,
         decoration: InputDecoration(
           focusColor: courtOwnerColor,
           floatingLabelAlignment: FloatingLabelAlignment.center,

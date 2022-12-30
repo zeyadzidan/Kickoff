@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/constants.dart';
 
-class InputContainer extends StatelessWidget {
-  const InputContainer({
+class BuildContainer extends StatelessWidget {
+  const BuildContainer({
     Key? key,
     required this.child,
     required this.color,

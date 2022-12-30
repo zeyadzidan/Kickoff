@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 
-class FindLocation extends StatelessWidget {
-  FindLocation({
+class BuildLocation extends StatelessWidget {
+  BuildLocation({
     Key? key,
     required this.title,
     required this.color,
+    required this.x,
+    required this.y,
   }) : super(key: key);
   final String title;
   final Color color;
+  final double x;
+  final double y;
   static var Locationaddress;
   static var X_axis;
   static var Y_axis;

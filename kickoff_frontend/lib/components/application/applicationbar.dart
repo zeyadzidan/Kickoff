@@ -11,17 +11,19 @@ import '../../application/screens/profile.dart';
 class KickoffAppBar {
   build(context) => KickoffApplication.player
       ?AppBar(
+    centerTitle: true,
     leading: IconButton(
       icon: const Icon(Icons.person),
       tooltip: 'تعديل البيانات',
       onPressed: () async {
-        //to be implemented
+        Navigator.pushNamed(context, '/account');
       },
     ),
     elevation: 4,
     title: const Text(
       "Kickoff",
       style: TextStyle(color: secondaryColor),
+
     ),
     actions: <Widget>[
       IconButton(
