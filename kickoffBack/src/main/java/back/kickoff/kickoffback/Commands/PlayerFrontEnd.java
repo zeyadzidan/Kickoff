@@ -3,6 +3,7 @@ package back.kickoff.kickoffback.Commands;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Player;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.sql.Date;
 import java.text.DateFormat;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 @EqualsAndHashCode
+@ToString
 public class PlayerFrontEnd {
     public Long id;
     public String name;
