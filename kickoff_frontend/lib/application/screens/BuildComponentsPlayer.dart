@@ -67,41 +67,6 @@ class _LoginScreenState extends State<LoginScreen>
                     ],
                     color: mainSwatch),
               )),
-
-          // Positioned(
-          //     top: -50,
-          //     left: -50,
-          //       child: Container(
-          //         width: 200,
-          //         height: 200,
-          //         decoration: BoxDecoration(
-          //             borderRadius: BorderRadius.circular(100),
-          //             boxShadow: const <BoxShadow>[
-          //               BoxShadow(
-          //                 color: Colors.black,
-          //                 blurRadius: 5,
-          //               ),
-          //             ],
-          //             color: mainSwatch),
-          //          child: Padding(
-          //            padding: const EdgeInsets.fromLTRB(55, 100, 0, 0),
-          //              child :InkWell(
-          //                onTap: (){
-          //                  Navigator.pushNamed( context,'/login');
-          //                },
-          //                child: Text("I am a CourtOwner?!"
-          //                  ,style: const TextStyle(
-          //                    fontSize: 20,
-          //                    fontWeight: FontWeight.bold,
-          //                    color: Colors.white,
-          //                 ),
-          //                ),
-          //              ),
-          //     ),
-          //       ),
-          //
-          //     ),
-
           SizedBox(
             width: 210,
             child: InkWell(
