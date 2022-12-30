@@ -29,12 +29,12 @@ class PartiesHTTPsHandler {
       party.COname = map['COname'].toString();
       party.Cname = map['Cname'].toString();
       party.Pname = map['Pname'].toString();
-      if (map.containsKey('Pimg ')) {
+      if (map.containsKey('Pimg')) {
         party.Pimg = map['Pimg'].toString();
       }
       party.Date = map['Date'].toString();
-      party.timeFrom = map['timeFrom'].toString().substring(0,(map['time'].toString().lastIndexOf(":")));
-      party.timeTo = map['timeTo'].toString();
+      party.timeFrom = map['timeFrom'].toString().substring(0,(map['timeFrom'].toString().lastIndexOf(":")));
+      party.timeTo = map['timeTo'].toString().substring(0,(map['timeTo'].toString().lastIndexOf(":")));
       party.emptyplaces = map['emptyplaces'].toString();
       party.fullplaces = map['fullplaces'].toString();
       party.totalCost = map['totalCost'];
