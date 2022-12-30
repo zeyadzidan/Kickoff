@@ -1,14 +1,23 @@
 package back.kickoff.kickoffback.Commands;
 
+import back.kickoff.kickoffback.model.Subscription;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Setter
 @Getter
-@NoArgsConstructor
 @ToString
 public class SubscriptionsCommands {
 
+    private SubscriptionsCommands() {}
+
+    public static Subscription constructSubscription(String request) {
+        try {
+            return new ObjectMapper().readValue(request, Subscription.class);
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
 }
