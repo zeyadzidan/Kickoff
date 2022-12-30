@@ -11,7 +11,8 @@ public class PartyFrontEnd {
     public Long partyid;
     public CourtOwnerFrontEnd courtOnwer;
     public CourtFrontEnd court;
-    public String avalibleNumbers;
+    public String emptyplaces;
+    public String fullplaces;
     public PlayerFrontEnd playerCreated;
     public List<PlayerFrontEnd> playerJoined;
     public FrontEndReservation reservation;
@@ -20,9 +21,10 @@ public class PartyFrontEnd {
         partyid =party.getPartyId();
         courtOnwer = new CourtOwnerFrontEnd(party.getCourtOwner());
         court = new CourtFrontEnd(party.getCourt());
-        avalibleNumbers =party.getAvailableNumbers();
+        emptyplaces = party.getNeededNumbers();
+        int diff = Math.abs(Integer.parseInt(party.getNeededNumbers())-Integer.parseInt(party.getAvailableNumbers()));
+        fullplaces = diff+"/"+party.getAvailableNumbers();
         playerCreated = new PlayerFrontEnd(party.getPlayerCreated());
-
         playerJoined = new ArrayList<>();
         for(Player p : party.getPlayerJoined())
         {

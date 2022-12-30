@@ -61,14 +61,4 @@ public class Party {
         number--;
         neededNumbers = Integer.toString(number);
     }
-    public void incrementavaiblePlayer(String AvailableNumbers) {
-        int number = Integer.parseInt(AvailableNumbers);
-        number++;
-        availableNumbers = Integer.toString(number);
-    }
-    public void decrementavaiblePlayer(String AvailableNumbers) {
-        int number = Integer.parseInt(AvailableNumbers);
-        number--;
-        availableNumbers = Integer.toString(number);
-    }
 }

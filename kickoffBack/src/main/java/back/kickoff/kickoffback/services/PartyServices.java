@@ -29,13 +29,13 @@ public class PartyServices {
     }
     public boolean CreateParty(CreateParty command) throws JSONException {
         try {
-            Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(command.courtOnwerId);
-            CourtOwner courtOwner = courtOwnerOptional.get();
             Optional<Reservation> reservationOptional = reservationRepository.findById(command.reservationId);
             Reservation reservation = reservationOptional.get();
-            Optional<Court> courtOptional = courtRepository.findById(command.courtId);
+            Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(reservation.getCourtOwnerID());
+            CourtOwner courtOwner = courtOwnerOptional.get();
+            Optional<Court> courtOptional = courtRepository.findById(reservation.getCourtID());
             Court court = courtOptional.get();
-            Optional<Player> playerOptional = playerRepository.findById(command.playerId);
+            Optional<Player> playerOptional = playerRepository.findById(reservation.getMainPlayer().getId());
             Player player = playerOptional.get();
             Party newParty = new Party(command.neededNumbers, command.availableNumbers,reservation,courtOwner,court,player);
             partyRepository.save(newParty);
@@ -45,8 +45,8 @@ public class PartyServices {
             res.put("CourtOwner", newParty.getCourtOwner());
             res.put("Court", newParty.getCourt());
             res.put("PlayerCreated", newParty.getPlayerCreated());
-            res.put("AvailableNumbers", newParty.getAvailableNumbers());
-            res.put("NeededNumbers", newParty.getNeededNumbers());
+            res.put("fullplaces", newParty.getAvailableNumbers());
+            res.put("emptyplaces", newParty.getNeededNumbers());
             res.put("Reservation", newParty.getReservation());
             System.out.println(res);
             return true;
@@ -88,7 +88,6 @@ public class PartyServices {
         }
         party.addJoinedPlayers(player);
         party.dectementneededPlayer(party.getNeededNumbers());
-        party.incrementavaiblePlayer(party.getAvailableNumbers());
         partyRepository.save(party);
         playerRepository.save(player);
         return true;
@@ -105,14 +104,13 @@ public class PartyServices {
             return false;
         }
         Optional<Player> PlayerOptional = playerRepository.findById(playerid);
-        Player player = PlayerOptional.get();
         if (PlayerOptional.isEmpty()) {
             return false;
         }
+        Player player = PlayerOptional.get();
         Party party = PartyOptional.get();
         party.leaveJoinedPlayers(player);
         party.incrementneededPlayer(party.getNeededNumbers());
-        party.decrementavaiblePlayer(party.getAvailableNumbers());
         partyRepository.save(party);
         playerRepository.save(player);
         return true;
