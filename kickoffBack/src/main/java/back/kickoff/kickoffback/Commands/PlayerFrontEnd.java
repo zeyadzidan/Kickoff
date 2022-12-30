@@ -8,20 +8,20 @@ import lombok.Getter;
 public class PlayerFrontEnd {
 
 
-    private String name;
+    private String Pname;
 
-    private String image;
+    private String Pimg;
 
     public PlayerFrontEnd(Player player) {
-      name = player.getName();
+        Pname = player.getName();
 
       if( player.getImage()==null)
       {
-          image ="";
+          Pimg ="";
       }
       else
       {
-          image = player.getImage();
+          Pimg = player.getImage();
       }
 
     }
