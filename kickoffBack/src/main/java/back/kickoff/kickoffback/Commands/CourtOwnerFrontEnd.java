@@ -13,12 +13,12 @@ public class CourtOwnerFrontEnd {
     public String phoneNumber;
 
     public CourtOwnerFrontEnd(CourtOwner courtOwner){
-        courtOwnerId = courtOwner.getId();
+//        courtOwnerId = courtOwner.getId();
         name = courtOwner.getUserName();
-        email = courtOwner.getEmail();
-        rating = courtOwner.getRating();
-        image = courtOwner.getImage();
-        phoneNumber = courtOwner.getPhoneNumber();
+//        email = courtOwner.getEmail();
+//        rating = courtOwner.getRating();
+//        image = courtOwner.getImage();
+//        phoneNumber = courtOwner.getPhoneNumber();
     }
 
 }
