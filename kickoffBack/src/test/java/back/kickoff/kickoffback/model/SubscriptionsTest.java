@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SubscriptionsTest {
     Subscription subscription;
@@ -39,6 +38,6 @@ class SubscriptionsTest {
     void testEqualsAndHashCode() {
         Object obj = subscription;
         assertEquals(subscription.getClass(), obj.getClass());
-        assertTrue(subscription.hashCode() == obj.hashCode());
+        assertEquals(subscription.hashCode(), obj.hashCode());
     }
 }
