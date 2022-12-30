@@ -152,13 +152,4 @@ class PartiesHTTPsHandler {
     print(response.body);
   }
 
-  static Future<String> uploadAnnouncementImageFile(
-      File file, final path) async {
-    UploadTask? uploadTask;
-    final ref = FirebaseStorage.instance.ref().child(path);
-    uploadTask = ref.putFile(file);
-    final snapshot = await uploadTask.whenComplete(() {});
-    final imageUrl = await snapshot.ref.getDownloadURL();
-    return imageUrl;
-  }
 }

@@ -10,6 +10,7 @@ import 'package:kickoff_frontend/application/screens/reservations.dart';
 import 'package:kickoff_frontend/components/classes/Party.dart';
 import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
+import 'package:kickoff_frontend/application/screens/player/showPartyPlayers.dart';
 
 import '../../../constants.dart';
 import '../../../httpshandlers/Parties Requests.dart';
@@ -308,9 +309,9 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
                                   const EdgeInsets.symmetric(
                                       vertical: 10)),
                               onPressed: () async {
-                                print("Show Participants");
-                                setState(() {});
-                              },
+                                showPartyPlayers.partyPlayers=await PartiesHTTPsHandler.getPlayersJoinedParty(PlayerReservationsHome.parties[index].id);
+                                showPartyPlayers.party=PlayerReservationsHome.parties[index];
+                                Navigator.pushNamed(context, "/Party");                              },
                             ),
                           ),
                           Expanded(child: Container()),

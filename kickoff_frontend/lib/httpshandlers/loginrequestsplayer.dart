@@ -117,6 +117,7 @@ class RoundedLogin extends State<LoginButtonPlayer> {
             AnnouncementsHome.isExpanded = List<bool>.generate(AnnouncementsHome.announcements.length, (index) => false);
             print(AnnouncementsHome.announcements.length);
             await getCourtsinSearch(KickoffApplication.data["xAxis"],KickoffApplication.data["yAxis"]);
+            KickoffApplication.setStartState();
             Navigator.popAndPushNamed(context, '/kickoff');
           }
         }

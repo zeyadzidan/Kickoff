@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:kickoff_frontend/application/screens/announcements.dart';
+import 'package:kickoff_frontend/application/screens/player/showPartyPlayers.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/httpshandlers/Parties%20Requests.dart';
 import 'package:kickoff_frontend/httpshandlers/announcements-requests.dart';
@@ -133,8 +134,9 @@ class postbutton extends State<PlusAnnouncementButton3> {
                                                       const EdgeInsets.symmetric(
                                                           vertical: 10)),
                                               onPressed: () async {
-                                                print("Show Participants");
-                                                setState(() {});
+                                                showPartyPlayers.partyPlayers=await PartiesHTTPsHandler.getPlayersJoinedParty(AnnouncementsHome.parties[index].id);
+                                                showPartyPlayers.party=AnnouncementsHome.parties[index];
+                                                Navigator.pushNamed(context, "/Party");
                                               },
                                             ),
                                           ),
