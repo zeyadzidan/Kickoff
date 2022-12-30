@@ -235,6 +235,7 @@ public class PartyServices {
             List<Party> parties = source2.getParties();
             for (Party p : parties) {
                   List<Player> playerss = p.getPlayerJoined();
+                Player player = p.getPlayerCreated();
                   for(Player p2 :playerss)
                   {
                       if(p2.getId() ==source.getId())
@@ -243,6 +244,10 @@ public class PartyServices {
                           break;
                       }
                   }
+                if(source.getId() == player.getId())
+                {
+                    check = true;
+                }
                   if(!check)
                   {
                       data.add(new PartyFrontEnd(p));
