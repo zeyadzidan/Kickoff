@@ -43,12 +43,13 @@ class PartiesHTTPsHandler {
     return parties;
   }
 
-  static Future<List<Party>> getPartiesCourtOwner(coid) async {
+  static Future<List<Party>> getPartiesCourtOwner(coid,pid) async {
     var response = await http.post(
         Uri.parse('$_url/party/get_parties_of_courtOwner'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           "id": coid,
+          "pid":pid
         }));
     print(response.body);
     List<dynamic> temp = json.decode(response.body);
