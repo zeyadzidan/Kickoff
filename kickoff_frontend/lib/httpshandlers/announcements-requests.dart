@@ -52,8 +52,8 @@ class AnnouncementHTTPsHandler {
     Announcement announcement;
     List<Announcement> announcements = <Announcement>[];
     try {
-      List<dynamic> announcementsMap = json.decode(response.body);
       print(response.body);
+      List<dynamic> announcementsMap = json.decode(response.body);
       for (Map<String, dynamic> map in announcementsMap) {
         announcement = Announcement();
         announcement.coid = map['courtOwnerId'].toString();
