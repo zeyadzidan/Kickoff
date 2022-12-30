@@ -72,13 +72,13 @@ class _ReservationsViewState extends State<ReservationsView> {
                             child: Column(
                               children: [
                                 Column(
-                                    children: List<Text>.generate(
+                                    children: List<Widget>.generate(
                                         ReservationsHome.reservations[index]
                                             .asView()
                                             .length,
-                                        (j) => Text(ReservationsHome
+                                        (j) => ReservationsHome
                                             .reservations[index]
-                                            .asView()[j]))),
+                                            .asView()[j])),
                                 KickoffApplication.player
                                     ? Container()
                                     : (ReservationsHome.reservations[index]

@@ -151,12 +151,12 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
                             child: Column(
                               children: [
                                 Column(
-                                  children: List<Text>.generate(
+                                  children: List<Widget>.generate(
                                       _reservations()[index]
                                           .asPlayerView()
                                           .length,
-                                      (j) => Text(_reservations()[index]
-                                          .asPlayerView()[j])),
+                                      (j) => _reservations()[index]
+                                          .asPlayerView()[j]),
                                 ),
                                 (_reservations()[index].state == ('Pending'))
                                     ? Column(children: [

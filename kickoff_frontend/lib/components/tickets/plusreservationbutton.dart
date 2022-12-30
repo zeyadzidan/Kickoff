@@ -46,6 +46,11 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
                     (!KickoffApplication.player)
                         ? _formField('اسم اللاعب صاحب الحجز', Icons.person)
                         : Container(),
+                    _formField(
+                        KickoffApplication.player
+                            ? 'Phone Number'
+                            : 'رقم الهاتف',
+                        Icons.phone),
                     _reservationTimePicker(true),
                     _reservationTimePicker(false),
                     _submitButton()
@@ -69,7 +74,9 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
         ),
         validator: (input) =>
             (input!.isEmpty) ? 'لا يمكنك ترك هذا الحقل فارغاً.' : null,
-        onSaved: (value) => _fixtureTicket.pname = value!,
+        onSaved: (value) => label == 'اسم اللاعب صاحب الحجز'
+            ? _fixtureTicket.pname = value!
+            : _fixtureTicket.pnumber = value!,
       );
 
   _reservationTimePicker(initTime) => Container(

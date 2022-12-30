@@ -32,6 +32,7 @@ class TicketsHTTPsHandler {
         body: json.encode({
           "playerName": ticket.pname,
           if (KickoffApplication.player) "playerId": ticket.pid,
+          "phoneNumber": ticket.pnumber,
           "courtId": ticket.cid,
           "courtOwnerId": ticket.coid,
           "startDate": ticket.startDate,
