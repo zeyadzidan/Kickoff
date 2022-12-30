@@ -5,36 +5,49 @@ import back.kickoff.kickoffback.model.Player;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PartyFrontEnd {
 
-    public Long partyid;
-    public CourtOwnerFrontEnd courtOnwer;
-    public CourtFrontEnd court;
+    public Long id;
+    public String COname;
+    public String Cname;
     public String emptyplaces;
     public String fullplaces;
-    public PlayerFrontEnd playerCreated;
-    public List<PlayerFrontEnd> playerJoined;
-   public java.sql.Date Date;
+    public String Pname;
+    public String Pimg;
+//    public List<PlayerFrontEnd> playerJoined;
+   public String Date;
    public Time timeFrom;
     public  Time timeTo;
     public  int totalCost;
     public PartyFrontEnd(Party party) {
-        partyid =party.getPartyId();
-        courtOnwer = new CourtOwnerFrontEnd(party.getCourtOwner());
-        court = new CourtFrontEnd(party.getCourt());
+        id =party.getPartyId();
+        COname = party.getCourtOwner().getUserName();
+        Cname = party.getCourt().getCourtName();
         emptyplaces = party.getNeededNumbers();
 //        int diff = Math.abs(Integer.parseInt(party.getNeededNumbers())-Integer.parseInt(party.getAvailableNumbers()));
         fullplaces = party.getAvailableNumbers();
-        playerCreated =  new PlayerFrontEnd(party.getPlayerCreated());
-        playerJoined = new ArrayList<>();
-        for(Player p : party.getPlayerJoined())
+        Pname =  party.getPlayerCreated().getName();
+        if(Pimg == null)
         {
-            playerJoined.add(new PlayerFrontEnd(p));
+           Pimg ="";
         }
-        Date = party.getReservation().getStartDate();
+        else
+        {
+            Pimg = party.getPlayerCreated().getImage();
+        }
+        System.out.println(Pimg);
+//        playerJoined = new ArrayList<>();
+//        for(Player p : party.getPlayerJoined())
+//        {
+//            playerJoined.add(new PlayerFrontEnd(p));
+//        }
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Date = dateFormat.format(party.getReservation().getStartDate());;
         timeFrom = party.getReservation().getTimeFrom();
         timeTo = party.getReservation().getTimeTo();;
         totalCost = party.getReservation().getTotalCost();
