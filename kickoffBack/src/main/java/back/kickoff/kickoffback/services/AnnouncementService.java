@@ -1,6 +1,6 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.AddAnnouncmentCommand;
+import back.kickoff.kickoffback.Commands.AddAnnouncementCommand;
 import back.kickoff.kickoffback.Commands.AnnouncmentFrontend;
 import back.kickoff.kickoffback.model.Announcement;
 import back.kickoff.kickoffback.model.CourtOwner;
@@ -32,11 +32,11 @@ public class AnnouncementService {
         this.announcementRepository = announcementRepository;
     }
 
-    public void addAnnouncement(AddAnnouncmentCommand command) throws Exception {
+    public void addAnnouncement(AddAnnouncementCommand command) throws Exception {
 
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(command.getCourtOwnerId());
         if (courtOwnerOptional.isEmpty()) {
-            throw  new Exception("Court Owner does not exist");
+            throw new Exception("Court Owner does not exist");
         }
         CourtOwner courtOwner = courtOwnerOptional.get();
         Announcement newAnnouncement = new Announcement();
@@ -49,7 +49,7 @@ public class AnnouncementService {
             long date2 = obj.parse(command.getDateString()).getTime();
             date = new Date(date2);
         } catch (Exception e) {
-            throw  new Exception("");
+            throw new Exception("");
         }
         newAnnouncement.setDate(date);
         LocalTime lt = LocalTime.now() ;

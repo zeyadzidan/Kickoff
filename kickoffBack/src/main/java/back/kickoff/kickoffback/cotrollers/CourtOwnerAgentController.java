@@ -63,9 +63,9 @@ public class CourtOwnerAgentController {
 
     @PostMapping("/CourtOwner/CreateAnnouncement")
     public ResponseEntity<String> CreateAnnouncement(@RequestBody String information) {
-        AddAnnouncmentCommand command ;
+        AddAnnouncementCommand command ;
         try{
-            command = new AddAnnouncmentCommand(information) ;
+            command = new AddAnnouncementCommand(information) ;
             announcementService.addAnnouncement(command);
 
         }catch (Exception e){
