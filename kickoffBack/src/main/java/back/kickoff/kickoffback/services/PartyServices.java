@@ -138,6 +138,7 @@ public class PartyServices {
         List<PartyFrontEnd> data = new ArrayList<>();
         for (Party p : parties) {
             List<Player> playerss = p.getPlayerJoined();
+            Player player = p.getPlayerCreated();
             for(Player p2 :playerss)
             {
                 if(p2.getId() ==source2.getId())
@@ -145,6 +146,10 @@ public class PartyServices {
                     check = true;
                     break;
                 }
+            }
+            if(source2.getId() == player.getId())
+            {
+                check = true;
             }
             if(!check)
             {
