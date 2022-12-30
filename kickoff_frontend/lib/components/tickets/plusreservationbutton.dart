@@ -43,14 +43,12 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
                             ? "Add a reservation"
                             : "أضف حجزاً",
                         style: TextStyle(color: mainSwatch, fontSize: 32)),
-                    (!KickoffApplication.player)
+                    !KickoffApplication.player
                         ? _formField('اسم اللاعب صاحب الحجز', Icons.person)
                         : Container(),
-                    _formField(
-                        KickoffApplication.player
-                            ? 'Phone Number'
-                            : 'رقم الهاتف',
-                        Icons.phone),
+                    !KickoffApplication.player
+                        ? _formField('رقم الهاتف', Icons.phone)
+                        : Container(),
                     _reservationTimePicker(true),
                     _reservationTimePicker(false),
                     _submitButton()
@@ -191,6 +189,7 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
               _key.currentState!.save(); // Set name
               if (KickoffApplication.player) {
                 _fixtureTicket.pname = KickoffApplication.data["name"];
+                _fixtureTicket.pnumber = KickoffApplication.data["phoneNumber"];
                 _fixtureTicket.pid = KickoffApplication.playerId;
               }
               String cid =
