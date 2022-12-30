@@ -39,6 +39,10 @@ class Loading {
         KickoffApplication.playerId = "${data["id"]}";
         await pLogin.RoundedLogin.getCourtsinSearch(
             data["xAxis"], data["yAxis"]);
+        AnnouncementsHome.buildFullAnnouncements();
+        AnnouncementsHome.isExpanded = List<bool>.generate(AnnouncementsHome.announcements.length, (index) => false);
+        print(AnnouncementsHome.announcements.length);
+
       } else {
         //The user is court Owner
         KickoffApplication.player = false;

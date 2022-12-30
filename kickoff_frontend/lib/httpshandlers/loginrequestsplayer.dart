@@ -12,6 +12,7 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
 import 'package:kickoff_frontend/application/screens/BuildComponentsPlayer.dart';
 import 'package:kickoff_frontend/components/courts/CourtsInSearch.dart';
+import '../application/screens/announcements.dart';
 import '../application/screens/reservations.dart';
 import 'courtsrequests.dart';
 
@@ -107,8 +108,14 @@ class RoundedLogin extends State<LoginButtonPlayer> {
               localFile.writeLoginData(BuildLoginEmail.EmailLogin.text,
                 Build_Password_Player.Password.text,"1");
             KickoffApplication.player=true;
+
             BuildLoginEmail.EmailLogin.clear();
             Build_Password_Player.Password.clear();
+
+            KickoffApplication.playerId="${profileData["id"]}";
+            AnnouncementsHome.buildFullAnnouncements();
+            AnnouncementsHome.isExpanded = List<bool>.generate(AnnouncementsHome.announcements.length, (index) => false);
+            print(AnnouncementsHome.announcements.length);
             await getCourtsinSearch(KickoffApplication.data["xAxis"],KickoffApplication.data["yAxis"]);
             Navigator.popAndPushNamed(context, '/kickoff');
           }
