@@ -3,6 +3,7 @@ class Party{
   String COname ="";
   String Cname ="";
   String Pname ="";
+  String Pimg ="";
   String Date = "";
   String timeFrom = "";
   String timeTo = "";
