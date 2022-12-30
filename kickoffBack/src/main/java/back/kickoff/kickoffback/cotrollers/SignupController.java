@@ -22,13 +22,12 @@ public class SignupController {
 
     public SignupController(SignupService signupService) {
         this.signupService = signupService;
-//        Optional<CourtOwner> cc = courtOwnerRepository.findByEmail()
     }
 
     @PostMapping("/courtOwner")
-    public ResponseEntity<String> courtOwnerSignupRequest(@RequestBody String information) {
+    public ResponseEntity<String> courtOwnerSignupRequest(@RequestBody SignupCommand command) {
         try{
-            SignupCommand command = new SignupCommand(information) ;
+//            SignupCommand command = new SignupCommand(information) ;
             CourtOwnerFrontEnd courtOwner = signupService.courtOwnerSignup(command) ;
             return new ResponseEntity<>(new Gson().toJson(courtOwner), HttpStatus.CREATED);
 
@@ -37,9 +36,9 @@ public class SignupController {
         }
     }
     @PostMapping("/player")
-    public ResponseEntity<String> playerSignupRequest(@RequestBody String information) {
+    public ResponseEntity<String> playerSignupRequest(@RequestBody SignupCommand command) {
         try {
-            SignupCommand command = new SignupCommand(information);
+//            SignupCommand command = new SignupCommand(information);
             PlayerFrontEnd player = signupService.playerSignup(command);
             return new ResponseEntity<>(new Gson().toJson(player), HttpStatus.CREATED);
 
