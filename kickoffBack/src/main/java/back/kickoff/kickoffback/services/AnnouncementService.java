@@ -40,7 +40,6 @@ public class AnnouncementService {
         }
         CourtOwner courtOwner = courtOwnerOptional.get();
         Announcement newAnnouncement = new Announcement();
-        newAnnouncement.setTitle(command.getTitle());
         newAnnouncement.setBody(command.getBody());
         newAnnouncement.setImg(command.getAttachmentsURL());
         Date date;
@@ -99,7 +98,7 @@ public class AnnouncementService {
         for (Announcement a : announcements) {
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             String strDate = dateFormat.format(a.getDate());
-            announcmentFrontends.add(new AnnouncmentFrontend(a.getId(), a.getCourtOwner().getId(), a.getTitle(), a.getBody(), a.getImg(), strDate));
+            announcmentFrontends.add(new AnnouncmentFrontend(a.getId(), a.getCourtOwner().getId(), a.getBody(), a.getImg(), strDate));
         }
         return announcmentFrontends;
     }
@@ -119,7 +118,6 @@ public class AnnouncementService {
                     announcements.add(new AnnouncmentFrontend(
                             announcement.getId(),
                             announcement.getCourtOwner().getId(),
-                            announcement.getTitle(),
                             announcement.getBody(),
                             announcement.getImg(), strDate));
                 }

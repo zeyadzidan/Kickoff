@@ -16,7 +16,6 @@ public class AddAnnouncementCommand {
     public AddAnnouncementCommand(String informationJSON) throws JSONException {
         JSONObject jsonObject = new JSONObject(informationJSON);
         courtOwnerId = jsonObject.getLong("courtOwnerId");
-        title = jsonObject.getString("title");
         body = jsonObject.getString("body");
         attachmentsURL = null;
         if (jsonObject.has("attachments")) {

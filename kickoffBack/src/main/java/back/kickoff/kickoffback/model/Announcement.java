@@ -21,7 +21,6 @@ public class Announcement {
     Long id;
     @ManyToOne
     CourtOwner courtOwner;
-    String title;
     String body;
     String img; // Attachments
     Time time ;
