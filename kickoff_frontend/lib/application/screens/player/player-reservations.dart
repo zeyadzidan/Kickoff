@@ -1,14 +1,18 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kickoff_frontend/application/application.dart';
+import 'package:kickoff_frontend/application/screens/reservations.dart';
+import 'package:kickoff_frontend/components/classes/Party.dart';
 import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
 
 import '../../../constants.dart';
+import '../../../httpshandlers/Parties Requests.dart';
 import 'makePartyButton.dart';
 
 class PlayerReservationsHome extends StatefulWidget {
@@ -16,6 +20,7 @@ class PlayerReservationsHome extends StatefulWidget {
 
   static String _resState = "Booked";
   static List<FixtureTicket> _reservations = <FixtureTicket>[];
+  static List<Party> parties = <Party>[];
   static List<FilePickerResult> _results = <FilePickerResult>[];
   static List<bool> _expanded = <bool>[];
   static bool _ascending = true;
@@ -29,6 +34,12 @@ class PlayerReservationsHome extends StatefulWidget {
     _expanded = List.generate(_reservations.length, (index) => false);
     _results = List.generate(_reservations.length,
         (index) => const FilePickerResult(<PlatformFile>[]));
+    if(_resState=="Party Created"){
+      parties= await PartiesHTTPsHandler.getPartiesCreated(KickoffApplication.playerId);
+    }
+    if(_resState=="Party joined"){
+      parties= await PartiesHTTPsHandler.getPartiesJoined(KickoffApplication.playerId);
+    }
   }
 }
 
@@ -82,7 +93,9 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
             icon: const Icon(Icons.repeat_on_rounded),
           )
         ]),
-        _viewReservations(),
+        (_getSelectedState()==4||_getSelectedState()==5)
+            ?_viewParty()
+            :_viewReservations(),
       ],
     );
   }
@@ -93,6 +106,8 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
           _createGButton(Icons.pending, Colors.orange),
           _createGButton(Icons.timer_off_outlined, Colors.red),
           _createGButton(Icons.access_time, Colors.cyan),
+          _createGButton2(Icons.person_add_rounded,"Parties Created", Colors.cyan),
+          _createGButton2(Icons.person_pin_sharp,"Parties joined", Colors.cyan),
         ],
         selectedIndex: _getSelectedState(),
         onTabChange: _select,
@@ -108,14 +123,23 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
         text: _resState(),
         textSize: 2,
       );
-
+  _createGButton2(icon, text ,color) => GButton(
+    icon: icon,
+    backgroundColor: color,
+    text: text,
+    textSize: 2,
+  );
   _getSelectedState() => (_resState() == 'Booked')
       ? 0
       : (_resState() == ('Pending'))
           ? 1
           : (_resState() == ('Expired'))
               ? 2
-              : 3;
+              : (_resState() == ('Awaiting'))
+                ? 3
+                : (_resState() == ('Party Created'))
+                  ? 4
+                  : 5;
 
   _select(index) async {
     _setResState((index == 0)
@@ -124,7 +148,11 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
             ? 'Pending'
             : (index == 2)
                 ? 'Expired'
-                : 'Awaiting');
+                : (index == 3)
+                  ? 'Awaiting'
+                  : (index == 4)
+                    ? 'Party Created'
+                    : 'Party joined');
     await PlayerReservationsHome._buildReservations();
     setState(() {});
   }
@@ -175,6 +203,184 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
                   _setExpanded(i, !_expanded(i)),
             )),
       );
+
+  _viewParty() =>Stack(
+    children: <Widget>[
+      PlayerReservationsHome.parties.length > 0
+          ? ListView.builder(
+          shrinkWrap: true,
+          itemCount: PlayerReservationsHome.parties.length,
+          itemBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.fromLTRB(2.0, 2.0, 2.0, 6),
+            child: Card(
+              elevation: 2.0,
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    // border color
+                      color: courtOwnerColor,
+                      // border thickness
+                      width: 2)),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              //   child: Image.asset(utl),
+                              child: ClipOval(
+                                child: PlayerReservationsHome.parties[index].Pimg!=""?CachedNetworkImage(
+                                  imageUrl: PlayerReservationsHome.parties[index].Pimg,
+                                  width: 40,
+                                  height: 40,
+                                  fit: BoxFit.cover,
+                                  progressIndicatorBuilder: (context,
+                                      url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress
+                                              .progress),
+                                  errorWidget:
+                                      (context, url, error) =>
+                                      Icon(Icons.error),
+                                ):Container(),
+                              ),
+                            ),
+                          ),
+                          Text(
+                            "${PlayerReservationsHome.parties[index].Pname} >> ${PlayerReservationsHome.parties[index].COname}",
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Expanded(child: Container()),
+                          Text(
+                            "${int.parse(PlayerReservationsHome.parties[index].fullplaces)-int.parse(PlayerReservationsHome.parties[index].emptyplaces)} / ${PlayerReservationsHome.parties[index].fullplaces}",
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 6.0),
+                          child: Text("${PlayerReservationsHome.parties[index].timeFrom} -> ${PlayerReservationsHome.parties[index].timeTo}",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black.withAlpha(100),
+                            ),),
+                        ),
+                        Expanded(child: Container()),
+                        Text("${PlayerReservationsHome.parties[index].Cname}",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black.withAlpha(100),
+                          ),),
+                        Expanded(child: Container()),
+                        Text("${PlayerReservationsHome.parties[index].Date}",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black.withAlpha(100),
+                          ),),
+                      ],
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 10.0),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            height: 50,
+                            width: 150,
+                            child: ElevatedButton.icon(
+                              icon: const Icon(Icons.person),
+                              label: const Text('Show Participants'),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                  padding:
+                                  const EdgeInsets.symmetric(
+                                      vertical: 10)),
+                              onPressed: () async {
+                                print("Show Participants");
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                          Expanded(child: Container()),
+                          SizedBox(
+                            height: 50,
+                            width: 150,
+                            child: (_getSelectedState()==4)
+                                ?ElevatedButton.icon(
+                                  icon: const Icon(Icons.delete),
+                                  label: const Text('Delete Party'),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.red,
+                                      padding:
+                                      const EdgeInsets.symmetric(
+                                          vertical: 10)),
+                                  onPressed: () async {
+                                    await PartiesHTTPsHandler
+                                        .deleteParty(PlayerReservationsHome.parties[index].id);
+                                    PlayerReservationsHome.parties =
+                                    await PartiesHTTPsHandler.getPartiesCreated(
+                                        KickoffApplication.playerId);
+                                    setState(() {});
+                                  },
+                                )
+                                :ElevatedButton.icon(
+                                  icon: const Icon(Icons.exit_to_app),
+                                  label: const Text('Leave Party'),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.red,
+                                      padding:
+                                      const EdgeInsets.symmetric(
+                                          vertical: 10)),
+                                  onPressed: () async {
+                                    await PartiesHTTPsHandler
+                                        .leaveParty(PlayerReservationsHome.parties[index].id,KickoffApplication.playerId);
+                                    PlayerReservationsHome.parties =
+                                      await PartiesHTTPsHandler.getPartiesJoined(
+                                        KickoffApplication.playerId);
+                                    setState(() {});
+                                  },
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ))
+          : Container(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(14.0),
+                child: Text(
+                  "there is no Parties",
+                  style:
+                  TextStyle(fontSize: 16, color: Colors.green[700]),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            ],
+          ),
+        ),
+      )
+    ],
+  );
 
   _uploadReceipt(index) {
     return Container(

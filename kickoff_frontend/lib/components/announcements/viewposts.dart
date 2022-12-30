@@ -154,8 +154,7 @@ class postbutton extends State<PlusAnnouncementButton3> {
                                                 await PartiesHTTPsHandler
                                                     .joinParty(AnnouncementsHome.parties[index].id,KickoffApplication.playerId);
                                                 AnnouncementsHome.parties =
-                                                    AnnouncementsHome.parties =
-                                                await PartiesHTTPsHandler.getPartiesSubscribedNotJoined(
+                                                  await PartiesHTTPsHandler.getPartiesSubscribedNotJoined(
                                                     KickoffApplication.playerId);
                                                 setState(() {});
                                               },
