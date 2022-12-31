@@ -81,7 +81,9 @@ class _showPartyPlayersState extends  State<showPartyPlayers> {
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
 
                     child: ListTile(
-                      title: Text("${showPartyPlayers.partyPlayers[index].Pname}",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,),
+                      title: Expanded(
+                        child: Text("${showPartyPlayers.partyPlayers[index].Pname}",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,),
+                        ),
                       ),
                       leading:
                       CircleAvatar(

@@ -253,13 +253,15 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
                               ),
                             ),
                           ),
-                          Text(
-                            "${PlayerReservationsHome.parties[index].Pname} >> ${PlayerReservationsHome.parties[index].COname}",
-                            style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold),
+                          Expanded(
+                            child: Text(
+                              "${PlayerReservationsHome.parties[index].Pname} >> ${PlayerReservationsHome.parties[index].COname}",
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
-                          Expanded(child: Container()),
+                          SizedBox(width: 10,),
                           Text(
                             "${int.parse(PlayerReservationsHome.parties[index].fullplaces)-int.parse(PlayerReservationsHome.parties[index].emptyplaces)} / ${PlayerReservationsHome.parties[index].fullplaces}",
                             style: TextStyle(
