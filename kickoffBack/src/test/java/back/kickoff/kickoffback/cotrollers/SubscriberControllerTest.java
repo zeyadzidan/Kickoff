@@ -1,5 +1,6 @@
 package back.kickoff.kickoffback.cotrollers;
 
+import back.kickoff.kickoffback.Commands.AnnouncementFrontend;
 import back.kickoff.kickoffback.Commands.SubscriptionsCommands;
 import back.kickoff.kickoffback.model.Subscription;
 import back.kickoff.kickoffback.services.AnnouncementService;
@@ -269,8 +270,8 @@ class SubscriberControllerTest {
     void getAnnouncementsSuccessfulTest() {
         Long pid = 77L;
         List<Subscription> subscriptions = new ArrayList<>();
-        List<AnnouncementService.AnnouncmentFrontend> announcements = new ArrayList<>();
-        announcements.add(new AnnouncementService.AnnouncmentFrontend());
+        List<AnnouncementFrontend> announcements = new ArrayList<>();
+        announcements.add(new AnnouncementFrontend());
         Mockito.when(announcementService.getSubscriptionAnnouncements(subscriptions)).thenReturn(announcements);
         ResponseEntity<Object> response = subscriberController.getSubscriptionAnnouncements(pid);
         assertEquals(new ResponseEntity<>(new Gson().toJson(announcements), HttpStatus.OK), response);

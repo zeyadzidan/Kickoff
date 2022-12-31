@@ -1,5 +1,6 @@
 package back.kickoff.kickoffback.cotrollers;
 
+import back.kickoff.kickoffback.Commands.AnnouncementFrontend;
 import back.kickoff.kickoffback.Commands.SubscriptionsCommands;
 import back.kickoff.kickoffback.model.Subscription;
 import back.kickoff.kickoffback.services.AnnouncementService;
@@ -88,7 +89,7 @@ public class SubscriberController {
     public ResponseEntity<Object> getSubscriptionAnnouncements(@PathVariable Long pid) {
         try {
             List<Subscription> subscriptions = subscriberService.getPlayerSubscriptions(pid);
-            List<AnnouncementService.AnnouncmentFrontend> announcements = announcementService.getSubscriptionAnnouncements(subscriptions);
+            List<AnnouncementFrontend> announcements = announcementService.getSubscriptionAnnouncements(subscriptions);
             return (!announcements.isEmpty())
                     ? new ResponseEntity<>(new Gson().toJson(announcements), HttpStatus.OK)
                     : new ResponseEntity<>(new Gson().toJson(announcements), HttpStatus.NOT_FOUND);

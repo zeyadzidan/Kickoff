@@ -1,21 +1,18 @@
 package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.Commands.AddAnnouncementCommand;
-import back.kickoff.kickoffback.Commands.AnnouncmentFrontend;
+import back.kickoff.kickoffback.Commands.AnnouncementFrontend;
 import back.kickoff.kickoffback.model.Announcement;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Subscription;
 import back.kickoff.kickoffback.repositories.AnnouncementRepository;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
-import com.google.gson.Gson;
-import lombok.NoArgsConstructor;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -88,53 +85,34 @@ public class AnnouncementService {
         return "Success";
     }
 
-    public List<AnnouncmentFrontend> getAnnouncement(Long courtOwnerId) throws Exception {
+    public List<AnnouncementFrontend> getAnnouncement(Long courtOwnerId) throws Exception {
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(courtOwnerId);
         if (courtOwnerOptional.isEmpty()) {
             throw new Exception("CourtOwner do not exist");
         }
         CourtOwner courtOwner = courtOwnerOptional.get();
         List<Announcement> announcements = courtOwner.getAnnouncements();
-        List<AnnouncmentFrontend> announcmentFrontends = new ArrayList<AnnouncmentFrontend>(announcements.size());
+        List<AnnouncementFrontend> announcementFrontends = new ArrayList<AnnouncementFrontend>(announcements.size());
         for (Announcement a : announcements) {
-            announcmentFrontends.add(new AnnouncmentFrontend(a));
+            announcementFrontends.add(new AnnouncementFrontend(a));
         }
-        return announcmentFrontends;
+        return announcementFrontends;
     }
 
-    public List<AnnouncmentFrontend> getSubscriptionAnnouncements(List<Subscription> subscriptions) {
+    public List<AnnouncementFrontend> getSubscriptionAnnouncements(List<Subscription> subscriptions) {
         if (subscriptions.isEmpty())
             return new ArrayList<>();
         Optional<CourtOwner> optionalCourtOwner;
-        List<AnnouncmentFrontend> announcements = new ArrayList<>();
+        List<AnnouncementFrontend> announcements = new ArrayList<>();
         for (Subscription subscription : subscriptions) {
             optionalCourtOwner = courtOwnerRepository.findById(subscription.getCoid());
             if (optionalCourtOwner.isPresent()) {
                 List<Announcement> announcementsBackEnd = optionalCourtOwner.get().getAnnouncements();
                 for (Announcement announcement : announcementsBackEnd) {
-                    announcements.add(new AnnouncmentFrontend(announcement));
+                    announcements.add(new AnnouncementFrontend(announcement));
                 }
             }
         }
         return announcements;
-    }
-
-    @NoArgsConstructor
-    public static class AnnouncmentFrontend {
-        Long id;
-        Long courtOwnerId;
-        String title;
-        String body;
-        String cni; // Attachments
-        String date;
-
-        public AnnouncmentFrontend(Long id, Long courtOwnerId, String title, String body, String cni, String date) {
-            this.id = id;
-            this.courtOwnerId = courtOwnerId;
-            this.title = title;
-            this.body = body;
-            this.cni = cni;
-            this.date = date;
-        }
     }
 }

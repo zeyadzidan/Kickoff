@@ -79,7 +79,7 @@ public class CourtOwnerAgentController {
 
     @GetMapping("/CourtOwner/{courtOwnerId}/Announcements")
     public ResponseEntity<String> getAnnouncements(@PathVariable String courtOwnerId) {
-        List<AnnouncmentFrontend> responseBody ;
+        List<AnnouncementFrontend> responseBody ;
         try {
             responseBody = announcementService.getAnnouncement(Long.valueOf(courtOwnerId));
         }catch (Exception e){

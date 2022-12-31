@@ -1,28 +1,28 @@
 package back.kickoff.kickoffback.Commands;
 
 import back.kickoff.kickoffback.model.Announcement;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 @Setter
 @Getter
+@NoArgsConstructor
 public
-class AnnouncmentFrontend {
+class AnnouncementFrontend {
     Long id;
     Long courtOwnerId;
     String body;
     String cni; // Attachments
     String date;
     String time;
-    String courtPic ;
+    String courtPic;
     String name;
 
-
-    public AnnouncmentFrontend(Announcement announcement) {
+    public AnnouncementFrontend(Announcement announcement) {
         this.id = announcement.getId();
         this.courtOwnerId = announcement.getCourtOwner().getId();
         this.body = announcement.getBody();
@@ -30,7 +30,7 @@ class AnnouncmentFrontend {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         date = dateFormat.format(announcement.getDate());
         this.time = announcement.getTime().toLocalTime().toString();
-        this.courtPic = announcement.getCourtOwner().getImage() ;
+        this.courtPic = announcement.getCourtOwner().getImage();
         this.name = announcement.getCourtOwner().getUserName();
     }
 }
