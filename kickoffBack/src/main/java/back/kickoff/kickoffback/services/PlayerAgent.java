@@ -25,4 +25,5 @@ public class PlayerAgent {
         player.setImage(command.getImageURL());
         playerRepository.save(player);
     }
+
 }

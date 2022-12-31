@@ -9,9 +9,13 @@ import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
 import 'package:kickoff_frontend/application/screens/player/player-reservations.dart';
 
+import 'package:kickoff_frontend/application/screens/player/showPartyPlayers.dart';
+
+
 import 'package:kickoff_frontend/application/screens/rating.dart';
 
 import 'package:kickoff_frontend/application/screens/playerprofile.dart';
+
 
 import 'package:kickoff_frontend/components/announcements/plusannouncementbutton.dart';
 import 'package:kickoff_frontend/components/announcements/view.dart';
@@ -46,6 +50,8 @@ class KickoffApplication extends StatefulWidget {
 
   static update() => _currentState.setState(() {});
 
+  static setStartState() => _selectedPage=0;
+
 
   static onTapSelect(index) async {
     if(!KickoffApplication.player){
@@ -77,7 +83,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
         '/login': (context) => const LoginScreenCourtOwner(),
         '/profilePlayer':(context)=>  ProfileBaseScreenPlayer(),
         '/account' : (context) => Account(),
-        // '/search' : (context) => SearchScreen(),
+        '/Party' : (context) => showPartyPlayers(),
         '/writepost':(context)=> Writing(),
         '/kickoff': (context) => Builder(
               builder: (context) => Scaffold(
