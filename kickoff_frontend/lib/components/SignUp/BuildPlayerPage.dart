@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-
 import 'package:kickoff_frontend/httpshandlers/SignUpRequestPlayer.dart';
 
+import '../../constants.dart';
 import 'Email.dart';
+import 'Location.dart';
 import 'PasswordPlayer.dart';
 import 'PhoneNumber.dart';
-import 'Location.dart';
 import 'UserName.dart';
 
 class BuildRegisterFormPlayer extends StatelessWidget {
@@ -51,14 +51,27 @@ class BuildRegisterFormPlayer extends StatelessWidget {
                       child:
                           Image(image: AssetImage('assets/images/pic4.PNG'))),
                   SizedBox(height: 40),
-                  BuildEmailSignUp(icon: Icons.mail,color: Colors.green, hint: 'Email Address'),
-                  UsernameSignUp(icon: Icons.face_rounded,color: Colors.green, hint: 'Name'),
+                  BuildEmailSignUp(
+                      icon: Icons.mail,
+                      color: mainSwatch,
+                      hint: 'Email Address'),
+                  UsernameSignUp(
+                      icon: Icons.face_rounded,
+                      color: mainSwatch,
+                      hint: 'Name'),
                   PasswordSignupPlayer(),
-                  PhoneNumberSignUp(icon: Icons.phone,color: Colors.green, hint: 'Phone Number'),
+                  PhoneNumberSignUp(
+                      icon: Icons.phone,
+                      color: mainSwatch,
+                      hint: 'Phone Number'),
                   Container(
                     height: 450,
                     width: size.width * 0.8,
-                    child: BuildLocation(title: 'Choose Location',color: Colors.green,x: 31.2160786,y: 29.9469253),
+                    child: BuildLocation(
+                        title: 'Choose Location',
+                        color: mainSwatch,
+                        x: 31.2160786,
+                        y: 29.9469253),
                   ),
                   SizedBox(height: 30),
                   SignUpButtonPlayer(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kickoff_frontend/components/login/PasswordPlayer.dart';
 import 'package:kickoff_frontend/httpshandlers/loginrequestsplayer.dart';
+import '../../constants.dart';
 import 'Email.dart';
 
 
@@ -44,7 +45,7 @@ class BuildLoginFormPlayer extends StatelessWidget {
                     child: const Image(
                         image: AssetImage('assets/images/player.png'))),
                 SizedBox(height: 40),
-                BuildLoginEmail(icon: Icons.mail,color: Colors.green, hint: 'Email Address'),
+                BuildLoginEmail(icon: Icons.mail,color: mainSwatch, hint: 'Email Address'),
                 PasswordLoginPlayer(),
                 SizedBox(height: 10),
                 LoginButtonPlayer(),
