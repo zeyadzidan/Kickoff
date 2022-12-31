@@ -1,14 +1,13 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.AddRatingCommand;
-import back.kickoff.kickoffback.Commands.RatingCommand;
+import back.kickoff.kickoffback.Commands.Add.AddRatingCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.RatingCommand;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.model.Rating;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import back.kickoff.kickoffback.repositories.RatingRepository;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

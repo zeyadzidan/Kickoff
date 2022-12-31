@@ -1,7 +1,7 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.AddAnnouncementCommand;
-import back.kickoff.kickoffback.Commands.AnnouncementFrontend;
+import back.kickoff.kickoffback.Commands.Add.AddAnnouncementCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.AnnouncementFrontend;
 import back.kickoff.kickoffback.model.Announcement;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Subscription;

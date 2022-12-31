@@ -1,11 +1,10 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.Commands.CourtOwnerFrontEnd;
-import back.kickoff.kickoffback.Commands.PlayerFrontEnd;
-import back.kickoff.kickoffback.Commands.SignupCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.CourtOwnerFrontEnd;
+import back.kickoff.kickoffback.Commands.FrontEnd.PlayerFrontEnd;
+import back.kickoff.kickoffback.Commands.Add.SignupCommand;
 import back.kickoff.kickoffback.services.SignupService;
 import com.google.gson.Gson;
-import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

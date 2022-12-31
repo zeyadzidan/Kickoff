@@ -1,9 +1,9 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.Commands.BookCommand;
-import back.kickoff.kickoffback.Commands.FrontEndReservation;
-import back.kickoff.kickoffback.Commands.GetReservationCommand;
-import back.kickoff.kickoffback.Commands.SetPendingCommand;
+import back.kickoff.kickoffback.Commands.Operation.BookCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.FrontEndReservation;
+import back.kickoff.kickoffback.Commands.Operation.GetReservationCommand;
+import back.kickoff.kickoffback.Commands.Add.SetPendingCommand;
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import back.kickoff.kickoffback.services.BookingAgent;
@@ -20,7 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 

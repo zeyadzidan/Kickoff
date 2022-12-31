@@ -1,15 +1,13 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.CourtOwnerFrontEnd;
-import back.kickoff.kickoffback.Commands.CourtOwnerSearchCommand;
-import back.kickoff.kickoffback.Commands.SearchCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.CourtOwnerFrontEnd;
+import back.kickoff.kickoffback.Commands.Operation.CourtOwnerSearchCommand;
+import back.kickoff.kickoffback.Commands.Operation.SearchCommand;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import com.google.gson.Gson;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.*;
 

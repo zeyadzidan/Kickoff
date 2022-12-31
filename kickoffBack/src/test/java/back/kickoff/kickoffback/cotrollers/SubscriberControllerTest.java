@@ -1,7 +1,7 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.Commands.AnnouncementFrontend;
-import back.kickoff.kickoffback.Commands.SubscriptionsCommands;
+import back.kickoff.kickoffback.Commands.FrontEnd.AnnouncementFrontend;
+import back.kickoff.kickoffback.Commands.Operation.SubscriptionsCommands;
 import back.kickoff.kickoffback.model.Subscription;
 import back.kickoff.kickoffback.services.AnnouncementService;
 import back.kickoff.kickoffback.services.SubscriberService;

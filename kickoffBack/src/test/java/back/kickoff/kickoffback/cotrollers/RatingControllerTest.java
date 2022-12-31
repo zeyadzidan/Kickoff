@@ -1,8 +1,7 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.Commands.AddRatingCommand;
-import back.kickoff.kickoffback.Commands.CourtFrontEnd;
-import back.kickoff.kickoffback.Commands.RatingCommand;
+import back.kickoff.kickoffback.Commands.Add.AddRatingCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.RatingCommand;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.model.Rating;

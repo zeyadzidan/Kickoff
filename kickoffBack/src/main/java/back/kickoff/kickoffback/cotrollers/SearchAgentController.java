@@ -1,8 +1,7 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.Commands.SearchCommand;
+import back.kickoff.kickoffback.Commands.Operation.SearchCommand;
 import back.kickoff.kickoffback.services.SearchAgent;
-import back.kickoff.kickoffback.services.SignupService;
 import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

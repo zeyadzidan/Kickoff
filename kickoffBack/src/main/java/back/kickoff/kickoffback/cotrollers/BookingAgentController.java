@@ -1,6 +1,11 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.Commands.*;
+import back.kickoff.kickoffback.Commands.Add.SetPendingCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.FrontEndReservation;
+import back.kickoff.kickoffback.Commands.Operation.BookCommand;
+import back.kickoff.kickoffback.Commands.Operation.GetPlayerReservationCommand;
+import back.kickoff.kickoffback.Commands.Operation.GetReservationCommand;
+import back.kickoff.kickoffback.Commands.Operation.ReceiptCommand;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import back.kickoff.kickoffback.services.BookingAgent;
 import com.google.gson.Gson;

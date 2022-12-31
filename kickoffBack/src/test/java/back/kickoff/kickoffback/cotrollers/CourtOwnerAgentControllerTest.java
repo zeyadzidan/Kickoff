@@ -1,11 +1,9 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.Commands.AddAnnouncementCommand;
-import back.kickoff.kickoffback.Commands.AddImageCommand;
-import back.kickoff.kickoffback.Commands.CourtFrontEnd;
-import back.kickoff.kickoffback.Commands.CreateCourtCommand;
-import back.kickoff.kickoffback.model.Court;
-import back.kickoff.kickoffback.model.CourtOwner;
+import back.kickoff.kickoffback.Commands.Add.AddAnnouncementCommand;
+import back.kickoff.kickoffback.Commands.Add.AddImageCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.CourtFrontEnd;
+import back.kickoff.kickoffback.Commands.Add.CreateCourtCommand;
 import back.kickoff.kickoffback.services.AnnouncementService;
 import back.kickoff.kickoffback.services.CourtOwnerAgent;
 import com.google.gson.Gson;

@@ -1,7 +1,7 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.Commands.AnnouncementFrontend;
-import back.kickoff.kickoffback.Commands.SubscriptionsCommands;
+import back.kickoff.kickoffback.Commands.FrontEnd.AnnouncementFrontend;
+import back.kickoff.kickoffback.Commands.Operation.SubscriptionsCommands;
 import back.kickoff.kickoffback.model.Subscription;
 import back.kickoff.kickoffback.services.AnnouncementService;
 import back.kickoff.kickoffback.services.SubscriberService;
@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

@@ -1,6 +1,6 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.AddPenaltyCommand;
+import back.kickoff.kickoffback.Commands.Add.AddPenaltyCommand;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.model.PlayerType;
@@ -8,7 +8,6 @@ import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

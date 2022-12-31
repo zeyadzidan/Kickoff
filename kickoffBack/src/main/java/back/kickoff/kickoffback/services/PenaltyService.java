@@ -1,13 +1,12 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.AddPenaltyCommand;
+import back.kickoff.kickoffback.Commands.Add.AddPenaltyCommand;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Optional;

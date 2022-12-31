@@ -1,4 +1,4 @@
-package back.kickoff.kickoffback.Commands;
+package back.kickoff.kickoffback.Commands.FrontEnd;
 
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.model.Reservation;

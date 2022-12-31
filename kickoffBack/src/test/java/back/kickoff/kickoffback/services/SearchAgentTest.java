@@ -1,8 +1,8 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.CourtOwnerFrontEnd;
-import back.kickoff.kickoffback.Commands.CourtOwnerSearchCommand;
-import back.kickoff.kickoffback.Commands.SearchCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.CourtOwnerFrontEnd;
+import back.kickoff.kickoffback.Commands.Operation.CourtOwnerSearchCommand;
+import back.kickoff.kickoffback.Commands.Operation.SearchCommand;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import com.google.gson.Gson;
@@ -14,7 +14,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package back.kickoff.kickoffback.Commands;
+package back.kickoff.kickoffback.Commands.Operation;
 
 import org.json.JSONException;
 import org.json.JSONObject;

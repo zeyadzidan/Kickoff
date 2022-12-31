@@ -1,13 +1,11 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.BookCommand;
-import back.kickoff.kickoffback.Commands.FrontEndReservation;
-import back.kickoff.kickoffback.Commands.GetPlayerReservationCommand;
-import back.kickoff.kickoffback.Commands.SetPendingCommand;
+import back.kickoff.kickoffback.Commands.Operation.BookCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.FrontEndReservation;
+import back.kickoff.kickoffback.Commands.Operation.GetPlayerReservationCommand;
+import back.kickoff.kickoffback.Commands.Add.SetPendingCommand;
 import back.kickoff.kickoffback.model.*;
 import back.kickoff.kickoffback.repositories.*;
-import com.google.gson.Gson;
-import org.aspectj.lang.annotation.Before;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,8 +15,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;

@@ -1,7 +1,7 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.Commands.AddRatingCommand;
-import back.kickoff.kickoffback.Commands.RatingCommand;
+import back.kickoff.kickoffback.Commands.Add.AddRatingCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.RatingCommand;
 import back.kickoff.kickoffback.services.RatingService;
 import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Controller

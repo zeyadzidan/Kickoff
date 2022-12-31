@@ -1,7 +1,7 @@
 package back.kickoff.kickoffback.cotrollers;
 
 
-import back.kickoff.kickoffback.Commands.CreateParty;
+import back.kickoff.kickoffback.Commands.Add.CreateParty;
 import back.kickoff.kickoffback.services.PartyServices;
 import com.google.gson.Gson;
 import org.json.JSONException;

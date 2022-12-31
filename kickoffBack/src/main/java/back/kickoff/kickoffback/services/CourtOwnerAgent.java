@@ -1,8 +1,8 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.AddImageCommand;
-import back.kickoff.kickoffback.Commands.CourtFrontEnd;
-import back.kickoff.kickoffback.Commands.CreateCourtCommand;
+import back.kickoff.kickoffback.Commands.Add.AddImageCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.CourtFrontEnd;
+import back.kickoff.kickoffback.Commands.Add.CreateCourtCommand;
 import back.kickoff.kickoffback.model.Court;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.CourtSchedule;
@@ -10,11 +10,8 @@ import back.kickoff.kickoffback.model.CourtState;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.CourtRepository;
 import back.kickoff.kickoffback.repositories.ScheduleRepository;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.PlayerAddImageCommand;
+import back.kickoff.kickoffback.Commands.Operation.PlayerAddImageCommand;
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import com.google.gson.Gson;
@@ -14,8 +14,6 @@ import org.mockito.MockitoAnnotations;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerAgentTest {
     @Mock

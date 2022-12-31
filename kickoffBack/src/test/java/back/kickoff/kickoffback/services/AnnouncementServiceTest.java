@@ -1,15 +1,13 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.AddAnnouncementCommand;
-import back.kickoff.kickoffback.Commands.AnnouncementFrontend;
+import back.kickoff.kickoffback.Commands.Add.AddAnnouncementCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.AnnouncementFrontend;
 import back.kickoff.kickoffback.model.Announcement;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.repositories.AnnouncementRepository;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
-import back.kickoff.kickoffback.repositories.ScheduleRepository;
 import com.google.gson.Gson;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -17,7 +15,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 
-import java.sql.Date;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;

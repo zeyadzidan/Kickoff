@@ -1,9 +1,8 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.Commands.CourtOwnerFrontEnd;
-import back.kickoff.kickoffback.Commands.LoginCommand;
-import back.kickoff.kickoffback.Commands.PlayerFrontEnd;
-import back.kickoff.kickoffback.model.Player;
+import back.kickoff.kickoffback.Commands.FrontEnd.CourtOwnerFrontEnd;
+import back.kickoff.kickoffback.Commands.Operation.LoginCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.PlayerFrontEnd;
 import back.kickoff.kickoffback.services.EmptyJsonResponse;
 import back.kickoff.kickoffback.services.LoginService;
 import com.google.gson.Gson;

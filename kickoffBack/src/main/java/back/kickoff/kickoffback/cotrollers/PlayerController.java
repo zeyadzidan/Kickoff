@@ -1,6 +1,6 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.Commands.PlayerAddImageCommand;
+import back.kickoff.kickoffback.Commands.Operation.PlayerAddImageCommand;
 import back.kickoff.kickoffback.repositories.PlayerRepository;
 import back.kickoff.kickoffback.services.PlayerAgent;
 import org.json.JSONException;

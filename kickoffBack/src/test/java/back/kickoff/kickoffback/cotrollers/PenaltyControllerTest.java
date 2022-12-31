@@ -1,9 +1,8 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.Commands.AddPenaltyCommand;
+import back.kickoff.kickoffback.Commands.Add.AddPenaltyCommand;
 import back.kickoff.kickoffback.services.PenaltyService;
 import com.google.gson.Gson;
-import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

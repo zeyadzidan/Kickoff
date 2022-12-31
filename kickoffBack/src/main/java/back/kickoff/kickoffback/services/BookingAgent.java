@@ -1,20 +1,16 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.*;
+import back.kickoff.kickoffback.Commands.Add.SetPendingCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.FrontEndReservation;
+import back.kickoff.kickoffback.Commands.Operation.BookCommand;
+import back.kickoff.kickoffback.Commands.Operation.GetPlayerReservationCommand;
+import back.kickoff.kickoffback.Commands.Operation.GetReservationCommand;
+import back.kickoff.kickoffback.Commands.Operation.ReceiptCommand;
 import back.kickoff.kickoffback.model.*;
 import back.kickoff.kickoffback.repositories.*;
-import com.google.gson.Gson;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;

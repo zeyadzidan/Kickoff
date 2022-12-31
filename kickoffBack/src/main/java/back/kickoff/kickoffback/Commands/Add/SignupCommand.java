@@ -1,4 +1,4 @@
-package back.kickoff.kickoffback.Commands;
+package back.kickoff.kickoffback.Commands.Add;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

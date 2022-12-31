@@ -1,10 +1,8 @@
 package back.kickoff.kickoffback.cotrollers;
 
 
-import back.kickoff.kickoffback.Commands.AddPenaltyCommand;
-import back.kickoff.kickoffback.Commands.AddRatingCommand;
+import back.kickoff.kickoffback.Commands.Add.AddPenaltyCommand;
 import back.kickoff.kickoffback.services.PenaltyService;
-import back.kickoff.kickoffback.services.RatingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

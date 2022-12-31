@@ -1,16 +1,14 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.AddImageCommand;
-import back.kickoff.kickoffback.Commands.CourtFrontEnd;
-import back.kickoff.kickoffback.Commands.CreateCourtCommand;
+import back.kickoff.kickoffback.Commands.Add.AddImageCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.CourtFrontEnd;
+import back.kickoff.kickoffback.Commands.Add.CreateCourtCommand;
 import back.kickoff.kickoffback.model.Court;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.CourtSchedule;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.CourtRepository;
 import back.kickoff.kickoffback.repositories.ScheduleRepository;
-import com.google.gson.Gson;
-import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -18,7 +16,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 

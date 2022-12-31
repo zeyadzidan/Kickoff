@@ -1,9 +1,8 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.CreateParty;
-import back.kickoff.kickoffback.Commands.PartyFrontEnd;
-import back.kickoff.kickoffback.Commands.PlayerFrontEndParty;
-import back.kickoff.kickoffback.Commands.PlayerFrontEnd;
+import back.kickoff.kickoffback.Commands.Add.CreateParty;
+import back.kickoff.kickoffback.Commands.FrontEnd.PartyFrontEnd;
+import back.kickoff.kickoffback.Commands.FrontEnd.PlayerFrontEnd;
 import back.kickoff.kickoffback.model.*;
 import back.kickoff.kickoffback.repositories.*;
 import org.json.JSONException;

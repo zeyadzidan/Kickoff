@@ -1,23 +1,20 @@
 package back.kickoff.kickoffback.cotrollers;
 
-import back.kickoff.kickoffback.Commands.CourtOwnerFrontEnd;
-import back.kickoff.kickoffback.Commands.LoginCommand;
-import back.kickoff.kickoffback.Commands.PlayerFrontEnd;
+import back.kickoff.kickoffback.Commands.FrontEnd.CourtOwnerFrontEnd;
+import back.kickoff.kickoffback.Commands.Operation.LoginCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.PlayerFrontEnd;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.services.LoginService;
 import com.google.gson.Gson;
-import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
