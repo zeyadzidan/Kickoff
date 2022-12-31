@@ -49,7 +49,17 @@ class CourtOwnerAgentControllerTest {
         CreateCourtCommand createCourtCommand = new CreateCourtCommand(1L, "A",
                 "grass with 5 players in each team", 100, 150,
                 1, 1 ,21);
-        ResponseEntity<String> res = courtOwnerAgentController.createCourt(createCourtCommand);
+        HashMap<String, Object> hm = new HashMap<>();
+        hm.put("ownerID", 1L);
+        hm.put("courtName", "A");
+        hm.put("description", "grass with 5 players in each team");
+        hm.put("morningCost", 100);
+        hm.put("nightCost", 150);
+        hm.put("minBookingHours", 1);
+        hm.put("startWorkingHours", 1);
+        hm.put("finishWorkingHours", 21);
+        String information = new Gson().toJson(hm);
+        ResponseEntity<String> res = courtOwnerAgentController.createCourt(information);
         assertEquals(res, new ResponseEntity<>("Success", HttpStatus.CREATED));
     }
 

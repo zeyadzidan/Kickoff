@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,6 +31,9 @@ class PartyControllerTest {
     @Test
     void createParty() throws JSONException {
         CreateParty createParty = new CreateParty(66L, "20", "5");
+//        HashMap<String, Object> hm = new HashMap<>();
+//        hm.put("reservationId", 66L);
+//        hm.put("");
         Mockito.when(partyServices.CreateParty(createParty)).thenReturn(Boolean.TRUE);
         ResponseEntity<Boolean> response = partyController.CreateParty(createParty);
         assertEquals(new ResponseEntity<>(Boolean.TRUE, HttpStatus.CREATED), response);
