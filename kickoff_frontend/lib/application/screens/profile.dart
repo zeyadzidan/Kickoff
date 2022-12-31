@@ -11,6 +11,7 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../components/classes/court.dart';
+import '../../httpshandlers/ratingrequests.dart';
 
 class ProfileBaseScreen extends StatefulWidget {
   ProfileBaseScreen({super.key}) {
@@ -28,7 +29,7 @@ class ProfileBaseScreen extends StatefulWidget {
 
 class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   double rating = double.parse("${KickoffApplication.data["rating"]}");
-  int rating2 = double.parse("${KickoffApplication.data["rating"]}").toInt();
+
   int subscribers = 0;
   String name = KickoffApplication.data["name"];
   String phone = KickoffApplication.data["phoneNumber"];
@@ -67,15 +68,15 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
           children: [
             Container(
               decoration: BoxDecoration(
-                  boxShadow: const <BoxShadow>[
+                  boxShadow: <BoxShadow>[
                     BoxShadow(
-                      color: courtOwnerColor,
+                      color: mainSwatch,
                       blurRadius: 3,
                     ),
                   ],
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(5),
-                  color: courtOwnerColor.shade100),
+                  color: mainSwatch.shade100),
               child: Column(
                 children: [
                   Container(
@@ -88,7 +89,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                           if (foundPhoto) ...[
                             CircleAvatar(
                               radius: 40,
-                              backgroundColor: courtOwnerColor,
+                              backgroundColor: mainSwatch,
                               child: ClipOval(
                                 child: CachedNetworkImage(
                                   imageUrl: utl,
@@ -108,7 +109,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                             if (localPhoto) ...[
                               CircleAvatar(
                                   radius: 40,
-                                  backgroundColor: courtOwnerColor,
+                                  backgroundColor: mainSwatch,
                                   backgroundImage:
                                       Image.file(File(ProfileBaseScreen.path!))
                                           .image)
@@ -134,7 +135,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                                     });
                                   }
                                 },
-                                color: courtOwnerColor,
+                                color: mainSwatch,
                                 textColor: secondaryColor,
                                 padding: const EdgeInsets.all(20),
                                 shape: const CircleBorder(),
@@ -151,13 +152,15 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
                               SizedBox(
                                 height: 70,
                                 child: TextButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     print("Show Reviews");
+                                    await Rating.getratings(id);
+                                    Navigator.pushNamed(context,'/Ratings');
                                   },
                                   child: Column(
                                     children: [
                                       Text(
-                                        "$rating2 \u{2B50} ",
+                                        "$rating \u{2B50} ",
                                         //remember to remove the 2 in milestone 2
                                         style: const TextStyle(
                                           fontSize: 20,

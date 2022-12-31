@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,15 +30,25 @@ public class ScheduleAgent {
     }
 
 
-    public List<Reservation> getScheduleOverlapped(Date fromD, Date toD, Time fromT, Time toT, CourtSchedule schedule){
+    public List<Reservation> getAllOverlapped(LocalDate fromD, LocalDate toD, LocalTime fromT, LocalTime toT, CourtSchedule schedule){
+        List<Reservation> all = getScheduleOverlapped(fromD, toD, fromT, toT, schedule, "") ;
+        all.addAll(getExpiredOverlapped(fromD, toD, fromT, toT, schedule) ) ;
+        return all ;
+    }
+
+    /**
+     * get the reservation active on the schedule (Booked, Pending, Awaiting) with the filter
+     */
+    public List<Reservation> getScheduleOverlapped(LocalDate fromD, LocalDate toD, LocalTime fromT, LocalTime toT, CourtSchedule schedule, String filter){
         ArrayList<Reservation> res = new ArrayList<Reservation>() ;
         DateTime start = new DateTime(fromD, fromT) ;
         DateTime end = new DateTime(toD, toT) ;
 
         for(Reservation r: schedule.getBookedReservations()){
-            DateTime resStart = new DateTime(r.getStartDate(), r.getTimeFrom()) ;
-            DateTime resEnd = new DateTime(r.getEndDate(), r.getTimeTo()) ;
-
+            if(!r.getState().toString().equals(filter) && !filter.equals(""))
+                continue;
+            DateTime resStart = new DateTime(r.getStartDate().toLocalDate(), r.getTimeFrom().toLocalTime()) ;
+            DateTime resEnd = new DateTime(r.getEndDate().toLocalDate(), r.getTimeTo().toLocalTime()) ;
 
             if((resStart.compareTo(start) >= 0 && resEnd.compareTo(end)<=0)
                     || (resStart.compareTo(start) <= 0 && resEnd.compareTo(start)>0)
@@ -52,8 +64,11 @@ public class ScheduleAgent {
                 continue;
             }
 
-            DateTime resStart = new DateTime(r.getStartDate(), r.getTimeFrom()) ;
-            DateTime resEnd = new DateTime(r.getEndDate(), r.getTimeTo()) ;
+            if(!r.getState().toString().equals(filter) && !filter.equals(""))
+                continue;
+
+            DateTime resStart = new DateTime(r.getStartDate().toLocalDate(), r.getTimeFrom().toLocalTime()) ;
+            DateTime resEnd = new DateTime(r.getEndDate().toLocalDate(), r.getTimeTo().toLocalTime()) ;
 
             if((resStart.compareTo(start) >= 0 && resEnd.compareTo(end)<=0)
                     || (resStart.compareTo(start) <= 0 && resEnd.compareTo(start)>0)
@@ -72,21 +87,23 @@ public class ScheduleAgent {
             sr.save(schedule) ;
         }
 
-
-
         return res;
 
     }
 
 
-    public List<Reservation> getExpiredOverlapped(Date fromD, Date toD, Time fromT, Time toT, CourtSchedule schedule){
+    public List<Reservation> getExpiredOverlapped(LocalDate fromD, LocalDate toD, LocalTime fromT, LocalTime toT, CourtSchedule schedule){
         ArrayList<Reservation> res = new ArrayList<Reservation>() ;
         DateTime start = new DateTime(fromD, fromT) ;
         DateTime end = new DateTime(toD, toT) ;
+        System.out.println("in getExpiredOverlapped");
+
 
         for(Reservation r: schedule.getHistory()){
-            DateTime resStart = new DateTime(r.getStartDate(), r.getTimeFrom()) ;
-            DateTime resEnd = new DateTime(r.getEndDate(), r.getTimeTo()) ;
+            DateTime resStart = new DateTime(r.getStartDate().toLocalDate(), r.getTimeFrom().toLocalTime()) ;
+            DateTime resEnd = new DateTime(r.getEndDate().toLocalDate(), r.getTimeTo().toLocalTime()) ;
+            System.out.println(resStart);
+            System.out.println(resEnd);
 
 
             if((resStart.compareTo(start) >= 0 && resEnd.compareTo(end)<=0)
@@ -106,15 +123,19 @@ public class ScheduleAgent {
         if(r.getState() == ReservationState.Expired)
             return false ;
 
-        DateTime reserved = new DateTime(r.getDateReserved(), r.getTimeReserved()) ;
-        DateTime start = new DateTime(r.getStartDate(), r.getTimeFrom()) ;
-        Time nowTime =  new Time(System.currentTimeMillis()) ;
-        DateTime now = new DateTime(new Date(System.currentTimeMillis()), new Time(nowTime.getHours(), 0,0) ) ;
+        DateTime reserved = new DateTime(r.getDateReserved().toLocalDate(), r.getTimeReserved().toLocalTime()) ;
+        DateTime start = new DateTime(r.getStartDate().toLocalDate(), r.getTimeFrom().toLocalTime()) ;
+        DateTime now = new DateTime(LocalDate.now(), LocalTime.now()) ;
 
         int diff = start.compareTo(reserved) ;
         int tonow = now.compareTo(reserved) ;
+        System.out.println("reserved " + reserved);
+        System.out.println("start " + start);
+        System.out.println("now " + now);
+        System.out.println("diff " + diff);
+        System.out.println("tonow " + tonow);
 
-        if(tonow < 0.30* diff){
+        if(tonow > 0.30* diff){
             return false ;
         }
         return true ;

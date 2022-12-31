@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Set;
 
 @Setter
@@ -63,8 +65,10 @@ public class Reservation {
         this.state = state;
         this.moneyPayed = moneyPayed;
         this.totalCost = totalCost;
-        this.dateReserved = new Date(System.currentTimeMillis());
-        this.timeReserved = new Time(System.currentTimeMillis());
+        LocalDate date = LocalDate.now() ;
+        this.dateReserved = Date.valueOf(date);
+        LocalTime lt = LocalTime.now() ;
+        this.timeReserved = Time.valueOf(lt);
 
 
     }

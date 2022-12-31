@@ -35,41 +35,45 @@ class AnnouncementHTTPsHandler {
       announcement = Announcement();
       announcement.coid = map['courtOwnerId'].toString();
       announcement.aid = map['id'].toString();
-      announcement.title = map['title'].toString();
       announcement.body = map['body'].toString();
       if (map.containsKey('cni')) {
         announcement.img = map['cni'].toString();
       }
+      if (map.containsKey('courtPic')) {
+        announcement.Pimg = map['courtPic'].toString();
+      }
       announcement.date = map['date'].toString();
+      announcement.time = map['time'].toString().substring(0,(map['time'].toString().lastIndexOf(":")));
+      announcement.name = map['name'].toString();
       announcements.add(announcement);
     }
     return announcements;
   }
 
   static Future<List<Announcement>> getAnnouncementsbySubscriptions(pid) async {
-    var response = await http
-        .get(Uri.parse('$_url/subscriber/getAnnouncementsBySubscriptions/$pid'));
+    var response = await http.get(
+        Uri.parse('$_url/subscriber/getAnnouncementsBySubscriptions/$pid'));
     Announcement announcement;
     List<Announcement> announcements = <Announcement>[];
-    try {
-      List<dynamic> announcementsMap = json.decode(response.body);
-      print(response.body);
-      for (Map<String, dynamic> map in announcementsMap) {
-        announcement = Announcement();
-        announcement.coid = map['courtOwnerId'].toString();
-        announcement.aid = map['id'].toString();
-        announcement.title = map['title'].toString();
-        announcement.body = map['body'].toString();
-        if (map.containsKey('cni')) {
-          announcement.img = map['cni'].toString();
-        }
-        announcement.date = map['date'].toString();
-        announcements.add(announcement);
+    List<dynamic> announcementsMap = json.decode(response.body);
+    print(response.body);
+    for (Map<String, dynamic> map in announcementsMap) {
+      announcement = Announcement();
+      announcement.coid = map['courtOwnerId'].toString();
+      announcement.aid = map['id'].toString();
+      announcement.body = map['body'].toString();
+      if (map.containsKey('cni')) {
+        announcement.img = map['cni'].toString();
       }
-    }on Exception catch(_){
-      print("Reservations GET Error");
-      print(response.body);
+      if (map.containsKey('courtPic')) {
+        announcement.Pimg = map['courtPic'].toString();
+      }
+      announcement.date = map['date'].toString();
+      announcement.time = map['time'].toString().substring(0,(map['time'].toString().lastIndexOf(":")));
+      announcement.name = map['name'].toString();
+      announcements.add(announcement);
     }
+
     return announcements;
   }
 
@@ -84,7 +88,8 @@ class AnnouncementHTTPsHandler {
     print(response.body);
   }
 
-  static Future<String> uploadAnnouncementImageFile(File file, final path) async {
+  static Future<String> uploadAnnouncementImageFile(
+      File file, final path) async {
     UploadTask? uploadTask;
     final ref = FirebaseStorage.instance.ref().child(path);
     uploadTask = ref.putFile(file);

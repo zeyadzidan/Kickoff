@@ -5,14 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/profile.dart';
-import 'package:kickoff_frontend/components/login/EmailLogin.dart';
+import 'package:kickoff_frontend/components/login/Email.dart';
 import 'package:kickoff_frontend/components/login/PasswordPlayer.dart';
-import 'package:kickoff_frontend/components/login/SignUpLocation.dart';
+import 'package:kickoff_frontend/components/SignUp/Location.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/localFile.dart';
-import 'package:kickoff_frontend/application/screens/login.dart';
+import 'package:kickoff_frontend/application/screens/BuildComponentsPlayer.dart';
 import 'package:kickoff_frontend/components/courts/CourtsInSearch.dart';
 import '../application/screens/announcements.dart';
+import '../application/screens/player/player-reservations.dart';
 import '../application/screens/reservations.dart';
 import 'courtsrequests.dart';
 
@@ -80,41 +81,45 @@ class RoundedLogin extends State<LoginButtonPlayer> {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () async {
-        var Email = RoundedInputLogin.EmailLogin.text;
-        var Password = RoundedPasswordInputPlayer.Password.text;
+        var Email = BuildLoginEmail.EmailLogin.text;
+        var Password = Build_Password_Player.Password.text;
         if (Email.isEmpty) {
           showAlertDialog(context, 'Empty Email Address');
-          RoundedInputLogin.EmailLogin.clear();
+          BuildLoginEmail.EmailLogin.clear();
         } else if (Password.length < 6 ||
             Password.length > 15 ||
             Password.isEmpty) {
           showAlertDialog(context,
               'Wrong Password');
-          RoundedPasswordInputPlayer.Password.clear();
+          Build_Password_Player.Password.clear();
         } else {
-          print(RoundedPasswordInputPlayer.Password.text);
-          await save(RoundedInputLogin.EmailLogin.text,
-              RoundedPasswordInputPlayer.Password.text);
+          print(Build_Password_Player.Password.text);
+          await save(BuildLoginEmail.EmailLogin.text,
+              Build_Password_Player.Password.text);
           if (profileData.isEmpty) {
             showAlertDialog(context, 'Check your Information');
-            RoundedInputLogin.EmailLogin.clear();
+            BuildLoginEmail.EmailLogin.clear();
           } else if (profileData.length == 4) {
             showAlertDialog(
                 context, 'Wrong password password less than 4 character not accepted ');
-            RoundedPasswordInputPlayer.Password.clear();
+            Build_Password_Player.Password.clear();
           } else {
             print(profileData);
             KickoffApplication.data = profileData;
-              localFile.writeLoginData(RoundedInputLogin.EmailLogin.text,
-                RoundedPasswordInputPlayer.Password.text,"1");
+              localFile.writeLoginData(BuildLoginEmail.EmailLogin.text,
+                Build_Password_Player.Password.text,"1");
             KickoffApplication.player=true;
-            RoundedInputLogin.EmailLogin.clear();
-            RoundedPasswordInputPlayer.Password.clear();
+
+            BuildLoginEmail.EmailLogin.clear();
+            Build_Password_Player.Password.clear();
+
             KickoffApplication.playerId="${profileData["id"]}";
             AnnouncementsHome.buildFullAnnouncements();
+            PlayerReservationsHome.buildReservations();
             AnnouncementsHome.isExpanded = List<bool>.generate(AnnouncementsHome.announcements.length, (index) => false);
             print(AnnouncementsHome.announcements.length);
             await getCourtsinSearch(KickoffApplication.data["xAxis"],KickoffApplication.data["yAxis"]);
+            KickoffApplication.setStartState();
             Navigator.popAndPushNamed(context, '/kickoff');
           }
         }
@@ -124,7 +129,7 @@ class RoundedLogin extends State<LoginButtonPlayer> {
         width: size.width * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: playerColor,
+          color: mainSwatch,
           boxShadow: const <BoxShadow>[
             BoxShadow(
               color: Colors.black,

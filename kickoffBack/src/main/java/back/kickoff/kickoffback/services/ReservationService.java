@@ -12,29 +12,35 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Service
 public class ReservationService {
 
 
-    public int calcTotalCost(Date stDay, Date endDay, Time stTime, Time endTime, Court court) {
+    public int calcTotalCost(LocalDate stDay, LocalDate endDay, LocalTime stTime, LocalTime endTime, Court court) {
         System.out.println("sd " + stDay + " ed " + endDay + " st " + stTime + " et " + endTime);
         CourtSchedule courtSchedule = court.getCourtSchedule();
         int mourningPrice = courtSchedule.getMorningCost();
         int nightPrice = courtSchedule.getNightCost();
         int totalCost;
-        Time morning = courtSchedule.getEndMorning();
+        LocalTime morning = courtSchedule.getEndMorning().toLocalTime();
         System.out.println("morning " + morning);
 
-        if (morning.after(stTime) && (morning.after(endTime) || morning.equals(endTime)) && stDay.equals(endDay)) { // morning
-            System.out.println("morning");
+        DateTime st = new DateTime(stDay,stTime) ;
+        DateTime mid = new DateTime(stDay,morning) ;
+        DateTime end = new DateTime(endDay,endTime) ;
 
-            totalCost = mourningPrice * (endTime.getHours() - stTime.getHours());
-        } else if ((morning.before(stTime) || morning.equals(stTime)) && morning.before(endTime) && endDay.equals(stDay)) {//night
-            totalCost = nightPrice * (endTime.getHours() - stTime.getHours());
+        if (st.compareTo(mid)<0 && end.compareTo(mid) <= 0) { // morning
+            System.out.println("morning");
+            totalCost = mourningPrice * (end.compareTo(st));
+
+        } else if (st.compareTo(mid)>=0 && end.compareTo(mid) > 0) {//night
+            totalCost = nightPrice * (end.compareTo(st));
             System.out.println("night");
         } else {
-            totalCost = mourningPrice * (morning.getHours() - stTime.getHours()) + nightPrice * (endTime.getHours() - morning.getHours());
+            totalCost = mourningPrice * (mid.compareTo(st)) + nightPrice * (end.compareTo(mid));
             System.out.println("haf");
         }
         System.out.println(totalCost);

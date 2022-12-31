@@ -7,12 +7,12 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kickoff_frontend/application/screens/login.dart';
+import 'package:kickoff_frontend/application/screens/BuildComponentsPlayer.dart';
 import 'package:kickoff_frontend/application/screens/profile.dart';
 import 'package:kickoff_frontend/application/screens/reservations.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/components/courts/CourtsInSearch.dart';
-import 'package:kickoff_frontend/components/login/SignUpRequestPlayer.dart';
+import 'package:kickoff_frontend/httpshandlers/SignUpRequestPlayer.dart';
 import 'package:http/http.dart' as http;
 import '../../httpshandlers/Subscription.dart';
 import '../../httpshandlers/courtsrequests.dart';
@@ -87,13 +87,13 @@ class _SearchScreenState extends  State<SearchScreen> {
                   decoration: InputDecoration(
                     filled: true,
                     hintText: "Search",
-                    fillColor: playerColor.withAlpha(50),
+                    fillColor: mainSwatch.withAlpha(50),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide: BorderSide.none,
                     ) ,
                     prefixIcon: Icon(Icons.search),
-                    prefixIconColor:playerColor,
+                    prefixIconColor:mainSwatch,
                   ),
                 ),
                 SizedBox(height: 10.0,),

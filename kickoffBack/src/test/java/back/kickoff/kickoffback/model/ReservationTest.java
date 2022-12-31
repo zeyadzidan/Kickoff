@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,7 +22,7 @@ class ReservationTest {
 
 
     @Test
-    void getId() {
+    void getIdTest() {
         Long id = 1L;
         reservation.setId(id);
         assertEquals(id, reservation.getId());
@@ -27,57 +30,60 @@ class ReservationTest {
     }
 
     @Test
-    void getMainPlayer() {
+    void getMainPlayerTest() {
         Long id = 22L ;
         String name = "Gad" ;
         Player player = new Player() ;
         player.setName(name);
         player.setId(id);
-
+        player.setReservations(new ArrayList<>(1));
         reservation.setMainPlayer(player);
+        player.getReservations().add(reservation) ;
+
+
         assertEquals(player, reservation.getMainPlayer());
     }
 
     @Test
-    void getCourtID() {
+    void getCourtIDTest() {
         Long id = 11L;
         reservation.setCourtID(id);
         assertEquals(id, reservation.getCourtID());
     }
 
     @Test
-    void getCourtOwnerID() {
+    void getCourtOwnerIDTest() {
         Long id = 143L;
         reservation.setCourtOwnerID(id);
         assertEquals(id, reservation.getCourtOwnerID());
     }
 
     @Test
-    void getStartDate() {
-        Date d = new Date(2022, 11, 8);
+    void getStartDateTest() {
+        Date d = Date.valueOf(LocalDate.of(2022, 11, 8));
         reservation.setStartDate(d);
         assertEquals(d, reservation.getStartDate());
 
     }
 
     @Test
-    void getEndDate() {
-        Date d = new Date(2022, 11, 8);
+    void getEndDateTest() {
+        Date d = Date.valueOf(LocalDate.of(2022, 11, 8));
         reservation.setEndDate(d);
         assertEquals(d, reservation.getEndDate());
     }
 
     @Test
-    void getTimeFrom() {
-        Time t = new Time(12, 0, 0);
+    void getTimeFromTest() {
+        Time t =  Time.valueOf(LocalTime.of(12, 0, 0));
         reservation.setTimeFrom(t);
         assertEquals(t, reservation.getTimeFrom());
 
     }
 
     @Test
-    void getTimeTo() {
-        Time t = new Time(12, 0, 0);
+    void getTimeToTest() {
+        Time t =  Time.valueOf(LocalTime.of(12, 0, 0));
         reservation.setTimeTo(t);
         assertEquals(t, reservation.getTimeTo());
     }
@@ -90,7 +96,7 @@ class ReservationTest {
     }
 
     @Test
-    void getMoneyPayed() {
+    void getMoneyPayedTest() {
         Integer c = 100;
         reservation.setMoneyPayed(c);
         assertEquals(c, reservation.getMoneyPayed());
@@ -98,29 +104,29 @@ class ReservationTest {
     }
 
     @Test
-    void getTotalCost() {
+    void getTotalCostTest() {
         Integer c = 400;
         reservation.setTotalCost(c);
         assertEquals(c, reservation.getTotalCost());
     }
 
     @Test
-    void getReceiptUrl() {
+    void getReceiptUrlTest() {
         String receiptUrl = "receipt.png";
         reservation.setReceiptUrl(receiptUrl);
         assertEquals(receiptUrl, reservation.getReceiptUrl());
     }
 
     @Test
-    void getDateReserved() {
-        Date d = new Date(2022, 12, 20);
+    void getDateReservedTest() {
+        Date d = Date.valueOf(LocalDate.of(2022, 11, 8));
         reservation.setDateReserved(d);
         assertEquals(d, reservation.getDateReserved());
     }
 
     @Test
-    void getTimeReserved() {
-        Time t = new Time(16, 14, 9);
+    void getTimeReservedTest() {
+        Time t =  Time.valueOf(LocalTime.of(16, 9, 16));
         reservation.setTimeReserved(t);
         assertEquals(t, reservation.getTimeReserved());
     }

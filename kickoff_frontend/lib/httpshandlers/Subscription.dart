@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:kickoff_frontend/components/classes/announcement.dart';
 
 import '../application/application.dart';
 
