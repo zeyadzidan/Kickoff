@@ -21,6 +21,19 @@ class PartiesHTTPsHandler {
     print(response.body);
     return(json.decode(response.body));
   }
+
+  static Future<List<Party>>  Partyappear(Coid) async {
+    var response = await http.post(
+        Uri.parse('$_url/party/parties_appear_courtowner'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          "id": Coid,
+        }));
+    print(response.body);
+    List<dynamic> temp = json.decode(response.body);
+    List<Party> parties = convertIntoList(temp);
+    return parties;
+  }
   static List<Party> convertIntoList(temp){
     Party party;
     List<Party> parties = <Party>[];

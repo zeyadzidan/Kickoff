@@ -26,12 +26,13 @@ class RoundedButton extends State<SignUpButton> {
   late Map<String, dynamic> profileData;
 
   Future save() async {
+    print(UsernameSignUp.username.text);
     var res = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "email": BuildEmailSignUp.EmailSignUp.text.toLowerCase(),
           "password": BuildPassword_CourtOwnerSignUp.Password.text,
-          "name": UsernameSignUp.username.text,
+          "username": UsernameSignUp.username.text,
           "phoneNumber": PhoneNumberSignUp.PhoneNumber.text,
           "location": BuildLocation.Locationaddress,
           "xAxis": BuildLocation.X_axis,

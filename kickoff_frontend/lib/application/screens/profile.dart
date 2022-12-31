@@ -28,6 +28,7 @@ class ProfileBaseScreen extends StatefulWidget {
 }
 
 class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
+
   double rating = double.parse("${KickoffApplication.data["rating"]}");
 
   int subscribers = 0;
