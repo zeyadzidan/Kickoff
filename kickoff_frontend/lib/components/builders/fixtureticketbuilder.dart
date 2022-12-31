@@ -15,6 +15,8 @@ class FixtureTicketBuilder {
 
   FixtureTicketBuilder buildCid(cid) => _fixtureTicket.cid = cid;
 
+  FixtureTicketBuilder buildPnum(pnumber) => _fixtureTicket.pnumber = pnumber;
+
   FixtureTicketBuilder buildPaidAmount(amount) =>
       _fixtureTicket.paidAmount = amount;
 

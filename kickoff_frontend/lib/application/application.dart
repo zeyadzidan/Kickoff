@@ -58,6 +58,10 @@ class KickoffApplication extends StatefulWidget {
       await AnnouncementsHome.buildAnnouncements();
       await ReservationsHome.buildTickets();
     }
+    else{
+      await AnnouncementsHome.buildFullAnnouncements();
+      await PlayerReservationsHome.buildReservations();
+    }
     _selectedPage = index;
     KickoffApplication.update();
   }

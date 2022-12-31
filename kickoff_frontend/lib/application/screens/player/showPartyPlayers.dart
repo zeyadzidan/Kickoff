@@ -61,6 +61,7 @@ class _showPartyPlayersState extends  State<showPartyPlayers> {
   {
     return Scaffold(
       appBar:AppBar(
+        backgroundColor: mainSwatch,
         title: Text("${showPartyPlayers.party.Pname}'s Party"),
         leading: IconButton(
             onPressed:()=> (
@@ -83,9 +84,7 @@ class _showPartyPlayersState extends  State<showPartyPlayers> {
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
 
                     child: ListTile(
-                      title: Expanded(
-                        child: Text("${showPartyPlayers.partyPlayers[index].Pname}",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,),
-                        ),
+                      title: Text("${showPartyPlayers.partyPlayers[index].Pname}",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,),
                       ),
                       leading:
                       CircleAvatar(

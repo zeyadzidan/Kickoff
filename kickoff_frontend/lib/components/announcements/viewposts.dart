@@ -143,7 +143,7 @@ class postbutton extends State<PlusAnnouncementButton3> {
                                             ),
                                           ),
                                         Expanded(child: Container()),
-                                          SizedBox(
+                                          KickoffApplication.player?SizedBox(
                                             height: 50,
                                             width: 150,
                                             child: ElevatedButton.icon(
@@ -163,7 +163,7 @@ class postbutton extends State<PlusAnnouncementButton3> {
                                                 setState(() {});
                                               },
                                             ),
-                                          ),
+                                          ):Container(),
                                         ],
                                       ),
                                     ),

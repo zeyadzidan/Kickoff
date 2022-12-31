@@ -75,6 +75,7 @@ class TicketsHTTPsHandler {
         ticket.ticketId = map['id'].toString();
         ticket.pname = map['playerName'].toString();
         ticket.cid = map['courtID'].toString();
+        ticket.pnumber = map['phoneNumber'].toString();
         ticket.startDate = map['startDate'].toString();
         ticket.endDate = map['endDate'].toString();
         ticket.startTime = map['timeFrom'].toString();
@@ -126,6 +127,7 @@ class TicketsHTTPsHandler {
   static Future uploadReceipt(
     File file,
     final path,
+      id
   ) async {
     UploadTask? uploadTask;
     final ref = FirebaseStorage.instance.ref().child(path);
@@ -136,7 +138,7 @@ class TicketsHTTPsHandler {
     var response = await http.post(Uri.parse('$_url/BookingAgent/sendReceipt'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "reservationId": KickoffApplication.playerId /* Player ID */,
+          "reservationId": id,
           "receiptUrl": imageUrl.toString(),
         }));
     print(response.body);

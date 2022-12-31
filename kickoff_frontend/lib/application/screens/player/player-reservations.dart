@@ -429,7 +429,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
             File file = File(_getResult(index).files.last.path!);
             final path =
                 'files/${KickoffApplication.data["id"].toString()}.${random.nextInt(10000000)}.${_getResult(index).files.last.extension}';
-            await TicketsHTTPsHandler.uploadReceipt(file, path);
+            await TicketsHTTPsHandler.uploadReceipt(file, path,PlayerReservationsHome._reservations[index].ticketId);
             KickoffApplication.update();
           },
         ),
