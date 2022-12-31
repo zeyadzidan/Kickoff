@@ -39,7 +39,7 @@ class AnnouncementHTTPsHandler {
       if (map.containsKey('cni')) {
         announcement.img = map['cni'].toString();
       }
-      if (map.containsKey('courtPic ')) {
+      if (map.containsKey('courtPic')) {
         announcement.Pimg = map['courtPic'].toString();
       }
       announcement.date = map['date'].toString();

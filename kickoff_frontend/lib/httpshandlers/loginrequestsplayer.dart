@@ -13,6 +13,7 @@ import 'package:kickoff_frontend/localFile.dart';
 import 'package:kickoff_frontend/application/screens/BuildComponentsPlayer.dart';
 import 'package:kickoff_frontend/components/courts/CourtsInSearch.dart';
 import '../application/screens/announcements.dart';
+import '../application/screens/player/player-reservations.dart';
 import '../application/screens/reservations.dart';
 import 'courtsrequests.dart';
 
@@ -110,9 +111,11 @@ class RoundedLogin extends State<LoginButtonPlayer> {
 
             KickoffApplication.playerId="${profileData["id"]}";
             AnnouncementsHome.buildFullAnnouncements();
+            PlayerReservationsHome.buildReservations();
             AnnouncementsHome.isExpanded = List<bool>.generate(AnnouncementsHome.announcements.length, (index) => false);
             print(AnnouncementsHome.announcements.length);
             await getCourtsinSearch(KickoffApplication.data["xAxis"],KickoffApplication.data["yAxis"]);
+            KickoffApplication.setStartState();
             Navigator.popAndPushNamed(context, '/kickoff');
           }
         }

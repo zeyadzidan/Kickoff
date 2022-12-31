@@ -6,6 +6,7 @@ import '/../myexpansionpanels.dart' as my_panel;
 import '../../application/screens/profile.dart';
 import '../../application/screens/reservations.dart';
 import '../../constants.dart';
+import '../../httpshandlers/penalty.dart';
 import '../../httpshandlers/ticketsrequests.dart';
 
 class ReservationsView extends StatefulWidget {
@@ -76,6 +77,27 @@ class _ReservationsViewState extends State<ReservationsView> {
                                         (j) => ReservationsHome
                                             .reservations[index]
                                             .asView()[j])),
+                                ReservationsHome.reservations[index].state ==
+                                        'Booked'
+                                    ? ElevatedButton.icon(
+                                        icon: const Icon(
+                                          Icons.report,
+                                          size: 35,
+                                        ),
+                                        label:
+                                            const Text("إبلاغ عن غياب اللاعب"),
+                                        style: ElevatedButton.styleFrom(
+                                            foregroundColor: mainSwatch,
+                                            backgroundColor: secondaryColor,
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 20, horizontal: 15)),
+                                        onPressed: () =>
+                                            PenaltyHTTPsHandler.report(
+                                                KickoffApplication.ownerId,
+                                                ReservationsHome
+                                                    .reservations[index].pid,
+                                                false))
+                                    : Container(),
                                 KickoffApplication.player
                                     ? Container()
                                     : (ReservationsHome.reservations[index]

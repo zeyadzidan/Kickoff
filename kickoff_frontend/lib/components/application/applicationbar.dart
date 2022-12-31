@@ -7,17 +7,23 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../application/application.dart';
 import '../../application/screens/announcements.dart';
+import '../../application/screens/player/player-reservations.dart';
 import '../../application/screens/profile.dart';
 
 class KickoffAppBar {
-  build(context) => KickoffApplication.player
+  build(context, globalKey) => KickoffApplication.player
       ?AppBar(
     centerTitle: true,
     leading: IconButton(
       icon: const Icon(Icons.person),
       tooltip: 'تعديل البيانات',
       onPressed: () async {
+
+        // globalKey.currentState?.openDrawer();
+        //to be implemented
+
         Navigator.pushNamed(context, '/account');
+
       },
     ),
     elevation: 4,
@@ -38,6 +44,7 @@ class KickoffAppBar {
             Directory(appDir).delete(recursive: true);
             ProfileBaseScreen.courts.clear();
             AnnouncementsHome.announcements.clear();
+            PlayerReservationsHome.clearData;
             Navigator.popAndPushNamed(context, '/loginPlayer');
         },
       ),

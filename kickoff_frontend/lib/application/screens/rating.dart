@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:kickoff_frontend/constants.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
 class RatingButton extends StatefulWidget {
   RatingButton({super.key});
-
   @override
   State<RatingButton> createState() => _RatingButtonState();
 }

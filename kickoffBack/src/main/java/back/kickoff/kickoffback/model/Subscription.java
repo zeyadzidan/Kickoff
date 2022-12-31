@@ -1,6 +1,7 @@
 package back.kickoff.kickoffback.model;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Table
 @NoArgsConstructor
 @Entity
+@EqualsAndHashCode
 public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
