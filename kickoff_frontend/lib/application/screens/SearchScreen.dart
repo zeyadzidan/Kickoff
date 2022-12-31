@@ -45,7 +45,7 @@ class _SearchScreenState extends  State<SearchScreen> {
     print(response.body);
     setState(() => profileData = json.decode(response.body));
     KickoffApplication.dataPlayer= profileData;
-    KickoffApplication.ownerId = profileData["courtOwnerId"].toString();
+    KickoffApplication.ownerId = profileData["id"].toString();
     ReservationsHome.reservations.clear();
     print(KickoffApplication.dataPlayer);
     ProfileBaseScreen.courts =

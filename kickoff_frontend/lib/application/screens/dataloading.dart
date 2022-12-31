@@ -50,11 +50,11 @@ class Loading {
         //The user is court Owner
         KickoffApplication.player = false;
         data = await cLogin.RoundedLogin.save2(email, pass);
-        int id = data["courtOwnerId"];
+        int id = data["id"];
         print(data);
         print(id);
 
-        KickoffApplication.ownerId = "${data["courtOwnerId"]}";
+        KickoffApplication.ownerId = "${data["id"]}";
         ProfileBaseScreen.courts = await CourtsHTTPsHandler.getCourts(id);
         await ReservationsHome.buildTickets();
         await AnnouncementsHome.buildAnnouncements();
