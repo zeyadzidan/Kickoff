@@ -19,9 +19,8 @@ public class PartyFrontEnd {
     public String fullplaces;
     public String Pname;
     public String Pimg;
-//    public List<PlayerFrontEnd> playerJoined;
-   public String Date;
-   public Time timeFrom;
+    public String Date;
+    public Time timeFrom;
     public  Time timeTo;
     public  int totalCost;
     public PartyFrontEnd(Party party) {
@@ -29,17 +28,10 @@ public class PartyFrontEnd {
         COname = party.getCourtOwner().getUserName();
         Cname = party.getCourt().getCourtName();
         emptyplaces = party.getNeededNumbers();
-//        int diff = Math.abs(Integer.parseInt(party.getNeededNumbers())-Integer.parseInt(party.getAvailableNumbers()));
         fullplaces = party.getAvailableNumbers();
         Pname =  party.getPlayerCreated().getName();
-
-            Pimg = party.getPlayerCreated().getImage();
+        Pimg = party.getPlayerCreated().getImage();
         System.out.println(Pimg);
-//        playerJoined = new ArrayList<>();
-//        for(Player p : party.getPlayerJoined())
-//        {
-//            playerJoined.add(new PlayerFrontEnd(p));
-//        }
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date = dateFormat.format(party.getReservation().getStartDate());;
         timeFrom = party.getReservation().getTimeFrom();

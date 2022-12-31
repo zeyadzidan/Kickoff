@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -28,6 +29,13 @@ public class Player{
     private String image;
     private Double xAxis;
     private Double yAxis;
+
+    //penalty
+    private boolean restricted= false;
+    private int warnings = 0;
+    private Date lastWarning  ;
+    private int penaltyDays = 0 ;
+
     //@ManyToMany
     //@JoinTable(name="player_reservation", joinColumns = @JoinColumn(name="player_id"),inverseJoinColumns = @JoinColumn(name="reservation_id"))
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER , mappedBy = "mainPlayer")

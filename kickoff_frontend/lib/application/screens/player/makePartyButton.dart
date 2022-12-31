@@ -109,5 +109,4 @@ class _makePartyButtonState extends State<makePartyButton> {
           ],
         ));
   }
-
 }

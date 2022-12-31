@@ -2,6 +2,7 @@ package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.Commands.CreateParty;
 import back.kickoff.kickoffback.Commands.PartyFrontEnd;
+import back.kickoff.kickoffback.Commands.PlayerFrontEndParty;
 import back.kickoff.kickoffback.Commands.PlayerFrontEnd;
 import back.kickoff.kickoffback.model.*;
 import back.kickoff.kickoffback.repositories.*;
@@ -125,8 +126,6 @@ public class PartyServices {
         JSONObject jsonObject = new JSONObject(information);
         Long CourtOwnerid = jsonObject.getLong("id");
         Long playerid = jsonObject.getLong("pid");
-
-
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(CourtOwnerid);
         if (courtOwnerOptional.isEmpty())
             throw new RuntimeException("CourtOwner Not Found");
