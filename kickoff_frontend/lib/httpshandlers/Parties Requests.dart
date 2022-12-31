@@ -114,7 +114,7 @@ class PartiesHTTPsHandler {
         Uri.parse('$_url/party/get_player_joined_by_parties'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
-          "id": partyId,
+          "id": partyId.toString(),
         }));
     print(response.body);
     List<dynamic> temp = json.decode(response.body);
@@ -122,10 +122,10 @@ class PartiesHTTPsHandler {
     PartyPlayer player;
     for (Map<String, dynamic> map in temp) {
       player = PartyPlayer();
-      player.pid = map['pid'];
-      player.Pname = map['Pname'].toString();
-      if (map.containsKey('Pimg ')) {
-        player.Pimg = map['Pimg'].toString();
+      player.pid = map['id'].toString();
+      player.Pname = map['name'].toString();
+      if (map.containsKey('image')) {
+        player.Pimg = map['image'].toString();
       }
       players.add(player);
     }

@@ -107,23 +107,36 @@ class _showPartyPlayersState extends  State<showPartyPlayers> {
                               Icon(Icons.error),
                         )),
                       ),
-                      trailing: ElevatedButton.icon(
-                          icon: const Icon(
-                            Icons.report,
-                            size: 35,
-                          ),
-                          label:
-                          const Text("Report Absence"),
-                          style: ElevatedButton.styleFrom(
-                              foregroundColor: mainSwatch,
-                              backgroundColor: secondaryColor,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 20, horizontal: 15)),
+                      trailing: Ink(
+                        decoration: const ShapeDecoration(
+                          color: Colors.red,
+                          shape: CircleBorder(),
+                        ),
+                        child: IconButton(
+                          icon: const Icon(Icons.report,),
+                          color: Colors.white,
                           onPressed: () =>
                               PenaltyHTTPsHandler.report(
                                   KickoffApplication.playerId,
                                   showPartyPlayers.partyPlayers[index].pid,
-                                  true)),
+                                  true),),
+
+                      )
+                      // ,IconButton(
+                      //     icon: const Icon(
+                      //       Icons.report,
+                      //       size: 35,
+                      //     ),
+                      //     style: ElevatedButton.styleFrom(
+                      //         foregroundColor: mainSwatch,
+                      //         backgroundColor: secondaryColor,
+                      //         padding: const EdgeInsets.symmetric(
+                      //             vertical: 20, horizontal: 15)),
+                      //     onPressed: () =>
+                      //         PenaltyHTTPsHandler.report(
+                      //             KickoffApplication.playerId,
+                      //             showPartyPlayers.partyPlayers[index].pid,
+                      //             true),),
                       // onTap: ()
                       // {
                       //   // getListview(displayList[index]["id"].toString());

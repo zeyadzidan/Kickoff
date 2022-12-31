@@ -46,7 +46,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
   String address = KickoffApplication.dataPlayer["location"];
   double xaxis = KickoffApplication.dataPlayer["xAxis"];
   double yaxis = KickoffApplication.dataPlayer["yAxis"];
-  int id = KickoffApplication.dataPlayer["courtOwnerId"];
+  int id = KickoffApplication.dataPlayer["id"];
   bool foundPhoto = KickoffApplication.dataPlayer.containsKey("image");
   String tempUrl = "";
   String utl = KickoffApplication.dataPlayer.containsKey("image")

@@ -316,6 +316,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
                                   const EdgeInsets.symmetric(
                                       vertical: 10)),
                               onPressed: () async {
+                                print(PlayerReservationsHome.parties[index].id);
                                 showPartyPlayers.partyPlayers=await PartiesHTTPsHandler.getPlayersJoinedParty(PlayerReservationsHome.parties[index].id);
                                 showPartyPlayers.party=PlayerReservationsHome.parties[index];
                                 Navigator.pushNamed(context, "/Party");                              },
