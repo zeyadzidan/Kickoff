@@ -46,7 +46,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
   String address = KickoffApplication.dataPlayer["location"];
   double xaxis = KickoffApplication.dataPlayer["xAxis"];
   double yaxis = KickoffApplication.dataPlayer["yAxis"];
-  int id = KickoffApplication.dataPlayer["id"];
+  int id = KickoffApplication.dataPlayer["courtOwnerId"];
   bool foundPhoto = KickoffApplication.dataPlayer.containsKey("image");
   String tempUrl = "";
   String utl = KickoffApplication.dataPlayer.containsKey("image")
@@ -315,10 +315,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                     )
                   : ReservationsHome()),
       floatingActionButton: ProfileBaseScreenPlayer._selectedPage == 2
-          ? const PlusReservationButton()
-          : ProfileBaseScreenPlayer._selectedPage == 0
-              ? RatingButton()
-              : null,
+          ? const PlusReservationButton() : null,
       bottomNavigationBar: _buildPlayerNavBar(),
     );
   }

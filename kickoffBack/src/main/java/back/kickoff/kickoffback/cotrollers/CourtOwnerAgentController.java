@@ -29,6 +29,8 @@ public class CourtOwnerAgentController {
     public ResponseEntity<String> listCourts(@PathVariable String courtOwnerId) {
         try
         {
+            System.out.println("lll");
+            System.out.println(courtOwnerId);
             List<CourtFrontEnd> list = courtOwnerAgent.findCourtOwnerCourts(Long.valueOf(courtOwnerId)) ;
             return new ResponseEntity<>(new  Gson().toJson(list),HttpStatus.OK);
         } catch (Exception e) {

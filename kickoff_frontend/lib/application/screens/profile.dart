@@ -36,7 +36,7 @@ class _ProfileBaseScreenState extends State<ProfileBaseScreen> {
   String address = KickoffApplication.data["location"];
   double xaxis = KickoffApplication.data["xAxis"];
   double yaxis = KickoffApplication.data["yAxis"];
-  int id = KickoffApplication.data["id"];
+  int id = KickoffApplication.data["courtOwnerId"];
   bool foundPhoto = KickoffApplication.data.containsKey("image");
   String tempUrl = "";
   String utl = KickoffApplication.data.containsKey("image")

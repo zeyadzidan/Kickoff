@@ -8,6 +8,7 @@ class CourtsHTTPsHandler {
   static final String _url = "http://${KickoffApplication.userIP}:8080/";
 
   static Future<List<Court>> getCourts(coid) async {
+    print(coid);
     http.Response rsp = await http
         .get(Uri.parse("${_url}courtOwnerAgent/CourtOwner/$coid/Courts"));
     List<dynamic> courtsMap = json.decode(rsp.body);
