@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/announcements.dart';
+import 'package:kickoff_frontend/application/screens/rating.dart';
 import 'package:kickoff_frontend/application/screens/reservations.dart';
 import 'package:kickoff_frontend/components/courts/court-view.dart';
 import 'package:kickoff_frontend/components/tickets/plusreservationbutton.dart';
@@ -21,8 +22,9 @@ class ProfileBaseScreenPlayer extends StatefulWidget {
   static List<Court> courts = <Court>[];
   static List<bool> isExpanded = <bool>[];
   static int _selectedPage = 0;
-  static bool isSubscribed =false;
-  static int subscribersCount =0;
+  static bool isSubscribed = false;
+  static int subscribersCount = 0;
+
   @override
   State<ProfileBaseScreenPlayer> createState() =>
       _ProfileBaseScreenStatePlayer();
@@ -46,6 +48,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
   String utl = KickoffApplication.dataPlayer.containsKey("image")
       ? KickoffApplication.dataPlayer["image"]
       : "";
+
   // bool isSubscribed= false;
 
   @override
@@ -58,7 +61,8 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
           onPressed: () {
             KickoffApplication.ownerId = '';
             AnnouncementsHome.buildFullAnnouncements();
-            AnnouncementsHome.isExpanded = List<bool>.generate(AnnouncementsHome.announcements.length, (index) => false);
+            AnnouncementsHome.isExpanded = List<bool>.generate(
+                AnnouncementsHome.announcements.length, (index) => false);
             Navigator.pop(context);
             KickoffApplication.update();
           },
@@ -196,50 +200,68 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                 child: Column(
                                   children: [
                                     Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: !ProfileBaseScreenPlayer.isSubscribed
-                                        ?ElevatedButton.icon(
-                                        label:const Text("Subscribe"),
-                                        icon: const Icon(Icons.add),
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: mainSwatch,
-                                            fixedSize: const Size(150, 25),
+                                        alignment: Alignment.centerLeft,
+                                        child: !ProfileBaseScreenPlayer
+                                                .isSubscribed
+                                            ? ElevatedButton.icon(
+                                                label: const Text("Subscribe"),
+                                                icon: const Icon(Icons.add),
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: mainSwatch,
+                                                  fixedSize:
+                                                      const Size(150, 25),
+                                                ),
+                                                onPressed: () {
+                                                  SubscriptionHTTPsHandler
+                                                      .subscribe(
+                                                          KickoffApplication
+                                                              .playerId,
+                                                          KickoffApplication
+                                                              .ownerId);
+                                                  setState(() {
+                                                    ProfileBaseScreenPlayer
+                                                        .isSubscribed = true;
+                                                    ProfileBaseScreenPlayer
+                                                        .subscribersCount += 1;
+                                                  });
+                                                },
+                                              )
+                                            : OutlinedButton.icon(
+                                                label:
+                                                    const Text("Unsubscribe"),
+                                                icon: const Icon(Icons.add),
+                                                style: OutlinedButton.styleFrom(
+                                                  foregroundColor: mainSwatch,
+                                                  backgroundColor: Colors.white
+                                                      .withAlpha(70),
+                                                  side: BorderSide(
+                                                      color: mainSwatch),
+                                                  fixedSize: Size(150, 25),
+                                                ),
+                                                onPressed: () {
+                                                  SubscriptionHTTPsHandler
+                                                      .unsubscribe(
+                                                          KickoffApplication
+                                                              .playerId,
+                                                          KickoffApplication
+                                                              .ownerId);
+                                                  setState(() {
+                                                    ProfileBaseScreenPlayer
+                                                        .isSubscribed = false;
+                                                    ProfileBaseScreenPlayer
+                                                        .subscribersCount -= 1;
+                                                  });
+                                                },
+                                              )
+                                        // Text(
+                                        //   name,
+                                        //   style: const TextStyle(
+                                        //     letterSpacing: 0.4,
+                                        //     fontSize: 20,
+                                        //     color: Colors.black,
+                                        //   ),
+                                        // ),
                                         ),
-                                        onPressed: () {
-                                          SubscriptionHTTPsHandler.subscribe(KickoffApplication.playerId,KickoffApplication.ownerId);
-                                          setState(() {
-                                            ProfileBaseScreenPlayer.isSubscribed=true;
-                                            ProfileBaseScreenPlayer.subscribersCount+=1;
-                                          });
-                                        },
-                                        )
-                                        :OutlinedButton.icon(
-                                        label:const Text("Unsubscribe"),
-                                        icon: const Icon(Icons.add),
-                                        style: OutlinedButton.styleFrom(
-                                          foregroundColor: mainSwatch,
-                                          backgroundColor: Colors.white.withAlpha(70),
-                                          side: BorderSide(color: mainSwatch),
-                                          fixedSize: Size(150, 25),
-                                        ),
-
-                                        onPressed: () {
-                                          SubscriptionHTTPsHandler.unsubscribe(KickoffApplication.playerId,KickoffApplication.ownerId);
-                                          setState(() {
-                                            ProfileBaseScreenPlayer.isSubscribed=false;
-                                            ProfileBaseScreenPlayer.subscribersCount-=1;
-                                          });
-                                        },
-                                      )
-                                      // Text(
-                                      //   name,
-                                      //   style: const TextStyle(
-                                      //     letterSpacing: 0.4,
-                                      //     fontSize: 20,
-                                      //     color: Colors.black,
-                                      //   ),
-                                      // ),
-                                    ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10.0),
@@ -281,12 +303,15 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                     ],
                   ))
               : (ProfileBaseScreenPlayer._selectedPage == 1)
-                  ? AnnouncementsHome(full: false,)
-                  : ReservationsHome()
-      ),
+                  ? AnnouncementsHome(
+                      full: false,
+                    )
+                  : ReservationsHome()),
       floatingActionButton: ProfileBaseScreenPlayer._selectedPage == 2
           ? const PlusReservationButton()
-          : null,
+          : ProfileBaseScreenPlayer._selectedPage == 0
+              ? RatingButton()
+              : null,
       bottomNavigationBar: _buildPlayerNavBar(),
     );
   }

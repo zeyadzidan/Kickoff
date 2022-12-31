@@ -71,7 +71,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
       initialRoute:firstTime?'/Ratings':'/kickoff',
       // initialRoute: firstTime?'/login':'/kickoff',
       routes: {
-        '/Ratings': (context)=> Ratings(),
+        '/Ratings': (context)=> RatingButton(),
         '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
         '/profilePlayer':(context)=>  ProfileBaseScreenPlayer(),
