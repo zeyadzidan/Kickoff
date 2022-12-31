@@ -1,50 +1,66 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:kickoff_frontend/application/application.dart';
+import 'package:kickoff_frontend/application/screens/profile.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:kickoff_frontend/httpshandlers/ratingrequests.dart';
+import 'package:http/http.dart' as http;
+
+import 'ProfileappearToPlayer.dart';
 
 class Ratings extends StatefulWidget {
   Ratings({super.key});
-
   @override
   State<Ratings> createState() => _RatingsState();
 }
 
 class _RatingsState extends State<Ratings> {
+
+  double stars =0;
+
+  static TextEditingController review = TextEditingController();
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Reviews"),
-          backgroundColor: playerColor,
+          backgroundColor:(KickoffApplication.player)? playerColor:courtOwnerColor,
           centerTitle: true,
         ),
-      body: SingleChildScrollView(
-        child: Column(
+      body: Container(
+        padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
+        child:Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 180,
-              color: Colors.yellow,
-            ),
-            Container(
-              height: 180,
-              color: Colors.red,
-            ),
-            Container(
-              height: 180,
-              color: Colors.greenAccent,
-            ),
-            Container(
-              height: 180,
-              color: Colors.orangeAccent,
-            ),
-            Container(
-              height: 180,
-              color: Colors.blue,
+            // SizedBox(height: 10.0,),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: ProfileBaseScreenPlayer.ratings.length ,
+                  itemBuilder: (context,index)=> Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                    child: ListTile(
+                      title: Text("${ProfileBaseScreenPlayer.ratings[index]["playerName"].toString()}",style: TextStyle(color: (KickoffApplication.player)? playerColor:courtOwnerColor,fontWeight: FontWeight.bold,),
+                      ),
+                      onTap: ()
+                      {
+                        print("Review");
+                      },
+                      subtitle: Text("${ProfileBaseScreenPlayer.ratings[index]["review"].toString()}", style: TextStyle(color: Colors.black,),
+                      ),
+                      trailing: Text("${ProfileBaseScreenPlayer.ratings[index]["stars"].toString()} \u{2B50}",style: TextStyle(color: Colors.amber),
+                      ),
+                    ),
+                  )
+              ),
             ),
           ],
-        ),
+        ) ,
       ),
-        floatingActionButton:  FloatingActionButton(
+         floatingActionButton:(KickoffApplication.player)?  FloatingActionButton(
             onPressed: () => showModalBottomSheet(
                 elevation: 4,
                 isScrollControlled: true,
@@ -56,6 +72,7 @@ class _RatingsState extends State<Ratings> {
                         physics: const ScrollPhysics(),
                         child: Column(
                           children: [
+                            const SizedBox(height: 10),
                             RatingBar.builder(
                               initialRating: 0,
                               itemSize: 40,
@@ -66,20 +83,22 @@ class _RatingsState extends State<Ratings> {
                               itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
                               itemBuilder: (context, _) => const Icon(
                                 Icons.star,
-                                color: Colors.green,
+                                color: Colors.amber,
                               ),
                               onRatingUpdate: (rating) {
                                 print(rating);
+                                stars = rating as double;
                               },
                             ),
                             Container(
                                 width: 500,
                                 margin: EdgeInsets.fromLTRB(20.0, 20.0, 40.0, 50.0),
-                                child: const TextField(
+                                child: TextField(
                                     keyboardType: TextInputType.multiline,
                                     maxLines: 3,
                                     cursorColor: Colors.green,
                                     maxLength: 255,
+                                    controller: review,
                                     decoration: InputDecoration(
                                         enabledBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(color: Colors.grey),
@@ -87,15 +106,41 @@ class _RatingsState extends State<Ratings> {
                                         focusedBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(color: Colors.green),
                                         ))
+
                                 )
+                            ),
+                            Container(
+                             margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green
+                                ),
+                                onPressed: () async {
+                                  print("Submit");
+                                 await Rating.postrating(KickoffApplication.ownerId, KickoffApplication.playerId, review.text, stars);
+                                 /// to do
+                                  await Rating.getratings(KickoffApplication.ownerId);
+                                  // KickoffApplication.dataPlayer ["rating"] = await http.get(Uri.parse('$_url/search/CourtOwner/${CourtOwnerId}'));
+                                  var response= await http
+                                      .get(Uri.parse('http://${KickoffApplication.userIP}:8080/search/CourtOwner/${KickoffApplication.ownerId}'));
+                                  Map<String, dynamic> temp = json.decode(response.body) ;
+                                  KickoffApplication.dataPlayer["rating"] = double.parse(temp['rating']);
+                                  KickoffApplication.update();
+                                  Navigator.pop(context);
+
+                                },
+                                child: const Text('Submit',
+                                style: TextStyle(fontWeight: FontWeight.bold),),
+                              ),
                             )
+
                           ],
                         ),
                       ),
                     )
             ),
             child: const Icon(Icons.star)
-        )
+        ):null,
     );
   }
 }

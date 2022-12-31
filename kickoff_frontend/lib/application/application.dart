@@ -8,7 +8,11 @@ import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
 import 'package:kickoff_frontend/application/screens/player/player-reservations.dart';
+
 import 'package:kickoff_frontend/application/screens/rating.dart';
+
+import 'package:kickoff_frontend/application/screens/playerprofile.dart';
+
 import 'package:kickoff_frontend/components/announcements/plusannouncementbutton.dart';
 import 'package:kickoff_frontend/components/announcements/view.dart';
 import 'package:kickoff_frontend/components/application/applicationbar.dart';
@@ -16,9 +20,6 @@ import 'package:kickoff_frontend/components/courts/pluscourtbutton.dart';
 import 'package:kickoff_frontend/components/tickets/plusreservationbutton.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/themes.dart';
-
-import '../components/announcements/viewbutton.dart';
-import '../components/announcements/viewposts.dart';
 import 'screens/BuildComponentsCourtOwner.dart';
 import 'screens/BuildComponentsPlayer.dart';
 import 'screens/profile.dart';
@@ -61,6 +62,7 @@ class KickoffApplication extends StatefulWidget {
 class KickoffApplicationState extends State<KickoffApplication> {
   int counter = 0;
   late Timer _timer;
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +70,7 @@ class KickoffApplicationState extends State<KickoffApplication> {
       theme: AppThemes.lightTheme,
       title: "Kickoff",
       debugShowCheckedModeBanner: false,
-      initialRoute:firstTime?'/Ratings':'/kickoff',
-      // initialRoute: firstTime?'/login':'/kickoff',
+      initialRoute:firstTime?'/loginPlayer':'/kickoff',
       routes: {
         '/Ratings': (context)=> Ratings(),
         '/loginPlayer': (context)=> const LoginScreen(),
@@ -80,7 +81,9 @@ class KickoffApplicationState extends State<KickoffApplication> {
         '/writepost':(context)=> Writing(),
         '/kickoff': (context) => Builder(
               builder: (context) => Scaffold(
-                appBar: KickoffAppBar().build(context),
+                key: _key,
+                appBar: KickoffAppBar().build(context,_key),
+                drawer: playerProfile(),
                 body: Center(
                 // Player Application
                   child: (KickoffApplication.player) ?
