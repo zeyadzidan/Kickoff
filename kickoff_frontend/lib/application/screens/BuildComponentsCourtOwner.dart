@@ -4,6 +4,7 @@ import 'package:kickoff_frontend/components/login/CancelButton.dart';
 import 'package:kickoff_frontend/constants.dart';
 
 import '../../components/SignUp/BuildCourtOwnerPage.dart';
+import '../application.dart';
 
 class LoginScreenCourtOwner extends StatefulWidget {
   const LoginScreenCourtOwner({super.key});
@@ -72,6 +73,8 @@ class _LoginScreenCourtOwnerState extends State<LoginScreenCourtOwner>
             width: 210,
             child: InkWell(
               onTap: (){
+                mainSwatch = playerColor;
+                KickoffApplication.player=true;
                 Navigator.popAndPushNamed(context, '/loginPlayer');
               },
               borderRadius: BorderRadius.circular(100),
