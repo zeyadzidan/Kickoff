@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/application/application.dart';
 
@@ -91,12 +92,22 @@ class _ReservationsViewState extends State<ReservationsView> {
                                             backgroundColor: secondaryColor,
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 20, horizontal: 15)),
-                                        onPressed: () =>
-                                            PenaltyHTTPsHandler.report(
-                                                KickoffApplication.ownerId,
-                                                ReservationsHome
-                                                    .reservations[index].pid,
-                                                false))
+                                        onPressed: () {
+                                          FToast toast = FToast();
+                                          toast.init(context);
+                                          toast.showToast(
+                                            toastDuration: const Duration(seconds: 4),
+                                            gravity: ToastGravity.CENTER,
+                                            child: KickoffApplication.player
+                                                ? customToast(
+                                                "There is already an existing reservation in that time")
+                                                : customToast("تم الإبلاغ عن اللاعب"),
+                                          );
+                                          PenaltyHTTPsHandler.report(
+                                              KickoffApplication.ownerId,
+                                              ReservationsHome
+                                                  .reservations[index].pid,
+                                              false);})
                                     : Container(),
                                 KickoffApplication.player
                                     ? Container()
