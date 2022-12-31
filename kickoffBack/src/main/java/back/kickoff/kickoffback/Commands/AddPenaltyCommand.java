@@ -1,8 +1,9 @@
 package back.kickoff.kickoffback.Commands;
 
+import lombok.EqualsAndHashCode;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+@EqualsAndHashCode
 public class AddPenaltyCommand {
     public long fromId ;
     public long onId ;
