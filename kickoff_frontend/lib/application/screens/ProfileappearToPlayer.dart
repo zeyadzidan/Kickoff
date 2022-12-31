@@ -63,8 +63,8 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
             AnnouncementsHome.buildFullAnnouncements();
             AnnouncementsHome.isExpanded = List<bool>.generate(
                 AnnouncementsHome.announcements.length, (index) => false);
-            Navigator.pop(context);
             KickoffApplication.update();
+            Navigator.pop(context);
           },
         ),
         title: Text(
