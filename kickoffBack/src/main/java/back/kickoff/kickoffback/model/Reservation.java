@@ -1,10 +1,7 @@
 package back.kickoff.kickoffback.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -17,6 +14,7 @@ import java.util.Set;
 @Table
 @NoArgsConstructor
 @Entity
+@EqualsAndHashCode
 public class Reservation {
 
     @Id
