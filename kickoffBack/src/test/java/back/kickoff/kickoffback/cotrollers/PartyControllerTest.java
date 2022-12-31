@@ -31,11 +31,14 @@ class PartyControllerTest {
     @Test
     void createParty() throws JSONException {
         CreateParty createParty = new CreateParty(66L, "20", "5");
-//        HashMap<String, Object> hm = new HashMap<>();
-//        hm.put("reservationId", 66L);
-//        hm.put("");
-        Mockito.when(partyServices.CreateParty(createParty)).thenReturn(Boolean.TRUE);
-        ResponseEntity<Boolean> response = partyController.CreateParty(createParty);
+        HashMap<String, Object> hm = new HashMap<>();
+        hm.put("reservationId", 66L);
+        hm.put("emptyplaces", "2");
+        hm.put("fullplaces", "10");
+        String information = new Gson().toJson(hm);
+        CreateParty command = new CreateParty(information);
+        Mockito.when(partyServices.CreateParty(command)).thenReturn(Boolean.TRUE);
+        ResponseEntity<Boolean> response = partyController.CreateParty(information);
         assertEquals(new ResponseEntity<>(Boolean.TRUE, HttpStatus.CREATED), response);
     }
 
