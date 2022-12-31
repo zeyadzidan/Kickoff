@@ -3,6 +3,7 @@ import 'dart:core';
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/reservations.dart';
@@ -41,6 +42,7 @@ class TicketsHTTPsHandler {
           "finishHour": ticket.endTime,
         }));
     print(response.body);
+    return response.body;
   }
 
   static Future bookTicket(FixtureTicket ticket) async {
