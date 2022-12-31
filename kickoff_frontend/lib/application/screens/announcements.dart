@@ -31,9 +31,17 @@ class AnnouncementsHome extends StatefulWidget {
     AnnouncementsHome.announcements =
         await AnnouncementHTTPsHandler.getAnnouncements(
             KickoffApplication.ownerId);
-    AnnouncementsHome.parties =
-        await PartiesHTTPsHandler.getPartiesCourtOwner(
-            KickoffApplication.ownerId,KickoffApplication.playerId);
+    if(KickoffApplication.player){
+      AnnouncementsHome.parties =
+      await PartiesHTTPsHandler.getPartiesCourtOwner(
+          KickoffApplication.ownerId,KickoffApplication.playerId);
+    }
+    else
+      {
+        AnnouncementsHome.parties =
+        await PartiesHTTPsHandler.Partyappear(
+            KickoffApplication.ownerId);
+      }
 
   }
 

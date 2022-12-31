@@ -62,6 +62,11 @@ public class PartyController {
         return new ResponseEntity<>(new Gson().toJson(partyServices.getPlayerCreatedParties(jsonParty)), HttpStatus.OK);
 
     }
+    @PostMapping("/parties_appear_courtowner")
+    public ResponseEntity<String> PartiesAppearCourtOnwer(@RequestBody String jsonParty) throws JSONException {
+        return new ResponseEntity<>(new Gson().toJson(partyServices.getpartiesappearCourtOwner(jsonParty)), HttpStatus.OK);
+
+    }
     @PostMapping("/get_parties_joined_by_player")
     public ResponseEntity<String> PartiesJoinedbyPlayer(@RequestBody String jsonParty) throws JSONException {
         return new ResponseEntity<>(new Gson().toJson(partyServices.getPartiesofplayerJoined(jsonParty)), HttpStatus.OK);
