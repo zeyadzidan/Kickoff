@@ -126,7 +126,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
                 ? 'Expired'
                 : 'Awaiting');
     await PlayerReservationsHome._buildReservations();
-    setState(() {});
+    KickoffApplication.update();
   }
 
   _viewReservations() => Expanded(
