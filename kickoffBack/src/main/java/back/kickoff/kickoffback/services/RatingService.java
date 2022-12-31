@@ -61,7 +61,7 @@ public class RatingService {
 
     }
 
-    public void addRating(AddRatingCommand command) throws Exception {
+    public boolean addRating(AddRatingCommand command) throws Exception {
         Optional<CourtOwner> courtOwner = courtOwnerRepository.findById(command.courtOwnerId);
         if (courtOwner.isEmpty()){
             throw new Exception("CourtOwner does not exist") ;
@@ -86,7 +86,7 @@ public class RatingService {
         }
         ratingRepository.save(rating) ;
         calculateCourtOwnerRating(courtOwner.get()) ;
-
+        return true;
     }
 
     void calculateCourtOwnerRating(CourtOwner courtOwner){
