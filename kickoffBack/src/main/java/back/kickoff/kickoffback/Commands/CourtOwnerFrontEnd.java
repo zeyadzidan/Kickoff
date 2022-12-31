@@ -9,7 +9,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @AllArgsConstructor
 public class CourtOwnerFrontEnd {
-    public Long courtOwnerId;
+    public Long id;
     public String name;
     public String email;
     public String location;
@@ -19,7 +19,7 @@ public class CourtOwnerFrontEnd {
     public Double xAxis ;
     public Double yAxis;
     public CourtOwnerFrontEnd(CourtOwner courtOwner){
-        courtOwnerId = courtOwner.getId();
+        id = courtOwner.getId();
         name = courtOwner.getUserName();
         email = courtOwner.getEmail();
         rating = courtOwner.getRating();

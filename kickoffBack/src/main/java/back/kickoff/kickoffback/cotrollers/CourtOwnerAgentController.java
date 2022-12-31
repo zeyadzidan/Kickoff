@@ -39,9 +39,9 @@ public class CourtOwnerAgentController {
     }
 
     @PostMapping("/CourtOwner/CreateCourt")
-    public ResponseEntity<String> createCourt(@RequestBody CreateCourtCommand command) {
+    public ResponseEntity<String> createCourt(@RequestBody String json) {
         try {
-//            CreateCourtCommand command = new CreateCourtCommand(information) ;
+            CreateCourtCommand command = new CreateCourtCommand(json) ;
             courtOwnerAgent.createCourt(command);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
