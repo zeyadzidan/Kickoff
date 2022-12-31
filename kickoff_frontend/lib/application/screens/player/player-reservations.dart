@@ -160,8 +160,8 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
                   : (index == 4)
                     ? 'Party Created'
                     : 'Party joined');
-    await PlayerReservationsHome.buildReservations();
-    setState(() {});
+    await PlayerReservationsHome._buildReservations();
+    KickoffApplication.update();
   }
 
   _viewReservations() => Expanded(

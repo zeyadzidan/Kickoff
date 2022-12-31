@@ -27,7 +27,8 @@ public class CourtOwnerAgentController {
 
     @GetMapping("/CourtOwner/{courtOwnerId}/Courts")
     public ResponseEntity<String> listCourts(@PathVariable String courtOwnerId) {
-        try {
+        try
+        {
             List<CourtFrontEnd> list = courtOwnerAgent.findCourtOwnerCourts(Long.valueOf(courtOwnerId)) ;
             return new ResponseEntity<>(new  Gson().toJson(list),HttpStatus.OK);
         } catch (Exception e) {
@@ -36,9 +37,9 @@ public class CourtOwnerAgentController {
     }
 
     @PostMapping("/CourtOwner/CreateCourt")
-    public ResponseEntity<String> createCourt(@RequestBody String information) {
+    public ResponseEntity<String> createCourt(@RequestBody CreateCourtCommand command) {
         try {
-            CreateCourtCommand command = new CreateCourtCommand(information) ;
+//            CreateCourtCommand command = new CreateCourtCommand(information) ;
             courtOwnerAgent.createCourt(command);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -48,9 +49,9 @@ public class CourtOwnerAgentController {
     }
 
     @PostMapping("/CourtOwner/addImage")
-    public ResponseEntity<String> addImage(@RequestBody String information) {
+    public ResponseEntity<String> addImage(@RequestBody AddImageCommand command) {
         try {
-            AddImageCommand command = new AddImageCommand(information) ;
+//            AddImageCommand command = new AddImageCommand(information) ;
             courtOwnerAgent.addImage(command);
 
         } catch (Exception e) {

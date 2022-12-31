@@ -25,17 +25,18 @@ public class LoginController {
 
     public LoginController(LoginService signupService) {
         this.loginService = signupService;
-//        Optional<CourtOwner> cc = courtOwnerRepository.findByEmail()
     }
 
     @PostMapping("/courtOwner")
-    public ResponseEntity courtOwnerLoginRequest(@RequestBody String information) throws JSONException {
-        try {
-            LoginCommand command = new LoginCommand(information) ;
-            CourtOwnerFrontEnd courtOwner = loginService.courtOwnerLogin(command) ;
+    public ResponseEntity courtOwnerLoginRequest(@RequestBody LoginCommand loginCommand) throws JSONException{
+        try
+        {
+            CourtOwnerFrontEnd courtOwner = loginService.courtOwnerLogin(loginCommand) ;
             return new ResponseEntity<>(new Gson().toJson(courtOwner)  , HttpStatus.OK);
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             String ans = e.getMessage();
             if (ans.equals("Not found Password")) {
                 JSONObject jsonObject = new JSONObject();
@@ -50,13 +51,14 @@ public class LoginController {
     }
 
     @PostMapping("/player")
-    public ResponseEntity playerLoginRequest(@RequestBody String information) throws JSONException {
+    public ResponseEntity playerLoginRequest(@RequestBody LoginCommand loginCommand) throws JSONException {
         try {
-            LoginCommand command = new LoginCommand(information) ;
-            PlayerFrontEnd player = loginService.playerLogin(command) ;
+            PlayerFrontEnd player = loginService.playerLogin(loginCommand);
             return new ResponseEntity<>(new Gson().toJson(player)  , HttpStatus.OK);
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             String ans = e.getMessage();
             if (ans.equals("Not found Password")) {
                 JSONObject jsonObject = new JSONObject();

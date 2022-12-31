@@ -1,6 +1,7 @@
 package back.kickoff.kickoffback.Commands;
 
 import back.kickoff.kickoffback.model.Court;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.sql.Time;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class CourtFrontEnd {
 
     public long id ;

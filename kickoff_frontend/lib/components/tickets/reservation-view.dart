@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/application/application.dart';
@@ -39,29 +38,27 @@ class _ReservationsViewState extends State<ReservationsView> {
                         headerBuilder: (_, isExpanded) => Container(
                           padding: const EdgeInsets.symmetric(
                               vertical: 15, horizontal: 30),
-                          decoration: (KickoffApplication.player)
-                              ? BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: mainSwatch.withOpacity(0.5))
-                              : BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: (ReservationsHome
-                                              .reservations[index].state ==
-                                          'Pending')
-                                      ? Colors.yellow.withOpacity(0.5)
-                                      : (ReservationsHome
-                                                  .reservations[index].state ==
-                                              'Booked')
-                                          ? mainSwatch.withOpacity(0.5)
-                                          : (ReservationsHome
-                                                      .reservations[index]
-                                                      .state ==
-                                                  'Expired')
-                                              ? Colors.red.withOpacity(0.5)
-                                              : Colors.blue.withOpacity(0.5),
-                                ),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(25),
+                            color: ((KickoffApplication.playerId ==
+                                        ReservationsHome
+                                            .reservations[index].pid) ||
+                                    !KickoffApplication.player)
+                                ? (ReservationsHome.reservations[index].state ==
+                                        'Pending')
+                                    ? Colors.yellow.withOpacity(0.5)
+                                    : (ReservationsHome
+                                                .reservations[index].state ==
+                                            'Booked')
+                                        ? mainSwatch.withOpacity(0.5)
+                                        : (ReservationsHome.reservations[index]
+                                                    .state ==
+                                                'Expired')
+                                            ? Colors.red.withOpacity(0.5)
+                                            : Colors.blue.withOpacity(0.5)
+                                : null,
+                          ),
                           child: (!KickoffApplication.player)
                               ? Text(ReservationsHome.reservations[index].pname)
                               : Text(
@@ -129,10 +126,11 @@ class _ReservationsViewState extends State<ReservationsView> {
                                                       const UnderlineInputBorder(),
                                                   prefixText: 'جنيهاً مصرياً'),
                                               validator: (input) {
-                                                if (input! == 0 ||
+                                                if (input! == '0' ||
                                                     input == '') {
                                                   return "لا يمكن ترك هذا الحقل فارغاً.";
                                                 }
+                                                return null;
                                               },
                                               onSaved: (input) {
                                                 ReservationsHome
@@ -145,7 +143,11 @@ class _ReservationsViewState extends State<ReservationsView> {
                                             ),
                                           )
                                         : Container(),
-                                (ReservationsHome.reservations[index].state ==
+                                ((ReservationsHome.reservations[index].pid ==
+                                                KickoffApplication.playerId ||
+                                            !KickoffApplication.player) &&
+                                        ReservationsHome
+                                                .reservations[index].state ==
                                             'Awaiting' &&
                                         ReservationsHome.reservations[index]
                                                 .receiptUrl !=
@@ -181,28 +183,6 @@ class _ReservationsViewState extends State<ReservationsView> {
                                     : Container(
                                         height: 0,
                                       ),
-                                KickoffApplication.player &&
-                                        ReservationsHome
-                                                .reservations[index].state ==
-                                            'Awaiting'
-                                    ? Container()
-                                    : ReservationsHome.reservations[index]
-                                                .receiptUrl !=
-                                            ""
-                                        ? CachedNetworkImage(
-                                            imageUrl: ReservationsHome
-                                                .reservations[index].receiptUrl,
-                                            width: double.infinity,
-                                            fit: BoxFit.cover,
-                                            progressIndicatorBuilder: (context,
-                                                    url, downloadProgress) =>
-                                                CircularProgressIndicator(
-                                                    value: downloadProgress
-                                                        .progress),
-                                          )
-                                        : Container(
-                                            height: 0,
-                                          ),
                                 KickoffApplication.player
                                     ? Container()
                                     : (ReservationsHome.reservations[index]
@@ -223,7 +203,7 @@ class _ReservationsViewState extends State<ReservationsView> {
                                                   backgroundColor: mainSwatch,
                                                   padding: const EdgeInsets
                                                           .symmetric(
-                                                      vertical: 20,
+                                                      vertical: 15,
                                                       horizontal: 15)),
                                               onPressed: () async {
                                                 // Validate name and money constraints
@@ -258,7 +238,7 @@ class _ReservationsViewState extends State<ReservationsView> {
                                                 backgroundColor: Colors.red,
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                        vertical: 20,
+                                                        vertical: 15,
                                                         horizontal: 15)),
                                             onPressed: () async {
                                               await TicketsHTTPsHandler

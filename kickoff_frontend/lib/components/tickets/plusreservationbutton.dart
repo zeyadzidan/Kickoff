@@ -201,7 +201,20 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
               _fixtureTicket.endDate = _formatDate(finishDate);
               _fixtureTicket.startTime = _formatTime(_from);
               _fixtureTicket.endTime = _formatTime(_to);
-              await TicketsHTTPsHandler.sendTicket(_fixtureTicket);
+              String response =
+                  await TicketsHTTPsHandler.sendTicket(_fixtureTicket);
+              if (response == "that time have reservation") {
+                FToast toast = FToast();
+                toast.init(context);
+                toast.showToast(
+                  toastDuration: const Duration(seconds: 4),
+                  gravity: ToastGravity.CENTER,
+                  child: KickoffApplication.player
+                      ? customToast(
+                          "There is already an existing reservation in that time")
+                      : customToast("يوجد حجز بهذا الموعد بالفعل"),
+                );
+              }
               ReservationsHome.reservations =
                   await TicketsHTTPsHandler.getCourtReservations(
                       ProfileBaseScreen

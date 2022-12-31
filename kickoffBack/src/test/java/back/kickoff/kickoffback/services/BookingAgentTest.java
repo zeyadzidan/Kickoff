@@ -1,6 +1,8 @@
 package back.kickoff.kickoffback.services;
 
 import back.kickoff.kickoffback.Commands.BookCommand;
+import back.kickoff.kickoffback.Commands.FrontEndReservation;
+import back.kickoff.kickoffback.Commands.GetPlayerReservationCommand;
 import back.kickoff.kickoffback.Commands.SetPendingCommand;
 import back.kickoff.kickoffback.model.*;
 import back.kickoff.kickoffback.repositories.*;
@@ -19,10 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -255,5 +254,42 @@ class BookingAgentTest {
         assertEquals(res, "");
     }
 
+    GetPlayerReservationCommand getPlayerReservationCommand() throws Exception {
+        JSONObject object = new JSONObject().put("pid", 1L);
+        return  new GetPlayerReservationCommand(object.toString());
+    }
+    void setPlayerReservation(Player player){
+        Reservation r = createBooked() ;
+        r.setTimeReserved(Time.valueOf(LocalTime.of(14,5,8)));
+        player.getReservations().add(r) ;
+
+        r = createBooked() ;
+        r.setTimeReserved(Time.valueOf(LocalTime.of(16,15,7)));
+        player.getReservations().add(r) ;
+
+        r = createPending() ;
+        player.getReservations().add(r) ;
+    }
+    List<FrontEndReservation> getResultPlyerReservations(Player player){
+        List<FrontEndReservation> result = new ArrayList<>(2) ;
+        result.add(new FrontEndReservation(player.getReservations().get(0))) ;
+        result.add(new FrontEndReservation(player.getReservations().get(1))) ;
+        return result ;
+    }
+
+    @Test
+    void getPlayerReservationsTest() throws Exception {
+        GetPlayerReservationCommand command = getPlayerReservationCommand() ;
+        Player player = createPlayer(PlayerType.Registered) ;
+        setPlayerReservation(player);
+
+        when(playerRepository.findById(1L)).thenReturn(Optional.of(player));
+        when(playerRepository.save(player)).thenReturn(player);
+
+        List<FrontEndReservation> res = bookingAgent.getPlayerReservations(command) ;
+
+        assertEquals(res.size(), 2);
+        assertEquals(res, getResultPlyerReservations(player));
+    }
 
 }

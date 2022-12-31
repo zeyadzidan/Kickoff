@@ -1,8 +1,10 @@
 package back.kickoff.kickoffback.Commands;
 
 import back.kickoff.kickoffback.model.Rating;
+import lombok.Data;
 import lombok.Getter;
 
+@Data
 @Getter
 public class RatingCommand {
     int stars ;

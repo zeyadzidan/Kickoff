@@ -63,11 +63,7 @@ class RoundedLogin extends State<LoginButtonPlayer> {
   static Future save2(email, pass) async {
     var res = await http.post(Uri.parse(_url),
         headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": "true",
-          "Access-Control-Allow-Headers":
-          "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
-          "Access-Control-Allow-Methods": "POST, OPTIONS"
+          "Content-Type": "application/json"
         },
         body: json.encode({
           "email": email.toLowerCase(),

@@ -58,7 +58,8 @@ class KickoffApplication extends StatefulWidget {
       await AnnouncementsHome.buildAnnouncements();
       await ReservationsHome.buildTickets();
     }
-    _currentState.setState(() => _selectedPage = index);
+    _selectedPage = index;
+    KickoffApplication.update();
   }
 
   checkData(context) =>
@@ -78,7 +79,6 @@ class KickoffApplicationState extends State<KickoffApplication> {
       debugShowCheckedModeBanner: false,
       initialRoute:firstTime?'/loginPlayer':'/kickoff',
       routes: {
-        '/Ratings': (context)=> Ratings(),
         '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
         '/profilePlayer':(context)=>  ProfileBaseScreenPlayer(),

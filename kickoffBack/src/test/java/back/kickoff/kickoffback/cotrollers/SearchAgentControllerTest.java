@@ -1,6 +1,7 @@
 package back.kickoff.kickoffback.cotrollers;
 
 import back.kickoff.kickoffback.Commands.CourtOwnerSearchCommand;
+import back.kickoff.kickoffback.Commands.SearchCommand;
 import back.kickoff.kickoffback.model.Court;
 import back.kickoff.kickoffback.services.SearchAgent;
 import com.google.gson.Gson;
@@ -32,14 +33,10 @@ class SearchAgentControllerTest {
 
     @Test
     void searchNearestCourtOwner() throws JSONException {
-        HashMap<String, Object> hm = new HashMap<>();
-        hm.put("xAxis", 22);
-        hm.put("yAxis", 22);
-        hm.put("keyword", "");
-        String information = new Gson().toJson(hm);
+        SearchCommand searchCommand = new SearchCommand("", 22.0, 22.0);
         ArrayList<CourtOwnerSearchCommand> commands = new ArrayList<>();
-        Mockito.when(searchAgent.getNearestCourtOwners(information)).thenReturn(String.valueOf(new Gson().toJson(commands)));
-        ResponseEntity<String> res = searchAgentController.searchNearestCourtOwner(information);
+        Mockito.when(searchAgent.getNearestCourtOwners(searchCommand)).thenReturn(String.valueOf(new Gson().toJson(commands)));
+        ResponseEntity<String> res = searchAgentController.searchNearestCourtOwner(searchCommand);
         assertEquals(res, new ResponseEntity<>(new Gson().toJson(commands), HttpStatus.OK));
     }
 

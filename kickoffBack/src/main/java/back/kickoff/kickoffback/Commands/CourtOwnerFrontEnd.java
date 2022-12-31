@@ -1,7 +1,13 @@
 package back.kickoff.kickoffback.Commands;
 
 import back.kickoff.kickoffback.model.CourtOwner;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+@ToString
+@EqualsAndHashCode
+@AllArgsConstructor
 public class CourtOwnerFrontEnd {
     public Long courtOwnerId;
     public String name;
@@ -18,6 +24,7 @@ public class CourtOwnerFrontEnd {
         email = courtOwner.getEmail();
         rating = courtOwner.getRating();
         image = courtOwner.getImage();
+        location =courtOwner.getLocation();
         phoneNumber = courtOwner.getPhoneNumber();
         xAxis = courtOwner.getXAxis();
         yAxis = courtOwner.getYAxis();

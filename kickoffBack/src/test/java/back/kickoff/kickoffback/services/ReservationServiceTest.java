@@ -45,7 +45,7 @@ class ReservationServiceTest {
     }
     void setUpMorning2(){
         stTime = LocalTime.of(9,0,0);
-        endTime = LocalTime.of(1,0,0);
+        endTime = LocalTime.of(11,0,0);
     }
     void setUpHalfandHalf(){
         stTime = LocalTime.of(15,0,0);

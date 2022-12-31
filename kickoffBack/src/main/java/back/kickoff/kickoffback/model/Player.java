@@ -33,7 +33,7 @@ public class Player{
     //penalty
     private boolean restricted= false;
     private int warnings = 0;
-    private Date lastWarning  ;
+    private Date lastWarning;
     private int penaltyDays = 0 ;
 
     //@ManyToMany

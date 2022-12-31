@@ -1,5 +1,8 @@
 package back.kickoff.kickoffback.cotrollers;
 
+import back.kickoff.kickoffback.Commands.CourtOwnerFrontEnd;
+import back.kickoff.kickoffback.Commands.PlayerFrontEnd;
+import back.kickoff.kickoffback.Commands.SignupCommand;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.Player;
 import back.kickoff.kickoffback.model.PlayerType;
@@ -28,45 +31,34 @@ class SignupControllerTest {
         MockitoAnnotations.openMocks(this);
         controller = new SignupController(signupService);
     }
-/*
+
     @Test
-    void courtOwnerSignupRequest() throws JSONException {
-        HashMap<String, Object> hm = new HashMap<>();
-        hm.put("email", "nasrClub@gmail.com");
-        hm.put("password", "12345678900");
-        hm.put("username", "Nasr CLub");
-        hm.put("location", "Nasr CLub green plaza");
-        hm.put("phoneNumber", "01206555589");
-        hm.put("xAxis", 44.5);
-        hm.put("yAxis", 44.5);
-        String information = new Gson().toJson(hm);
+    void courtOwnerSignupRequest() throws Exception {
         CourtOwner newCourtOwner = new CourtOwner("Nasr CLub", "nasrClub@gmail.com", "12345678900",
                 "01206555589", 44.5, 44.5);
         newCourtOwner.setRating(0);
         newCourtOwner.setLocation("Nasr CLub");
-        when(signupService.courtOwnerSignup(information)).thenReturn(new Gson().toJson(newCourtOwner));
-        ResponseEntity<String> res = controller.courtOwnerSignupRequest(information);
-        assertEquals(res, new ResponseEntity<>(new Gson().toJson(newCourtOwner), HttpStatus.CREATED));
+        CourtOwnerFrontEnd courtOwnerFrontEnd = new CourtOwnerFrontEnd(newCourtOwner);
+        SignupCommand signupCommand = new SignupCommand("nasrClub@gmail.com", "12345678900",
+                "Nasr CLub", "Nasr CLub green plaza", "01206555589", 44.5, 44.5);
+        when(signupService.courtOwnerSignup(signupCommand)).thenReturn(courtOwnerFrontEnd);
+        ResponseEntity<String> res = controller.courtOwnerSignupRequest(signupCommand);
+        assertEquals(res, new ResponseEntity<>(new Gson().toJson(courtOwnerFrontEnd), HttpStatus.CREATED));
     }
 
     @Test
-    void playerSignupRequest() throws JSONException {
-        HashMap<String, Object> hm = new HashMap<>();
-        hm.put("email", "cr7@gmail.com");
-        hm.put("password", "12345678900");
-        hm.put("name", "Cristiano Ronaldo");
-        hm.put("location", "Lisbon Portugal");
-        hm.put("phoneNumber", "01176553539");
-        hm.put("xAxis", 34.5);
-        hm.put("yAxis", 24.5);
-        String information = new Gson().toJson(hm);
+    void playerSignupRequest() throws Exception
+    {
+        SignupCommand signupCommand = new SignupCommand("cr7@gmail.com", "12345678900", "Cristiano Ronaldo", "Lisbon Portugal",
+                "01176553539", 34.5, 24.5);
         Player newPlayer = new Player("Cristiano Ronaldo", "cr7@gmail.com", "01176553539",
                 "12345678900", "Lisbon Portugal",34.5, 24.5);
         newPlayer.setPlayerType(PlayerType.Registered);
-        when(signupService.playerSignup(information)).thenReturn(new Gson().toJson(newPlayer));
-        ResponseEntity<String> res =controller.playerSignupRequest(information);
-        assertEquals(res, new ResponseEntity<>(new Gson().toJson(newPlayer), HttpStatus.CREATED));
+        PlayerFrontEnd playerFrontEnd =new PlayerFrontEnd(newPlayer);
+        when(signupService.playerSignup(signupCommand)).thenReturn(playerFrontEnd);
+        ResponseEntity<String> res =controller.playerSignupRequest(signupCommand);
+        assertEquals(res, new ResponseEntity<>(new Gson().toJson(playerFrontEnd), HttpStatus.CREATED));
     }
     
- */
+
 }
