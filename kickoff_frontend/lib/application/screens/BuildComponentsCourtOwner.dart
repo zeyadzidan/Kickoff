@@ -202,7 +202,7 @@ class _circleSizerState extends State<circleSizer> with SingleTickerProviderStat
   void initState() {
       super.initState();
       _controller =
-          AnimationController(duration: const Duration(seconds: 2), vsync: this);
+          AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
       _animation = Tween(begin: 0.0,end: 10.0,).animate(_controller)
         ..addListener(() {
           setState(() {

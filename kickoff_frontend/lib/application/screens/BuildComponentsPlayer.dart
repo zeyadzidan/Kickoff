@@ -67,41 +67,6 @@ class _LoginScreenState extends State<LoginScreen>
                     ],
                     color: mainSwatch),
               )),
-
-          // Positioned(
-          //     top: -50,
-          //     left: -50,
-          //       child: Container(
-          //         width: 200,
-          //         height: 200,
-          //         decoration: BoxDecoration(
-          //             borderRadius: BorderRadius.circular(100),
-          //             boxShadow: const <BoxShadow>[
-          //               BoxShadow(
-          //                 color: Colors.black,
-          //                 blurRadius: 5,
-          //               ),
-          //             ],
-          //             color: mainSwatch),
-          //          child: Padding(
-          //            padding: const EdgeInsets.fromLTRB(55, 100, 0, 0),
-          //              child :InkWell(
-          //                onTap: (){
-          //                  Navigator.pushNamed( context,'/login');
-          //                },
-          //                child: Text("I am a CourtOwner?!"
-          //                  ,style: const TextStyle(
-          //                    fontSize: 20,
-          //                    fontWeight: FontWeight.bold,
-          //                    color: Colors.white,
-          //                 ),
-          //                ),
-          //              ),
-          //     ),
-          //       ),
-          //
-          //     ),
-
           SizedBox(
             width: 210,
             child: InkWell(
@@ -235,7 +200,7 @@ class _circleSizerState extends State<circleSizer> with SingleTickerProviderStat
   void initState() {
     super.initState();
     _controller =
-        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+        AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     _animation = Tween(begin: 0.0,end: 10.0,).animate(_controller)
       ..addListener(() {
         setState(() {
