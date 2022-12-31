@@ -1,9 +1,11 @@
 package back.kickoff.kickoffback.cotrollers;
 
+import back.kickoff.kickoffback.Commands.AddAnnouncementCommand;
 import back.kickoff.kickoffback.Commands.AddImageCommand;
 import back.kickoff.kickoffback.Commands.CourtFrontEnd;
 import back.kickoff.kickoffback.Commands.CreateCourtCommand;
 import back.kickoff.kickoffback.model.Court;
+import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.services.AnnouncementService;
 import back.kickoff.kickoffback.services.CourtOwnerAgent;
 import com.google.gson.Gson;
@@ -16,8 +18,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -73,4 +77,30 @@ class CourtOwnerAgentControllerTest {
         assertEquals(res, new ResponseEntity<>("Success", HttpStatus.OK));
     }
 
+    @Test
+    void createAnnouncement() throws JSONException {
+        Map<String, Object> hm = new HashMap<>();
+        hm.put("courtOwnerId", 22L);
+        hm.put("body", "Hello World");
+        hm.put("date", new Date(12L));
+        String information = new Gson().toJson(hm);
+        AddAnnouncementCommand command = new AddAnnouncementCommand(information);
+//        Mockito.when(announcementService.addAnnouncement(command)).thenReturn();
+        ResponseEntity<String> response = courtOwnerAgentController.CreateAnnouncement(information);
+        assertEquals(new ResponseEntity<>("Success", HttpStatus.OK), response);
+    }
+
+    @Test
+    void getAnnouncements() throws Exception {
+        Mockito.when(announcementService.getAnnouncement(22L)).thenReturn(new ArrayList<>());
+        ResponseEntity<String> response = courtOwnerAgentController.getAnnouncements("22");
+        assertEquals(new ResponseEntity<>(new Gson().toJson(new ArrayList<>()), HttpStatus.OK), response);
+    }
+
+    @Test
+    void deleteAnnouncements() throws JSONException {
+        Mockito.when(announcementService.deleteAnnouncement(22L, "placeholder")).thenReturn("Success");
+        ResponseEntity<String> response = courtOwnerAgentController.deleteAnnouncements("22", "placeholder");
+        assertEquals(new ResponseEntity<>("Success", HttpStatus.OK), response);
+    }
 }

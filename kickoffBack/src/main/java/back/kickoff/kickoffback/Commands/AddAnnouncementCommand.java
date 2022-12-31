@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 @Setter
 @Getter
+@EqualsAndHashCode
+@AllArgsConstructor
 public class AddAnnouncementCommand {
     Long courtOwnerId ;
     String title ;

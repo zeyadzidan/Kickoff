@@ -99,6 +99,4 @@ public class CourtOwnerAgentController {
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
 
     }
-
-
 }
