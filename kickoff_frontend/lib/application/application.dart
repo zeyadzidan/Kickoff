@@ -69,10 +69,9 @@ class KickoffApplicationState extends State<KickoffApplication> {
       theme: AppThemes.lightTheme,
       title: "Kickoff",
       debugShowCheckedModeBanner: false,
-      initialRoute:firstTime?'/Ratings':'/kickoff',
+      initialRoute:firstTime?'/loginPlayer':'/kickoff',
       // initialRoute: firstTime?'/login':'/kickoff',
       routes: {
-        '/Ratings': (context)=> RatingButton(),
         '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
         '/profilePlayer':(context)=>  ProfileBaseScreenPlayer(),

@@ -36,7 +36,7 @@ public class PlayerFrontEnd {
         phoneNumber = player.getPhoneNumber();
         xAxis = player.getXAxis();
         yAxis = player.getYAxis();
-
+        location = player.getLocation();
         restricted = player.isRestricted();
         warnings = player.getWarnings();
         penaltyDaysLeft = 0 ;

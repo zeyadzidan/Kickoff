@@ -15,6 +15,7 @@ import '../../httpshandlers/Subscription.dart';
 
 class ProfileBaseScreenPlayer extends StatefulWidget {
   ProfileBaseScreenPlayer({super.key}) {
+    print(KickoffApplication.dataPlayer);
     isExpanded = List<bool>.generate(courts.length, (index) => false);
   }
 
@@ -34,6 +35,7 @@ class ProfileBaseScreenPlayer extends StatefulWidget {
 }
 
 class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
+  
   double rating = double.parse("${KickoffApplication.dataPlayer["rating"]}");
   int rating2 =
       double.parse("${KickoffApplication.dataPlayer["rating"]}").toInt();

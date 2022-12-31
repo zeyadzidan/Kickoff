@@ -26,6 +26,7 @@ public class CourtOwnerFrontEnd {
         email = courtOwner.getEmail();
         rating = courtOwner.getRating();
         image = courtOwner.getImage();
+        location =courtOwner.getLocation();
         phoneNumber = courtOwner.getPhoneNumber();
         xAxis = courtOwner.getXAxis();
         yAxis = courtOwner.getYAxis();

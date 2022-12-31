@@ -100,6 +100,7 @@ public class BookingAgentController {
         try {
             GetPlayerReservationCommand command = new GetPlayerReservationCommand(information) ;
             List<FrontEndReservation> reservations = bookingAgent.getPlayerReservations(command);
+            System.out.println(reservations);
             return new ResponseEntity<>(new Gson().toJson(reservations), HttpStatus.OK);
 
         } catch (Exception e) {

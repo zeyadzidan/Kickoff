@@ -37,6 +37,9 @@ class Loading {
         KickoffApplication.player = true;
         data = await pLogin.RoundedLogin.save2(email, pass);
         KickoffApplication.playerId = "${data["id"]}";
+        print(data);
+        print(data["xAxis"]);
+        print(data["yAxis"]);
         await pLogin.RoundedLogin.getCourtsinSearch(
             data["xAxis"], data["yAxis"]);
         AnnouncementsHome.buildFullAnnouncements();
