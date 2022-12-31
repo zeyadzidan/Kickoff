@@ -1,21 +1,36 @@
 package back.kickoff.kickoffback.Commands;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Time;
 import java.time.LocalTime;
 
+@EqualsAndHashCode
+@AllArgsConstructor
 public class CreateCourtCommand {
+    @NotNull
     public long ownerID ;
+    @NotNull
     public String courtName ;
+    @NotNull
     public String description  ;
+    @NotNull
     public int morningCost;
+    @NotNull
     public int nightCost;
+    @NotNull
     public int minBookingHours;
+    @NotNull
     public int startWorkingHours;
+    @NotNull
     public int finishWorkingHours;
+//    @NotNull
     public int endMorningHours;
+
 
 
     // not in JSON
@@ -78,6 +93,17 @@ public class CreateCourtCommand {
             endMorning = endWorkingHours;
 
         }
+    }
+    public CreateCourtCommand(long ownerID, String courtName, String description,
+                              int morningCost, int nightCost, int minBookingHours, int startWorkingHours, int finishWorkingHours) {
+        this.ownerID = ownerID;
+        this.courtName = courtName;
+        this.description = description;
+        this.morningCost = morningCost;
+        this.nightCost = nightCost;
+        this.minBookingHours = minBookingHours;
+        this.startWorkingHours = startWorkingHours;
+        this.finishWorkingHours = finishWorkingHours;
     }
 
 }

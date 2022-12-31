@@ -1,5 +1,8 @@
 package back.kickoff.kickoffback.cotrollers;
 
+import back.kickoff.kickoffback.Commands.AddImageCommand;
+import back.kickoff.kickoffback.Commands.CourtFrontEnd;
+import back.kickoff.kickoffback.Commands.CreateCourtCommand;
 import back.kickoff.kickoffback.model.Court;
 import back.kickoff.kickoffback.services.AnnouncementService;
 import back.kickoff.kickoffback.services.CourtOwnerAgent;
@@ -31,10 +34,10 @@ class CourtOwnerAgentControllerTest {
         MockitoAnnotations.openMocks(this);
         courtOwnerAgentController = new CourtOwnerAgentController(courtOwnerAgent, announcementService);
     }
-/*
+
     @Test
-    void listCourts() throws JSONException {
-        Mockito.when(courtOwnerAgent.findCourtOwnerCourts(1L)).thenReturn(String.valueOf(new ArrayList<Court>()));
+    void listCourts() throws Exception {
+        Mockito.when(courtOwnerAgent.findCourtOwnerCourts(1L)).thenReturn(new ArrayList<CourtFrontEnd>());
         ResponseEntity<String> res = courtOwnerAgentController.listCourts("1");
         assertEquals(res, new ResponseEntity<>("[]", HttpStatus.OK));
     }
@@ -42,34 +45,22 @@ class CourtOwnerAgentControllerTest {
 
 
     @Test
-    void createCourt() throws JSONException {
-        HashMap<String, Object> hm = new HashMap<>();
-        hm.put("ownerID", 1L);
-        hm.put("courtName", "A");
-        hm.put("description", "grass with 5 players in each team");
-        hm.put("morningCost", 100);
-        hm.put("nightCost", 150);
-        hm.put("minBookingHours", 1);
-        hm.put("startWorkingHours", 1);
-        hm.put("finishWorkingHours", 21);
-        String information = new Gson().toJson(hm);
-        Mockito.when(courtOwnerAgent.createCourt(information)).thenReturn("Success");
-        ResponseEntity<String> res = courtOwnerAgentController.createCourt(information);
+    void createCourt() throws Exception {
+        CreateCourtCommand createCourtCommand = new CreateCourtCommand(1L, "A",
+                "grass with 5 players in each team", 100, 150,
+                1, 1 ,21);
+        ResponseEntity<String> res = courtOwnerAgentController.createCourt(createCourtCommand);
         assertEquals(res, new ResponseEntity<>("Success", HttpStatus.CREATED));
     }
 
     @Test
     void addImage() throws JSONException {
-        HashMap<String, Object> hm = new HashMap<>();
-        hm.put("ownerID", 1L);
-        hm.put("imageURL", "thisIsAnImage.com");
-        String information = new Gson().toJson(hm);
-        Mockito.when(courtOwnerAgent.addImage(information)).thenReturn("Success");
+        AddImageCommand command = new AddImageCommand(1L, "thisIsAnImage.com");
+//        Mockito.when(courtOwnerAgent.addImage(command)).thenReturn("Success");
 
-        ResponseEntity<String> res = courtOwnerAgentController.addImage(information);
+        ResponseEntity<String> res = courtOwnerAgentController.addImage(command);
 
         assertEquals(res, new ResponseEntity<>("Success", HttpStatus.OK));
     }
 
- */
 }
