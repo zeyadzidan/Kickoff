@@ -41,7 +41,10 @@ public class CourtOwnerAgent {
 
     public List<CourtFrontEnd> findCourtOwnerCourts(Long courtOwnerId) throws Exception {
         CourtOwner source = findCourtOwner(courtOwnerId);
+        System.out.println("here");
+        System.out.println(source.getCourts());
         List<Court> courts = source.getCourts();
+        System.out.println(courts.size());
         List<CourtFrontEnd> data = new ArrayList<>();
         for (Court c : courts) {
             data.add(new CourtFrontEnd(c));

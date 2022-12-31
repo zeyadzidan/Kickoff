@@ -1,4 +1,5 @@
-class PartyPlayer{
-  String Pname ="";
-  String Pimg ="";
+class PartyPlayer {
+  String pid = '';
+  String Pname = "";
+  String Pimg = "";
 }

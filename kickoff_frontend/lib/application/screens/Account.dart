@@ -165,7 +165,7 @@ class _AccountState extends State<Account> {
               Container(
                 height: 450,
                 width: size.width * 0.8,
-                child: BuildLocation(title: 'Choose Location',color: Colors.green,x: xaxis,y: yaxis),
+                child: BuildLocation(title: 'Choose Location',color: mainSwatch,x: xaxis,y: yaxis),
               ),
               // Container(
               //   height: 450,

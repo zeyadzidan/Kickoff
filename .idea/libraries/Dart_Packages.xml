@@ -240,6 +240,13 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_rating_bar">
+          <value>
+            <list>
+              <option value="C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_rating_bar-4.0.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_test">
           <value>
             <list>
@@ -300,6 +307,13 @@
           <value>
             <list>
               <option value="C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.4/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="keyboard_actions">
+          <value>
+            <list>
+              <option value="C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/keyboard_actions-3.4.7/lib" />
             </list>
           </value>
         </entry>
@@ -737,6 +751,7 @@
       <root url="file://C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_lints-2.0.1/lib" />
       <root url="file://C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_map-3.0.0/lib" />
       <root url="file://C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.7/lib" />
+      <root url="file://C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_rating_bar-4.0.1/lib" />
       <root url="file://C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-8.1.2/lib" />
       <root url="file://C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/google_fonts-3.0.1/lib" />
       <root url="file://C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/google_nav_bar-5.0.6/lib" />
@@ -744,6 +759,7 @@
       <root url="file://C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.2/lib" />
       <root url="file://C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0/lib" />
       <root url="file://C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.4/lib" />
+      <root url="file://C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/keyboard_actions-3.4.7/lib" />
       <root url="file://C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/latlong2-0.8.1/lib" />
       <root url="file://C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/lints-2.0.1/lib" />
       <root url="file://C:/Program Files/flutter/.pub-cache/hosted/pub.dartlang.org/lists-1.0.1/lib" />
