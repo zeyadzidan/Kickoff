@@ -25,11 +25,17 @@ class PlayerReservationsHome extends StatefulWidget {
   static List<FilePickerResult> _results = <FilePickerResult>[];
   static List<bool> _expanded = <bool>[];
   static bool _ascending = true;
+  static clearData(){
+    _reservations.clear();
+    parties.clear();
+    _results.clear();
+    _expanded.clear();
+  }
 
   @override
   State<StatefulWidget> createState() => _PlayerReservationsHomeState();
 
-  static _buildReservations() async {
+  static buildReservations() async {
     _reservations = await TicketsHTTPsHandler.getPlayerReservations(
         KickoffApplication.playerId, _resState, _ascending); // PlayerID.
     _expanded = List.generate(_reservations.length, (index) => false);
@@ -88,7 +94,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
           IconButton(
             onPressed: () {
               _flipAscending();
-              // await PlayerReservationsHome._buildReservations();
+              // await PlayerReservationsHome.buildReservations();
               KickoffApplication.update();
             },
             icon: const Icon(Icons.repeat_on_rounded),
@@ -154,7 +160,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
                   : (index == 4)
                     ? 'Party Created'
                     : 'Party joined');
-    await PlayerReservationsHome._buildReservations();
+    await PlayerReservationsHome.buildReservations();
     setState(() {});
   }
 

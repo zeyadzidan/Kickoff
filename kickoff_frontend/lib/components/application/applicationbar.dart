@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../application/application.dart';
 import '../../application/screens/announcements.dart';
+import '../../application/screens/player/player-reservations.dart';
 import '../../application/screens/profile.dart';
 
 class KickoffAppBar {
@@ -38,6 +39,7 @@ class KickoffAppBar {
             Directory(appDir).delete(recursive: true);
             ProfileBaseScreen.courts.clear();
             AnnouncementsHome.announcements.clear();
+            PlayerReservationsHome.clearData;
             Navigator.popAndPushNamed(context, '/loginPlayer');
         },
       ),
