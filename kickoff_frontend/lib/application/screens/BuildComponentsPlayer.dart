@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/components/login/BuildPlayerPage.dart';
 import 'package:kickoff_frontend/components/login/CancelButton.dart';
 import 'package:kickoff_frontend/constants.dart';
@@ -71,6 +72,8 @@ class _LoginScreenState extends State<LoginScreen>
             width: 210,
             child: InkWell(
               onTap: (){
+                mainSwatch = courtOwnerColor;
+                KickoffApplication.player=false;
                 Navigator.popAndPushNamed(context, '/login');
               },
               borderRadius: BorderRadius.circular(100),
