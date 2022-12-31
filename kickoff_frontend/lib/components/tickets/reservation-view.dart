@@ -46,12 +46,12 @@ class _ReservationsViewState extends State<ReservationsView> {
                                             .reservations[index].pid) ||
                                     !KickoffApplication.player)
                                 ? (ReservationsHome.reservations[index].state ==
-                                        'Pending')
+                                        'Pending')  
                                     ? Colors.yellow.withOpacity(0.5)
                                     : (ReservationsHome
                                                 .reservations[index].state ==
                                             'Booked')
-                                        ? mainSwatch.withOpacity(0.5)
+                                        ? Colors.green.withOpacity(0.5)
                                         : (ReservationsHome.reservations[index]
                                                     .state ==
                                                 'Expired')
