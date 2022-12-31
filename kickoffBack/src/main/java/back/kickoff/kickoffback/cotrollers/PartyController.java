@@ -24,9 +24,9 @@ public class PartyController {
     }
 
     @PostMapping("/createparty")
-    public ResponseEntity<Boolean> CreateParty(@RequestBody String jsonParty) throws JSONException {
+    public ResponseEntity<Boolean> CreateParty(@RequestBody CreateParty command) throws JSONException {
         try {
-            CreateParty command = new CreateParty(jsonParty);
+//            CreateParty command = new CreateParty(jsonParty);
             return (partyServices.CreateParty(command))
                     ? new ResponseEntity<>(Boolean.TRUE, HttpStatus.CREATED)
                     : new ResponseEntity<>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
