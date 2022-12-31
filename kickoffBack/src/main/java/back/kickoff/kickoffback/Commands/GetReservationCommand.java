@@ -1,12 +1,15 @@
 package back.kickoff.kickoffback.Commands;
 
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-
+@NoArgsConstructor
+@Data
 @Getter
 public class GetReservationCommand {
     Long courtId ;

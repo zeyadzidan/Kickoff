@@ -38,7 +38,7 @@ public class BookingAgent {
         this.playerRepository = playerRepository;
     }
 
-    public void book(BookCommand command)  throws Exception {
+    public boolean book(BookCommand command)  throws Exception {
         Optional<Reservation> reservationOptional = reservationRepository.findById(command.getReservationId());
         if (reservationOptional.isEmpty())
             throw new Exception("Not found");
@@ -54,6 +54,7 @@ public class BookingAgent {
         courtSchedule.getBookedReservations().add(reservation);
         reservationRepository.save(reservation);
         scheduleRepository.save(courtSchedule);
+        return true;
     }
 
 
@@ -85,7 +86,7 @@ public class BookingAgent {
         return Integer.toString(cost);
     }
 
-    public void cancelPendingReservation(String information) throws Exception {
+    public boolean cancelPendingReservation(String information) throws Exception {
         JSONObject jsonObject = new JSONObject(information);
         long id;
         try {
@@ -112,10 +113,11 @@ public class BookingAgent {
         reservation.setState(ReservationState.Expired);
         scheduleRepository.save(courtSchedule);
         reservationRepository.save(reservation);
+        return true ;
     }
 
 
-    public void setPending(SetPendingCommand command) throws Exception {
+    public boolean setPending(SetPendingCommand command) throws Exception {
         Optional<Court> courtOptional = courtRepository.findById(command.getCourtId());
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(command.getCourtOwnerId());
         if (courtOptional.isEmpty() || courtOwnerOptional.isEmpty())
@@ -182,6 +184,7 @@ public class BookingAgent {
         courtSchedule.getPendingReservations().add(reservation);
         scheduleRepository.save(courtSchedule);
         courtRepository.save(court);
+        return true ;
     }
 
     public static class ReservationComparator implements Comparator<Reservation> {

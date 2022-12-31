@@ -2,11 +2,12 @@ package back.kickoff.kickoffback.Commands;
 
 import back.kickoff.kickoffback.model.Reservation;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Optional;
-
+@NoArgsConstructor
 @Getter
 public class BookCommand {
     // in JSON

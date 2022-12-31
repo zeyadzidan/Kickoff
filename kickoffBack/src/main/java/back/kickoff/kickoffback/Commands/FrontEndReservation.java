@@ -5,12 +5,13 @@ import back.kickoff.kickoffback.model.Reservation;
 import back.kickoff.kickoffback.model.ReservationState;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Set;
-
+@NoArgsConstructor
 @Setter
 @Getter
 @Data
