@@ -9,7 +9,7 @@ import '../components/classes/partyPlayer.dart';
 
 class PartiesHTTPsHandler {
   static final String _url = "http://${KickoffApplication.userIP}:8080";
-  static Future createParty(Rid , empty , full) async {
+  static Future<bool> createParty(Rid , empty , full) async {
     var response = await http.post(
         Uri.parse('$_url/party/createparty'),
         headers: {'Content-Type': 'application/json'},
@@ -19,6 +19,7 @@ class PartiesHTTPsHandler {
           "fullplaces": full,
         }));
     print(response.body);
+    return(json.decode(response.body));
   }
   static List<Party> convertIntoList(temp){
     Party party;

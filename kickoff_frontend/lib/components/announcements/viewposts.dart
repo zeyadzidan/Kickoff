@@ -78,13 +78,15 @@ class postbutton extends State<PlusAnnouncementButton3> {
                                         ),
                                       ),
                                     ),
-                                    Text(
-                                      "${AnnouncementsHome.parties[index].Pname} >> ${AnnouncementsHome.parties[index].COname}",
-                                      style: TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold),
+                                    Expanded(
+                                      child: Text(
+                                        "${AnnouncementsHome.parties[index].Pname} >> ${AnnouncementsHome.parties[index].COname}",
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                    Expanded(child: Container()),
+                                    SizedBox(width: 10,),
                                     Text(
                                       "${int.parse(AnnouncementsHome.parties[index].fullplaces)-int.parse(AnnouncementsHome.parties[index].emptyplaces)} / ${AnnouncementsHome.parties[index].fullplaces}",
                                       style: TextStyle(
