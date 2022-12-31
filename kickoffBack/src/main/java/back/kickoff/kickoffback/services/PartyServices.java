@@ -202,7 +202,7 @@ public class PartyServices {
         }
         return data;
     }
-    public  List<PlayerFrontEnd> getplayersofParties(String information) throws JSONException{
+    public  List<PlayerFrontEnd> getplayersofParties(String information) throws JSONException {
         JSONObject jsonObject = new JSONObject(information);
         Long partyid = jsonObject.getLong("id");
         Optional<Party> PartyOptional = partyRepository.findById(partyid);
@@ -225,7 +225,7 @@ public class PartyServices {
         Player source = PlayerOptional.get();
         List<Subscription> subscribers =subscriptionsRepository.findByPid(source.getId());
         List<PartyFrontEnd> data = new ArrayList<>();
-        boolean check =false;
+        boolean check = false;
         for (Subscription s:subscribers ){
             Long CourtOwnerid =s.getCoid();
             Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(CourtOwnerid);

@@ -21,42 +21,60 @@ class _PlusReservationButtonState extends State<PlusReservationButton> {
   final FixtureTicket _fixtureTicket = FixtureTicket();
   TimeOfDay _from = const TimeOfDay(hour: -1, minute: -1);
   TimeOfDay _to = const TimeOfDay(hour: -1, minute: -1);
+  FToast toast = FToast();
 
   @override
   Widget build(BuildContext context) => FloatingActionButton(
       backgroundColor: mainSwatch,
       tooltip: KickoffApplication.player ? "Add a reservation" : "إضافة حجز",
       child: const Icon(Icons.add_card_rounded, size: 35),
-      onPressed: () => showModalBottomSheet(
-            elevation: 4,
-            context: context,
-            builder: (context) => SingleChildScrollView(
-                child: Form(
-              key: _key,
-              child: Container(
-                margin: const EdgeInsets.symmetric(
-                    vertical: 25.0, horizontal: 25.0),
-                child: Column(
-                  children: [
-                    Text(
-                        KickoffApplication.player
-                            ? "Add a reservation"
-                            : "أضف حجزاً",
-                        style: TextStyle(color: mainSwatch, fontSize: 32)),
-                    !KickoffApplication.player
-                        ? _formField('اسم اللاعب صاحب الحجز', Icons.person)
-                        : Container(),
-                    !KickoffApplication.player
-                        ? _formField('رقم الهاتف', Icons.phone)
-                        : Container(),
-                    _reservationTimePicker(true),
-                    _reservationTimePicker(false),
-                    _submitButton()
-                  ],
+      onPressed: () => (KickoffApplication.player &&
+              KickoffApplication.data['restricted'] == 'true')
+          ? showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                    title: const Text("RESTRICTED"),
+                    content: Text(
+                        'Your account has been restricted for ${KickoffApplication.data['penaltyDaysLeft']} days.'),
+                    actions: [
+                      TextButton(
+                        child: const Text("OK"),
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                      ),
+                    ],
+                  ))
+          : showModalBottomSheet(
+              elevation: 4,
+              context: context,
+              builder: (context) => SingleChildScrollView(
+                  child: Form(
+                key: _key,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 25.0, horizontal: 25.0),
+                  child: Column(
+                    children: [
+                      Text(
+                          KickoffApplication.player
+                              ? "Add a reservation"
+                              : "أضف حجزاً",
+                          style: TextStyle(color: mainSwatch, fontSize: 32)),
+                      !KickoffApplication.player
+                          ? _formField('اسم اللاعب صاحب الحجز', Icons.person)
+                          : Container(),
+                      !KickoffApplication.player
+                          ? _formField('رقم الهاتف', Icons.phone)
+                          : Container(),
+                      _reservationTimePicker(true),
+                      _reservationTimePicker(false),
+                      _submitButton()
+                    ],
+                  ),
                 ),
-              ),
-            )),
-          ));
+              )),
+            ));
 
   _formField(label, icon) => TextFormField(
         maxLength: 32,
