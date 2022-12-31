@@ -10,7 +10,7 @@ import java.sql.Time;
 import java.util.List;
 
 
-@Data
+
 @Entity
 @Setter
 @Getter

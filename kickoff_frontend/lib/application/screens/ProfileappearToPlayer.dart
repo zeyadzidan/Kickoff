@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/announcements.dart';
+import 'package:kickoff_frontend/application/screens/rating.dart';
 import 'package:kickoff_frontend/application/screens/reservations.dart';
 import 'package:kickoff_frontend/components/courts/court-view.dart';
 import 'package:kickoff_frontend/components/tickets/plusreservationbutton.dart';
@@ -10,9 +11,12 @@ import 'package:kickoff_frontend/constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../components/classes/court.dart';
+import '../../httpshandlers/Subscription.dart';
+import '../../httpshandlers/ratingrequests.dart';
 
 class ProfileBaseScreenPlayer extends StatefulWidget {
   ProfileBaseScreenPlayer({super.key}) {
+    print(KickoffApplication.dataPlayer);
     isExpanded = List<bool>.generate(courts.length, (index) => false);
   }
 
@@ -20,7 +24,10 @@ class ProfileBaseScreenPlayer extends StatefulWidget {
   static List<Court> courts = <Court>[];
   static List<bool> isExpanded = <bool>[];
   static int _selectedPage = 0;
-
+  static bool isSubscribed = false;
+  static int subscribersCount = 0;
+  static double rating =0;
+  static List<dynamic> ratings=[];
   @override
   State<ProfileBaseScreenPlayer> createState() =>
       _ProfileBaseScreenStatePlayer();
@@ -30,10 +37,10 @@ class ProfileBaseScreenPlayer extends StatefulWidget {
 }
 
 class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
+  
   double rating = double.parse("${KickoffApplication.dataPlayer["rating"]}");
   int rating2 =
       double.parse("${KickoffApplication.dataPlayer["rating"]}").toInt();
-  int subscribers = 0;
   String name = KickoffApplication.dataPlayer["name"];
   String phone = KickoffApplication.dataPlayer["phoneNumber"];
   String address = KickoffApplication.dataPlayer["location"];
@@ -46,8 +53,11 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
       ? KickoffApplication.dataPlayer["image"]
       : "";
 
+  // bool isSubscribed= false;
+
   @override
   Widget build(BuildContext context) {
+    ProfileBaseScreenPlayer.rating=double.parse("${KickoffApplication.dataPlayer["rating"]}");
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -55,9 +65,16 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
           tooltip: 'back',
           onPressed: () {
             KickoffApplication.ownerId = '';
-            Navigator.pop(context);
+            AnnouncementsHome.buildFullAnnouncements();
+            AnnouncementsHome.isExpanded = List<bool>.generate(
+                AnnouncementsHome.announcements.length, (index) => false);
             KickoffApplication.update();
+            Navigator.pop(context);
           },
+        ),
+        title: Text(
+          name,
+          style: TextStyle(color: secondaryColor),
         ),
       ),
       body: Center(
@@ -68,15 +85,15 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            boxShadow: const <BoxShadow>[
+                            boxShadow: <BoxShadow>[
                               BoxShadow(
-                                color: playerColor,
+                                color: mainSwatch,
                                 blurRadius: 3,
                               ),
                             ],
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(5),
-                            color: playerColor.shade100),
+                            color: mainSwatch.shade100),
                         child: Column(
                           children: [
                             Container(
@@ -89,7 +106,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                   children: [
                                     CircleAvatar(
                                       radius: 40,
-                                      backgroundColor: playerColor,
+                                      backgroundColor: mainSwatch,
                                       child: foundPhoto
                                           ? ClipOval(
                                               child: CachedNetworkImage(
@@ -118,13 +135,15 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                         SizedBox(
                                           height: 70,
                                           child: TextButton(
-                                            onPressed: () {
+                                            onPressed: () async {
                                               print("Show Reviews");
+                                              await Rating.getratings(id);
+                                              Navigator.pushNamed(context,'/Ratings');
                                             },
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  "$rating2 \u{2B50} ",
+                                                  "${ProfileBaseScreenPlayer.rating} \u{2B50} ",
                                                   //remember to remove the 2 in milestone 2
                                                   style: const TextStyle(
                                                     fontSize: 20,
@@ -156,7 +175,7 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  "$subscribers \u{1F464}",
+                                                  "${ProfileBaseScreenPlayer.subscribersCount} \u{1F464}",
                                                   style: const TextStyle(
                                                       letterSpacing: 0.4,
                                                       fontSize: 20,
@@ -188,16 +207,68 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                                 child: Column(
                                   children: [
                                     Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        name,
-                                        style: const TextStyle(
-                                          letterSpacing: 0.4,
-                                          fontSize: 20,
-                                          color: Colors.black,
+                                        alignment: Alignment.centerLeft,
+                                        child: !ProfileBaseScreenPlayer
+                                                .isSubscribed
+                                            ? ElevatedButton.icon(
+                                                label: const Text("Subscribe"),
+                                                icon: const Icon(Icons.add),
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: mainSwatch,
+                                                  fixedSize:
+                                                      const Size(150, 25),
+                                                ),
+                                                onPressed: () {
+                                                  SubscriptionHTTPsHandler
+                                                      .subscribe(
+                                                          KickoffApplication
+                                                              .playerId,
+                                                          KickoffApplication
+                                                              .ownerId);
+                                                  setState(() {
+                                                    ProfileBaseScreenPlayer
+                                                        .isSubscribed = true;
+                                                    ProfileBaseScreenPlayer
+                                                        .subscribersCount += 1;
+                                                  });
+                                                },
+                                              )
+                                            : OutlinedButton.icon(
+                                                label:
+                                                    const Text("Unsubscribe"),
+                                                icon: const Icon(Icons.add),
+                                                style: OutlinedButton.styleFrom(
+                                                  foregroundColor: mainSwatch,
+                                                  backgroundColor: Colors.white
+                                                      .withAlpha(70),
+                                                  side: BorderSide(
+                                                      color: mainSwatch),
+                                                  fixedSize: Size(150, 25),
+                                                ),
+                                                onPressed: () {
+                                                  SubscriptionHTTPsHandler
+                                                      .unsubscribe(
+                                                          KickoffApplication
+                                                              .playerId,
+                                                          KickoffApplication
+                                                              .ownerId);
+                                                  setState(() {
+                                                    ProfileBaseScreenPlayer
+                                                        .isSubscribed = false;
+                                                    ProfileBaseScreenPlayer
+                                                        .subscribersCount -= 1;
+                                                  });
+                                                },
+                                              )
+                                        // Text(
+                                        //   name,
+                                        //   style: const TextStyle(
+                                        //     letterSpacing: 0.4,
+                                        //     fontSize: 20,
+                                        //     color: Colors.black,
+                                        //   ),
+                                        // ),
                                         ),
-                                      ),
-                                    ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10.0),
@@ -239,87 +310,48 @@ class _ProfileBaseScreenStatePlayer extends State<ProfileBaseScreenPlayer> {
                     ],
                   ))
               : (ProfileBaseScreenPlayer._selectedPage == 1)
-                  ? AnnouncementsHome()
-                  : ReservationsHome()
-      ),
+                  ? AnnouncementsHome(
+                      full: false,
+                    )
+                  : ReservationsHome()),
       floatingActionButton: ProfileBaseScreenPlayer._selectedPage == 2
-          ? const PlusReservationButton()
-          : null,
+          ? const PlusReservationButton() : null,
       bottomNavigationBar: _buildPlayerNavBar(),
     );
   }
 
-  _buildNavBar() => Container(
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-      decoration: BoxDecoration(
-          boxShadow: const <BoxShadow>[
-            BoxShadow(
-              color: courtOwnerColor,
-              blurRadius: 3,
-            ),
-          ],
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(100),
-          color: courtOwnerColor.shade100),
-      margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-      child: GNav(
-          gap: 5,
-          activeColor: Colors.white,
-          color: courtOwnerColor,
-          tabBackgroundColor: Colors.black.withAlpha(25),
-          duration: const Duration(milliseconds: 300),
-          tabs: const <GButton>[
-            GButton(
-              backgroundColor: courtOwnerColor,
-              text: "الملف الشخصي",
-              icon: Icons.person,
-            ),
-            GButton(
-              backgroundColor: courtOwnerColor,
-              text: "الإعلانات",
-              icon: Icons.announcement,
-            ),
-            GButton(
-              backgroundColor: courtOwnerColor,
-              text: "الحجوزات",
-              icon: Icons.stadium,
-            ),
-          ],
-          selectedIndex: ProfileBaseScreenPlayer._selectedPage,
-          onTabChange: KickoffApplication.onTapSelect));
-
   _buildPlayerNavBar() => Container(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       decoration: BoxDecoration(
-          boxShadow: const <BoxShadow>[
+          boxShadow: <BoxShadow>[
             BoxShadow(
-              color: playerColor,
+              color: mainSwatch,
               blurRadius: 3,
             ),
           ],
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(100),
-          color: playerColor.shade100),
+          color: mainSwatch.shade100),
       margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
       child: GNav(
           gap: 5,
           activeColor: Colors.white,
-          color: playerColor,
+          color: mainSwatch,
           tabBackgroundColor: Colors.black.withAlpha(25),
           duration: const Duration(milliseconds: 300),
-          tabs: const <GButton>[
+          tabs: <GButton>[
             GButton(
-              backgroundColor: playerColor,
+              backgroundColor: mainSwatch,
               text: "Profile",
               icon: Icons.person,
             ),
             GButton(
-              backgroundColor: playerColor,
+              backgroundColor: mainSwatch,
               text: "News Feed",
               icon: Icons.new_releases_sharp,
             ),
             GButton(
-              backgroundColor: playerColor,
+              backgroundColor: mainSwatch,
               text: "Reservations",
               icon: Icons.stadium,
             ),

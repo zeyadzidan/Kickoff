@@ -5,7 +5,7 @@ import 'package:kickoff_frontend/localFile.dart';
 
 import '../../constants.dart';
 import '../../httpshandlers/courtsrequests.dart';
-import '../../httpshandlers/loginrequests.dart' as cLogin;
+import '../../httpshandlers/loginrequestsCourtOwner.dart' as cLogin;
 import '../../httpshandlers/loginrequestsplayer.dart' as pLogin;
 import 'announcements.dart';
 
@@ -37,13 +37,23 @@ class Loading {
         KickoffApplication.player = true;
         data = await pLogin.RoundedLogin.save2(email, pass);
         KickoffApplication.playerId = "${data["id"]}";
+        print(data);
+        print(data["xAxis"]);
+        print(data["yAxis"]);
         await pLogin.RoundedLogin.getCourtsinSearch(
             data["xAxis"], data["yAxis"]);
+        AnnouncementsHome.buildFullAnnouncements();
+        AnnouncementsHome.isExpanded = List<bool>.generate(AnnouncementsHome.announcements.length, (index) => false);
+        print(AnnouncementsHome.announcements.length);
+
       } else {
         //The user is court Owner
         KickoffApplication.player = false;
         data = await cLogin.RoundedLogin.save2(email, pass);
         int id = data["id"];
+        print(data);
+        print(id);
+
         KickoffApplication.ownerId = "${data["id"]}";
         ProfileBaseScreen.courts = await CourtsHTTPsHandler.getCourts(id);
         await ReservationsHome.buildTickets();

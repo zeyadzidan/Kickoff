@@ -1,7 +1,7 @@
 package back.kickoff.kickoffback.cotrollers;
 
+import back.kickoff.kickoffback.Commands.Operation.SearchCommand;
 import back.kickoff.kickoffback.services.SearchAgent;
-import back.kickoff.kickoffback.services.SignupService;
 import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,9 @@ public class SearchAgentController {
         this.searchAgent = searchAgent;
     }
     @PostMapping("/courtOwner/distance")
-    public ResponseEntity<String>  searchNearestCourtOwner(@RequestBody String information) throws JSONException {
-        return new ResponseEntity<>(searchAgent.getNearestCourtOwners(information),
+    public ResponseEntity<String>  searchNearestCourtOwner(@RequestBody SearchCommand searchCommand) throws JSONException {
+        System.out.println(searchCommand);
+        return new ResponseEntity<>(searchAgent.getNearestCourtOwners(searchCommand),
                 HttpStatus.OK);
     }
 

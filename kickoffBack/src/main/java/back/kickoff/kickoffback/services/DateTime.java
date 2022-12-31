@@ -2,39 +2,49 @@ package back.kickoff.kickoffback.services;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.Objects;
 
 public class DateTime implements Comparable<DateTime> {
-    public Time time ;
-    public Date data ;
+    public LocalTime time ;
+    public LocalDate date ;
 
-    public DateTime(Date data, Time time) {
+    public LocalDateTime dateTime ;
+
+    public DateTime(LocalDate date, LocalTime time) {
         this.time = time;
-        this.data = data;
+        this.date = date;
+
+        dateTime = LocalDateTime.of(date, time) ;
     }
 
-    @Override
-    public boolean equals(Object o) {
+    public boolean equals(DateTime o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DateTime dateTime = (DateTime) o;
-        return Objects.equals(time, dateTime.time) && Objects.equals(data, dateTime.data);
+        if (o == null) return false;
+        return this.dateTime.equals(o.dateTime) ;
     }
 
 
     @Override
     public int compareTo(DateTime o) {
-        int diffInDayesH = (int) (this.data.getTime()-o.data.getTime()) / (1000 * 60 * 60 );
-        int diffInHours = (int) (this.time.getTime()-o.time.getTime()) / (1000 * 60 * 60);
-        return diffInDayesH + diffInHours ;
+        System.out.println(this.dateTime + " compare to " + o.dateTime);
+        LocalDateTime tempDateTime = LocalDateTime.from(o.dateTime);
+        int res = (int) tempDateTime.until( this.dateTime, ChronoUnit.HOURS );
+
+        System.out.println(res);
+
+        return res;
     }
 
     @Override
     public String toString() {
         return "DateTime{" +
                 "time=" + time +
-                ", data=" + data +
+                ", data=" + date +
                 '}';
     }
 }

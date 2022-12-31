@@ -1,13 +1,13 @@
 package back.kickoff.kickoffback.services;
 
-import back.kickoff.kickoffback.Commands.CourtOwnerSearchCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.CourtOwnerFrontEnd;
+import back.kickoff.kickoffback.Commands.Operation.CourtOwnerSearchCommand;
+import back.kickoff.kickoffback.Commands.Operation.SearchCommand;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import com.google.gson.Gson;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.*;
 
@@ -27,12 +27,12 @@ public class SearchAgent {
         int Distance = (int )distance;
         return Distance;
     }
-    public String getNearestCourtOwners(String information) throws JSONException {
-        System.out.println(information);
-        JSONObject jsonObject = new JSONObject(information);
-        Double xAxis = jsonObject.getDouble("xAxis");
-        Double yAxis = jsonObject.getDouble("yAxis");
-        String keyword = jsonObject.getString("keyword");
+    public String getNearestCourtOwners(SearchCommand searchCommand) throws JSONException {
+//        System.out.println(information);
+//        JSONObject jsonObject = new JSONObject(information);
+        Double xAxis = searchCommand.getXAxis();
+        Double yAxis = searchCommand.getYAxis();
+        String keyword = searchCommand.getKeyword();
         String keywordBegin = keyword.toUpperCase().concat("%");
         keyword = "%".concat(keyword.concat("%"));
         System.out.println("keyword: " + keyword + " keywordBegin: "+ keywordBegin);
@@ -58,19 +58,10 @@ public class SearchAgent {
         if (courtOwner.isEmpty())
             return "Not found";
 
-        Map<String, Object> res = new HashMap<>();
         CourtOwner co = courtOwner.get();
-        res.put("id", co.getId());
-        res.put("name", co.getUserName());
-        res.put("email", co.getEmail());
-        res.put("location", co.getLocation());
-        res.put("rating", String.valueOf(co.getRating()));
-        res.put("image", co.getImage());
-        res.put("phoneNumber", co.getPhoneNumber());
-        res.put("xAxis", co.getXAxis());
-        res.put("yAxis", co.getYAxis());
+        CourtOwnerFrontEnd courtOwnerFrontEnd = new CourtOwnerFrontEnd(co);
 
-        return new Gson().toJson(res);
+        return new Gson().toJson(courtOwnerFrontEnd);
 
     }
 

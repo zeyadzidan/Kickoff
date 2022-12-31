@@ -26,9 +26,9 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-        backgroundColor: courtOwnerColor,
+        backgroundColor: mainSwatch,
         tooltip: "إضافة إعلان",
-        child: const Icon(Icons.add_comment_rounded, size: 35),
+        child: const Icon(Icons.create, size: 35),
         onPressed: () =>
             showModalBottomSheet(
               elevation: 4,
@@ -42,10 +42,12 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
                               vertical: 25.0, horizontal: 25.0),
                           child: Column(
                             children: [
-                              const Text("أضف إعلاناً",
+                              Text("أضف إعلاناً",
                                   style: TextStyle(
+
                                       color: courtOwnerColor, fontSize: 32)),
-                              _formField('العنوان', Icons.title),
+                              // _formField('العنوان', Icons.title),
+
                               _formField('وصف الإعلان', Icons.announcement),
                               Container(
                                 margin: const EdgeInsets.only(top: 15),
@@ -55,7 +57,7 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
                                       .names[0]!),
                                   icon: const Icon(Icons.add_a_photo),
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: courtOwnerColor,
+                                      backgroundColor: mainSwatch,
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 20, horizontal: 15)),
                                   onPressed: () async {
@@ -81,14 +83,14 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
             ));
   }
   _formField(label, icon) => TextFormField(
-        maxLength: (label == 'وصف الإعلان') ? 150 : 32,
-        maxLines: (label == 'وصف الإعلان') ? 3 : 1,
+        // maxLength: (label == 'وصف الإعلان') ? 150 : 32,
+        // maxLines: (label == 'وصف الإعلان') ? 3 : 1,
         decoration: InputDecoration(
-          focusColor: courtOwnerColor,
+          focusColor: mainSwatch,
           floatingLabelAlignment: FloatingLabelAlignment.center,
           labelText: label,
-          suffixIcon: Icon(icon, color: courtOwnerColor),
-          labelStyle: const TextStyle(color: courtOwnerColor),
+          suffixIcon: Icon(icon, color: mainSwatch),
+          labelStyle: TextStyle(color: mainSwatch),
           border: const UnderlineInputBorder(),
         ),
         validator: (input) =>
@@ -103,7 +105,7 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
             label: const Text('إرسال'),
             icon: const Icon(Icons.schedule_send),
             style: ElevatedButton.styleFrom(
-                backgroundColor: courtOwnerColor,
+                backgroundColor: mainSwatch,
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 15)),
             onPressed: () async {
@@ -114,8 +116,7 @@ class _PlusAnnouncementButtonState extends State<PlusAnnouncementButton> {
               _key.currentState!.save();
               Announcement announcement = Announcement();
               announcement.coid = KickoffApplication.ownerId;
-              announcement.title = _announcement[0];
-              announcement.body = _announcement[1];
+              announcement.body = _announcement[0];
               if (_result != null) {
                 Random random = Random();
                 File file = File(_result!.files.last.path!);

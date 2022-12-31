@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Date;
+import java.sql.Time;
 
 @ToString
 @Setter
@@ -20,10 +21,9 @@ public class Announcement {
     Long id;
     @ManyToOne
     CourtOwner courtOwner;
-    String title;
     String body;
     String img; // Attachments
-
+    Time time ;
     Date date;
 
 }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +19,14 @@ class CourtScheduleTest {
     }
 
     @Test
-    void getId() {
+    void getIdTest() {
         Long id = 22L;
         courtSchedule.setId(id);
         assertEquals(id, courtSchedule.getId());
     }
 
     @Test
-    void getBookedReservations() {
+    void getBookedReservationsTest() {
         List<Reservation> reservationList = new ArrayList<Reservation>();
         reservationList.add(new Reservation());
         courtSchedule.setBookedReservations(reservationList);
@@ -34,7 +35,7 @@ class CourtScheduleTest {
     }
 
     @Test
-    void getPendingReservations() {
+    void getPendingReservationsTest() {
         List<Reservation> reservationList = new ArrayList<Reservation>();
         reservationList.add(new Reservation());
         courtSchedule.setPendingReservations(reservationList);
@@ -42,36 +43,36 @@ class CourtScheduleTest {
     }
 
     @Test
-    void getStartWorkingHours() {
-        Time t = new Time(12, 0, 0);
+    void getStartWorkingHoursTest() {
+        Time t =  Time.valueOf(LocalTime.of(12, 0, 0));
         courtSchedule.setStartWorkingHours(t);
         assertEquals(t, courtSchedule.getStartWorkingHours());
 
     }
 
     @Test
-    void getEndWorkingHours() {
-        Time t = new Time(12, 0, 0);
+    void getEndWorkingHoursTest() {
+        Time t =  Time.valueOf(LocalTime.of(12, 0, 0));
         courtSchedule.setEndWorkingHours(t);
         assertEquals(t, courtSchedule.getEndWorkingHours());
     }
 
     @Test
-    void getEndMorning() {
-        Time t = new Time(12, 0, 0);
+    void getEndMorningTest() {
+        Time t =  Time.valueOf(LocalTime.of(12, 0, 0));
         courtSchedule.setEndMorning(t);
         assertEquals(t, courtSchedule.getEndMorning());
     }
 
     @Test
-    void getMinBookingHours() {
+    void getMinBookingHoursTest() {
         Integer h = 2;
         courtSchedule.setMinBookingHours(h);
         assertEquals(h, courtSchedule.getMinBookingHours());
     }
 
     @Test
-    void getMorningCost() {
+    void getMorningCostTest() {
         Integer c = 200;
         courtSchedule.setMorningCost(c);
         assertEquals(c, courtSchedule.getMorningCost());
@@ -79,7 +80,7 @@ class CourtScheduleTest {
     }
 
     @Test
-    void getNightCost() {
+    void getNightCostTest() {
         Integer c = 200;
         courtSchedule.setNightCost(c);
         assertEquals(c, courtSchedule.getNightCost());

@@ -3,6 +3,7 @@ import 'dart:core';
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:kickoff_frontend/application/application.dart';
 import 'package:kickoff_frontend/application/screens/reservations.dart';
@@ -31,8 +32,8 @@ class TicketsHTTPsHandler {
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "playerName": ticket.pname,
-          if (KickoffApplication.player)
-            "playerId": ticket.pid,
+          if (KickoffApplication.player) "playerId": ticket.pid,
+          "phoneNumber": ticket.pnumber,
           "courtId": ticket.cid,
           "courtOwnerId": ticket.coid,
           "startDate": ticket.startDate,
@@ -41,6 +42,7 @@ class TicketsHTTPsHandler {
           "finishHour": ticket.endTime,
         }));
     print(response.body);
+    return response.body;
   }
 
   static Future bookTicket(FixtureTicket ticket) async {
@@ -73,6 +75,8 @@ class TicketsHTTPsHandler {
         ticket.ticketId = map['id'].toString();
         ticket.pname = map['playerName'].toString();
         ticket.cid = map['courtID'].toString();
+        ticket.pid = map['playerID'].toString();
+        ticket.pnumber = map['phoneNumber'].toString();
         ticket.startDate = map['startDate'].toString();
         ticket.endDate = map['endDate'].toString();
         ticket.startTime = map['timeFrom'].toString();
@@ -90,14 +94,15 @@ class TicketsHTTPsHandler {
     return reservations;
   }
 
-  static Future<List<FixtureTicket>> getPlayerReservations(pid, filter) async {
-    var rsp = await http.post(
-        Uri.parse('$_url/BookingAgent/reservationsOnDate'),
+  static Future<List<FixtureTicket>> getPlayerReservations(
+      pid, filter, ascending) async {
+    var rsp = await http.post(Uri.parse('$_url/BookingAgent/playerBookings'),
         headers: {"Content-Type": "application/json"},
-        body: json.encode(
-            {"playerId": pid, "filter": filter}));
+        body: json
+            .encode({"pid": pid, "filter": filter, "ascending": ascending}));
     print(rsp.body);
     List<FixtureTicket> reservations = [];
+    json.decode(rsp.body);
     if (rsp.body != 'Player not found!') {
       List<dynamic> fixturesMap = json.decode(rsp.body);
       FixtureTicket ticket; // The court model
@@ -120,20 +125,22 @@ class TicketsHTTPsHandler {
     return reservations;
   }
 
-  static Future uploadReceipt(File file, final path, ) async {
+  static Future uploadReceipt(
+    File file,
+    final path,
+      id
+  ) async {
     UploadTask? uploadTask;
     final ref = FirebaseStorage.instance.ref().child(path);
     uploadTask = ref.putFile(file);
     final snapshot = await uploadTask.whenComplete(() {});
     final imageUrl = await snapshot.ref.getDownloadURL();
-
-    // TODO: Modify this field to accept receipts upload
-    var response =
-    await http.post(Uri.parse('$_url/courtOwnerAgent/CourtOwner/addImage'),
+    print(imageUrl);
+    var response = await http.post(Uri.parse('$_url/BookingAgent/sendReceipt'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
-          "reservationId": 1 /* Player ID */,
-          "imageURL": imageUrl.toString(),
+          "reservationId": id,
+          "receiptUrl": imageUrl.toString(),
         }));
     print(response.body);
   }

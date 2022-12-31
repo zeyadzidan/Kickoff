@@ -1,5 +1,8 @@
 package back.kickoff.kickoffback.services;
 
+import back.kickoff.kickoffback.Commands.Add.AddImageCommand;
+import back.kickoff.kickoffback.Commands.FrontEnd.CourtFrontEnd;
+import back.kickoff.kickoffback.Commands.Add.CreateCourtCommand;
 import back.kickoff.kickoffback.model.Court;
 import back.kickoff.kickoffback.model.CourtOwner;
 import back.kickoff.kickoffback.model.CourtSchedule;
@@ -7,11 +10,8 @@ import back.kickoff.kickoffback.model.CourtState;
 import back.kickoff.kickoffback.repositories.CourtOwnerRepository;
 import back.kickoff.kickoffback.repositories.CourtRepository;
 import back.kickoff.kickoffback.repositories.ScheduleRepository;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,127 +29,53 @@ public class CourtOwnerAgent {
         this.scheduleRepository = scheduleRepository;
     }
 
-    private CourtOwner findCourtOwner(Long id) {
+    private CourtOwner findCourtOwner(Long id) throws Exception {
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(id);
         if (courtOwnerOptional.isEmpty())
-            throw new RuntimeException("CourtOwner Not Found");
+            throw new Exception("CourtOwner Not Found");
         return courtOwnerOptional.get();
     }
 
-    public String findCourtOwnerCourts(Long courtOwnerId) throws JSONException {
+    public List<CourtFrontEnd> findCourtOwnerCourts(Long courtOwnerId) throws Exception {
         CourtOwner source = findCourtOwner(courtOwnerId);
+        System.out.println("here");
+        System.out.println(source.getCourts());
         List<Court> courts = source.getCourts();
-        List<JSONObject> data = new ArrayList<>();
+        System.out.println(courts.size());
+        List<CourtFrontEnd> data = new ArrayList<>();
         for (Court c : courts) {
-            data.add(
-                    new JSONObject()
-                            .put("id", c.getId())
-                            .put("cname", c.getCourtName())
-                            .put("state", c.getState())
-                            .put("description", c.getDescription())
-                            .put("swh", c.getCourtSchedule().getStartWorkingHours())
-                            .put("ewh", c.getCourtSchedule().getEndWorkingHours())
-                            .put("minBookingHours", c.getCourtSchedule().getMinBookingHours())
-                            .put("morningCost", c.getCourtSchedule().getMorningCost())
-                            .put("nightCost", c.getCourtSchedule().getNightCost())
-                            .put("endMorning", c.getCourtSchedule().getEndMorning())
-            );
+            data.add(new CourtFrontEnd(c));
         }
-        return data.toString();
+        return data;
     }
 
-    public String addImage(String information) throws JSONException {
-        JSONObject jsonObject = new JSONObject(information);
-        Long ownerId;
-        try {
-            ownerId = jsonObject.getLong("ownerID");
-        } catch (Exception e) {
-            return "ownerID is required";
-        }
-        Optional<CourtOwner> optionalCourtOwner = courtOwnerRepository.findById(ownerId);
+    public void addImage(AddImageCommand command) throws Exception {
+
+        Optional<CourtOwner> optionalCourtOwner = courtOwnerRepository.findById(command.getOwnerId());
         if (optionalCourtOwner.isEmpty()) {
-            return "CourtOwner does not exist";
+            throw new Exception("CourtOwner does not exist");
         }
         CourtOwner courtOwner = optionalCourtOwner.get();
-
-        String imageURL;
-        try {
-            imageURL = jsonObject.getString("imageURL");
-            if (imageURL == null) {
-                throw new NullPointerException();
-            }
-        } catch (Exception e) {
-            return "imageURL is required";
-        }
-        courtOwner.setImage(imageURL);
+        courtOwner.setImage(command.imageURL);
         courtOwnerRepository.save(courtOwner);
-        return "Success";
     }
 
-    public String createCourt(String information) throws JSONException {
-        JSONObject jsonObject = new JSONObject(information);
-        long ownerId;
-        String courtName;
-        String description;
-        int morningCost;
-        int nightCost;
-        int minBookingHours;
-        Time startWorkingHours, endWorkingHours, endMorning;
 
-        try {
-            ownerId = jsonObject.getLong("ownerID");
-            courtName = jsonObject.getString("courtName");
-            morningCost = jsonObject.getInt("morningCost");
-        } catch (Exception e) {
-            return "bad request";
+    public void createCourt(CreateCourtCommand command) throws Exception {
 
-        }
-
-        try {
-            description = jsonObject.getString("description");
-        } catch (Exception e) {
-            description = "";
-        }
-
-        try {
-            nightCost = jsonObject.getInt("nightCost");
-        } catch (Exception e) {
-            nightCost = morningCost;
-        }
-
-        try {
-            minBookingHours = jsonObject.getInt("minBookingHours");
-        } catch (Exception e) {
-            minBookingHours = 1;
-        }
-
-        try {
-            int startHour = jsonObject.getInt("startWorkingHours");
-            int finishHour = jsonObject.getInt("finishWorkingHours");
-            startWorkingHours = new Time(startHour, 0, 0);
-            endWorkingHours = new Time(finishHour, 0, 0);
-        } catch (Exception e) {
-            return "In valid Time";
-        }
-        try {
-            int endMorningHour = jsonObject.getInt("endMorningHours");
-            endMorning = new Time(endMorningHour, 0, 0);
-        } catch (Exception e) {
-            endMorning = endWorkingHours;
-        }
-
-        Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(ownerId);
+        Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(command.ownerID);
         if (courtOwnerOptional.isEmpty())
-            return "CourtOwner does not exist";
+            throw new Exception("CourtOwner does not exist");
 
-        CourtSchedule courtSchedule = new CourtSchedule(startWorkingHours, endWorkingHours, endMorning, morningCost, nightCost, minBookingHours);
-        scheduleRepository.save(courtSchedule);   // heree
-        Court newCourt = new Court(courtName, courtOwnerOptional.get(), CourtState.Active, description, courtSchedule);
-        courtRepository.save(newCourt);
+        CourtSchedule courtSchedule = new CourtSchedule(command.startWorkingHourTime, command.endWorkingHours, command.endMorning,
+                command.morningCost, command.nightCost, command.minBookingHours);
+        scheduleRepository.save(courtSchedule);
+
         CourtOwner courtOwner = courtOwnerOptional.get();
+        Court newCourt = new Court(command.courtName, courtOwner, CourtState.Active, command.description, courtSchedule);
+        courtRepository.save(newCourt);
         courtOwner.addCourt(newCourt);
         courtOwnerRepository.save(courtOwner);
-        return "Success";
     }
 
 }

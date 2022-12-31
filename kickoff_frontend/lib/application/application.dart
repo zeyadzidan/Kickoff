@@ -2,20 +2,30 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:kickoff_frontend/application/screens/Account.dart';
 import 'package:kickoff_frontend/application/screens/ProfileappearToPlayer.dart';
 import 'package:kickoff_frontend/application/screens/announcements.dart';
 import 'package:kickoff_frontend/application/screens/SearchScreen.dart';
 import 'package:kickoff_frontend/application/screens/dataloading.dart';
 import 'package:kickoff_frontend/application/screens/player/player-reservations.dart';
+
+import 'package:kickoff_frontend/application/screens/player/showPartyPlayers.dart';
+
+
+import 'package:kickoff_frontend/application/screens/rating.dart';
+
+import 'package:kickoff_frontend/application/screens/playerprofile.dart';
+
+
 import 'package:kickoff_frontend/components/announcements/plusannouncementbutton.dart';
+import 'package:kickoff_frontend/components/announcements/view.dart';
 import 'package:kickoff_frontend/components/application/applicationbar.dart';
 import 'package:kickoff_frontend/components/courts/pluscourtbutton.dart';
 import 'package:kickoff_frontend/components/tickets/plusreservationbutton.dart';
 import 'package:kickoff_frontend/constants.dart';
 import 'package:kickoff_frontend/themes.dart';
-
-import '../components/login/BuildComponentsCourtOwner.dart';
-import 'screens/login.dart';
+import 'screens/BuildComponentsCourtOwner.dart';
+import 'screens/BuildComponentsPlayer.dart';
 import 'screens/profile.dart';
 import 'screens/reservations.dart';
 
@@ -40,13 +50,20 @@ class KickoffApplication extends StatefulWidget {
 
   static update() => _currentState.setState(() {});
 
+  static setStartState() => _selectedPage=0;
+
 
   static onTapSelect(index) async {
     if(!KickoffApplication.player){
       await AnnouncementsHome.buildAnnouncements();
       await ReservationsHome.buildTickets();
     }
-    _currentState.setState(() => _selectedPage = index);
+    else{
+      await AnnouncementsHome.buildFullAnnouncements();
+      await PlayerReservationsHome.buildReservations();
+    }
+    _selectedPage = index;
+    KickoffApplication.update();
   }
 
   checkData(context) =>
@@ -56,6 +73,7 @@ class KickoffApplication extends StatefulWidget {
 class KickoffApplicationState extends State<KickoffApplication> {
   int counter = 0;
   late Timer _timer;
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -64,28 +82,35 @@ class KickoffApplicationState extends State<KickoffApplication> {
       title: "Kickoff",
       debugShowCheckedModeBanner: false,
       initialRoute:firstTime?'/loginPlayer':'/kickoff',
-      //initialRoute: firstTime?'/login':'/kickoff',
       routes: {
+        '/Ratings' : (context)=>  Ratings(),
         '/loginPlayer': (context)=> const LoginScreen(),
         '/login': (context) => const LoginScreenCourtOwner(),
         '/profilePlayer':(context)=>  ProfileBaseScreenPlayer(),
+        '/account' : (context) => Account(),
+        '/Party' : (context) => showPartyPlayers(),
+        '/writepost':(context)=> Writing(),
         '/kickoff': (context) => Builder(
               builder: (context) => Scaffold(
-                appBar: KickoffAppBar().build(context),
+                key: _key,
+                appBar: KickoffAppBar().build(context,_key),
+                drawer: playerProfile(),
                 body: Center(
                 // Player Application
                   child: (KickoffApplication.player) ?
                     (KickoffApplication._selectedPage == 0) ?
                       SearchScreen() :
                     (KickoffApplication._selectedPage == 1) ?
-                     const Center(child: Text("NEWS FEED NOT YET FEATURED")) :
+                      AnnouncementsHome(full: true,) :
                     (KickoffApplication._selectedPage == 2) ?
                       PlayerReservationsHome() : Container()
                 // Court Owner Application
                   : (KickoffApplication._selectedPage == 0) ?
                       ProfileBaseScreen() :
                     (KickoffApplication._selectedPage == 1) ?
-                      AnnouncementsHome() : ReservationsHome()
+                    // PlusAnnouncementButton3() : ReservationsHome()
+                      AnnouncementsHome(full: false,) : ReservationsHome()
+
                 ),
                 // Court Owner Floating Buttons
                 floatingActionButton: (!KickoffApplication.player) ?
@@ -120,35 +145,35 @@ class KickoffApplicationState extends State<KickoffApplication> {
   _buildNavBar() => Container(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       decoration: BoxDecoration(
-          boxShadow: const <BoxShadow>[
+          boxShadow: <BoxShadow>[
             BoxShadow(
-              color: courtOwnerColor,
+              color: mainSwatch,
               blurRadius: 3,
             ),
           ],
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(100),
-          color: courtOwnerColor.shade100),
+          color: mainSwatch.shade100),
       margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
       child: GNav(
           gap: 5,
           activeColor: Colors.white,
-          color: courtOwnerColor,
+          color: mainSwatch,
           tabBackgroundColor: Colors.black.withAlpha(25),
           duration: const Duration(milliseconds: 300),
-          tabs: const <GButton>[
+          tabs: <GButton>[
             GButton(
-              backgroundColor: courtOwnerColor,
+              backgroundColor: mainSwatch,
               text: "الملف الشخصي",
               icon: Icons.person,
             ),
             GButton(
-              backgroundColor: courtOwnerColor,
+              backgroundColor: mainSwatch,
               text: "الإعلانات",
               icon: Icons.announcement,
             ),
             GButton(
-              backgroundColor: courtOwnerColor,
+              backgroundColor: mainSwatch,
               text: "الحجوزات",
               icon: Icons.stadium,
             ),
@@ -160,35 +185,35 @@ class KickoffApplicationState extends State<KickoffApplication> {
   _buildPlayerNavBar() => Container(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       decoration: BoxDecoration(
-          boxShadow: const <BoxShadow>[
+          boxShadow: <BoxShadow>[
             BoxShadow(
-              color: playerColor,
+              color: mainSwatch,
               blurRadius: 3,
             ),
           ],
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(100),
-          color: playerColor.shade100),
+          color: mainSwatch.shade100),
       margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
       child: GNav(
           gap: 5,
           activeColor: Colors.white,
-          color: playerColor,
+          color: mainSwatch,
           tabBackgroundColor: Colors.black.withAlpha(25),
           duration: const Duration(milliseconds: 300),
-          tabs: const <GButton>[
+          tabs: <GButton>[
             GButton(
-              backgroundColor: playerColor,
+              backgroundColor: mainSwatch,
               text: "Search",
               icon: Icons.search,
             ),
             GButton(
-              backgroundColor: playerColor,
+              backgroundColor: mainSwatch,
               text: "News Feed",
               icon: Icons.new_releases_sharp,
             ),
             GButton(
-              backgroundColor: playerColor,
+              backgroundColor: mainSwatch,
               text: "Reservations",
               icon: Icons.stadium,
             ),

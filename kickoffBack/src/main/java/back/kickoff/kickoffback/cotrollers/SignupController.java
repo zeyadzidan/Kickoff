@@ -1,7 +1,10 @@
 package back.kickoff.kickoffback.cotrollers;
 
+import back.kickoff.kickoffback.Commands.FrontEnd.CourtOwnerFrontEnd;
+import back.kickoff.kickoffback.Commands.FrontEnd.PlayerFrontEnd;
+import back.kickoff.kickoffback.Commands.Add.SignupCommand;
 import back.kickoff.kickoffback.services.SignupService;
-import org.json.JSONException;
+import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,23 +21,28 @@ public class SignupController {
 
     public SignupController(SignupService signupService) {
         this.signupService = signupService;
-//        Optional<CourtOwner> cc = courtOwnerRepository.findByEmail()
     }
 
     @PostMapping("/courtOwner")
-    public ResponseEntity<String> courtOwnerSignupRequest(@RequestBody String information) throws JSONException {
-        String response = signupService.courtOwnerSignup(information);
-        System.out.println(response);
-        if (response.equals("Email exist") || response.equals("invalid"))
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    public ResponseEntity<String> courtOwnerSignupRequest(@RequestBody SignupCommand command) {
+        try{
+//            SignupCommand command = new SignupCommand(information) ;
+            CourtOwnerFrontEnd courtOwner = signupService.courtOwnerSignup(command) ;
+            return new ResponseEntity<>(new Gson().toJson(courtOwner), HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
     @PostMapping("/player")
-    public ResponseEntity<String> playerSignupRequest(@RequestBody String information) throws JSONException{
-        String response = signupService.playerSignup(information) ;
-        System.out.println(response);
-        if(response.equals("Email exist") || response.equals("invalid") )
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    public ResponseEntity<String> playerSignupRequest(@RequestBody SignupCommand command) {
+        try {
+//            SignupCommand command = new SignupCommand(information);
+            PlayerFrontEnd player = signupService.playerSignup(command);
+            return new ResponseEntity<>(new Gson().toJson(player), HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

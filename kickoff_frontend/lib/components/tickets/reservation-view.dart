@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:kickoff_frontend/application/application.dart';
 
+import '/../myexpansionpanels.dart' as my_panel;
 import '../../application/screens/profile.dart';
 import '../../application/screens/reservations.dart';
 import '../../constants.dart';
+import '../../httpshandlers/penalty.dart';
 import '../../httpshandlers/ticketsrequests.dart';
 
 class ReservationsView extends StatefulWidget {
@@ -25,37 +28,38 @@ class _ReservationsViewState extends State<ReservationsView> {
   Widget build(BuildContext context) => Expanded(
         child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            child: ExpansionPanelList(
+            child: my_panel.ExpansionPanelList(
               animationDuration: const Duration(milliseconds: 300),
-              expandedHeaderPadding: EdgeInsets.zero,
-              dividerColor: playerColor,
+              dividerColor: mainSwatch,
               elevation: 4,
-              children: List<ExpansionPanel>.generate(
+              children: List<my_panel.ExpansionPanel>.generate(
                   ReservationsHome.reservations.length,
-                  (index) => ExpansionPanel(
+                  (index) => my_panel.ExpansionPanel(
+                        hasArrow: !KickoffApplication.player,
                         headerBuilder: (_, isExpanded) => Container(
                           padding: const EdgeInsets.symmetric(
                               vertical: 15, horizontal: 30),
-                          decoration: (KickoffApplication.player)
-                              ? null
-                              : BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: (ReservationsHome
-                                              .reservations[index].state ==
-                                          'Pending')
-                                      ? Colors.yellow.withOpacity(0.5)
-                                      : (ReservationsHome
-                                                  .reservations[index].state ==
-                                              'Booked')
-                                          ? playerColor.withOpacity(0.5)
-                                          : (ReservationsHome
-                                                      .reservations[index]
-                                                      .state ==
-                                                  'Expired')
-                                              ? Colors.red.withOpacity(0.5)
-                                              : Colors.blue.withOpacity(0.5),
-                                ),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(25),
+                            color: ((KickoffApplication.playerId ==
+                                        ReservationsHome
+                                            .reservations[index].pid) ||
+                                    !KickoffApplication.player)
+                                ? (ReservationsHome.reservations[index].state ==
+                                        'Pending')  
+                                    ? Colors.yellow.withOpacity(0.5)
+                                    : (ReservationsHome
+                                                .reservations[index].state ==
+                                            'Booked')
+                                        ? Colors.green.withOpacity(0.5)
+                                        : (ReservationsHome.reservations[index]
+                                                    .state ==
+                                                'Expired')
+                                            ? Colors.red.withOpacity(0.5)
+                                            : Colors.blue.withOpacity(0.5)
+                                : null,
+                          ),
                           child: (!KickoffApplication.player)
                               ? Text(ReservationsHome.reservations[index].pname)
                               : Text(
@@ -67,22 +71,44 @@ class _ReservationsViewState extends State<ReservationsView> {
                             child: Column(
                               children: [
                                 Column(
-                                  children: !KickoffApplication.player
-                                      ? List<Text>.generate(
-                                          ReservationsHome.reservations[index]
-                                              .asView()
-                                              .length,
-                                          (j) => Text(ReservationsHome
-                                              .reservations[index]
-                                              .asView()[j]))
-                                      : List<Text>.generate(
-                                          ReservationsHome.reservations[index]
-                                              .asPlayerView()
-                                              .length,
-                                          (j) => Text(ReservationsHome
-                                              .reservations[index]
-                                              .asPlayerView()[j])),
-                                ),
+                                    children: List<Widget>.generate(
+                                        ReservationsHome.reservations[index]
+                                            .asView()
+                                            .length,
+                                        (j) => ReservationsHome
+                                            .reservations[index]
+                                            .asView()[j])),
+                                ReservationsHome.reservations[index].state ==
+                                        'Booked'
+                                    ? ElevatedButton.icon(
+                                        icon: const Icon(
+                                          Icons.report,
+                                          size: 35,
+                                        ),
+                                        label:
+                                            const Text("إبلاغ عن غياب اللاعب"),
+                                        style: ElevatedButton.styleFrom(
+                                            foregroundColor: mainSwatch,
+                                            backgroundColor: secondaryColor,
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 20, horizontal: 15)),
+                                        onPressed: () {
+                                          FToast toast = FToast();
+                                          toast.init(context);
+                                          toast.showToast(
+                                            toastDuration: const Duration(seconds: 4),
+                                            gravity: ToastGravity.CENTER,
+                                            child: KickoffApplication.player
+                                                ? customToast(
+                                                "There is already an existing reservation in that time")
+                                                : customToast("تم الإبلاغ عن اللاعب"),
+                                          );
+                                          PenaltyHTTPsHandler.report(
+                                              KickoffApplication.ownerId,
+                                              ReservationsHome
+                                                  .reservations[index].pid,
+                                              false);})
+                                    : Container(),
                                 KickoffApplication.player
                                     ? Container()
                                     : (ReservationsHome.reservations[index]
@@ -96,25 +122,26 @@ class _ReservationsViewState extends State<ReservationsView> {
                                             child: TextFormField(
                                               keyboardType:
                                                   TextInputType.number,
-                                              decoration: const InputDecoration(
+                                              decoration: InputDecoration(
                                                   suffixIcon: Icon(
                                                       Icons.monetization_on,
-                                                      color: playerColor),
+                                                      color: mainSwatch),
                                                   labelText: "العربون",
                                                   labelStyle: TextStyle(
-                                                      color: playerColor),
+                                                      color: mainSwatch),
                                                   floatingLabelAlignment:
                                                       FloatingLabelAlignment
                                                           .center,
-                                                  focusColor: playerColor,
+                                                  focusColor: mainSwatch,
                                                   border:
-                                                      UnderlineInputBorder(),
+                                                      const UnderlineInputBorder(),
                                                   prefixText: 'جنيهاً مصرياً'),
                                               validator: (input) {
-                                                if (input! == 0 ||
+                                                if (input! == '0' ||
                                                     input == '') {
                                                   return "لا يمكن ترك هذا الحقل فارغاً.";
                                                 }
+                                                return null;
                                               },
                                               onSaved: (input) {
                                                 ReservationsHome
@@ -127,7 +154,11 @@ class _ReservationsViewState extends State<ReservationsView> {
                                             ),
                                           )
                                         : Container(),
-                                (ReservationsHome.reservations[index].state ==
+                                ((ReservationsHome.reservations[index].pid ==
+                                                KickoffApplication.playerId ||
+                                            !KickoffApplication.player) &&
+                                        ReservationsHome
+                                                .reservations[index].state ==
                                             'Awaiting' &&
                                         ReservationsHome.reservations[index]
                                                 .receiptUrl !=
@@ -180,10 +211,10 @@ class _ReservationsViewState extends State<ReservationsView> {
                                               icon: const Icon(
                                                   Icons.schedule_send),
                                               style: ElevatedButton.styleFrom(
-                                                  backgroundColor: Colors.green,
+                                                  backgroundColor: mainSwatch,
                                                   padding: const EdgeInsets
                                                           .symmetric(
-                                                      vertical: 20,
+                                                      vertical: 15,
                                                       horizontal: 15)),
                                               onPressed: () async {
                                                 // Validate name and money constraints
@@ -206,8 +237,8 @@ class _ReservationsViewState extends State<ReservationsView> {
                                 KickoffApplication.player
                                     ? Container()
                                     : Container(
-                                        margin: const EdgeInsets.only(
-                                            top: 10.0),
+                                        margin:
+                                            const EdgeInsets.only(top: 10.0),
                                         child: SizedBox(
                                           height: 70,
                                           width: 150,
@@ -218,7 +249,7 @@ class _ReservationsViewState extends State<ReservationsView> {
                                                 backgroundColor: Colors.red,
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                        vertical: 20,
+                                                        vertical: 15,
                                                         horizontal: 15)),
                                             onPressed: () async {
                                               await TicketsHTTPsHandler
@@ -228,9 +259,8 @@ class _ReservationsViewState extends State<ReservationsView> {
                                                   await TicketsHTTPsHandler
                                                       .getCourtReservations(
                                                           ProfileBaseScreen
-                                                              .courts[
-                                                                  ReservationsHome
-                                                                      .selectedCourt]
+                                                              .courts[ReservationsHome
+                                                                  .selectedCourt]
                                                               .cid,
                                                           KickoffApplication
                                                               .ownerId,
@@ -245,10 +275,12 @@ class _ReservationsViewState extends State<ReservationsView> {
                               ],
                             )),
                         isExpanded: ReservationsHome.isExpanded[index],
-                        canTapOnHeader: true,
+                        canTapOnHeader: (!KickoffApplication.player),
                       )),
-              expansionCallback: (i, isExpanded) =>
-                  setState(() => ReservationsHome.isExpanded[i] = !isExpanded),
+              expansionCallback: !KickoffApplication.player
+                  ? (i, isExpanded) => setState(
+                      () => ReservationsHome.isExpanded[i] = !isExpanded)
+                  : null,
             )),
       );
 }

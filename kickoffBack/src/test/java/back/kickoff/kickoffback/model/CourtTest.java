@@ -14,41 +14,41 @@ class CourtTest {
     }
 
     @Test
-    void getId() {
+    void getIdTest() {
         Long idValue = 4L;
         court.setId(idValue);
         assertEquals(idValue, court.getId());
     }
 
     @Test
-    void getCourtName() {
+    void getCourtNameTest() {
         String courtName = "Court 1";
         court.setCourtName(courtName);
         assertEquals(courtName, court.getCourtName());
     }
 
     @Test
-    void getCourtOwner() {
+    void getCourtOwnerTest() {
         CourtOwner courtOwner = new CourtOwner();
         court.setCourtOwner(courtOwner);
         assertEquals(courtOwner, court.getCourtOwner());
     }
 
     @Test
-    void getState() {
+    void getStateTest() {
         court.setState(CourtState.Active);
         assertEquals(CourtState.Active, court.getState());
     }
 
     @Test
-    void getDescription() {
+    void getDescriptionTest() {
         String description = "five players";
         court.setDescription(description);
         assertEquals(description, court.getDescription());
     }
 
     @Test
-    void getCourtSchedule() {
+    void getCourtScheduleTest() {
         CourtSchedule schedule = new CourtSchedule();
         court.setCourtSchedule(schedule);
         assertEquals(schedule, court.getCourtSchedule());
