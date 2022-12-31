@@ -13,8 +13,6 @@ public interface SubscriptionsRepository extends CrudRepository<Subscription, Lo
 
     List<Subscription> findByPid(@Param("pid") Long pid);
 
-    List<Subscription> findByCoid(@Param("coid") Long coid);
-
     Optional<Subscription> findByCoidAndPid(@Param("coid") Long coid, @Param("pid") Long pid);
 
     Boolean existsByCoidAndPid(@Param("coid") Long coid, @Param("pid") Long pid);
