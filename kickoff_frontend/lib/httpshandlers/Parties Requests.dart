@@ -109,6 +109,7 @@ class PartiesHTTPsHandler {
     PartyPlayer player;
     for (Map<String, dynamic> map in temp) {
       player = PartyPlayer();
+      player.pid = map['pid'];
       player.Pname = map['Pname'].toString();
       if (map.containsKey('Pimg ')) {
         player.Pimg = map['Pimg'].toString();
