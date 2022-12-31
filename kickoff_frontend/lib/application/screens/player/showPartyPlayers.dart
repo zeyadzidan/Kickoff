@@ -17,6 +17,8 @@ import 'package:kickoff_frontend/httpshandlers/SignUpRequestPlayer.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../components/classes/Party.dart';
+import '../../../httpshandlers/penalty.dart';
+import '../../application.dart';
 class showPartyPlayers extends StatefulWidget {
   static List<PartyPlayer> partyPlayers= [];
   static Party party =Party();
@@ -105,6 +107,23 @@ class _showPartyPlayersState extends  State<showPartyPlayers> {
                               Icon(Icons.error),
                         )),
                       ),
+                      trailing: ElevatedButton.icon(
+                          icon: const Icon(
+                            Icons.report,
+                            size: 35,
+                          ),
+                          label:
+                          const Text("Report Absence"),
+                          style: ElevatedButton.styleFrom(
+                              foregroundColor: mainSwatch,
+                              backgroundColor: secondaryColor,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 15)),
+                          onPressed: () =>
+                              PenaltyHTTPsHandler.report(
+                                  KickoffApplication.playerId,
+                                  showPartyPlayers.partyPlayers[index].pid,
+                                  true)),
                       // onTap: ()
                       // {
                       //   // getListview(displayList[index]["id"].toString());
