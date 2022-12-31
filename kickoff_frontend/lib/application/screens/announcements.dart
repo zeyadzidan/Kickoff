@@ -67,12 +67,14 @@ class _AnnouncementsHomeState extends State<AnnouncementsHome> {
     }
     else
       PlusAnnouncementButton3.isParty=false;
-    return Column(
-    children: [
-      _reservationsStatesNavBar(),
-      PlusAnnouncementButton3(),
-    ],
-  );
+    return SingleChildScrollView(
+      child: Column(
+      children: [
+        _reservationsStatesNavBar(),
+        PlusAnnouncementButton3(),
+      ],
+  ),
+    );
   }
   _reservationsStatesNavBar() => Container(
     padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal:20),

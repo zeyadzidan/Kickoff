@@ -72,6 +72,11 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
 
   @override
   Widget build(BuildContext context) {
+    print(PlayerReservationsHome.parties.length);
+    if(PlayerReservationsHome.parties.length!=0){
+      print(PlayerReservationsHome.parties[PlayerReservationsHome.parties.length-1].fullplaces);
+    }
+    print(PlayerReservationsHome.parties.length);
     return Column(
       children: [
         Container(

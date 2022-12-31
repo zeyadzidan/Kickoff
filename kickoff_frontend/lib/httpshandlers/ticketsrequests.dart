@@ -75,6 +75,7 @@ class TicketsHTTPsHandler {
         ticket.ticketId = map['id'].toString();
         ticket.pname = map['playerName'].toString();
         ticket.cid = map['courtID'].toString();
+        ticket.pid = map['playerID'].toString();
         ticket.pnumber = map['phoneNumber'].toString();
         ticket.startDate = map['startDate'].toString();
         ticket.endDate = map['endDate'].toString();

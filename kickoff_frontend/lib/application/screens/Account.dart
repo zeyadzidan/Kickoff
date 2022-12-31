@@ -21,6 +21,7 @@ class _AccountState extends State<Account> {
   String name = KickoffApplication.data["name"];
   // String password = KickoffApplication.data["password"];
   String phone = KickoffApplication.data["phoneNumber"];
+  String email = KickoffApplication.data["email"];
   int id =  KickoffApplication.data["id"];
   double xaxis = KickoffApplication.data["xAxis"];
   double yaxis = KickoffApplication.data["yAxis"];
@@ -159,7 +160,8 @@ class _AccountState extends State<Account> {
                 ),
               ),
               SizedBox(height: 30),
-              buildtextfield("Email Address",name,false),
+              buildtextfield("Name",name,false),
+              buildtextfield("Email Address",email,false),
               buildtextfield("Password",'*********',true),
               buildtextfield("Phone Number",phone,false),
               Container(
