@@ -84,9 +84,29 @@ class _makePartyButtonState extends State<makePartyButton> {
               print(id);
               print(textFields[0]);
               print(textFields[1]);
-              PartiesHTTPsHandler.createParty(id,textFields[0],textFields[1]);
-              Navigator.pop(context);
-              KickoffApplication.update();
+              if( await PartiesHTTPsHandler.createParty(id,textFields[0],textFields[1]) ){
+                Navigator.pop(context);
+                KickoffApplication.update();
+              }
+              else {
+                showAlertDialog(context, "Party already created from this reservation");
+              }
             }),
       );
+  showAlertDialog(BuildContext context, text3) {
+    return showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("Alert"),
+          content: Text(text3),
+          actions: [
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+            ),
+          ],
+        ));
+  }
 }

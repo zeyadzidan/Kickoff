@@ -14,6 +14,7 @@ class CourtsHTTPsHandler {
     List<Court> courts = [];
     Court court;
     int time;
+    print(rsp.body);
     for (Map<String, dynamic> map in courtsMap) {
       court = Court();
       court.cid = map['id'].toString();

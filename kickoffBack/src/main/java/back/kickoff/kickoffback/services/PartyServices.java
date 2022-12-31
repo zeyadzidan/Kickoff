@@ -3,6 +3,7 @@ package back.kickoff.kickoffback.services;
 import back.kickoff.kickoffback.Commands.CreateParty;
 import back.kickoff.kickoffback.Commands.PartyFrontEnd;
 import back.kickoff.kickoffback.Commands.PlayerFrontEndParty;
+import back.kickoff.kickoffback.Commands.PlayerFrontEnd;
 import back.kickoff.kickoffback.model.*;
 import back.kickoff.kickoffback.repositories.*;
 import org.json.JSONException;
@@ -124,16 +125,40 @@ public class PartyServices {
 
         JSONObject jsonObject = new JSONObject(information);
         Long CourtOwnerid = jsonObject.getLong("id");
-
-
+        Long playerid = jsonObject.getLong("pid");
         Optional<CourtOwner> courtOwnerOptional = courtOwnerRepository.findById(CourtOwnerid);
         if (courtOwnerOptional.isEmpty())
             throw new RuntimeException("CourtOwner Not Found");
         CourtOwner source = courtOwnerOptional.get();
+        Optional<Player> playerOptional = playerRepository.findById(playerid);
+         Player source2 = playerOptional.get();
         List<Party> parties = source.getParties();
+        boolean check =false;
         List<PartyFrontEnd> data = new ArrayList<>();
         for (Party p : parties) {
-            data.add(new PartyFrontEnd(p));
+            List<Player> playerss = p.getPlayerJoined();
+            Player player = p.getPlayerCreated();
+            for(Player p2 :playerss)
+            {
+                if(p2.getId() ==source2.getId())
+                {
+                    check = true;
+                    break;
+                }
+            }
+            if(source2.getId() == player.getId())
+            {
+                check = true;
+            }
+            if(!check)
+            {
+                data.add(new PartyFrontEnd(p));
+
+            }
+            else
+            {
+                check = false;
+            }
         }
         System.out.println(data);
         return data;
@@ -174,7 +199,7 @@ public class PartyServices {
         System.out.println(data);
         return data;
     }
-    public  List<PlayerFrontEndParty> getplayersofParties(String information) throws JSONException{
+    public  List<PlayerFrontEnd> getplayersofParties(String information) throws JSONException{
         JSONObject jsonObject = new JSONObject(information);
         Long partyid = jsonObject.getLong("id");
 
@@ -183,9 +208,9 @@ public class PartyServices {
             throw new RuntimeException("Player Not Found");
         Party source = PartyOptional.get();
         List<Player> parties = source.getPlayerJoined();
-        List<PlayerFrontEndParty> data = new ArrayList<>();
+        List<PlayerFrontEnd> data = new ArrayList<>();
         for (Player p : parties) {
-            data.add(new PlayerFrontEndParty(p));
+            data.add(new PlayerFrontEnd(p));
         }
         System.out.println(data);
         return data;
@@ -209,6 +234,7 @@ public class PartyServices {
             List<Party> parties = source2.getParties();
             for (Party p : parties) {
                   List<Player> playerss = p.getPlayerJoined();
+                Player player = p.getPlayerCreated();
                   for(Player p2 :playerss)
                   {
                       if(p2.getId() ==source.getId())
@@ -217,6 +243,10 @@ public class PartyServices {
                           break;
                       }
                   }
+                if(source.getId() == player.getId())
+                {
+                    check = true;
+                }
                   if(!check)
                   {
                       data.add(new PartyFrontEnd(p));
