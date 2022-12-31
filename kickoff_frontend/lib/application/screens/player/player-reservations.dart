@@ -6,11 +6,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kickoff_frontend/application/application.dart';
-import 'package:kickoff_frontend/application/screens/reservations.dart';
+import 'package:kickoff_frontend/application/screens/player/showPartyPlayers.dart';
 import 'package:kickoff_frontend/components/classes/Party.dart';
 import 'package:kickoff_frontend/components/classes/fixtureticket.dart';
 import 'package:kickoff_frontend/httpshandlers/ticketsrequests.dart';
-import 'package:kickoff_frontend/application/screens/player/showPartyPlayers.dart';
 
 import '../../../constants.dart';
 import '../../../httpshandlers/Parties Requests.dart';
@@ -160,7 +159,7 @@ class _PlayerReservationsHomeState extends State<PlayerReservationsHome> {
                   : (index == 4)
                     ? 'Party Created'
                     : 'Party joined');
-    await PlayerReservationsHome._buildReservations();
+    await PlayerReservationsHome.buildReservations();
     KickoffApplication.update();
   }
 
